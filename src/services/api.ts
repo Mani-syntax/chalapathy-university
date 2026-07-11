@@ -1,0 +1,80 @@
+// ═══════════════════════════════════════════════
+// API service layer — Chalapathi University
+// ═══════════════════════════════════════════════
+//
+// Placeholder service module for future backend
+// integration (REST/GraphQL). Currently returns
+// static data from the `data/` modules.
+
+import { schools } from "@/data/schools";
+import { newsItems, upcomingEvents } from "@/data/news";
+import { stats } from "@/data/stats";
+import { accreditationBadges } from "@/data/badges";
+
+/**
+ * Fetch all schools. In production, this would call
+ * an API endpoint like GET /api/schools.
+ */
+export async function getSchools() {
+  // TODO: Replace with actual API call
+  return schools;
+}
+
+/**
+ * Fetch a single school by slug.
+ */
+export async function getSchoolBySlug(slug: string) {
+  return schools.find((s) => s.slug === slug) ?? null;
+}
+
+/**
+ * Fetch latest news items.
+ */
+export async function getNews(limit?: number) {
+  return limit ? newsItems.slice(0, limit) : newsItems;
+}
+
+/**
+ * Fetch upcoming events.
+ */
+export async function getEvents(limit?: number) {
+  return limit ? upcomingEvents.slice(0, limit) : upcomingEvents;
+}
+
+/**
+ * Fetch university stats.
+ */
+export async function getStats() {
+  return stats;
+}
+
+/**
+ * Fetch accreditation badges.
+ */
+export async function getBadges() {
+  return accreditationBadges;
+}
+
+/**
+ * Submit a contact form inquiry.
+ */
+export async function submitContactForm(data: {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}) {
+  // TODO: POST to /api/contact
+  console.log("Contact form submitted:", data);
+  return { success: true, message: "Thank you! We will get back to you shortly." };
+}
+
+/**
+ * Submit an admission application.
+ */
+export async function submitApplication(data: Record<string, unknown>) {
+  // TODO: POST to /api/admissions/apply
+  console.log("Application submitted:", data);
+  return { success: true, applicationId: `CU-2026-${Date.now()}` };
+}

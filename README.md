@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CiTY Chalapathi University — Official Web Platform
 
-## Getting Started
+Welcome to the **CiTY Chalapathi University** web platform repository (`https://cityuniversity.edu.in`). Built with cutting-edge technologies (**Next.js 16**, **React 19**, **TypeScript 5**, **Tailwind CSS 4**, and **Framer Motion 12**), this platform provides a world-class, pixel-perfect, responsive digital experience for students, faculty, recruiters, and international applicants.
 
-First, run the development server:
+🔗 **GitHub Repository**: [Mani-syntax/chalapathy-university](https://github.com/Mani-syntax/chalapathy-university)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🏛️ Repository Architecture & Clean Directory Structure
+
+Our codebase strictly follows domain-driven feature separation under `src/`:
+
+```
+src/
+├── app/                  # Next.js 16 App Router Routes (/about, /admissions, /contact, /erp, /schools/[slug])
+├── components/           # Shared & Layout Components
+│   ├── layout/           # Sticky Header (40px top bar + 85px nav) & 6-column Footer
+│   └── features/         # Global widgets (VirtualTour, AIAssistant, ProgramFinder)
+├── features/             # Domain-Specific Feature Modules
+│   ├── admissions/       # Admissions open card, application wizard steps
+│   ├── academics/        # Stats bar, curriculum highlights
+│   ├── schools/          # School card grids, school detail headers
+│   ├── research/         # News bulletins, events, accreditation badges
+│   ├── placements/       # Feature strip, top recruiters display
+│   └── contact/          # Quick contact summary card & maps
+├── data/                 # Static content modules (schools, stats, news, badges, navigation)
+├── services/             # API data access layer (REST/GraphQL integration points)
+├── hooks/                # Custom React hooks (useCountUp, useScrollPosition)
+├── lib/                  # Utilities & centralized Framer Motion animation variants
+├── types/                # TypeScript interfaces (School, Stat, NewsItem, etc.)
+└── constants/            # App-wide constants (COLORS, LAYOUT, ROUTES, CONTACT)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌳 Team Git Workflow & Branch Strategy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+We use a strict two-branch model to ensure production stability:
 
-## Learn More
+```
+main    (Protected / Production)   ──────●────────────────────────●────→ (Live Website)
+                                          ▲                        ▲
+                                          │ Merge PR               │ Merge PR
+develop (Active Team Development)  ──●────┴────●────●────●────●────┴────→ (Daily Collaboration)
+                                     │         ▲    ▲    ▲    ▲
+                                     │         │    │    │    │
+Team Collaborators                   └─── Hitaishi  │    │  Academic Team
+                                                  Mani   └── Others
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Permanent Branches:
+1. **`main`**: Production-ready, stable code. Deployed automatically to live servers. **No direct pushes allowed.**
+2. **`develop`**: The active collaboration branch. All daily commits, features, and content updates land here first.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Team Flow Roles:
+- **Hitaishi**: Pulls from `develop` → builds features/pages → pushes/merges to `develop`.
+- **Mani**: Pulls from `develop` → designs layouts & structural components → pushes/merges to `develop`.
+- **Academic Team**: Pulls from `develop` → updates data modules (`src/data/`) → pushes to `develop`.
+- **When Stable**: The team opens a Pull Request (`develop` → `main`) to ship the milestone to production.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ⚡ Quick-Start Git Commands for New Collaborators
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 1. Initial Clone & Setup
+```bash
+# Clone the repository
+git clone https://github.com/Mani-syntax/chalapathy-university.git
+cd "chalapathy-university"
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Install dependencies
+npm install
+
+# Check out the active development branch
+git checkout develop
+git pull origin develop
+
+# Start the local dev server
+npm run dev
+```
+
+### 2. Daily Coding Routine
+```bash
+# 1. ALWAYS sync before writing code
+git checkout develop
+git pull origin develop
+
+# 2. Make your code changes in your favorite editor...
+
+# 3. Check modified files & run build verification
+git status
+npm run build
+
+# 4. Stage and commit using Conventional Commits
+git add .
+git commit -m "feat(schools): update program list and eligibility requirements"
+
+# 5. Push your work to the shared develop branch
+git push origin develop
+```
+
+For detailed contributing guidelines, branch protection rules, and conflict avoidance tips, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+---
+
+## 📋 Project Development Guidelines
+
+1. **Pixel-Perfect Alignment**: All pages must follow our **Poppins (headings)** + **Inter (body)** typography rules and maintain consistent padding/margins (`max-w-[1340px]` containers).
+2. **Never Hardcode Data**: Always put news, school descriptions, tuition fees, or stats into `src/data/` or `src/constants/`. This allows non-developers on the Academic Team to easily update content without touching React JSX components.
+3. **Responsive by Default**: Every component must look stunning on mobile (`<640px`), tablet (`640px–1024px`), and desktop (`>1024px`).
+4. **Clean Animations**: Use our pre-built Framer Motion variants from `src/lib/animations.ts` (`fadeUp`, `stagger`, `fadeIn`) to maintain smooth 60fps animations across all pages without bloating bundle size.
+5. **No Direct `main` Pushes**: If you attempt to push directly to `main`, GitHub branch protection will reject your push. Always target `develop`.
