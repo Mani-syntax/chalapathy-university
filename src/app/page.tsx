@@ -4,17 +4,16 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import AIAssistant from "@/components/features/AIAssistant";
 import { motion } from "framer-motion";
 import { 
-  GraduationCap, BookOpen, Microscope, Award, Globe, 
-  ChevronRight, Play, Eye, FileDown, Headset, Calendar, 
-  ArrowRight, ShieldCheck, Heart, Scale, Users, Cpu, Rocket 
+  GraduationCap, Users, Award, Briefcase, Globe, Microscope, 
+  Play, ArrowRight, BookOpen, ShieldCheck, Heart, Scale, Cpu, 
+  Palette, Hammer, Dna, Building2, Handshake, Calendar
 } from "lucide-react";
 
-// Fade in viewport animation variant
+// Animation settings
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 25 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
 };
 
@@ -23,412 +22,343 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.08
     }
   }
 };
 
 export default function Home() {
-  const [aiOpen, setAiOpen] = useState(false);
-
   return (
     <div className="flex flex-col min-h-screen bg-[#F8F9FC] font-sans overflow-x-hidden">
       <Header />
 
-      {/* 1. HERO SECTION */}
-      <section className="relative h-[85vh] min-h-[600px] flex items-center justify-between overflow-hidden bg-[#041E42]">
-        {/* Background Image with Dark Gradient Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105"
-          style={{ backgroundImage: `url('/campus_hero.png')` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-[#041E42] via-[#041E42]/80 to-transparent"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto w-full px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-10">
+      {/* 1. HERO SECTION - Clean 2-Column Bright Layout */}
+      <section className="relative bg-gradient-to-br from-white via-slate-50 to-[#F8F9FC] py-16 lg:py-24 overflow-hidden border-b border-zinc-100">
+        <div className="max-w-[1440px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left Content Column */}
+          {/* Left Text Column */}
           <motion.div 
-            className="lg:col-span-7 space-y-6 text-left"
+            className="lg:col-span-6 space-y-6 text-left"
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
           >
             <motion.h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight"
+              className="text-4xl md:text-5xl lg:text-[54px] font-black text-[#041E42] leading-[1.1] tracking-tight"
               variants={fadeInUp}
             >
-              Empowering <br />
-              <span className="text-[#F5B400]">Future Leaders</span> <br />
-              Through Innovation
+              Redefining Education. <br />
+              <span className="text-[#B31919]">Inspiring</span> Futures.
             </motion.h1>
             
             <motion.p 
-              className="text-sm md:text-base text-zinc-300 max-w-lg leading-relaxed font-medium"
+              className="text-sm md:text-base text-zinc-600 max-w-lg leading-relaxed font-medium"
               variants={fadeInUp}
             >
-              A globally connected university shaping innovators, researchers and leaders of tomorrow.
+              At CITY Chalapathi University, we empower learners to innovate, lead and create a better tomorrow.
             </motion.p>
 
             <motion.div 
-              className="flex flex-wrap gap-4 pt-2"
+              className="flex flex-wrap gap-4 pt-2 items-center"
               variants={fadeInUp}
             >
               <Link 
-                href="/admissions/apply"
-                className="px-6 py-3.5 bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs tracking-wider rounded-lg shadow-lg hover:scale-[1.03] transition-all flex items-center gap-1.5 uppercase"
-              >
-                Apply Now <ArrowRight size={14} />
-              </Link>
-              <Link 
                 href="/#schools"
-                className="px-6 py-3.5 border-2 border-white text-white hover:bg-white hover:text-[#041E42] font-bold text-xs rounded-lg transition-all"
+                className="px-6 py-3 bg-[#B31919] hover:bg-red-800 text-white font-extrabold text-xs tracking-wider rounded-md shadow-md hover:scale-[1.02] transition-all flex items-center gap-1.5 uppercase"
               >
-                Explore Programs
+                Explore Programs <ArrowRight size={14} />
               </Link>
               <Link 
                 href="/campus-life#tour"
-                className="px-6 py-3.5 border-2 border-white/30 text-white hover:border-white bg-white/5 backdrop-blur-sm hover:bg-white/10 font-bold text-xs rounded-lg transition-all flex items-center gap-2 group"
+                className="px-6 py-3 border border-zinc-300 text-[#041E42] hover:bg-zinc-50 font-bold text-xs rounded-md transition-all flex items-center gap-2 group"
               >
-                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#041E42] shrink-0 group-hover:scale-110 transition-transform">
-                  <Play size={10} className="fill-current ml-0.5" />
+                <div className="w-5 h-5 rounded-full bg-[#041E42] flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
+                  <Play size={8} className="fill-current ml-0.5" />
                 </div>
-                Virtual Campus Tour
+                Take Campus Tour
+              </Link>
+              <Link 
+                href="/about"
+                className="text-xs font-black text-[#B31919] hover:text-red-800 flex items-center gap-0.5 ml-2 hover:underline"
+              >
+                Learn More <ArrowRight size={14} />
               </Link>
             </motion.div>
+          </motion.div>
+
+          {/* Right Campus Building Column */}
+          <motion.div 
+            className="lg:col-span-6 relative rounded-2xl overflow-hidden shadow-2xl border border-zinc-200"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="absolute inset-0 bg-[#041E42]/5 mix-blend-multiply z-10"></div>
+            <img 
+              src="/campus_hero.png" 
+              alt="CITY Chalapathi University Modern Campus" 
+              className="w-full h-[350px] md:h-[400px] object-cover hover:scale-105 transition-transform duration-700"
+            />
           </motion.div>
 
         </div>
       </section>
 
-      {/* 2. FLOATING STATISTICS BAR */}
-      <section className="max-w-7xl mx-auto w-full px-6 -mt-16 relative z-20 font-sans">
+      {/* 2. FLOATING STATISTICS BAR - White Card layout, Dark Navy Metrics */}
+      <section className="max-w-[1440px] mx-auto w-full px-6 -mt-10 relative z-20">
         <motion.div 
-          className="bg-[#041E42] border border-white/10 rounded-2xl md:rounded-3xl py-7 px-8 text-white shadow-2xl grid grid-cols-2 md:grid-cols-5 gap-6 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center"
-          initial={{ opacity: 0, y: 40 }}
+          className="bg-white border border-zinc-200/80 rounded-xl py-6 px-8 shadow-xl grid grid-cols-2 md:grid-cols-6 gap-6 divide-y md:divide-y-0 md:divide-x divide-zinc-200 text-center"
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
           {[
             { count: "150+", label: "Programs", icon: GraduationCap },
             { count: "30,000+", label: "Students", icon: Users },
-            { count: "1,000+", label: "Faculty", icon: Users },
-            { count: "500+", label: "Recruiters", icon: Award },
-            { count: "250+", label: "International Partners", icon: Globe }
+            { count: "1,200+", label: "Faculty Members", icon: Users },
+            { count: "500+", label: "Recruiters", icon: Briefcase },
+            { count: "250+", label: "Global Partners", icon: Globe },
+            { count: "100+", label: "Research Labs", icon: Microscope }
           ].map((stat, idx) => {
             const Icon = stat.icon;
             return (
-              <div key={idx} className="flex flex-col items-center justify-center p-3 md:first:p-0 md:pl-6 first:pl-0 border-white/10">
-                <Icon className="text-[#F5B400] mb-2.5 opacity-90" size={22} />
-                <span className="block text-xl md:text-2xl font-black text-white tracking-tight">{stat.count}</span>
-                <span className="block text-[10px] text-zinc-400 font-extrabold uppercase tracking-wider mt-1">{stat.label}</span>
+              <div key={idx} className="flex items-center justify-center gap-3.5 p-3 md:first:p-0 md:pl-5 first:pl-0 border-zinc-200">
+                <div className="w-10 h-10 rounded-full bg-[#F8F9FC] flex items-center justify-center text-[#041E42] shrink-0 border border-zinc-100">
+                  <Icon size={18} />
+                </div>
+                <div className="text-left">
+                  <span className="block text-lg font-black text-[#041E42] tracking-tight leading-none">{stat.count}</span>
+                  <span className="block text-[10px] text-zinc-500 font-extrabold uppercase tracking-wider mt-1">{stat.label}</span>
+                </div>
               </div>
             );
           })}
         </motion.div>
       </section>
 
-      {/* 3. WHY CHOOSE CITY UNIVERSITY */}
-      <section className="max-w-7xl mx-auto px-6 py-24 space-y-12">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#F5B400]">Elite Standards</span>
-          <h2 className="text-3xl font-black text-[#041E42] tracking-tight uppercase">
-            Why Choose <span className="text-red-600">CITY</span> University?
-          </h2>
-          <div className="w-16 h-1 bg-[#F5B400] mx-auto rounded-full"></div>
+      {/* 3. EXPLORE OUR SCHOOLS & ADMISSIONS OPEN 2026 */}
+      <section id="schools" className="py-20 max-w-[1440px] mx-auto w-full px-6 space-y-8">
+        
+        <div className="flex justify-between items-end border-b border-zinc-200 pb-4">
+          <div className="space-y-1 text-left">
+            <h2 className="text-2xl font-black text-[#041E42] uppercase tracking-tight">Explore Our Schools</h2>
+          </div>
+          <Link 
+            href="/schools" 
+            className="text-xs font-black text-[#B31919] hover:underline flex items-center gap-0.5"
+          >
+            View All Schools <ArrowRight size={14} />
+          </Link>
         </div>
 
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {[
-            { title: "AI Enabled Learning", desc: "Smart classrooms and personalized learning experiences.", icon: Cpu },
-            { title: "Global Curriculum", desc: "Industry aligned programs with global academic standards.", icon: Globe },
-            { title: "Industry Ready Programs", desc: "Skill based education designed with leading industries.", icon: GraduationCap },
-            { title: "Research Excellence", desc: "World-class research labs and centers of excellence.", icon: Microscope },
-            { title: "Startup Incubation", desc: "Support for ideas, innovation and entrepreneurship.", icon: Rocket },
-            { title: "International Exchange", desc: "Global partnerships and student exchange opportunities.", icon: Users }
-          ].map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <motion.div 
-                key={idx}
-                className="bg-white border border-zinc-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 group hover:-translate-y-1"
-                variants={fadeInUp}
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#0B3D91]/5 text-[#0B3D91] flex items-center justify-center mb-4.5 group-hover:bg-[#F5B400] group-hover:text-[#041E42] transition-colors duration-300">
-                  <Icon size={20} />
-                </div>
-                <h4 className="font-extrabold text-sm text-[#041E42] group-hover:text-[#0B3D91] transition-colors">{item.title}</h4>
-                <p className="text-xs text-zinc-500 mt-2 leading-relaxed font-medium">{item.desc}</p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </section>
-
-      {/* 4. OUR SCHOOLS SECTION */}
-      <section id="schools" className="bg-white py-24 border-y border-zinc-200/40">
-        <div className="max-w-7xl mx-auto px-6 space-y-12">
+        {/* Layout: Grid of Schools and red Admissions Open 2026 card */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           
-          <div className="flex justify-between items-end border-b border-zinc-100 pb-4">
-            <div className="space-y-1 text-left">
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#F5B400]">Academic Disciplines</span>
-              <h2 className="text-2xl md:text-3xl font-black text-[#041E42] uppercase">Our Schools</h2>
+          {/* Card 1: Engineering */}
+          <Link href="/schools/school-of-engineering" className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+            <div>
+              <div className="h-[140px] relative overflow-hidden bg-slate-100">
+                <img src="/campus_hero.png" alt="Engineering" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 relative">
+                {/* Circular Overlapping Icon */}
+                <div className="absolute -top-6 left-4 w-10 h-10 rounded-full bg-[#B31919] text-white flex items-center justify-center border-2 border-white shadow-md">
+                  <Cpu size={16} />
+                </div>
+                <h3 className="font-extrabold text-sm text-[#041E42] mt-4">School of Engineering</h3>
+              </div>
             </div>
-            <Link 
-              href="/schools" 
-              className="text-xs font-bold text-[#0B3D91] hover:text-[#F5B400] transition-colors flex items-center gap-0.5"
-            >
-              View All Schools <ChevronRight size={14} />
-            </Link>
-          </div>
+            <div className="p-4 pt-0 text-left">
+              <span className="text-[11px] font-bold text-[#B31919] group-hover:underline flex items-center gap-0.5">Explore Programs <ChevronRight size={12} className="inline" /></span>
+            </div>
+          </Link>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { name: "School of Engineering", slug: "school-of-engineering", color: "from-blue-900/90 to-indigo-950/90" },
-              { name: "School of Management", slug: "school-of-management", color: "from-red-900/90 to-rose-950/90" },
-              { name: "School of Pharmacy", slug: "school-of-pharmacy", color: "from-emerald-900/90 to-teal-950/90" },
-              { name: "School of Law", slug: "school-of-law", color: "from-purple-900/90 to-indigo-950/90" },
-              { name: "School of Medical Sciences", slug: "school-of-health-sciences", color: "from-teal-900/90 to-cyan-950/90" },
-              { name: "School of Agriculture", slug: "school-of-agriculture", color: "from-green-900/90 to-emerald-950/90" },
-              { name: "School of Design", slug: "school-of-humanities", color: "from-amber-900/90 to-orange-950/90" },
-              { name: "School of AI & Data Science", slug: "school-of-artificial-intelligence", color: "from-slate-900/90 to-zinc-950/90" }
-            ].map((school, idx) => (
+          {/* Card 2: Management */}
+          <Link href="/schools/school-of-management" className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+            <div>
+              <div className="h-[140px] relative overflow-hidden bg-slate-100">
+                <img src="/campus_hero.png" alt="Management" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 relative">
+                <div className="absolute -top-6 left-4 w-10 h-10 rounded-full bg-[#F5B400] text-white flex items-center justify-center border-2 border-white shadow-md">
+                  <Briefcase size={16} />
+                </div>
+                <h3 className="font-extrabold text-sm text-[#041E42] mt-4">School of Management</h3>
+              </div>
+            </div>
+            <div className="p-4 pt-0 text-left">
+              <span className="text-[11px] font-bold text-[#B31919] group-hover:underline flex items-center gap-0.5">Explore Programs <ChevronRight size={12} className="inline" /></span>
+            </div>
+          </Link>
+
+          {/* Card 3: Pharmacy */}
+          <Link href="/schools/school-of-pharmacy" className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+            <div>
+              <div className="h-[140px] relative overflow-hidden bg-slate-100">
+                <img src="/campus_hero.png" alt="Pharmacy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 relative">
+                <div className="absolute -top-6 left-4 w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center border-2 border-white shadow-md">
+                  <Dna size={16} />
+                </div>
+                <h3 className="font-extrabold text-sm text-[#041E42] mt-4">School of Pharmacy</h3>
+              </div>
+            </div>
+            <div className="p-4 pt-0 text-left">
+              <span className="text-[11px] font-bold text-[#B31919] group-hover:underline flex items-center gap-0.5">Explore Programs <ChevronRight size={12} className="inline" /></span>
+            </div>
+          </Link>
+
+          {/* Card 4: Law */}
+          <Link href="/schools/school-of-law" className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+            <div>
+              <div className="h-[140px] relative overflow-hidden bg-slate-100">
+                <img src="/campus_hero.png" alt="Law" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 relative">
+                <div className="absolute -top-6 left-4 w-10 h-10 rounded-full bg-amber-700 text-white flex items-center justify-center border-2 border-white shadow-md">
+                  <Hammer size={16} />
+                </div>
+                <h3 className="font-extrabold text-sm text-[#041E42] mt-4">School of Law</h3>
+              </div>
+            </div>
+            <div className="p-4 pt-0 text-left">
+              <span className="text-[11px] font-bold text-[#B31919] group-hover:underline flex items-center gap-0.5">Explore Programs <ChevronRight size={12} className="inline" /></span>
+            </div>
+          </Link>
+
+          {/* Card 5: Sciences */}
+          <Link href="/schools/school-of-health-sciences" className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+            <div>
+              <div className="h-[140px] relative overflow-hidden bg-slate-100">
+                <img src="/campus_hero.png" alt="Sciences" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 relative">
+                <div className="absolute -top-6 left-4 w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center border-2 border-white shadow-md">
+                  <Microscope size={16} />
+                </div>
+                <h3 className="font-extrabold text-sm text-[#041E42] mt-4">School of Sciences</h3>
+              </div>
+            </div>
+            <div className="p-4 pt-0 text-left">
+              <span className="text-[11px] font-bold text-[#B31919] group-hover:underline flex items-center gap-0.5">Explore Programs <ChevronRight size={12} className="inline" /></span>
+            </div>
+          </Link>
+
+          {/* Card 6: Design */}
+          <Link href="/schools/school-of-humanities" className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+            <div>
+              <div className="h-[140px] relative overflow-hidden bg-slate-100">
+                <img src="/campus_hero.png" alt="Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 relative">
+                <div className="absolute -top-6 left-4 w-10 h-10 rounded-full bg-red-700 text-white flex items-center justify-center border-2 border-white shadow-md">
+                  <Palette size={16} />
+                </div>
+                <h3 className="font-extrabold text-sm text-[#041E42] mt-4">School of Design</h3>
+              </div>
+            </div>
+            <div className="p-4 pt-0 text-left">
+              <span className="text-[11px] font-bold text-[#B31919] group-hover:underline flex items-center gap-0.5">Explore Programs <ChevronRight size={12} className="inline" /></span>
+            </div>
+          </Link>
+
+          {/* Card 7: AI & Data Science */}
+          <Link href="/schools/school-of-artificial-intelligence" className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between">
+            <div>
+              <div className="h-[140px] relative overflow-hidden bg-slate-100">
+                <img src="/campus_hero.png" alt="AI & Data Science" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 relative">
+                <div className="absolute -top-6 left-4 w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center border-2 border-white shadow-md">
+                  <Cpu size={16} />
+                </div>
+                <h3 className="font-extrabold text-sm text-[#041E42] mt-4">School of AI & Data Science</h3>
+              </div>
+            </div>
+            <div className="p-4 pt-0 text-left">
+              <span className="text-[11px] font-bold text-[#B31919] group-hover:underline flex items-center gap-0.5">Explore Programs <ChevronRight size={12} className="inline" /></span>
+            </div>
+          </Link>
+
+          {/* Card 8: Tall Crimson Admissions Open Card */}
+          <div className="relative rounded-xl overflow-hidden shadow-md bg-[#B31919] text-white p-6 flex flex-col justify-between border border-red-800">
+            {/* Outline vector representation of university dome */}
+            <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none w-32 h-32">
+              <Building2 size={128} />
+            </div>
+
+            <div className="space-y-3 relative z-10 text-left">
+              <h3 className="text-xl font-black tracking-tight uppercase leading-tight">Admissions Open 2026</h3>
+              <p className="text-xs text-red-100 leading-relaxed font-medium">
+                Join a community of innovators and leaders. Your future starts here.
+              </p>
+            </div>
+
+            <div className="pt-6 relative z-10 text-left">
               <Link 
-                key={idx} 
-                href={`/schools/${school.slug}`}
-                className="relative h-[180px] rounded-2xl overflow-hidden shadow-sm group cursor-pointer block"
+                href="/admissions/apply"
+                className="inline-flex items-center gap-1 bg-white text-[#B31919] hover:bg-zinc-100 font-extrabold text-xs px-5 py-2.5 rounded-md shadow transition-all uppercase"
               >
-                {/* Background image mockup with gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-tr ${school.color} z-10 transition-opacity duration-300 group-hover:opacity-90`}></div>
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 scale-100 group-hover:scale-105"
-                  style={{ backgroundImage: `url('/campus_hero.png')` }}
-                ></div>
-
-                {/* Card Content */}
-                <div className="absolute inset-0 z-20 p-5 flex flex-col justify-between text-white">
-                  <div className="w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md flex items-center justify-center">
-                    <GraduationCap size={16} className="text-[#F5B400]" />
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <h3 className="font-extrabold text-xs max-w-[150px] leading-snug">{school.name}</h3>
-                    <div className="w-6 h-6 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-[#F5B400] group-hover:text-[#041E42] transition-colors">
-                      <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                    </div>
-                  </div>
-                </div>
+                Apply Now <ArrowRight size={14} />
               </Link>
-            ))}
+            </div>
           </div>
 
         </div>
       </section>
 
-      {/* 5. RESEARCH & PLACEMENTS */}
-      <section className="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-10">
+      {/* 4. NEWS & EVENTS + RANKINGS & ACCREDITATIONS */}
+      <section className="max-w-[1440px] mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-t border-zinc-200/60">
         
-        {/* Research Column */}
-        <div className="bg-white border border-zinc-100 rounded-3xl p-8 shadow-sm space-y-8 flex flex-col justify-between">
-          <div className="space-y-6">
-            <h3 className="text-lg font-black text-[#041E42] border-b border-zinc-100 pb-3 uppercase">Research & Innovation</h3>
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { count: "120+", label: "Research Labs" },
-                { count: "450+", label: "Patents Filed" },
-                { count: "900+", label: "Publications" },
-                { count: "40+", label: "Centres of Excellence" }
-              ].map((res, idx) => (
-                <div key={idx} className="p-4 bg-zinc-50 border border-zinc-100 rounded-xl text-center">
-                  <span className="block text-xl font-black text-[#0B3D91]">{res.count}</span>
-                  <span className="block text-[10px] text-zinc-500 font-extrabold uppercase mt-1 tracking-wide">{res.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <Link 
-            href="/research"
-            className="w-fit px-5 py-2.5 bg-[#041E42] hover:bg-[#F5B400] hover:text-[#041E42] text-white text-xs font-bold rounded-lg shadow transition-all uppercase"
-          >
-            Explore Research
-          </Link>
-        </div>
-
-        {/* Placements Column */}
-        <div className="bg-white border border-zinc-100 rounded-3xl p-8 shadow-sm space-y-8 flex flex-col justify-between">
-          <div className="space-y-6">
-            <div className="flex justify-between items-baseline border-b border-zinc-100 pb-3">
-              <h3 className="text-lg font-black text-[#041E42] uppercase">Placements</h3>
-              <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Top Recruiters from around the world</span>
-            </div>
-
-            {/* Recruiter Logos */}
-            <div className="grid grid-cols-3 gap-4 text-center">
-              {["Google", "Microsoft", "Amazon", "Oracle", "Infosys", "TCS"].map((logo, idx) => (
-                <div key={idx} className="py-2.5 px-4 bg-zinc-50 border border-zinc-100 rounded-xl font-black text-zinc-400 text-xs tracking-wider">
-                  {logo}
-                </div>
-              ))}
-            </div>
-
-            {/* Placement stats */}
-            <div className="grid grid-cols-3 gap-2 border-t border-zinc-100 pt-4">
-              <div>
-                <span className="block text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Highest Package</span>
-                <span className="block text-md font-black text-[#041E42] mt-1">₹ 52 LPA</span>
-              </div>
-              <div>
-                <span className="block text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Average Package</span>
-                <span className="block text-md font-black text-[#041E42] mt-1">₹ 8.6 LPA</span>
-              </div>
-              <div>
-                <span className="block text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Placement Rate</span>
-                <span className="block text-md font-black text-emerald-600 mt-1">92% Placed</span>
-              </div>
-            </div>
-          </div>
-
-          <Link 
-            href="/placements"
-            className="w-fit px-5 py-2.5 bg-[#041E42] hover:bg-[#F5B400] hover:text-[#041E42] text-white text-xs font-bold rounded-lg shadow transition-all uppercase"
-          >
-            Placement Highlights
-          </Link>
-        </div>
-
-      </section>
-
-      {/* 6. CAMPUS LIFE SECTION */}
-      <section className="relative py-24 flex items-center justify-center bg-[#041E42] overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('/campus_life_bg.png')` }}
-        >
-          <div className="absolute inset-0 bg-[#041E42]/85 backdrop-blur-[2px]"></div>
-        </div>
-
-        <div className="max-w-5xl mx-auto w-full px-6 relative z-10 flex flex-col items-center text-center space-y-10 font-sans">
-          
-          <div className="space-y-4">
-            <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#F5B400]">Student Life</span>
-            <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tight">
-              CAMPUS LIFE: Experience Beyond Classrooms
-            </h2>
-            <p className="text-xs md:text-sm text-zinc-300 max-w-xl mx-auto leading-relaxed">
-              From state-of-the-art facilities to a vibrant student life, every moment at CITY is a step towards growth.
-            </p>
-          </div>
-
-          {/* Stats grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-3xl border-y border-white/10 py-6">
-            {[
-              { count: "100+", label: "Clubs & Committees" },
-              { count: "20+", label: "Sports Facilities" },
-              { count: "24/7", label: "Wi-Fi Campus" },
-              { count: "Modern", label: "Hostels & Amenities" }
-            ].map((stat, idx) => (
-              <div key={idx}>
-                <span className="block text-xl md:text-2xl font-black text-[#F5B400]">{stat.count}</span>
-                <span className="block text-[10px] text-zinc-400 font-extrabold uppercase tracking-wider mt-1">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-
-          <Link 
-            href="/campus-life"
-            className="px-6 py-3.5 bg-[#F5B400] hover:bg-white text-[#041E42] font-extrabold text-xs tracking-wider rounded-lg shadow-lg hover:scale-[1.03] transition-all uppercase flex items-center gap-1.5"
-          >
-            Explore Campus Life <ArrowRight size={14} />
-          </Link>
-        </div>
-      </section>
-
-      {/* 7. NEWS + RANKINGS + EVENTS */}
-      <section className="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Column 1: Latest News */}
-        <div className="bg-white border border-zinc-100 rounded-3xl p-6 shadow-sm space-y-6">
-          <div className="flex justify-between items-baseline border-b border-zinc-100 pb-3">
-            <h3 className="text-sm font-black text-[#041E42] uppercase tracking-wider">Latest News</h3>
-            <Link href="/news" className="text-[10px] font-bold text-[#0B3D91] hover:underline">View All</Link>
+        {/* Column 1: News & Events (Left 5 cols) */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="flex justify-between items-baseline border-b border-zinc-200 pb-3">
+            <h3 className="text-sm font-black text-[#041E42] uppercase tracking-wider">News & Events</h3>
+            <Link href="/news" className="text-xs font-black text-[#B31919] hover:underline">View All News →</Link>
           </div>
 
           <div className="space-y-4">
             {[
-              { date: "12 May", title: "CITY University launches AI Research Center", desc: "A cutting-edge facility established to push advancements in deep learning models." },
-              { date: "08 May", title: "Students win National Level Hackathon 2026", desc: "Our tech students secured top honors competing against 200+ universities." },
-              { date: "03 May", title: "MoU Signed with Global University Partners", desc: "Partnership expands student exchange courses and collaborative research programs." }
+              { date: "12 MAY", title: "CITY University Launches AI & Robotics Center" },
+              { date: "08 MAY", title: "International Conference on Innovation 2026" },
+              { date: "03 MAY", title: "Students Win National Hackathon 2026" }
             ].map((row, idx) => (
-              <div key={idx} className="flex gap-4 items-start text-xs border-b border-zinc-50 pb-4 last:border-0 last:pb-0">
-                <div className="bg-[#0B3D91]/5 border border-[#0B3D91]/10 rounded-lg p-2.5 text-center shrink-0 w-12 text-[10px] font-black text-[#0B3D91] uppercase leading-tight">
+              <div key={idx} className="flex gap-4 items-start text-xs border-b border-zinc-100/60 pb-4 last:border-0 last:pb-0 text-left">
+                <div className="bg-[#B31919] text-white rounded p-2 text-center shrink-0 w-12 text-[10px] font-black uppercase leading-tight shadow-sm">
                   {row.date.split(" ")[0]} <br /> {row.date.split(" ")[1]}
                 </div>
-                <div className="space-y-1.5">
-                  <h4 className="font-extrabold text-zinc-800 leading-snug">{row.title}</h4>
-                  <Link href="/news" className="text-[10px] font-bold text-[#F5B400] hover:underline block">Read More →</Link>
+                <div className="space-y-1">
+                  <h4 className="font-extrabold text-zinc-800 leading-snug hover:text-[#B31919] cursor-pointer transition-colors">{row.title}</h4>
+                  <Link href="/news" className="text-[10px] font-bold text-[#B31919] hover:underline block">Read More →</Link>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Column 2: Rankings */}
-        <div className="bg-white border border-zinc-100 rounded-3xl p-6 shadow-sm space-y-6 flex flex-col justify-between">
-          <div className="space-y-6">
-            <h3 className="text-sm font-black text-[#041E42] uppercase tracking-wider border-b border-zinc-100 pb-3">Rankings & Accreditations</h3>
-            
-            {/* Accreditation Badges */}
-            <div className="grid grid-cols-2 gap-4 text-center">
-              {[
-                { tag: "NAAC A+", desc: "Accredited" },
-                { tag: "NIRF", desc: "Ranked" },
-                { tag: "ARIIA", desc: "Top Performer" },
-                { tag: "NBA", desc: "Approved" },
-                { tag: "UGC", desc: "Recognized" }
-              ].map((badge, idx) => (
-                <div key={idx} className="p-3 bg-zinc-50 border border-zinc-100 rounded-xl space-y-0.5">
-                  <span className="block text-xs font-black text-[#0B3D91]">{badge.tag}</span>
-                  <span className="block text-[8px] text-zinc-400 font-extrabold uppercase">{badge.desc}</span>
-                </div>
-              ))}
-            </div>
+        {/* Column 2: Rankings & Accreditations (Right 7 cols) */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="border-b border-zinc-200 pb-3 text-left">
+            <h3 className="text-sm font-black text-[#041E42] uppercase tracking-wider">Rankings & Accreditations</h3>
           </div>
-
-          <Link 
-            href="/about#accreditation" 
-            className="w-full text-center py-2.5 bg-[#041E42] hover:bg-[#F5B400] hover:text-[#041E42] text-white font-bold text-xs rounded-xl shadow transition-all uppercase"
-          >
-            View All Accreditations
-          </Link>
-        </div>
-
-        {/* Column 3: Upcoming Events */}
-        <div className="bg-white border border-zinc-100 rounded-3xl p-6 shadow-sm space-y-6">
-          <div className="flex justify-between items-baseline border-b border-zinc-100 pb-3">
-            <h3 className="text-sm font-black text-[#041E42] uppercase tracking-wider">Upcoming Events</h3>
-            <Link href="/news#events" className="text-[10px] font-bold text-[#0B3D91] hover:underline">View Calendar</Link>
-          </div>
-
-          <div className="space-y-4">
+          
+          {/* Horizontal layout of badges */}
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 text-center">
             {[
-              { date: "20 May", title: "International Conference on AI & Robotics", time: "10:00 AM Onwards" },
-              { date: "25 May", title: "Annual Tech Fest 2026", time: "09:00 AM Onwards" },
-              { date: "05 Jun", title: "Global Education Fair", time: "11:00 AM Onwards" }
-            ].map((ev, idx) => (
-              <div key={idx} className="flex gap-4 items-start text-xs border-b border-zinc-50 pb-4 last:border-0 last:pb-0">
-                <div className="bg-[#F5B400]/10 border border-[#F5B400]/20 rounded-lg p-2.5 text-center shrink-0 w-12 text-[10px] font-black text-[#F5B400] uppercase leading-tight">
-                  {ev.date.split(" ")[0]} <br /> {ev.date.split(" ")[1]}
+              { tag: "NAAC A+", desc: "Accredited" },
+              { tag: "NIRF", desc: "Ranked" },
+              { tag: "ARIIA", desc: "Top Performer" },
+              { tag: "NBA", desc: "Accredited" },
+              { tag: "UGC", desc: "Recognized" },
+              { tag: "AICTE", desc: "Approved" }
+            ].map((badge, idx) => (
+              <div key={idx} className="p-3 bg-white border border-zinc-200 rounded-lg flex flex-col items-center justify-center space-y-1 shadow-sm hover:shadow transition-shadow">
+                <div className="w-8 h-8 rounded-full bg-[#F8F9FC] flex items-center justify-center text-[#B31919] font-black text-[9px] shrink-0 border border-zinc-100">
+                  CU
                 </div>
-                <div className="space-y-1">
-                  <h4 className="font-extrabold text-zinc-800 leading-snug">{ev.title}</h4>
-                  <span className="block text-[10px] text-zinc-400 font-semibold">{ev.time}</span>
-                </div>
+                <span className="block text-[11px] font-black text-[#041E42] tracking-tight leading-none mt-1">{badge.tag}</span>
+                <span className="block text-[7px] text-zinc-400 font-extrabold uppercase mt-0.5">{badge.desc}</span>
               </div>
             ))}
           </div>
@@ -436,42 +366,45 @@ export default function Home() {
 
       </section>
 
-      {/* 8. ADMISSION CTA BLOCK */}
-      <section className="relative overflow-hidden bg-[#041E42] text-white py-20 px-6 font-sans">
-        {/* Background Image Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-15"
-          style={{ backgroundImage: `url('/students_admission.png')` }}
-        ></div>
-
-        <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      {/* 5. RED BOTTOM STRIP */}
+      <section className="bg-[#B31919] text-white py-6 px-6 relative z-10 border-t border-red-800">
+        <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-6">
           
-          <div className="lg:col-span-8 space-y-4 text-left">
-            <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#F5B400]">Admissions Notice</span>
-            <h2 className="text-3xl font-black tracking-tight uppercase">ADMISSIONS OPEN 2026</h2>
-            <p className="text-xs md:text-sm text-zinc-300 max-w-xl leading-relaxed">
-              Join a community of innovators and leaders. Shape your future with CITY University.
-            </p>
+          {/* Left Core Pillars */}
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 text-[11px] font-black uppercase tracking-wider">
+            <div className="flex items-center gap-2">
+              <Building2 size={16} className="text-red-100" />
+              <span>Modern Infrastructure</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Globe size={16} className="text-red-100" />
+              <span>Global Exposure</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Microscope size={16} className="text-red-100" />
+              <span>Research Excellence</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Handshake size={16} className="text-red-100" />
+              <span>Industry Connect</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Heart size={16} className="text-red-100" />
+              <span>Vibrant Campus Life</span>
+            </div>
           </div>
 
-          <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3.5 w-full">
+          {/* Right Signature Quote & Button */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-right shrink-0">
+            <div className="leading-tight">
+              <span className="block text-xs font-bold italic">“Learn Today. Lead Tomorrow.”</span>
+              <span className="block text-[10px] text-red-100 font-medium">Be part of a legacy of excellence and innovation.</span>
+            </div>
             <Link 
-              href="/admissions/apply"
-              className="w-full text-center py-3 bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs tracking-wider rounded-xl transition-all shadow-md uppercase"
+              href="/about"
+              className="px-5 py-2 bg-white text-[#B31919] hover:bg-zinc-100 font-extrabold text-[11px] tracking-wider rounded-full shadow-md uppercase transition-all"
             >
-              Apply Now
-            </Link>
-            <Link 
-              href="/admissions?tab=brouchure"
-              className="w-full text-center py-2.5 border border-white/20 hover:border-white text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5"
-            >
-              <FileDown size={14} /> Download Brochure
-            </Link>
-            <Link 
-              href="/contact"
-              className="w-full text-center py-2.5 border border-white/20 hover:border-white text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5"
-            >
-              <Headset size={14} /> Talk to Counselor
+              Discover More →
             </Link>
           </div>
 
@@ -480,5 +413,24 @@ export default function Home() {
 
       <Footer />
     </div>
+  );
+}
+
+// Chevron Down/Right helper
+function ChevronRight({ size, className }: { size?: number, className?: string }) {
+  return (
+    <svg 
+      className={className} 
+      width={size || 14} 
+      height={size || 14} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <path d="m9 18 6-6-6-6" />
+    </svg>
   );
 }
