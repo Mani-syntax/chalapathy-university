@@ -1,7 +1,5 @@
-"use client";
-
 import React, { useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { GraduationCap, ArrowRight, CheckCircle2, RotateCcw, BrainCircuit, Heart, Scale, Microscope, ShieldAlert } from "lucide-react";
 
 interface ProgramFinderProps {
@@ -290,13 +288,13 @@ export default function ProgramFinder({ onClose }: ProgramFinderProps) {
               <RotateCcw size={12} /> Reset
             </button>
             <Link 
-              href={`/schools/${rec.slug}`} 
+              to={`/academics`} 
               className="flex-1 text-center py-2.5 bg-primary-blue hover:bg-primary-blue/90 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5"
             >
               Explore School Details <ArrowRight size={12} />
             </Link>
             <Link 
-              href="/admissions/apply" 
+              to="/admissions/apply" 
               className="flex-1 text-center py-2.5 bg-primary-gold hover:bg-primary-gold/90 text-primary-navy rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5"
             >
               Apply Online <ArrowRight size={12} />

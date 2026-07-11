@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  GraduationCap, Users, Briefcase, Globe, Microscope,
-  ArrowRight, Play, Trophy, Handshake, Landmark,
-  Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search
+  GraduationCap, Users, ArrowRight, Play, Trophy, Handshake, Landmark,
+  Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe
 } from "lucide-react";
 
 /* ── animation helpers ────────────────────────── */
@@ -42,10 +39,12 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    document.title = "City Chalapathi Institute of Technology | Autonomous University";
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-[#F7F8FC] text-[#222222] overflow-x-hidden font-[var(--font-poppins)]">
-      <Header />
-
       {/* ═══ HERO SECTION (720px height) ═══ */}
       <section className="relative w-full overflow-hidden bg-white" style={{ height: "720px" }}>
         {/* Background image covering right side, fading to white/gray on the left */}
@@ -84,13 +83,13 @@ export default function Home() {
 
             <motion.div className="flex flex-wrap items-center gap-4" variants={fadeUp}>
               <Link
-                href="/admissions"
+                to="/admissions"
                 className="h-11 px-7 bg-[#072A6C] hover:bg-[#051c4a] text-white text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all shadow-sm active:scale-95"
               >
                 Explore Campus <ArrowRight size={15} />
               </Link>
               <Link
-                href="/campus-life"
+                to="/campus-life"
                 className="h-11 px-7 bg-white border border-[#072A6C] text-[#072A6C] hover:bg-slate-50 text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all active:scale-95"
               >
                 Virtual Tour
@@ -104,16 +103,16 @@ export default function Home() {
           {/* Right Floating Card Stack (16px border-radius) */}
           <div className="hidden lg:flex flex-col gap-2.5 z-20">
             {[
-              { label: "Enquire Now", icon: HelpCircle, href: "/contact" },
-              { label: "Brochure", icon: FileText, href: "/admissions" },
-              { label: "Scholarships", icon: GraduationCap, href: "/admissions" },
-              { label: "Visit Campus", icon: MapPin, href: "/contact" },
+              { label: "Enquire Now", icon: HelpCircle, to: "/contact" },
+              { label: "Brochure", icon: FileText, to: "/admissions" },
+              { label: "Scholarships", icon: GraduationCap, to: "/admissions/scholarships" },
+              { label: "Visit Campus", icon: MapPin, to: "/contact" },
             ].map((item) => {
               const Icon = item.icon;
               return (
                 <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.to}
                   className="flex flex-col items-center justify-center w-24 h-24 bg-white border border-gray-100 hover:border-[#072A6C] rounded-[16px] shadow-sm transition-all text-center p-2 group hover:-translate-y-1 hover:shadow-md"
                 >
                   <Icon size={20} className="text-[#072A6C] group-hover:text-[#D71920] transition-colors mb-2" strokeWidth={1.8} />
@@ -259,7 +258,7 @@ export default function Home() {
               OUR PROGRAMS
             </h2>
             <Link
-              href="/#schools"
+              to="/academics"
               className="text-[13px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-1 transition-colors"
             >
               View All Programs <ArrowRight size={14} />
@@ -274,12 +273,12 @@ export default function Home() {
             variants={staggerContainer}
           >
             {[
-              { name: "Engineering", color: "#D71920", image: "/prog_engineering.png" },
-              { name: "Management", color: "#F59E0B", image: "/prog_management.png" },
-              { name: "Computer Applications", color: "#2563EB", image: "/prog_computer.png" },
-              { name: "Pharmacy", color: "#10B981", image: "/prog_pharmacy.png" },
-              { name: "Diploma", color: "#8B5CF6", image: "/prog_diploma.png" },
-              { name: "M.Tech Programs", color: "#EAB308", image: "/prog_mtech.png" }
+              { name: "Engineering", color: "#D71920", image: "/prog_engineering.png", to: "/academics/computer-science" },
+              { name: "Management", color: "#F59E0B", image: "/prog_management.png", to: "/academics" },
+              { name: "Computer Applications", color: "#2563EB", image: "/prog_computer.png", to: "/academics/computer-science" },
+              { name: "Pharmacy", color: "#10B981", image: "/prog_pharmacy.png", to: "/academics" },
+              { name: "Diploma", color: "#8B5CF6", image: "/prog_diploma.png", to: "/academics" },
+              { name: "M.Tech Programs", color: "#EAB308", image: "/prog_mtech.png", to: "/academics" }
             ].map((p, idx) => (
               <motion.div
                 key={idx}
@@ -302,9 +301,11 @@ export default function Home() {
                   >
                     <GraduationCap size={14} />
                   </div>
-                  <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
-                    {p.name}
-                  </h3>
+                  <Link to={p.to} className="block">
+                    <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
+                      {p.name}
+                    </h3>
+                  </Link>
                 </div>
               </motion.div>
             ))}
@@ -336,11 +337,11 @@ export default function Home() {
             <div className="absolute left-[70px] top-6 bottom-6 w-0.5 bg-gray-100 z-0" />
 
             {[
-              { step: "01", title: "DISCOVER", desc: "Explore programs and find your passion.", icon: Compass },
-              { step: "02", title: "APPLY", desc: "Submit your application online.", icon: FileText },
-              { step: "03", title: "LEARN", desc: "Gain knowledge & practical exposure.", icon: GraduationCap },
-              { step: "04", title: "GROW", desc: "Build skills & achieve milestones.", icon: Award },
-              { step: "05", title: "SUCCEED", desc: "Launch your dream career", icon: Trophy }
+              { step: "01", title: "DISCOVER", desc: "Explore programs and find your passion.", icon: Compass, to: "/academics" },
+              { step: "02", title: "APPLY", desc: "Submit your application online.", icon: FileText, to: "/admissions/apply" },
+              { step: "03", title: "LEARN", desc: "Gain knowledge & practical exposure.", icon: GraduationCap, to: "/academics/computer-science" },
+              { step: "04", title: "GROW", desc: "Build skills & achieve milestones.", icon: Award, to: "/about" },
+              { step: "05", title: "SUCCEED", desc: "Launch your dream career", icon: Trophy, to: "/placements" }
             ].map((j) => {
               const Icon = j.icon;
               return (
@@ -358,9 +359,11 @@ export default function Home() {
 
                   {/* Text Details */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[13px] font-[800] text-[#072A6C] tracking-wide">
-                      {j.title}
-                    </h4>
+                    <Link to={j.to} className="block">
+                      <h4 className="text-[13px] font-[800] text-[#072A6C] tracking-wide hover:text-[#D71920] transition-colors">
+                        {j.title}
+                      </h4>
+                    </Link>
                     <p className="text-[11px] text-[#666666] mt-0.5 leading-normal font-[400] truncate">
                       {j.desc}
                     </p>
@@ -437,7 +440,7 @@ export default function Home() {
               <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
                 LATEST NEWS
               </h3>
-              <Link href="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
+              <Link to="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
                 View All <ArrowRight size={10} />
               </Link>
             </div>
@@ -455,7 +458,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-[12px] font-[700] text-gray-800 leading-snug">{n.title}</h4>
-                    <Link href="/news" className="text-[10px] font-[700] text-[#072A6C] hover:underline mt-1 inline-block">
+                    <Link to="/news" className="text-[10px] font-[700] text-[#072A6C] hover:underline mt-1 inline-block">
                       Read More →
                     </Link>
                   </div>
@@ -476,7 +479,7 @@ export default function Home() {
               <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
                 RANKINGS & ACCREDITATIONS
               </h3>
-              <Link href="/about" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
+              <Link to="/about" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
                 View All <ArrowRight size={10} />
               </Link>
             </div>
@@ -558,7 +561,7 @@ export default function Home() {
               <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
                 UPCOMING EVENTS
               </h3>
-              <Link href="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
+              <Link to="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
                 View Calendar <ArrowRight size={10} />
               </Link>
             </div>
@@ -599,19 +602,19 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-2 font-[var(--font-poppins)]">
                 <Link
-                  href="/admissions/apply"
+                  to="/admissions/apply"
                   className="h-10 px-5 bg-white text-[#D71920] hover:bg-red-50 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 shadow active:scale-95 transition-transform"
                 >
                   Apply Now <ArrowRight size={13} />
                 </Link>
                 <Link
-                  href="/admissions"
+                  to="/admissions"
                   className="h-10 px-5 border border-white hover:bg-white/10 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 active:scale-95 transition-transform"
                 >
                   Download Brochure
                 </Link>
                 <Link
-                  href="/contact"
+                  to="/contact"
                   className="h-10 px-5 border border-white hover:bg-white/10 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 active:scale-95 transition-transform"
                 >
                   Talk to Counselor
@@ -669,8 +672,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

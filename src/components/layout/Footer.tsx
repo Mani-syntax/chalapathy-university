@@ -1,140 +1,151 @@
 import React from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import {
-  MapPin, Phone, Mail, ExternalLink, ChevronRight,
-  Globe, Camera, Users, Video,
+  MapPin, Phone, Mail, Globe, Users, Briefcase, Play
 } from "lucide-react";
 
 export default function Footer() {
-  const cols = [
-    {
-      title: "Quick Links",
-      links: [
-        { label: "About Us", href: "/about" },
-        { label: "Admissions", href: "/admissions" },
-        { label: "Academics", href: "/#schools" },
-        { label: "Research", href: "/research" },
-        { label: "Schools", href: "/#schools" },
-      ],
-    },
-    {
-      title: "Campus Life",
-      links: [
-        { label: "Hostels", href: "#" },
-        { label: "Library", href: "#" },
-        { label: "Sports", href: "#" },
-        { label: "Clubs & Activities", href: "#" },
-        { label: "Health Centre", href: "#" },
-      ],
-    },
-    {
-      title: "Resources",
-      links: [
-        { label: "Downloads", href: "#" },
-        { label: "Academic Calendar", href: "#" },
-        { label: "Scholarships", href: "#" },
-        { label: "Fee Structure", href: "#" },
-        { label: "Mandatory Disclosure", href: "#" },
-      ],
-    },
-    {
-      title: "Support",
-      links: [
-        { label: "ERP Portal", href: "/erp" },
-        { label: "Student Login", href: "/erp?role=student" },
-        { label: "Faculty Login", href: "/erp?role=faculty" },
-        { label: "Help Desk", href: "#" },
-        { label: "Contact Us", href: "/contact" },
-      ],
-    },
+  const quickLinks = [
+    { label: "About Us", to: "/about" },
+    { label: "Vision & Mission", to: "/about/vision" },
+    { label: "Leadership", to: "/about/leadership" },
+    { label: "History & Heritage", to: "/about/history" },
+    { label: "Accreditations", to: "/about" },
+  ];
+
+  const academicsLinks = [
+    { label: "Programs", to: "/academics" },
+    { label: "Computer Science", to: "/academics/computer-science" },
+    { label: "AI & ML", to: "/academics/artificial-intelligence" },
+    { label: "Data Science", to: "/academics/data-science" },
+    { label: "Schools", to: "/academics/schools" },
+  ];
+
+  const admissionsLinks = [
+    { label: "Undergraduate", to: "/admissions/undergraduate" },
+    { label: "Postgraduate", to: "/admissions/postgraduate" },
+    { label: "Fee Structure", to: "/admissions/fees" },
+    { label: "Scholarships", to: "/admissions/scholarships" },
+    { label: "Apply Online", to: "/admissions/apply" },
+  ];
+
+  const campusLifeLinks = [
+    { label: "Hostels", to: "/campus-life/hostels" },
+    { label: "Library", to: "/campus-life/library" },
+    { label: "Sports", to: "/campus-life/sports" },
+    { label: "Clubs", to: "/campus-life/clubs" },
+    { label: "Amenities", to: "/campus-life" },
   ];
 
   return (
-    <footer className="bg-[#081A36] text-[#94A3B8] pt-16 pb-8 font-[var(--font-inter)]">
-      <div className="max-w-[1340px] mx-auto px-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-10">
+    <footer className="bg-[#072A6C] text-[#D1D5DB] pt-16 pb-8 font-[var(--font-poppins)] text-[12px] border-t border-white/5">
+      <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8">
         {/* Col 1: Brand */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <svg viewBox="0 0 100 45" className="h-9 w-auto" fill="none">
-              <path d="M22 10C16 10 11 14 11 22.5C11 31 16 35 22 35C27 35 30.5 32.5 31.5 29.5H23.5V25.5H36.5V26.5C36.5 34 30.5 39 22 39C11.5 39 3.5 31.5 3.5 22.5C3.5 13.5 11.5 6 22 6C30.5 6 36 11 36.5 18H29.5C28.5 15 25 10 22 10Z" fill="#FFFFFF"/>
-              <rect x="42" y="16" width="7" height="23" fill="#D91E18"/>
-              <circle cx="45.5" cy="9.5" r="4.5" stroke="#D91E18" strokeWidth="1.5"/>
-              <circle cx="45.5" cy="9.5" r="1.5" fill="#D91E18"/>
-              <path d="M54 16H72V20.5H66.5V39H59.5V20.5H54V16Z" fill="#FFFFFF"/>
-              <path d="M74 16H81.5L88 28.5L94.5 16H102L91.5 33.5V39H84.5V33.5L74 16Z" fill="#FFFFFF"/>
-            </svg>
-            <div>
-              <div className="flex items-baseline gap-1 leading-none">
-                <span className="font-extrabold text-[13px] text-[#D91E18]">CITY</span>
-                <span className="font-extrabold text-[10px] text-white">CHALAPATHI</span>
-              </div>
-              <span className="block text-[8px] text-[#94A3B8] font-bold tracking-[0.2em] mt-0.5">UNIVERSITY</span>
-              <span className="block text-[5.5px] text-[#64748B] font-bold tracking-[0.2em] mt-0.5">LEARN • INNOVATE • LEAD</span>
-            </div>
+        <div className="space-y-4 lg:col-span-1">
+          <div className="bg-white rounded-[12px] p-2.5 w-fit flex items-center justify-center">
+            <img
+              src="/logo.png"
+              alt="City Chalapathi"
+              className="h-10 w-auto object-contain"
+            />
           </div>
-          <p className="text-[12px] leading-relaxed text-[#94A3B8]">
-            Empowering minds. Inspiring futures. Building a better world through education, research & innovation.
+          <p className="leading-relaxed text-[#D1D5DB] text-[11px] font-light">
+            Empowering minds through quality education, advanced learning and real-world experience. Your future begins here.
           </p>
-          <div className="flex items-center gap-2 pt-1">
-            {[Globe, Camera, Users, Video].map((Icon, i) => (
-              <a key={i} href="#" className="w-8 h-8 rounded-md bg-white/5 hover:bg-[#D91E18] flex items-center justify-center text-[#94A3B8] hover:text-white transition-all">
-                <Icon size={14} />
+          <div className="flex items-center gap-2 pt-2">
+            {[Globe, Users, Briefcase, Play].map((Icon, i) => (
+              <a key={i} href="#" className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#D71920] flex items-center justify-center text-[#D1D5DB] hover:text-white transition-all">
+                <Icon size={13} />
               </a>
             ))}
           </div>
         </div>
 
-        {/* Cols 2-5 */}
-        {cols.map((col) => (
-          <div key={col.title}>
-            <h4 className="text-white font-bold text-[12px] tracking-wide mb-5">{col.title}</h4>
-            <ul className="space-y-2.5">
-              {col.links.map((l) => (
-                <li key={l.label}>
-                  <Link href={l.href} className="text-[12px] text-[#94A3B8] hover:text-white transition-colors flex items-center gap-1">
-                    <ChevronRight size={10} className="text-[#D91E18]" />
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        {/* Col 2: Quick Links */}
+        <div>
+          <h4 className="text-white font-semibold text-[13px] mb-5 tracking-wide">Quick Links</h4>
+          <ul className="space-y-3 font-light text-[12px]">
+            {quickLinks.map((l) => (
+              <li key={l.label}>
+                <Link to={l.to} className="hover:text-white transition-colors">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        {/* Col 6: Contact */}
+        {/* Col 3: Academics */}
+        <div>
+          <h4 className="text-white font-semibold text-[13px] mb-5 tracking-wide">Academics</h4>
+          <ul className="space-y-3 font-light text-[12px]">
+            {academicsLinks.map((l) => (
+              <li key={l.label}>
+                <Link to={l.to} className="hover:text-white transition-colors">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Col 4: Admissions */}
+        <div>
+          <h4 className="text-white font-semibold text-[13px] mb-5 tracking-wide">Admissions</h4>
+          <ul className="space-y-3 font-light text-[12px]">
+            {admissionsLinks.map((l) => (
+              <li key={l.label}>
+                <Link to={l.to} className="hover:text-white transition-colors">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Col 5: Campus Life */}
+        <div>
+          <h4 className="text-white font-semibold text-[13px] mb-5 tracking-wide">Campus Life</h4>
+          <ul className="space-y-3 font-light text-[12px]">
+            {campusLifeLinks.map((l) => (
+              <li key={l.label}>
+                <Link to={l.to} className="hover:text-white transition-colors">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Col 6: Contact Us */}
         <div className="space-y-4">
-          <h4 className="text-white font-bold text-[12px] tracking-wide mb-5">Contact Us</h4>
-          <div className="space-y-3 text-[12px]">
+          <h4 className="text-white font-semibold text-[13px] mb-5 tracking-wide">Contact Us</h4>
+          <div className="space-y-3.5 text-[11px] text-[#D1D5DB] font-light">
             <div className="flex items-start gap-2">
-              <MapPin size={14} className="text-[#D91E18] mt-0.5 shrink-0" />
-              <span>Guntur, Andhra Pradesh - 522034, India</span>
+              <MapPin size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+              <span>A.R. Nagar, Mothadaka, Guntur, Andhra Pradesh - 522034</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Phone size={14} className="text-[#D91E18] shrink-0" />
-              <span>+91 863-2345678</span>
+            <div className="flex items-start gap-2">
+              <Phone size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+              <span>8886630355 | 8886630356 9905505566</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Mail size={14} className="text-[#D91E18] shrink-0" />
-              <span>info@cityuniversity.edu.in</span>
+            <div className="flex items-start gap-2">
+              <Mail size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+              <span>admissions@city.ac.in</span>
             </div>
-            <a href="#" className="inline-flex items-center gap-1 text-[11px] font-bold text-[#D91E18] hover:underline mt-2">
-              Get Directions <ExternalLink size={10} />
-            </a>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="max-w-[1340px] mx-auto px-5 mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[10px] text-[#64748B] gap-3">
-        <span>© 2026 <strong className="text-[#94A3B8]">CITY Chalapathi University</strong>. All Rights Reserved.</span>
-        <div className="flex items-center gap-3 font-medium">
-          <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+      {/* Bottom Bar */}
+      <div className="max-w-[1440px] mx-auto px-5 mt-14 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] text-[#D1D5DB] font-light gap-3">
+        <span>© 2025 City Chalapathi Institute of Technology. All Rights Reserved.</span>
+        <div className="flex items-center gap-3">
+          <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
           <span>|</span>
-          <Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
+          <Link to="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
           <span>|</span>
-          <Link href="#" className="hover:text-white transition-colors">Sitemap</Link>
-          <span>|</span>
-          <Link href="#" className="hover:text-white transition-colors">Accessibility</Link>
+          <Link to="#" className="hover:text-white transition-colors">Sitemap</Link>
         </div>
       </div>
     </footer>
