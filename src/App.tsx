@@ -5,6 +5,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import DynamicPage from "./pages/DynamicPage";
 import Events from "./pages/Events";
+import News from "./pages/News";
 
 // Scroll to top helper on route change
 function ScrollToTop() {
@@ -69,7 +70,7 @@ export default function App() {
             <Route path="/placements/training" element={<DynamicPage />} />
 
             {/* News Routes */}
-            <Route path="/news" element={<DynamicPage />} />
+            <Route path="/news" element={<News />} />
             <Route path="/news/latest" element={<DynamicPage />} />
             <Route path="/news/events" element={<Events />} />
 
