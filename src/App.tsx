@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-dom";
 import { X, RefreshCw, CheckCircle2, Megaphone, Bell, Calendar, GraduationCap, FileText, Award, BookOpen } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
@@ -52,6 +53,26 @@ const ANNOUNCEMENTS_LIST = [
 ];
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(() => {
+    const visited = sessionStorage.getItem("chalapathy_visited");
+    return !visited;
+  });
+
+  useEffect(() => {
+    if (showSplash) {
+      document.body.style.overflow = "hidden";
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+        sessionStorage.setItem("chalapathy_visited", "true");
+        document.body.style.overflow = "";
+      }, 2500);
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = "";
+      };
+    }
+  }, [showSplash]);
+
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
   const [showAnnouncementsDrawer, setShowAnnouncementsDrawer] = useState(false);
   const [formData, setFormData] = useState({
@@ -135,6 +156,54 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <AnimatePresence mode="wait">
+        {showSplash && (
+          <motion.div
+            key="splash"
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#072A6C] text-white select-none font-[var(--font-poppins)]"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
+          >
+            <motion.div
+              className="flex flex-col items-center max-w-md px-6 text-center space-y-6"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1, transition: { delay: 0.2, duration: 0.8, ease: "easeOut" } }}
+            >
+              {/* Logo container with white background circle for contrast */}
+              <div className="w-28 h-28 bg-white rounded-full flex items-center justify-center p-3 shadow-2xl relative">
+                <img src="/logo.png" alt="University Logo" className="w-full h-full object-contain animate-pulse" />
+                <motion.div 
+                  className="absolute inset-0 rounded-full border-2 border-[#D4AF37]"
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.8, 0, 0.8] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <h2 className="text-[20px] font-extrabold tracking-tight text-white uppercase">
+                  City Chalapathi
+                </h2>
+                <h3 className="text-[12px] font-bold tracking-widest text-[#D4AF37] uppercase">
+                  Institute of Technology
+                </h3>
+                <p className="text-[9px] font-semibold text-blue-200 uppercase tracking-widest pt-1">
+                  Autonomous University • Accredited NAAC A+
+                </p>
+              </div>
+
+              {/* Progress bar loader */}
+              <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden relative">
+                <motion.div 
+                  className="h-full bg-gradient-to-r from-[#D4AF37] to-red-500"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%", transition: { duration: 2.2, ease: "easeInOut" } }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-[#F7F8FC]">
         <Header />
