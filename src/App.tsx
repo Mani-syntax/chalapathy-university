@@ -64,10 +64,10 @@ export default function App() {
     if (showSplash) {
       document.body.style.overflow = "hidden";
       
-      // Safety fallback: dismiss splash screen after 4.5s in case of slow loading or browser play blocks
+      // Safety fallback: dismiss splash screen after 6.5s in case of slow loading or browser play blocks
       const fallbackTimer = setTimeout(() => {
         setShowSplash(false);
-      }, 4500);
+      }, 6500);
 
       // Attempt programmatic play to bypass stricter mobile browser restrictions
       if (videoRef.current) {
@@ -184,7 +184,11 @@ export default function App() {
               muted
               playsInline
               preload="auto"
-              onEnded={() => setShowSplash(false)}
+              onEnded={() => {
+                setTimeout(() => {
+                  setShowSplash(false);
+                }, 1500); // 1.5-second pause on final frame
+              }}
               className="w-full h-full object-cover"
             />
             {/* Elegant Skip Button */}
