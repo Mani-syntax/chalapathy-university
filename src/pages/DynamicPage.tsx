@@ -551,11 +551,7 @@ const getPageContent = (path: string) => {
         title: "Teaching & Evaluation",
         category: "Academics",
         desc: "Outcome-based education framework, continuous assessment marks, and end exams.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Assessment is divided into Continuous Internal Evaluation (CIE) carrying 40% weight and Semester End Examinations (SEE) carrying 60% weight.</p>
-          </div>
-        )
+        body: <TeachingEvaluation />
       };
     }
     if (cleanPath.includes("bos")) {
@@ -563,11 +559,7 @@ const getPageContent = (path: string) => {
         title: "Board of Studies (BOS)",
         category: "Academics",
         desc: "Academic advisory council consisting of university deans, industry veterans, and subject experts.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>The Board of Studies meets annually to revise core curricula, ensuring our programs remain aligned with latest industrial software and technology trends.</p>
-          </div>
-        )
+        body: <BOSMembers />
       };
     }
 
@@ -1697,6 +1689,267 @@ function AcademicRulesRegulations() {
               <p className="text-[11px] text-gray-500 leading-relaxed font-light">
                 {item.desc}
               </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function TeachingEvaluation() {
+  const evaluations = [
+    {
+      title: "Mid-Term Examinations",
+      weight: "20%",
+      desc: "Two centralized internal exams per semester testing core subject knowledge blocks.",
+      glow: "hover:border-blue-200"
+    },
+    {
+      title: "Continuous Assessment",
+      weight: "10%",
+      desc: "Regular assignments, classroom quizzes, case-studies, and active seminar participations.",
+      glow: "hover:border-indigo-200"
+    },
+    {
+      title: "Laboratory & Internals",
+      weight: "10%",
+      desc: "Hands-on lab evaluations, project progress reviews, and viva-voce assessments.",
+      glow: "hover:border-teal-200"
+    },
+    {
+      title: "Semester End Examinations",
+      weight: "60%",
+      desc: "Centralized final examinations testing comprehensive curriculum mastery at the end of each term.",
+      glow: "hover:border-red-200"
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+        <h4 className="text-xs font-extrabold text-[#072A6C] mb-3 uppercase tracking-wider">Evaluation Framework (CIE vs SEE)</h4>
+        <p className="text-xs text-gray-500 font-light leading-relaxed mb-6">
+          CCIT follows an Outcome-Based Education (OBE) system with a structured evaluation plan divided into Continuous Internal Evaluation (CIE) and Semester End Examinations (SEE).
+        </p>
+
+        {/* Visual Progress split */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-[11px] font-bold text-gray-600">
+            <span>Continuous Internal Evaluation (CIE) - 40%</span>
+            <span>Semester End Exam (SEE) - 60%</span>
+          </div>
+          <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden flex">
+            <div className="h-full bg-[#072A6C]" style={{ width: "40%" }} />
+            <div className="h-full bg-[#D71920]" style={{ width: "60%" }} />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {evaluations.map((item) => (
+          <div
+            key={item.title}
+            className={`bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between ${item.glow}`}
+          >
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">{item.title}</span>
+                <span className="text-xs font-bold text-[#D71920] bg-red-50 px-2 py-0.5 rounded-full border border-red-100">{item.weight} Weight</span>
+              </div>
+              <p className="text-xs text-gray-500 font-light leading-relaxed">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BOSMembers() {
+  const [activeDept, setActiveDept] = React.useState<string | null>(null);
+
+  const departments = [
+    {
+      name: "Agriculture",
+      faculty: [
+        { name: "Dr. B. Ramanjaneyulu", role: "Chairman (BOS)", desc: "M.Sc. (Agri), Ph.D." },
+        { name: "Dr. A. Sravani", role: "Subject Expert (Professor)", desc: "Ph.D. in Agronomy" },
+        { name: "Mr. K. Sai Kumar", role: "Industry Representative", desc: "Lead Agtech Scientist, AgriSolutions" },
+        { name: "Mrs. M. Vasantha", role: "Assistant Professor", desc: "M.Sc. in Soil Science" }
+      ]
+    },
+    {
+      name: "Architecture",
+      faculty: [
+        { name: "Dr. G. Lakshmi Prasanna", role: "Chairman (BOS)", desc: "M.Arch, Ph.D." },
+        { name: "Mr. R. Dinesh Kumar", role: "Industry Expert", desc: "Principal Architect, DesignStudio" },
+        { name: "Dr. V. Satish", role: "Professor", desc: "Ph.D. in Urban Planning" },
+        { name: "Ms. P. Haritha", role: "Assistant Professor", desc: "M.Arch (Landscape)" }
+      ]
+    },
+    {
+      name: "Arts & Sciences",
+      faculty: [
+        { name: "Dr. K. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.A, Ph.D. in English Literature" },
+        { name: "Dr. M. Sunitha", role: "Professor", desc: "Ph.D. in Environmental Sciences" },
+        { name: "Mr. T. Naveen", role: "Assistant Professor", desc: "M.Sc. in Statistics" },
+        { name: "Dr. G. Swetha", role: "Assistant Professor", desc: "Ph.D. in Humanities" }
+      ]
+    },
+    {
+      name: "Biotechnology",
+      faculty: [
+        { name: "Dr. P. V. Ramana", role: "Chairman (BOS)", desc: "M.Tech, Ph.D. in Biotech" },
+        { name: "Dr. S. Madhavi", role: "Subject Expert", desc: "Professor of Bioinformatics, JNTU" },
+        { name: "Mr. V. Suresh Kumar", role: "Industry Expert", desc: "Senior Researcher, BioPharm Labs" },
+        { name: "Mrs. K. Kalyani", role: "Assistant Professor", desc: "M.Tech (Bioprocess Engineering)" }
+      ]
+    },
+    {
+      name: "Civil Engineering",
+      faculty: [
+        { name: "Dr. M. Rajasekhar", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+        { name: "Dr. K. R. C. Reddy", role: "Professor", desc: "Ph.D. in Structural Engineering" },
+        { name: "Mr. L. Venkat", role: "Industry Representative", desc: "Chief Engineer, L&T Infrastructure" },
+        { name: "Mrs. N. Anusha", role: "Assistant Professor", desc: "M.Tech (Geotechnical)" }
+      ]
+    },
+    {
+      name: "Chemistry",
+      faculty: [
+        { name: "Dr. T. Venkatappa Rao", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
+        { name: "Dr. S. Anuradha", role: "Professor", desc: "Ph.D. in Organic Chemistry" },
+        { name: "Dr. P. Rajesh", role: "Assistant Professor", desc: "Ph.D. in Analytical Chemistry" }
+      ]
+    },
+    {
+      name: "Computer Science And Application",
+      faculty: [
+        { name: "Dr. K. Kiran Kumar", role: "Chairman (BOS)", desc: "MCA, Ph.D." },
+        { name: "Dr. P. Swathi", role: "Professor", desc: "Ph.D. in Data Analytics" },
+        { name: "Mr. G. Ravindra", role: "Industry Representative", desc: "Principal Architect, TechMahindra" },
+        { name: "Mrs. B. Kavitha", role: "Assistant Professor", desc: "MCA, M.Tech" }
+      ]
+    },
+    {
+      name: "Computer Science And Engineering",
+      faculty: [
+        { name: "Dr. C. Naga Raju", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+        { name: "Dr. T. Sreenivasulu", role: "Professor", desc: "Ph.D. in Cloud Computing" },
+        { name: "Mr. S. Karthik", role: "Industry Expert", desc: "Senior Architect, Amazon Web Services" },
+        { name: "Mrs. V. Sireesha", role: "Assistant Professor", desc: "M.Tech (AI & ML)" }
+      ]
+    },
+    {
+      name: "Electronics And Communication Engineering",
+      faculty: [
+        { name: "Dr. K. Chandrasekhara Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+        { name: "Dr. J. Ravindranath", role: "Professor", desc: "Ph.D. in VLSI Systems" },
+        { name: "Mr. P. Praveen Kumar", role: "Industry Expert", desc: "Senior Hardware Engineer, Qualcomm" },
+        { name: "Mrs. D. Prasanthi", role: "Assistant Professor", desc: "M.Tech (Embedded Systems)" }
+      ]
+    },
+    {
+      name: "Electrical And Electronics Engineering",
+      faculty: [
+        { name: "Dr. G. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+        { name: "Dr. V. Bala Raju", role: "Professor", desc: "Ph.D. in Power Systems" },
+        { name: "Mr. K. Anil Kumar", role: "Industry Representative", desc: "Electrical Grid Manager, APTransco" },
+        { name: "Mr. M. Gopi", role: "Assistant Professor", desc: "M.Tech (Power Electronics)" }
+      ]
+    },
+    {
+      name: "Business School",
+      faculty: [
+        { name: "Dr. M. Sreenivasulu", role: "Chairman (BOS)", desc: "MBA, Ph.D. in Marketing" },
+        { name: "Dr. B. K. Durga", role: "Professor", desc: "Ph.D. in Finance Management" },
+        { name: "Mr. R. Siva Sankar", role: "Industry Expert", desc: "HR Manager, Cognizant Business Services" },
+        { name: "Mrs. T. Rajeswari", role: "Assistant Professor", desc: "MBA (Human Resource)" }
+      ]
+    },
+    {
+      name: "LAW",
+      faculty: [
+        { name: "Dr. G. V. R. Prasad", role: "Chairman (BOS)", desc: "LL.M, Ph.D." },
+        { name: "Dr. P. Radhika", role: "Professor", desc: "Ph.D. in Constitutional Law" },
+        { name: "Mr. D. Hari Prasad", role: "Subject Expert", desc: "Senior Counsel, High Court of AP" }
+      ]
+    },
+    {
+      name: "Maths",
+      faculty: [
+        { name: "Dr. A. S. Ramakrishna", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
+        { name: "Dr. P. Nagamani", role: "Professor", desc: "Ph.D. in Fluid Dynamics" },
+        { name: "Mrs. G. Sunanda", role: "Assistant Professor", desc: "M.Sc. (Mathematics)" }
+      ]
+    },
+    {
+      name: "Mechanical Engineering",
+      faculty: [
+        { name: "Dr. K. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+        { name: "Dr. G. Prasada Rao", role: "Professor", desc: "Ph.D. in Thermal Science" },
+        { name: "Mr. T. Shiva Shankar", role: "Industry Representative", desc: "Lead Engineer, Tata Motors" },
+        { name: "Mr. B. Rajesh Kumar", role: "Assistant Professor", desc: "M.Tech (CAD/CAM)" }
+      ]
+    },
+    {
+      name: "Pharmacy",
+      faculty: [
+        { name: "Dr. B. Madhava Reddy", role: "Chairman (BOS)", desc: "M.Pharm, Ph.D." },
+        { name: "Dr. K. Venkata Ramana", role: "Professor", desc: "Ph.D. in Pharmaceutics" },
+        { name: "Mr. G. Sai Krishna", role: "Industry Expert", desc: "Quality Assurance Lead, Aurobindo Pharma" },
+        { name: "Mrs. N. Swetha", role: "Assistant Professor", desc: "M.Pharm (Pharmacology)" }
+      ]
+    },
+    {
+      name: "Physics",
+      faculty: [
+        { name: "Dr. S. K. Mastan", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
+        { name: "Dr. P. Srinivasa Rao", role: "Professor", desc: "Ph.D. in Condensed Matter Physics" },
+        { name: "Mr. D. Nagaraju", role: "Assistant Professor", desc: "M.Sc. in Physics" }
+      ]
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <p className="text-gray-600 text-sm leading-relaxed">
+        The Board of Studies (BOS) at City Chalapathi meets annually to review and approve academic curriculum layouts, ensuring modern alignment with industrial needs. Click any department below to view its Board Members and key faculty:
+      </p>
+
+      <div className="space-y-3">
+        {departments.map((dept) => {
+          const isExpanded = activeDept === dept.name;
+          return (
+            <div 
+              key={dept.name} 
+              className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-[#D71920]/20 transition-all duration-300"
+            >
+              <button
+                onClick={() => setActiveDept(isExpanded ? null : dept.name)}
+                className="w-full px-5 py-4 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
+              >
+                <span>• Department of {dept.name}</span>
+                <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
+              </button>
+
+              {isExpanded && (
+                <div className="px-5 pb-5 pt-3 bg-gray-50/50 border-t border-gray-100 animate-slide-down">
+                  <div className="text-[10px] text-[#072A6C] font-extrabold uppercase tracking-wider block mb-3">
+                    Board of Studies Members & Faculty
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {dept.faculty.map((member, idx) => (
+                      <div key={idx} className="bg-white border border-gray-100 rounded-xl p-3.5 shadow-sm hover:-translate-y-0.5 transition-all duration-200">
+                        <div className="text-xs font-extrabold text-[#072A6C]">{member.name}</div>
+                        <div className="text-[10px] text-[#D71920] font-bold uppercase tracking-wider mt-0.5">{member.role}</div>
+                        <div className="text-[11px] text-gray-500 font-light mt-1">{member.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
