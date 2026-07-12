@@ -554,6 +554,15 @@ const getPageContent = (path: string) => {
         body: <TeachingEvaluation />
       };
     }
+    if (cleanPath.startsWith("/academics/bos/")) {
+      const slug = cleanPath.replace("/academics/bos/", "");
+      return {
+        title: "Department Faculty List",
+        category: "Academics",
+        desc: "Department Board of Studies Members and Faculty Directory.",
+        body: <DepartmentFacultyView slug={slug} />
+      };
+    }
     if (cleanPath.includes("bos")) {
       return {
         title: "Board of Studies (BOS)",
@@ -1766,193 +1775,226 @@ function TeachingEvaluation() {
   );
 }
 
+const BOS_DEPARTMENTS = [
+  {
+    name: "Agriculture",
+    faculty: [
+      { name: "Dr. B. Ramanjaneyulu", role: "Chairman (BOS)", desc: "M.Sc. (Agri), Ph.D." },
+      { name: "Dr. A. Sravani", role: "Subject Expert (Professor)", desc: "Ph.D. in Agronomy" },
+      { name: "Mr. K. Sai Kumar", role: "Industry Representative", desc: "Lead Agtech Scientist, AgriSolutions" },
+      { name: "Mrs. M. Vasantha", role: "Assistant Professor", desc: "M.Sc. in Soil Science" }
+    ]
+  },
+  {
+    name: "Architecture",
+    faculty: [
+      { name: "Dr. G. Lakshmi Prasanna", role: "Chairman (BOS)", desc: "M.Arch, Ph.D." },
+      { name: "Mr. R. Dinesh Kumar", role: "Industry Expert", desc: "Principal Architect, DesignStudio" },
+      { name: "Dr. V. Satish", role: "Professor", desc: "Ph.D. in Urban Planning" },
+      { name: "Ms. P. Haritha", role: "Assistant Professor", desc: "M.Arch (Landscape)" }
+    ]
+  },
+  {
+    name: "Arts & Sciences",
+    faculty: [
+      { name: "Dr. K. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.A, Ph.D. in English Literature" },
+      { name: "Dr. M. Sunitha", role: "Professor", desc: "Ph.D. in Environmental Sciences" },
+      { name: "Mr. T. Naveen", role: "Assistant Professor", desc: "M.Sc. in Statistics" },
+      { name: "Dr. G. Swetha", role: "Assistant Professor", desc: "Ph.D. in Humanities" }
+    ]
+  },
+  {
+    name: "Biotechnology",
+    faculty: [
+      { name: "Dr. P. V. Ramana", role: "Chairman (BOS)", desc: "M.Tech, Ph.D. in Biotech" },
+      { name: "Dr. S. Madhavi", role: "Subject Expert", desc: "Professor of Bioinformatics, JNTU" },
+      { name: "Mr. V. Suresh Kumar", role: "Industry Expert", desc: "Senior Researcher, BioPharm Labs" },
+      { name: "Mrs. K. Kalyani", role: "Assistant Professor", desc: "M.Tech (Bioprocess Engineering)" }
+    ]
+  },
+  {
+    name: "Civil Engineering",
+    faculty: [
+      { name: "Dr. M. Rajasekhar", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+      { name: "Dr. K. R. C. Reddy", role: "Professor", desc: "Ph.D. in Structural Engineering" },
+      { name: "Mr. L. Venkat", role: "Industry Representative", desc: "Chief Engineer, L&T Infrastructure" },
+      { name: "Mrs. N. Anusha", role: "Assistant Professor", desc: "M.Tech (Geotechnical)" }
+    ]
+  },
+  {
+    name: "Chemistry",
+    faculty: [
+      { name: "Dr. T. Venkatappa Rao", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
+      { name: "Dr. S. Anuradha", role: "Professor", desc: "Ph.D. in Organic Chemistry" },
+      { name: "Dr. P. Rajesh", role: "Assistant Professor", desc: "Ph.D. in Analytical Chemistry" }
+    ]
+  },
+  {
+    name: "Computer Science And Application",
+    faculty: [
+      { name: "Dr. K. Kiran Kumar", role: "Chairman (BOS)", desc: "MCA, Ph.D." },
+      { name: "Dr. P. Swathi", role: "Professor", desc: "Ph.D. in Data Analytics" },
+      { name: "Mr. G. Ravindra", role: "Industry Representative", desc: "Principal Architect, TechMahindra" },
+      { name: "Mrs. B. Kavitha", role: "Assistant Professor", desc: "MCA, M.Tech" }
+    ]
+  },
+  {
+    name: "Computer Science And Engineering",
+    faculty: [
+      { name: "Dr. C. Naga Raju", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+      { name: "Dr. T. Sreenivasulu", role: "Professor", desc: "Ph.D. in Cloud Computing" },
+      { name: "Mr. S. Karthik", role: "Industry Expert", desc: "Senior Architect, Amazon Web Services" },
+      { name: "Mrs. V. Sireesha", role: "Assistant Professor", desc: "M.Tech (AI & ML)" }
+    ]
+  },
+  {
+    name: "Electronics And Communication Engineering",
+    faculty: [
+      { name: "Dr. K. Chandrasekhara Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+      { name: "Dr. J. Ravindranath", role: "Professor", desc: "Ph.D. in VLSI Systems" },
+      { name: "Mr. P. Praveen Kumar", role: "Industry Expert", desc: "Senior Hardware Engineer, Qualcomm" },
+      { name: "Mrs. D. Prasanthi", role: "Assistant Professor", desc: "M.Tech (Embedded Systems)" }
+    ]
+  },
+  {
+    name: "Electrical And Electronics Engineering",
+    faculty: [
+      { name: "Dr. G. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+      { name: "Dr. V. Bala Raju", role: "Professor", desc: "Ph.D. in Power Systems" },
+      { name: "Mr. K. Anil Kumar", role: "Industry Representative", desc: "Electrical Grid Manager, APTransco" },
+      { name: "Mr. M. Gopi", role: "Assistant Professor", desc: "M.Tech (Power Electronics)" }
+    ]
+  },
+  {
+    name: "Business School",
+    faculty: [
+      { name: "Dr. M. Sreenivasulu", role: "Chairman (BOS)", desc: "MBA, Ph.D. in Marketing" },
+      { name: "Dr. B. K. Durga", role: "Professor", desc: "Ph.D. in Finance Management" },
+      { name: "Mr. R. Siva Sankar", role: "Industry Expert", desc: "HR Manager, Cognizant Business Services" },
+      { name: "Mrs. T. Rajeswari", role: "Assistant Professor", desc: "MBA (Human Resource)" }
+    ]
+  },
+  {
+    name: "LAW",
+    faculty: [
+      { name: "Dr. G. V. R. Prasad", role: "Chairman (BOS)", desc: "LL.M, Ph.D." },
+      { name: "Dr. P. Radhika", role: "Professor", desc: "Ph.D. in Constitutional Law" },
+      { name: "Mr. D. Hari Prasad", role: "Subject Expert", desc: "Senior Counsel, High Court of AP" }
+    ]
+  },
+  {
+    name: "Maths",
+    faculty: [
+      { name: "Dr. A. S. Ramakrishna", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
+      { name: "Dr. P. Nagamani", role: "Professor", desc: "Ph.D. in Fluid Dynamics" },
+      { name: "Mrs. G. Sunanda", role: "Assistant Professor", desc: "M.Sc. (Mathematics)" }
+    ]
+  },
+  {
+    name: "Mechanical Engineering",
+    faculty: [
+      { name: "Dr. K. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
+      { name: "Dr. G. Prasada Rao", role: "Professor", desc: "Ph.D. in Thermal Science" },
+      { name: "Mr. T. Shiva Shankar", role: "Industry Representative", desc: "Lead Engineer, Tata Motors" },
+      { name: "Mr. B. Rajesh Kumar", role: "Assistant Professor", desc: "M.Tech (CAD/CAM)" }
+    ]
+  },
+  {
+    name: "Pharmacy",
+    faculty: [
+      { name: "Dr. B. Madhava Reddy", role: "Chairman (BOS)", desc: "M.Pharm, Ph.D." },
+      { name: "Dr. K. Venkata Ramana", role: "Professor", desc: "Ph.D. in Pharmaceutics" },
+      { name: "Mr. G. Sai Krishna", role: "Industry Expert", desc: "Quality Assurance Lead, Aurobindo Pharma" },
+      { name: "Mrs. N. Swetha", role: "Assistant Professor", desc: "M.Pharm (Pharmacology)" }
+    ]
+  },
+  {
+    name: "Physics",
+    faculty: [
+      { name: "Dr. S. K. Mastan", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
+      { name: "Dr. P. Srinivasa Rao", role: "Professor", desc: "Ph.D. in Condensed Matter Physics" },
+      { name: "Mr. D. Nagaraju", role: "Assistant Professor", desc: "M.Sc. in Physics" }
+    ]
+  }
+];
+
 function BOSMembers() {
-  const [activeDept, setActiveDept] = React.useState<string | null>(null);
-
-  const departments = [
-    {
-      name: "Agriculture",
-      faculty: [
-        { name: "Dr. B. Ramanjaneyulu", role: "Chairman (BOS)", desc: "M.Sc. (Agri), Ph.D." },
-        { name: "Dr. A. Sravani", role: "Subject Expert (Professor)", desc: "Ph.D. in Agronomy" },
-        { name: "Mr. K. Sai Kumar", role: "Industry Representative", desc: "Lead Agtech Scientist, AgriSolutions" },
-        { name: "Mrs. M. Vasantha", role: "Assistant Professor", desc: "M.Sc. in Soil Science" }
-      ]
-    },
-    {
-      name: "Architecture",
-      faculty: [
-        { name: "Dr. G. Lakshmi Prasanna", role: "Chairman (BOS)", desc: "M.Arch, Ph.D." },
-        { name: "Mr. R. Dinesh Kumar", role: "Industry Expert", desc: "Principal Architect, DesignStudio" },
-        { name: "Dr. V. Satish", role: "Professor", desc: "Ph.D. in Urban Planning" },
-        { name: "Ms. P. Haritha", role: "Assistant Professor", desc: "M.Arch (Landscape)" }
-      ]
-    },
-    {
-      name: "Arts & Sciences",
-      faculty: [
-        { name: "Dr. K. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.A, Ph.D. in English Literature" },
-        { name: "Dr. M. Sunitha", role: "Professor", desc: "Ph.D. in Environmental Sciences" },
-        { name: "Mr. T. Naveen", role: "Assistant Professor", desc: "M.Sc. in Statistics" },
-        { name: "Dr. G. Swetha", role: "Assistant Professor", desc: "Ph.D. in Humanities" }
-      ]
-    },
-    {
-      name: "Biotechnology",
-      faculty: [
-        { name: "Dr. P. V. Ramana", role: "Chairman (BOS)", desc: "M.Tech, Ph.D. in Biotech" },
-        { name: "Dr. S. Madhavi", role: "Subject Expert", desc: "Professor of Bioinformatics, JNTU" },
-        { name: "Mr. V. Suresh Kumar", role: "Industry Expert", desc: "Senior Researcher, BioPharm Labs" },
-        { name: "Mrs. K. Kalyani", role: "Assistant Professor", desc: "M.Tech (Bioprocess Engineering)" }
-      ]
-    },
-    {
-      name: "Civil Engineering",
-      faculty: [
-        { name: "Dr. M. Rajasekhar", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
-        { name: "Dr. K. R. C. Reddy", role: "Professor", desc: "Ph.D. in Structural Engineering" },
-        { name: "Mr. L. Venkat", role: "Industry Representative", desc: "Chief Engineer, L&T Infrastructure" },
-        { name: "Mrs. N. Anusha", role: "Assistant Professor", desc: "M.Tech (Geotechnical)" }
-      ]
-    },
-    {
-      name: "Chemistry",
-      faculty: [
-        { name: "Dr. T. Venkatappa Rao", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
-        { name: "Dr. S. Anuradha", role: "Professor", desc: "Ph.D. in Organic Chemistry" },
-        { name: "Dr. P. Rajesh", role: "Assistant Professor", desc: "Ph.D. in Analytical Chemistry" }
-      ]
-    },
-    {
-      name: "Computer Science And Application",
-      faculty: [
-        { name: "Dr. K. Kiran Kumar", role: "Chairman (BOS)", desc: "MCA, Ph.D." },
-        { name: "Dr. P. Swathi", role: "Professor", desc: "Ph.D. in Data Analytics" },
-        { name: "Mr. G. Ravindra", role: "Industry Representative", desc: "Principal Architect, TechMahindra" },
-        { name: "Mrs. B. Kavitha", role: "Assistant Professor", desc: "MCA, M.Tech" }
-      ]
-    },
-    {
-      name: "Computer Science And Engineering",
-      faculty: [
-        { name: "Dr. C. Naga Raju", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
-        { name: "Dr. T. Sreenivasulu", role: "Professor", desc: "Ph.D. in Cloud Computing" },
-        { name: "Mr. S. Karthik", role: "Industry Expert", desc: "Senior Architect, Amazon Web Services" },
-        { name: "Mrs. V. Sireesha", role: "Assistant Professor", desc: "M.Tech (AI & ML)" }
-      ]
-    },
-    {
-      name: "Electronics And Communication Engineering",
-      faculty: [
-        { name: "Dr. K. Chandrasekhara Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
-        { name: "Dr. J. Ravindranath", role: "Professor", desc: "Ph.D. in VLSI Systems" },
-        { name: "Mr. P. Praveen Kumar", role: "Industry Expert", desc: "Senior Hardware Engineer, Qualcomm" },
-        { name: "Mrs. D. Prasanthi", role: "Assistant Professor", desc: "M.Tech (Embedded Systems)" }
-      ]
-    },
-    {
-      name: "Electrical And Electronics Engineering",
-      faculty: [
-        { name: "Dr. G. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
-        { name: "Dr. V. Bala Raju", role: "Professor", desc: "Ph.D. in Power Systems" },
-        { name: "Mr. K. Anil Kumar", role: "Industry Representative", desc: "Electrical Grid Manager, APTransco" },
-        { name: "Mr. M. Gopi", role: "Assistant Professor", desc: "M.Tech (Power Electronics)" }
-      ]
-    },
-    {
-      name: "Business School",
-      faculty: [
-        { name: "Dr. M. Sreenivasulu", role: "Chairman (BOS)", desc: "MBA, Ph.D. in Marketing" },
-        { name: "Dr. B. K. Durga", role: "Professor", desc: "Ph.D. in Finance Management" },
-        { name: "Mr. R. Siva Sankar", role: "Industry Expert", desc: "HR Manager, Cognizant Business Services" },
-        { name: "Mrs. T. Rajeswari", role: "Assistant Professor", desc: "MBA (Human Resource)" }
-      ]
-    },
-    {
-      name: "LAW",
-      faculty: [
-        { name: "Dr. G. V. R. Prasad", role: "Chairman (BOS)", desc: "LL.M, Ph.D." },
-        { name: "Dr. P. Radhika", role: "Professor", desc: "Ph.D. in Constitutional Law" },
-        { name: "Mr. D. Hari Prasad", role: "Subject Expert", desc: "Senior Counsel, High Court of AP" }
-      ]
-    },
-    {
-      name: "Maths",
-      faculty: [
-        { name: "Dr. A. S. Ramakrishna", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
-        { name: "Dr. P. Nagamani", role: "Professor", desc: "Ph.D. in Fluid Dynamics" },
-        { name: "Mrs. G. Sunanda", role: "Assistant Professor", desc: "M.Sc. (Mathematics)" }
-      ]
-    },
-    {
-      name: "Mechanical Engineering",
-      faculty: [
-        { name: "Dr. K. Srinivasa Rao", role: "Chairman (BOS)", desc: "M.Tech, Ph.D." },
-        { name: "Dr. G. Prasada Rao", role: "Professor", desc: "Ph.D. in Thermal Science" },
-        { name: "Mr. T. Shiva Shankar", role: "Industry Representative", desc: "Lead Engineer, Tata Motors" },
-        { name: "Mr. B. Rajesh Kumar", role: "Assistant Professor", desc: "M.Tech (CAD/CAM)" }
-      ]
-    },
-    {
-      name: "Pharmacy",
-      faculty: [
-        { name: "Dr. B. Madhava Reddy", role: "Chairman (BOS)", desc: "M.Pharm, Ph.D." },
-        { name: "Dr. K. Venkata Ramana", role: "Professor", desc: "Ph.D. in Pharmaceutics" },
-        { name: "Mr. G. Sai Krishna", role: "Industry Expert", desc: "Quality Assurance Lead, Aurobindo Pharma" },
-        { name: "Mrs. N. Swetha", role: "Assistant Professor", desc: "M.Pharm (Pharmacology)" }
-      ]
-    },
-    {
-      name: "Physics",
-      faculty: [
-        { name: "Dr. S. K. Mastan", role: "Chairman (BOS)", desc: "M.Sc., Ph.D." },
-        { name: "Dr. P. Srinivasa Rao", role: "Professor", desc: "Ph.D. in Condensed Matter Physics" },
-        { name: "Mr. D. Nagaraju", role: "Assistant Professor", desc: "M.Sc. in Physics" }
-      ]
-    }
-  ];
-
   return (
     <div className="space-y-6">
       <p className="text-gray-600 text-sm leading-relaxed">
-        The Board of Studies (BOS) at City Chalapathi meets annually to review and approve academic curriculum layouts, ensuring modern alignment with industrial needs. Click any department below to view its Board Members and key faculty:
+        The Board of Studies (BOS) at City Chalapathi meets annually to review and approve academic curriculum layouts, ensuring modern alignment with industrial needs. Click any department below to view its Board Members and key faculty on their dedicated department directory page:
       </p>
 
-      <div className="space-y-3">
-        {departments.map((dept) => {
-          const isExpanded = activeDept === dept.name;
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {BOS_DEPARTMENTS.map((dept) => {
+          const slug = dept.name.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-");
           return (
-            <div 
+            <Link 
               key={dept.name} 
-              className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-[#D71920]/20 transition-all duration-300"
+              to={`/academics/bos/${slug}`}
+              className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md hover:border-[#D71920]/20 transition-all duration-300 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] cursor-pointer"
             >
-              <button
-                onClick={() => setActiveDept(isExpanded ? null : dept.name)}
-                className="w-full px-5 py-4 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
-              >
-                <span>• Department of {dept.name}</span>
-                <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
-              </button>
-
-              {isExpanded && (
-                <div className="px-5 pb-5 pt-3 bg-gray-50/50 border-t border-gray-100 animate-slide-down">
-                  <div className="text-[10px] text-[#072A6C] font-extrabold uppercase tracking-wider block mb-3">
-                    Board of Studies Members & Faculty
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {dept.faculty.map((member, idx) => (
-                      <div key={idx} className="bg-white border border-gray-100 rounded-xl p-3.5 shadow-sm hover:-translate-y-0.5 transition-all duration-200">
-                        <div className="text-xs font-extrabold text-[#072A6C]">{member.name}</div>
-                        <div className="text-[10px] text-[#D71920] font-bold uppercase tracking-wider mt-0.5">{member.role}</div>
-                        <div className="text-[11px] text-gray-500 font-light mt-1">{member.desc}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+              <span>• Department of {dept.name}</span>
+              <ChevronRight size={14} className="text-gray-400" />
+            </Link>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+function DepartmentFacultyView({ slug }: { slug: string }) {
+  const dept = BOS_DEPARTMENTS.find(
+    (d) => d.name.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-") === slug
+  );
+
+  if (!dept) {
+    return (
+      <div className="text-center py-10 space-y-4">
+        <p className="text-gray-600 text-sm">Department records not found.</p>
+        <Link to="/academics/bos" className="text-xs font-bold text-[#D71920] hover:underline">
+          Back to BOS Directory
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center pb-3 border-b border-gray-100">
+        <Link to="/academics/bos" className="text-xs font-bold text-[#072A6C] hover:text-[#D71920] transition-colors flex items-center gap-1">
+          ◀ Back to BOS Directory
+        </Link>
+        <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
+          Faculty Directory
+        </span>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-lg font-extrabold text-[#072A6C]">
+          Department of {dept.name}
+        </h3>
+        <p className="text-xs text-gray-500 font-light leading-relaxed">
+          List of Board of Studies (BOS) members, curriculum advisors, and designated faculty specialists.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {dept.faculty.map((member, idx) => (
+          <div 
+            key={idx} 
+            className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md hover:border-[#D71920]/25 transition-all duration-300 flex flex-col justify-between"
+          >
+            <div>
+              <div className="text-xs font-extrabold text-[#072A6C]">{member.name}</div>
+              <div className="text-[10px] text-[#D71920] font-bold uppercase tracking-wider mt-0.5">{member.role}</div>
+              <p className="text-xs text-gray-500 font-light leading-relaxed mt-2.5 pt-2.5 border-t border-gray-50">
+                {member.desc}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
