@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Bookmark, X, Clock, MapPin, CheckCircle } from "lucide-react";
+import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, CheckCircle } from "lucide-react";
 
 interface EventItem {
   id: number;
@@ -67,20 +67,16 @@ const EVENTS_DATA: EventItem[] = [
   }
 ];
 
-export default function Events() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+export default function AllEvents() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [showRegForm, setShowRegForm] = useState(false);
   const [regSuccess, setRegSuccess] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
-  const carouselRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    document.title = "Upcoming Events | City Chalapathi Institute of Technology";
+    document.title = "Explore All Events | City Chalapathi Institute of Technology";
   }, []);
 
-  // Lock body scroll when modal is active
   useEffect(() => {
     if (selectedEvent) {
       document.body.style.overflow = "hidden";
@@ -92,66 +88,14 @@ export default function Events() {
     };
   }, [selectedEvent]);
 
-  // Handle escape key listener
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") resetModal();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  const currentData = EVENTS_DATA;
-
-  // Autoplay handler
-  useEffect(() => {
-    if (isHovered || selectedEvent) return;
-    const interval = setInterval(() => {
-      handleNext();
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isHovered, currentPage, selectedEvent]);
-
-  const handlePrev = () => {
-    if (!carouselRef.current) return;
-    const el = carouselRef.current;
-    const itemWidth = el.clientWidth;
-    const newScrollLeft = el.scrollLeft - itemWidth;
-    el.scrollTo({ left: newScrollLeft < 0 ? el.scrollWidth - itemWidth : newScrollLeft, behavior: "smooth" });
-  };
-
-  const handleNext = () => {
-    if (!carouselRef.current) return;
-    const el = carouselRef.current;
-    const itemWidth = el.clientWidth;
-    const newScrollLeft = el.scrollLeft + itemWidth;
-    el.scrollTo({ left: newScrollLeft >= el.scrollWidth - 5 ? 0 : newScrollLeft, behavior: "smooth" });
-  };
-
-  const handleScroll = () => {
-    if (!carouselRef.current) return;
-    const el = carouselRef.current;
-    const scrolledRatio = el.scrollLeft / el.clientWidth;
-    setCurrentPage(Math.round(scrolledRatio));
-  };
-
-  const handleDotClick = (index: number) => {
-    if (!carouselRef.current) return;
-    const el = carouselRef.current;
-    el.scrollTo({ left: index * el.clientWidth, behavior: "smooth" });
-    setCurrentPage(index);
-  };
-
-  const totalPages = currentData.length;
-
-  const isRegistrationClosed = (dateStr: string) => {
-    return new Date(dateStr) < new Date();
-  };
-
   const handleRegisterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.phone) return;
     setRegSuccess(true);
+  };
+
+  const isRegistrationClosed = (dateStr: string) => {
+    return new Date(dateStr) < new Date();
   };
 
   const resetModal = () => {
@@ -161,140 +105,78 @@ export default function Events() {
     setFormData({ name: "", email: "", phone: "" });
   };
 
-  const getRelatedEvents = (activeId: number) => {
-    return EVENTS_DATA.filter(item => item.id !== activeId).slice(0, 3);
-  };
-
   return (
     <div className="min-h-screen bg-[#FDFBF7]/30 font-[var(--font-poppins)] pb-24 relative">
-      {/* Header Banner */}
+      {/* Banner */}
       <section className="bg-gradient-to-r from-[#072A6C] to-indigo-950 text-white py-16 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="max-w-[1440px] mx-auto relative z-10 text-center lg:text-left space-y-3">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white font-bold text-[10px] uppercase tracking-wider backdrop-blur-sm">
-            Campus Activities
+            Event Directory
           </span>
-          <h1 className="text-3xl lg:text-5xl font-[900] tracking-tight">University Events</h1>
+          <h1 className="text-3xl lg:text-5xl font-[900] tracking-tight">All Campus Events</h1>
           <p className="text-xs text-gray-300 font-light max-w-xl leading-relaxed">
-            Participate in hackathons, expert workshops, alumni gatherings, and regional technology exhibitions.
+            Browse through our full schedule of upcoming and past campus activities, and register online.
           </p>
         </div>
       </section>
 
-      {/* Events Slider Section */}
+      {/* 3-Card Grid Section */}
       <section className="max-w-[1440px] mx-auto px-5 mt-16">
         <div className="mb-8 pb-5 border-b border-gray-200">
           <h2 className="text-2xl lg:text-3xl font-[800] text-[#072A6C]">
-            Upcoming Events
+            Explore Events
           </h2>
-          <p className="text-[12px] text-gray-400 mt-1 font-light">Swipe through the slides to view all items.</p>
+          <p className="text-[12px] text-gray-400 mt-1 font-light">Showing all technical summits, academic expos, and student forums.</p>
         </div>
 
-        <div 
-          className="relative group"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          {/* Scrollable Container */}
-          <div
-            ref={carouselRef}
-            className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-4 select-none"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              scrollSnapType: "x mandatory"
-            }}
-            onScroll={handleScroll}
-          >
-            {currentData.map((item, idx) => {
-              const closed = isRegistrationClosed(item.date);
-              return (
-                <div
-                  key={idx}
-                  className="w-full shrink-0 snap-start snap-always px-4"
-                >
-                  <button 
-                    onClick={() => {
-                      setSelectedEvent(item);
-                      setShowRegForm(false);
-                      setRegSuccess(false);
-                    }}
-                    className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full max-w-3xl mx-auto block group w-full text-left cursor-pointer outline-none focus:ring-2 focus:ring-[#F97316]"
-                  >
-                    {/* Image */}
-                    <div className="h-[380px] md:h-[460px] overflow-hidden bg-slate-900 relative w-full">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                        draggable="false"
-                      />
-                      {closed && (
-                        <div className="absolute top-4 right-4 bg-gray-500/90 text-white text-[10px] font-bold px-3 py-1 rounded-full backdrop-blur-sm uppercase tracking-wider">
-                          Registration Closed
-                        </div>
-                      )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {EVENTS_DATA.map((item, idx) => {
+            const closed = isRegistrationClosed(item.date);
+            return (
+              <button 
+                key={idx}
+                onClick={() => {
+                  setSelectedEvent(item);
+                  setShowRegForm(false);
+                  setRegSuccess(false);
+                }}
+                className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full text-left w-full cursor-pointer outline-none focus:ring-2 focus:ring-[#F97316]"
+              >
+                <div className="h-56 overflow-hidden bg-slate-900 relative w-full">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover object-center"
+                    draggable="false"
+                  />
+                  {closed && (
+                    <div className="absolute top-4 right-4 bg-gray-500/90 text-white text-[10px] font-bold px-3 py-1 rounded-full backdrop-blur-sm uppercase tracking-wider">
+                      Registration Closed
                     </div>
-                    {/* Content Card Body */}
-                    <div className="p-6 flex-1 flex flex-col justify-between w-full">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2 text-[10px] text-gray-400 font-semibold uppercase">
-                          <span className="text-[#F97316]">{item.category}</span>
-                          <span>•</span>
-                          <span>{item.date}</span>
-                        </div>
-                        <h4 className="text-base font-extrabold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
-                          {item.title}
-                        </h4>
-                      </div>
-                      <div className="pt-4 border-t border-gray-50 mt-5 flex justify-between items-center text-xs font-bold text-[#072A6C]">
-                        <span>{closed ? "View Details" : "Register Now"}</span>
-                        <ArrowRight size={14} className={closed ? "text-gray-400" : "text-[#F97316]"} />
-                      </div>
-                    </div>
-                  </button>
+                  )}
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Navigation Arrows */}
-          <button
-            onClick={handlePrev}
-            className="absolute left-[-20px] top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-700 shadow-md flex items-center justify-center hover:text-[#F97316] hover:border-[#F97316] transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-20 cursor-pointer"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-700 shadow-md flex items-center justify-center hover:text-[#F97316] hover:border-[#F97316] transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-20 cursor-pointer"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
-
-        {/* Pagination Dots */}
-        <div className="flex justify-center gap-1.5 mt-8">
-          {Array.from({ length: totalPages }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleDotClick(idx)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                currentPage === idx ? "w-8 bg-[#F97316]" : "w-2 bg-gray-200"
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Centered CTA button */}
-        <div className="flex justify-center mt-12">
-          <Link
-            to="/news/events/all"
-            className="h-11 px-8 bg-[#854d0e] hover:bg-[#713f12] text-white text-[12px] font-bold rounded-xl inline-flex items-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
-          >
-            View More Events <ArrowRight size={12} />
-          </Link>
+                <div className="p-6 flex-1 flex flex-col justify-between w-full">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-semibold uppercase">
+                      <span className="text-[#F97316]">{item.category}</span>
+                      <span>•</span>
+                      <span>{item.date}</span>
+                    </div>
+                    <h4 className="text-base font-extrabold text-[#072A6C] leading-snug line-clamp-2">
+                      {item.title}
+                    </h4>
+                  </div>
+                  <div className="pt-4 border-t border-gray-50 mt-5 flex justify-between items-center text-xs font-bold text-[#072A6C]">
+                    <span className={closed ? "text-gray-400" : "text-[#072A6C]"}>
+                      {closed ? "View Archive" : "Register Now"}
+                    </span>
+                    <ArrowRight size={14} className={closed ? "text-gray-400" : "text-[#F97316]"} />
+                  </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </section>
 
@@ -361,7 +243,7 @@ export default function Events() {
               {/* Divider */}
               <hr className="border-gray-100" />
 
-              {/* Content Body or Form */}
+              {/* Main Content Body or Registration Form */}
               {!showRegForm ? (
                 <div className="text-sm text-gray-600 font-light leading-relaxed space-y-4 animate-fade-in">
                   <p>{selectedEvent.bodyText}</p>
@@ -420,31 +302,6 @@ export default function Events() {
                   )}
                 </div>
               )}
-
-              {/* Related Section (Related Events) */}
-              <div className="pt-6 border-t border-gray-100 space-y-4">
-                <h4 className="text-xs font-extrabold tracking-wider text-[#072A6C] uppercase">
-                  Other Upcoming Events
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {getRelatedEvents(selectedEvent.id).map((related, rIdx) => (
-                    <button
-                      key={rIdx}
-                      onClick={() => {
-                        setSelectedEvent(related);
-                        setShowRegForm(false);
-                        setRegSuccess(false);
-                      }}
-                      className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow text-left flex flex-col gap-2 transition-all w-full cursor-pointer hover:border-gray-200"
-                    >
-                      <span className="text-[9px] font-extrabold text-[#F97316] uppercase">{related.category}</span>
-                      <h5 className="text-[12px] font-extrabold text-[#072A6C] line-clamp-2 leading-tight">
-                        {related.title}
-                      </h5>
-                    </button>
-                  ))}
-                </div>
-              </div>
 
               {/* Footer Actions */}
               <div className="pt-6 border-t border-gray-100 flex justify-end gap-3">

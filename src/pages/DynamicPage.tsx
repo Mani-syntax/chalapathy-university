@@ -3,11 +3,188 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck } from "lucide-react";
+import { ArrowRight, ChevronRight, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard } from "lucide-react";
 
 // Helper to generate dynamic, rich content based on current path
 const getPageContent = (path: string) => {
   const cleanPath = path.toLowerCase().replace(/\/$/, "");
+
+  // News Article Pages
+  if (cleanPath.startsWith("/news/")) {
+    const article = [
+      {
+        slug: "ai-research-lab",
+        title: "AI Research Lab Inaugurated on Campus",
+        category: "Innovation",
+        desc: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
+        bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects. Student cohorts will have access to real-time research fellowships, academic grants, and direct mentoring pipelines to build future computing technologies."
+      },
+      {
+        slug: "smart-hackathon",
+        title: "Engineering Students Win Smart Hackathon 2025",
+        category: "Achievement",
+        desc: "Our team developed a decentralized IoT mesh network algorithm to win first prize at the national technology showcase competition.",
+        bodyText: "We are extremely proud to announce that the student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication. The algorithm maintains high packet-delivery rates even during severe node disruptions. The project won first prize, carrying a gold trophy and a cash reward of ₹1,00,000, standing out among 250 participating institutions nationwide."
+      },
+      {
+        slug: "mou-signed",
+        title: "MoU Signed with Top Global Corporations for Placements",
+        category: "Corporate Link",
+        desc: "Enabling direct internship allocations, corporate-readiness workshops, and accelerated final semester student placements.",
+        bodyText: "City Chalapathi Institute of Technology has officially entered into a strategic Memorandum of Understanding (MoU) with leading multinational software and core engineering firms. This collaboration significantly strengthens our training and placement initiatives. Beginning this academic term, corporate mentors will conduct regular guest workshops on enterprise architectures and cloud DevOps technologies. The agreement also establishes a dedicated early-internship pipeline, allowing final-year engineering and management students to undertake structured industrial projects directly at corporate campuses, paving a fast-track pathway for high-compensation final placements."
+      },
+      {
+        slug: "pharmacy-formulations",
+        title: "New Pharmacy Research Formulations Published",
+        category: "Research",
+        desc: "Our department has published groundbreaking formulations on nano-carrier systems in high-impact medical journals.",
+        bodyText: "The Department of Pharmaceutics at City Chalapathi has published a research breakthrough regarding target-oriented drug delivery systems. The research details a novel nano-carrier formulation that significantly increases the solubility and bioavailability of therapeutic drugs, offering potential applications for targeted anti-inflammatory treatments. Published in a highly respected international pharmaceutical journal, the research is the culmination of three years of rigorous laboratory analysis led by our postgraduate research scholars and senior faculty. This publication underscores our commitment to advancing pharmaceutical sciences on a global stage."
+      },
+      {
+        slug: "global-education-fair",
+        title: "Global Education Fair and Career Expo Hosts 30+ Universities",
+        category: "International",
+        desc: "Students interacted directly with global admission directors from US, UK, and European universities for postgraduate guidance.",
+        bodyText: "We successfully hosted the annual Global Education fair and Career Expo on our central campus yesterday. The event hosted admissions directors and official representatives from over 30 leading universities across the United States, United Kingdom, Australia, and European Union countries. Hundreds of undergraduate students from final and pre-final semesters attended the fair to discuss entry requirements, IELTS/GRE waivers, postgraduate research opportunities, and scholarship applications directly with the university officials, opening new international education horizons for our graduates."
+      },
+      {
+        slug: "annual-sports-meet",
+        title: "Annual Sports Meet Kickstarts with Inter-Department Matches",
+        category: "Campus Life",
+        desc: "The campus cricket and basketball tournaments kicked off with participation from over 500 student athletes.",
+        bodyText: "The annual campus sports tournament commenced yesterday with a spectacular torch run and flag hoisting ceremony at the main sports complex. Over 500 student athletes representing all engineering, pharmacy, and science departments are participating in active inter-department tournaments spanning cricket, football, basketball, track & field events, and indoor sports. The opening matches saw high-energy contests, fostering team spirit and sportsmanship across the campus community."
+      },
+      {
+        slug: "sustainable-construction",
+        title: "Workshop on Sustainable Construction Materials Conducted",
+        category: "Workshop",
+        desc: "Civil engineering experts held a hands-on session demonstrating self-healing concrete applications.",
+        bodyText: "A comprehensive technical workshop on modern green construction materials was held by our Civil Engineering Department. Industry practitioners and structural engineers attended to demonstrate application techniques for self-healing concrete and fly-ash geopolymer composites. Students participated in concrete casting laboratories and stress testing, gaining valuable insight into eco-friendly engineering practices."
+      },
+      {
+        slug: "alumni-meet",
+        title: "Alumni Meet 2025 Welcomes Back Distinguished Graduates",
+        category: "Alumni Connect",
+        desc: "Over 200 alumni reconnected on campus, sharing industry insights and instituting new scholarship grants.",
+        bodyText: "The campus yesterday welcomed back more than 200 distinguished alumni representing graduates from the past two decades. The meet provided a platform for alumni to interact with current student cohorts, share industrial insights, and discuss mentorship opportunities. The alumni association announced the setup of a new student innovation fund to support budding startup projects on campus."
+      }
+    ].find(x => cleanPath.endsWith(x.slug));
+
+    if (article) {
+      return {
+        title: article.title,
+        category: article.category,
+        desc: article.desc,
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm leading-relaxed">
+            <p>{article.bodyText}</p>
+            <div className="bg-[#072A6C]/5 border-l-4 border-[#072A6C] p-4 rounded-r-[8px] text-[12px] text-gray-700 italic">
+              "We congratulate all participants, sponsors, and faculty members involved in this milestone announcement. Stay tuned for further updates."
+            </div>
+            <Link to="/news" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D71920] hover:text-[#072A6C] transition-colors mt-6">
+              ← Back to News Center
+            </Link>
+          </div>
+        )
+      };
+    }
+  }
+
+  // Event Detail Pages
+  if (cleanPath.startsWith("/news/events/")) {
+    const eventItem = [
+      {
+        slug: "air-taxi-demonstration",
+        title: "Air Taxi Demonstration & Aviation Forum",
+        category: "Aerospace",
+        date: "17 Jul 2026",
+        time: "09:30 AM Onwards",
+        venue: "Aeronautics Hangar & Airfield Complex",
+        desc: "An exclusive exhibition showcasing autonomous vertical take-off and landing (eVTOL) systems and the future of urban air mobility.",
+        bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models. Attendees will engage with senior flight control engineers, software architects, and regulators discussing flight path safety, battery technology, and battery charging infrastructure. The afternoon panel sessions will cover career pathways in modern avionics, autonomous navigation algorithms, and smart city infrastructure integration."
+      },
+      {
+        slug: "innovation-summit",
+        title: "Annual Innovation & Entrepreneurship Summit",
+        category: "Summit",
+        date: "05 Aug 2026",
+        time: "10:00 AM Onwards",
+        venue: "Campus Incubation & Startup Block",
+        desc: "Empowering student founders, early-stage startups, and venture capitalists to collaborate on next-generation software and product solutions.",
+        bodyText: "The Annual Innovation & Entrepreneurship Summit at City Chalapathi stands as our premier event dedicated to building startup ecosystems. Student groups will pitch prototypes directly to angel investors, regional venture capital firms, and incubator heads. Keynote addresses from successful startup founders will share lessons on scaling, raising capital, and validating target markets. The summit hosts hands-on product design thinking sessions, intellectual property workshops for patent registrations, and networking tables connecting developers with business mentors."
+      },
+      {
+        slug: "research-expo",
+        title: "National Research Expo & Patent Showcase",
+        category: "Research",
+        date: "12 Sep 2026",
+        time: "11:00 AM Onwards",
+        venue: "Bio-Sciences Laboratory & Exhibition Hall",
+        desc: "Showcasing student and faculty scientific publications, patent filings, and industry-sponsored research breakthroughs.",
+        bodyText: "The National Research Expo is a celebrate-science event displaying active publications, doctoral research posters, and student innovations. Exhibitions cover structural engineering geopolymer research, target-oriented nano-carrier drug formulations, DST-funded smart irrigation devices, and artificial intelligence diagnostic apps. Senior scientists from national research institutes will evaluate student models and deliver talks on funding applications and research methodology."
+      },
+      {
+        slug: "industry-connect",
+        title: "Industry Connect: Corporate Leadership Panel",
+        category: "Corporate",
+        date: "03 Oct 2026",
+        time: "10:00 AM Onwards",
+        venue: "MBA Seminar Block Center",
+        desc: "A networking panel hosting HR directors and tech executives to discuss recruitment trends and corporate-readiness skills.",
+        bodyText: "Connecting student skills with market needs, the Industry Connect hosts executive panels from software, finance, and core manufacturing companies. Panel discussions will cover high-growth career tracks in artificial intelligence, full-stack architectures, and supply chain logistics. Representatives will detail summer internship opportunities and direct corporate placement guidelines."
+      },
+      {
+        slug: "alumni-reunion",
+        title: "Global Alumni Reunion & Endowment Gala",
+        category: "Alumni Connect",
+        date: "14 Nov 2026",
+        time: "06:00 PM Onwards",
+        venue: "University Grand Lawn Area",
+        desc: "A formal dinner hosting alumni from top organizations globally, establishing student incubation and scholarship programs.",
+        bodyText: "The Global Alumni Reunion welcomes back our distinguished graduates to campus for a formal evening of networking and celebration. Alumni will interact with faculty members and student groups to share career paths and industry trends. The evening will host the announcement of the Alumni Endowment Fund to support underprivileged student scholarships."
+      }
+    ].find(x => cleanPath.endsWith(x.slug));
+
+    if (eventItem) {
+      return {
+        title: eventItem.title,
+        category: eventItem.category,
+        desc: eventItem.desc,
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm leading-relaxed">
+            <div className="bg-[#072A6C]/5 border-l-4 border-[#072A6C] p-5 rounded-r-[16px] grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-bold text-[#072A6C] mb-6">
+              <div>
+                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Date & Time</span>
+                <span>{eventItem.date} — {eventItem.time}</span>
+              </div>
+              <div>
+                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Venue</span>
+                <span>{eventItem.venue}</span>
+              </div>
+              <div>
+                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Category</span>
+                <span className="text-[#F97316]">{eventItem.category}</span>
+              </div>
+            </div>
+
+            <p>{eventItem.bodyText}</p>
+
+            <div className="pt-6 border-t border-gray-100 flex gap-4">
+              <button 
+                onClick={() => alert(`Registration details for "${eventItem.title}" sent to counselor office.`)}
+                className="h-11 px-8 bg-gradient-to-r from-[#D71920] to-[#b71217] text-white text-xs font-bold rounded-xl inline-flex items-center gap-1.5 hover:shadow-md transition-all cursor-pointer"
+              >
+                Register For Event <ArrowRight size={14} />
+              </button>
+              <Link to="/news/events" className="h-11 px-6 border border-gray-200 hover:border-gray-300 text-gray-600 text-xs font-bold rounded-xl inline-flex items-center transition-all">
+                Back to Events
+              </Link>
+            </div>
+          </div>
+        )
+      };
+    }
+  }
 
   // About Pages
   if (cleanPath.startsWith("/about")) {
@@ -113,6 +290,149 @@ const getPageContent = (path: string) => {
 
   // Academics Pages
   if (cleanPath.startsWith("/academics")) {
+    if (cleanPath.includes("calendar")) {
+      return {
+        title: "Academic Calendar",
+        category: "Academics",
+        desc: "Schedule of semesters, internal assessments, holidays, and examination blocks for the academic term.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>Our academic calendar is structured to provide clear timelines for classes, mid-term examinations, laboratory evaluations, and preparation holidays.</p>
+            <div className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm bg-white max-w-md">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-100 text-gray-700 font-bold">
+                    <th className="p-4">Academic Event</th>
+                    <th className="p-4">Tentative Dates</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  <tr>
+                    <td className="p-4 font-semibold text-[#072A6C]">Commencement of Classwork</td>
+                    <td className="p-4">July 15, 2026</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-semibold text-[#072A6C]">First Mid-Term Examinations</td>
+                    <td className="p-4">September 04 – 09, 2026</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-semibold text-[#072A6C]">Second Mid-Term Examinations</td>
+                    <td className="p-4">November 12 – 18, 2026</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-semibold text-[#072A6C]">Practical & End Semester Exams</td>
+                    <td className="p-4">December 02 – 22, 2026</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("flexibilities")) {
+      return {
+        title: "Academic Flexibilities",
+        category: "Academics",
+        desc: "Autonomous credit choices, minor streams, honors degrees, and student transfers.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>Being an autonomous institution, City Chalapathi offers student-centric choices like the Choice Based Credit System (CBCS), enabling scholars to choose electives across disciplines, enroll in honors streams, or achieve minor specializations in emerging branches.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("programmes")) {
+      return {
+        title: "Programmes Offered",
+        category: "Academics",
+        desc: "List of approved B.Tech, M.Tech, MCA, MBA, and Pharmacy programs.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>We offer undergraduate and postgraduate courses affiliated and accredited for premium industrial placements.</p>
+            <ul className="space-y-2 list-disc pl-5">
+              <li><strong>B.Tech:</strong> Computer Science, AI & ML, Data Science, ECE, EEE, Mechanical, Civil.</li>
+              <li><strong>M.Tech:</strong> Computer Science, Power Systems, VLSI & Embedded Systems.</li>
+              <li><strong>Pharmacy:</strong> B.Pharm, M.Pharm, D.Pharm.</li>
+              <li><strong>Management:</strong> MBA, MCA.</li>
+            </ul>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("grading")) {
+      return {
+        title: "Grading System",
+        category: "Academics",
+        desc: "Cumulative Grade Point Average (CGPA) scale and credit evaluation metrics.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>Students are evaluated on a 10-point letter grading scale. SGPA and CGPA are computed at the end of each semester block based on credit allocations.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("degrees")) {
+      return {
+        title: "Award of Degrees",
+        category: "Academics",
+        desc: "Eligibility conditions for degree distributions, graduation convocations, and transcripts.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>Degrees are awarded to candidates who secure the minimum required credits with no active backlogs, complying with university regulations.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("electives")) {
+      return {
+        title: "Electives and Options",
+        category: "Academics",
+        desc: "Professional core electives and open inter-disciplinary course selections.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>Choose from a rich basket of open electives spanning humanities, data structures, internet of things, and business leadership courses.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("rules")) {
+      return {
+        title: "Rules & Regulations",
+        category: "Academics",
+        desc: "Academic code of conduct, attendance thresholds, and malpractice codes.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>A minimum of 75% attendance is mandatory in each subject. Students must follow the examination and campus code of conduct strictly.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("teaching")) {
+      return {
+        title: "Teaching & Evaluation",
+        category: "Academics",
+        desc: "Outcome-based education framework, continuous assessment marks, and end exams.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>Assessment is divided into Continuous Internal Evaluation (CIE) carrying 40% weight and Semester End Examinations (SEE) carrying 60% weight.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("bos")) {
+      return {
+        title: "Board of Studies (BOS)",
+        category: "Academics",
+        desc: "Academic advisory council consisting of university deans, industry veterans, and subject experts.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>The Board of Studies meets annually to revise core curricula, ensuring our programs remain aligned with latest industrial software and technology trends.</p>
+          </div>
+        )
+      };
+    }
+
     if (cleanPath.includes("computer-science")) {
       return {
         title: "Computer Science & Engineering",
@@ -284,19 +604,67 @@ const getPageContent = (path: string) => {
       category: "Admissions",
       desc: "Enrollment processes, eligibility guidelines, fee charts, and student aids.",
       body: (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-          <Link to="/admissions/apply" className="bg-[#072A6C] text-white p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform">
-            <h4 className="font-bold text-sm">Start Application</h4>
-            <span className="text-xs text-blue-200 flex items-center gap-1">Online Application Form <ArrowRight size={12} /></span>
-          </Link>
-          <Link to="/admissions/fees" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform">
-            <h4 className="font-bold text-[#072A6C] text-sm">Fee Structure</h4>
-            <span className="text-xs text-[#D71920] flex items-center gap-1">View Stream Details <ArrowRight size={12} /></span>
-          </Link>
-          <Link to="/admissions/scholarships" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform">
-            <h4 className="font-bold text-[#072A6C] text-sm">Scholarships</h4>
-            <span className="text-xs text-[#D71920] flex items-center gap-1">Apply for Waivers <ArrowRight size={12} /></span>
-          </Link>
+        <div className="space-y-12 mt-4 font-[var(--font-poppins)]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Link to="/admissions/apply" className="bg-[#072A6C] text-white p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
+              <h4 className="font-bold text-sm">Start Application</h4>
+              <span className="text-xs text-blue-200 flex items-center gap-1">Online Application Form <ArrowRight size={12} /></span>
+            </Link>
+            <Link to="/admissions/fees" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
+              <h4 className="font-bold text-[#072A6C] text-sm">Fee Structure</h4>
+              <span className="text-xs text-[#D71920] flex items-center gap-1">View Stream Details <ArrowRight size={12} /></span>
+            </Link>
+            <Link to="/admissions/scholarships" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
+              <h4 className="font-bold text-[#072A6C] text-sm">Scholarships</h4>
+              <span className="text-xs text-[#D71920] flex items-center gap-1">Apply for Waivers <ArrowRight size={12} /></span>
+            </Link>
+          </div>
+
+          {/* Steps to Follow timeline */}
+          <div className="pt-8 border-t border-gray-100 space-y-8 text-center">
+            <div className="inline-flex flex-col items-center">
+              <span className="px-5 py-2 bg-[#D71920] text-[#D4AF37] text-xs font-extrabold tracking-[2px] rounded-full uppercase shadow-sm border border-[#D4AF37]/20">
+                Steps To Follow
+              </span>
+              <h3 className="text-xl md:text-2xl font-[900] text-[#072A6C] mt-4">
+                Admissions Process 2026
+              </h3>
+              <div className="w-16 h-1 bg-[#D4AF37] mt-3 rounded" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 items-stretch relative">
+              {[
+                { id: 1, label: "Register Yourself", desc: "Create your admission account.", icon: UserPlus },
+                { id: 2, label: "Verify Email / Mobile", desc: "Confirm your contact details.", icon: ShieldCheck },
+                { id: 3, label: "Fill Online Application", desc: "Enter academic and personal information.", icon: FileText },
+                { id: 4, label: "Upload Required Documents", desc: "Upload certificates and supporting documents.", icon: UploadCloud },
+                { id: 5, label: "Pay Application Fee", desc: "Complete the payment and submit the application.", icon: CreditCard }
+              ].map((step) => {
+                const StepIcon = step.icon;
+                return (
+                  <div key={step.id} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between text-center min-h-[220px] relative group h-full">
+                    <div className="w-12 h-12 rounded-full bg-[#072A6C]/5 flex items-center justify-center text-[#D71920] mb-4 group-hover:bg-[#D71920] group-hover:text-white transition-colors duration-300">
+                      <StepIcon size={20} />
+                    </div>
+                    <div className="space-y-2 flex-grow flex flex-col justify-center">
+                      <h4 className="text-sm font-[800] text-[#072A6C] tracking-tight">{step.label}</h4>
+                      <p className="text-[11px] text-gray-500 font-light leading-relaxed">{step.desc}</p>
+                    </div>
+                    <span className="absolute top-4 right-4 text-[10px] font-extrabold text-gray-300">0{step.id}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="pt-4">
+              <Link
+                to="/admissions/apply"
+                className="h-11 px-8 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer uppercase tracking-wider"
+              >
+                Apply Now <ArrowRight size={14} />
+              </Link>
+            </div>
+          </div>
         </div>
       )
     };

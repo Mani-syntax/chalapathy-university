@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   GraduationCap, Users, ArrowRight, Play, Trophy, Handshake, Landmark,
-  Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe
+  Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe,
+  UserPlus, ShieldCheck, UploadCloud, CreditCard
 } from "lucide-react";
 
 /* ── animation helpers ────────────────────────── */
@@ -594,10 +595,10 @@ export default function Home() {
           {/* Left Red Card */}
           <div className="lg:col-span-8 bg-[#D71920] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
             <div className="space-y-4 max-w-lg z-10">
-              <h2 className="text-[26px] font-[800] tracking-wide">
+              <h2 className="text-[26px] font-[800] tracking-wide font-[var(--font-poppins)]">
                 ADMISSIONS OPEN 2026
               </h2>
-              <p className="text-[12px] text-red-100 leading-relaxed font-[300]">
+              <p className="text-[12px] text-red-100 leading-relaxed font-[300] font-[var(--font-poppins)]">
                 Join a community of innovators and leaders. Shape your future with City Chalapathi Institute of Technology.
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-2 font-[var(--font-poppins)]">
@@ -635,7 +636,7 @@ export default function Home() {
           </div>
 
           {/* Right White Card */}
-          <div className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 flex items-center justify-between gap-4 shadow-sm">
+          <div className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 flex items-center justify-between gap-4 shadow-sm font-[var(--font-poppins)]">
             <div className="space-y-4 flex-1">
               <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">VISIT US</h3>
               <div className="space-y-2.5 text-[11px] text-gray-600 font-[400]">
