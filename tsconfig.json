@@ -22,5 +22,5 @@
     "src/**/*.tsx",
     "vite.config.ts"
   ],
-  "exclude": ["node_modules", "src/app", ".next", "next.config.ts"]
+  "exclude": ["node_modules", "src/app", ".next", "next.config.ts", "src/features", "src/hooks", "src/lib", "src/types", "src/services", "src/data", "src/constants"]
 }

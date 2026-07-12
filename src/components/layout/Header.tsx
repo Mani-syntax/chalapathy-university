@@ -18,7 +18,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
   const navLinks = [
     "About Us", "Academics", "Admissions", "Research",
-    "Campus Life", "Placements", "News & Events", "Contact",
+    "Campus Life", "Placements", "News", "Events", "Contact",
   ];
 
   const navHrefs: Record<string, string> = {
@@ -28,7 +28,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     "Research": "/research",
     "Campus Life": "/campus-life",
     "Placements": "/placements",
-    "News & Events": "/news",
+    "News": "/news",
+    "Events": "/news/events",
     "Contact": "/contact",
   };
 
