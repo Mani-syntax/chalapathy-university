@@ -1127,18 +1127,18 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
       {/* Main split box matching reference visual styling */}
       <div className="flex flex-col md:flex-row rounded-3xl border border-gray-200 overflow-hidden shadow-md">
         {/* Left Side: Calendar Grid */}
-        <div className="w-full md:w-3/5 bg-[#B2C9CE] p-6 flex flex-col justify-between min-h-[320px]">
+        <div className="w-full md:w-3/5 bg-gray-50/80 p-6 flex flex-col justify-between min-h-[320px]">
           {/* Header Month/Year Selection */}
           <div className="flex justify-between items-center mb-6">
-            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{displayYear - 1}</span>
-            <h5 className="text-sm font-extrabold text-[#2C3E50] uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-[#D71920] uppercase tracking-widest">{displayYear - 1}</span>
+            <h5 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-widest">
               {currentMonth.name}, {displayYear}
             </h5>
-            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{displayYear + 1}</span>
+            <span className="text-[10px] font-bold text-[#D71920] uppercase tracking-widest">{displayYear + 1}</span>
           </div>
 
           {/* Weekday headers */}
-          <div className="grid grid-cols-7 gap-y-2 text-center text-[10px] font-bold text-[#4B6584] uppercase mb-4 tracking-wider">
+          <div className="grid grid-cols-7 gap-y-2 text-center text-[10px] font-bold text-[#072A6C]/70 uppercase mb-4 tracking-wider">
             <span>Sun</span>
             <span>Mon</span>
             <span>Tue</span>
@@ -1153,7 +1153,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
             {/* Left Month navigation arrow */}
             <button 
               onClick={prevMonth}
-              className="absolute left-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-sm text-gray-600 hover:text-red-500 transition-colors cursor-pointer outline-none"
+              className="absolute left-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-gray-100 hover:bg-gray-50 flex items-center justify-center shadow-sm text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none"
             >
               ◀
             </button>
@@ -1171,7 +1171,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
                   className={`w-8 h-8 mx-auto rounded-full flex flex-col items-center justify-center text-xs font-bold transition-all relative cursor-pointer outline-none ${
                     isSelected 
                       ? "bg-[#D71920] text-white shadow-sm scale-110" 
-                      : "text-[#2C3E50] hover:bg-white/40"
+                      : "text-[#072A6C] hover:bg-[#072A6C]/10"
                   }`}
                 >
                   <span>{day}</span>
@@ -1186,7 +1186,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
             {/* Right Month navigation arrow */}
             <button 
               onClick={nextMonth}
-              className="absolute right-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-sm text-gray-600 hover:text-red-500 transition-colors cursor-pointer outline-none"
+              className="absolute right-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-gray-100 hover:bg-gray-50 flex items-center justify-center shadow-sm text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none"
             >
               ▶
             </button>
@@ -1196,23 +1196,23 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
           <div className="flex gap-2 mt-6">
             <button 
               onClick={() => alert(`Full events roster for ${currentMonth.name} is displayed on the sidebar.`)}
-              className="flex-1 py-2 bg-[#2C3E50] hover:bg-[#1A252F] text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
+              className="flex-1 py-2.5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
             >
               See Planned Events
             </button>
             <button 
               onClick={() => alert("Notification reminder has been registered successfully.")}
-              className="flex-1 py-2 bg-[#2C3E50] hover:bg-[#1A252F] text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
+              className="flex-1 py-2.5 bg-[#D71920] hover:bg-[#D71920]/95 text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
             >
               Set Reminder
             </button>
           </div>
         </div>
 
-        {/* Right Side: Slate Events Panel */}
-        <div className="w-full md:w-2/5 bg-[#2B3542] p-6 text-white flex flex-col justify-between min-h-[320px]">
+        {/* Right Side: University Blue Events Panel */}
+        <div className="w-full md:w-2/5 bg-[#072A6C] p-6 text-white flex flex-col justify-between min-h-[320px]">
           <div>
-            <span className="text-[10px] font-extrabold text-red-400 uppercase tracking-widest block mb-1">Schedule</span>
+            <span className="text-[10px] font-extrabold text-[#D71920] uppercase tracking-widest block mb-1">Schedule</span>
             <h5 className="text-xs font-extrabold uppercase tracking-widest pb-2 border-b border-white/10 mb-4">
               Events
             </h5>
@@ -1221,20 +1221,20 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
               {/* Display specific event if selected date has one */}
               {activeEvent ? (
                 <div className="space-y-1.5 animate-slide-down">
-                  <div className="text-[#00FCFF] text-[11px] font-extrabold uppercase tracking-wider leading-snug">
+                  <div className="text-yellow-300 text-[11px] font-extrabold uppercase tracking-wider leading-snug">
                     {activeEvent}
                   </div>
-                  <div className="w-16 h-[2px] bg-[#00FCFF] rounded" />
-                  <div className="text-[9.5px] text-gray-400 font-light">
+                  <div className="w-16 h-[2px] bg-[#D71920] rounded" />
+                  <div className="text-[9.5px] text-gray-300 font-light">
                     Scheduled on {currentMonth.name} {selectedDay}, {displayYear}
                   </div>
                 </div>
               ) : selectedDay ? (
-                <div className="text-gray-400 text-xs font-light italic">
+                <div className="text-gray-300 text-xs font-light italic">
                   No academic events scheduled on {currentMonth.name} {selectedDay}.
                 </div>
               ) : (
-                <div className="text-gray-400 text-xs font-light italic">
+                <div className="text-gray-300 text-xs font-light italic">
                   Click a highlighted date in the calendar to view scheduled milestones.
                 </div>
               )}
@@ -1242,16 +1242,16 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
           </div>
 
           <div className="pt-4 border-t border-white/5 space-y-2">
-            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest block">Month Summary:</span>
+            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block">Month Summary:</span>
             {Object.keys(currentMonth.events).length > 0 ? (
               Object.entries(currentMonth.events).map(([day, evName]) => (
-                <div key={day} className="text-[10px] text-gray-300 flex items-center justify-between">
+                <div key={day} className="text-[10px] text-gray-200 flex items-center justify-between">
                   <span>• {evName}</span>
-                  <span className="text-gray-500 shrink-0 ml-2">{currentMonth.name.substring(0, 3)} {day}</span>
+                  <span className="text-gray-400 shrink-0 ml-2">{currentMonth.name.substring(0, 3)} {day}</span>
                 </div>
               ))
             ) : (
-              <div className="text-[10px] text-gray-500 italic">No events scheduled in {currentMonth.name}.</div>
+              <div className="text-[10px] text-gray-400 italic">No events scheduled in {currentMonth.name}.</div>
             )}
           </div>
         </div>
