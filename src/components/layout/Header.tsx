@@ -2,14 +2,90 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, ChevronDown } from "lucide-react";
 
+const UNDERGRADUATE_GROUPS = {
+  "Computer Science & Eng": [
+    { title: "B.Tech. Computer Science & Eng", slug: "btech-cse" },
+    { title: "B.Tech. CSE (AI & Machine Learning)", slug: "btech-cse-ai-ml" },
+    { title: "B.Tech. CSE (Data Science)", slug: "btech-cse-data-science" },
+    { title: "B.Tech. CSE (Cyber Security)", slug: "btech-cse-cyber-security" },
+    { title: "B.Tech. CSE (Internet of Things)", slug: "btech-cse-iot" },
+    { title: "B.Tech. CSE (Cloud Computing)", slug: "btech-cse-cloud-computing" },
+    { title: "B.Tech. CSE (Blockchain)", slug: "btech-cse-blockchain" },
+    { title: "B.Tech. CSE (Software Engineering)", slug: "btech-cse-software-engineering" }
+  ],
+  "Electronics & Communication": [
+    { title: "B.Tech. Electronics & Comm Eng", slug: "btech-ece" },
+    { title: "B.Tech. ECE (VLSI Design)", slug: "btech-ece-vlsi" },
+    { title: "B.Tech. ECE (Embedded Systems)", slug: "btech-ece-embedded-systems" },
+    { title: "B.Tech. ECE (Robotics & Automation)", slug: "btech-ece-robotics-automation" },
+    { title: "B.Tech. ECE (IoT Specialization)", slug: "btech-ece-iot" }
+  ],
+  "Electrical & Mechanical": [
+    { title: "B.Tech. Electrical & Electronics Eng", slug: "btech-eee" },
+    { title: "B.Tech. EEE (Electric Vehicles)", slug: "btech-eee-electric-vehicles" },
+    { title: "B.Tech. EEE (Renewable Energy)", slug: "btech-eee-renewable-energy" },
+    { title: "B.Tech. EEE (Smart Grid)", slug: "btech-eee-smart-grid" },
+    { title: "B.Tech. Mechanical Engineering", slug: "btech-mechanical" },
+    { title: "B.Tech. Mechanical (Mechatronics)", slug: "btech-mechanical-mechatronics" },
+    { title: "B.Tech. Mechanical (Robotics)", slug: "btech-mechanical-robotics" },
+    { title: "B.Tech. Mechanical (Automobile)", slug: "btech-mechanical-automobile" },
+    { title: "B.Tech. Mechanical (Manufacturing)", slug: "btech-mechanical-manufacturing" }
+  ],
+  "Civil & Emerging Tech": [
+    { title: "B.Tech. Civil Engineering", slug: "btech-civil" },
+    { title: "B.Tech. Civil (Smart Infrastructure)", slug: "btech-civil-smart-infrastructure" },
+    { title: "B.Tech. Civil (Construction Tech)", slug: "btech-civil-construction-technology" },
+    { title: "B.Tech. Emerging (AI)", slug: "btech-emerging-ai" },
+    { title: "B.Tech. Emerging (Data Science)", slug: "btech-emerging-ds" },
+    { title: "B.Tech. Emerging (Robotics)", slug: "btech-emerging-robotics" },
+    { title: "B.Tech. Biomedical Engineering", slug: "btech-biomedical" },
+    { title: "B.Tech. Biotechnology", slug: "btech-biotechnology" },
+    { title: "B.Tech. Agricultural Engineering", slug: "btech-agricultural" }
+  ]
+};
+
+const MEGA_MENU_PROGRAMS: Record<string, { label: string; to: string }[]> = {
+  "Undergraduate (UG)": [], // Handled dynamically by UNDERGRADUATE_GROUPS
+  "Postgraduate (PG)": [
+    { label: "M.Tech. Computer Science", to: "/academics/mtech-cse" },
+    { label: "M.Tech. Power Systems", to: "/academics/mtech-power-systems" },
+    { label: "M.Tech. VLSI & Embedded Systems", to: "/academics/mtech-vlsi-embedded" },
+    { label: "MBA (Master of Business Administration)", to: "/academics/mba" },
+    { label: "MCA (Master of Computer Applications)", to: "/academics/mca" },
+    { label: "M.Pharm. (Master of Pharmacy)", to: "/academics/mpharm" }
+  ],
+  "Integrated Programs": [
+    { label: "Integrated B.Tech + M.Tech", to: "/academics/integrated-btech-mtech" },
+    { label: "Integrated BBA + MBA", to: "/academics/integrated-bba-mba" }
+  ],
+  "Diploma Programs": [
+    { label: "Diploma in Engineering (Polytechnic)", to: "/academics/diploma-engineering" },
+    { label: "Diploma in Pharmacy (D.Pharm)", to: "/academics/diploma-pharmacy" }
+  ],
+  "Doctoral (Ph.D.)": [
+    { label: "Ph.D. in Computer Science", to: "/academics/phd-cse" },
+    { label: "Ph.D. in Electronics", to: "/academics/phd-ece" },
+    { label: "Ph.D. in Management", to: "/academics/phd-management" },
+    { label: "Ph.D. in Pharmacy", to: "/academics/phd-pharmacy" }
+  ],
+  "Honors & Minors": [
+    { label: "Honors Degrees (Special Track)", to: "/academics/flexibilities" },
+    { label: "Minor Specialization Streams", to: "/academics/flexibilities" }
+  ]
+};
+
 export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
+<<<<<<< HEAD
   const [managementOpen, setManagementOpen] = useState(false);
   const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
+=======
+  const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
+>>>>>>> e7f6cab (feat: align academics mega-menu and add dynamic 4-year timelines for all courses)
   const location = useLocation();
 
   useEffect(() => {
@@ -69,7 +145,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
         } h-[80px]`}
         style={{ borderBottom: "1px solid #E8E8E8" }}
       >
-        <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between gap-6">
+        <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between gap-6 relative">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0 py-1">
             <img
@@ -86,7 +162,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 return (
                   <div
                     key={name}
-                    className="relative"
+                    className=""
                     onMouseEnter={() => setAcademicsOpen(true)}
                     onMouseLeave={() => setAcademicsOpen(false)}
                   >
@@ -97,6 +173,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${academicsOpen ? "rotate-180" : ""}`} />
                     </button>
                     {academicsOpen && (
+<<<<<<< HEAD
                       <div className="absolute top-full left-0 mt-0 w-[240px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
                         {academicsItems.map((item) => (
                           <Link
@@ -108,6 +185,103 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             {item.label}
                           </Link>
                         ))}
+=======
+                      <div 
+                        className="absolute left-5 right-5 top-full mt-0 w-auto bg-white border border-gray-200/80 rounded-[20px] shadow-2xl p-6 z-50 flex gap-6 animate-fade-in text-left font-[var(--font-poppins)]"
+                        onMouseEnter={() => setAcademicsOpen(true)}
+                        onMouseLeave={() => setAcademicsOpen(false)}
+                      >
+                        {/* Column 1: Academic Categories */}
+                        <div className="w-[200px] border-r border-gray-100 pr-5 flex flex-col gap-1 shrink-0">
+                          <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Academics</span>
+                          {[
+                            { label: "Programmes Offered", to: "/academics/programmes" },
+                            { label: "Academic Calendar", to: "/academics/calendar" },
+                            { label: "Flexibilities", to: "/academics/flexibilities" },
+                            { label: "Grading System", to: "/academics/grading" },
+                            { label: "Award of Degrees", to: "/academics/degrees" },
+                            { label: "Electives and Options", to: "/academics/electives" },
+                            { label: "Rules & Regulations", to: "/academics/rules" },
+                            { label: "Teaching & Evaluation", to: "/academics/teaching" },
+                            { label: "BOS Members", to: "/academics/bos" }
+                          ].map((item) => (
+                            <Link
+                              key={item.label}
+                              to={item.to}
+                              className={`px-3 py-2 text-[12px] font-bold rounded-lg transition-all ${
+                                location.pathname === item.to
+                                  ? "text-[#D71920] bg-[#D71920]/5"
+                                  : "text-gray-700 hover:text-[#D71920] hover:bg-gray-50"
+                              }`}
+                              onClick={() => setAcademicsOpen(false)}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+
+                        {/* Column 2: Program Levels */}
+                        <div className="w-[180px] border-r border-gray-100 pr-5 flex flex-col gap-1 shrink-0">
+                          <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Levels</span>
+                          {Object.keys(MEGA_MENU_PROGRAMS).map((level) => (
+                            <button
+                              key={level}
+                              type="button"
+                              onMouseEnter={() => setActiveLevel(level)}
+                              onClick={() => setActiveLevel(level)}
+                              className={`px-3 py-2 text-[12px] font-bold rounded-lg text-left transition-all cursor-pointer outline-none ${
+                                activeLevel === level
+                                  ? "text-[#D71920] bg-[#D71920]/5"
+                                  : "text-gray-600 hover:text-[#D71920] hover:bg-gray-50"
+                              }`}
+                            >
+                              {level}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Column 3 & 4: Specific Programs List */}
+                        <div className="flex-1 pl-2">
+                          <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-3 block">
+                            Programs ({activeLevel})
+                          </span>
+                          
+                          {activeLevel === "Undergraduate (UG)" ? (
+                            <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-h-[360px] overflow-y-auto pr-2">
+                              {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
+                                <div key={dept} className="space-y-1.5">
+                                  <h5 className="text-[11px] font-extrabold text-[#072A6C] tracking-wide border-b border-gray-100 pb-1">{dept}</h5>
+                                  <div className="flex flex-col gap-1">
+                                    {courses.map((course) => (
+                                      <Link
+                                        key={course.slug}
+                                        to={`/academics/${course.slug}`}
+                                        className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed"
+                                        onClick={() => setAcademicsOpen(false)}
+                                      >
+                                        • {course.title}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                              {MEGA_MENU_PROGRAMS[activeLevel].map((course) => (
+                                <Link
+                                  key={course.label}
+                                  to={course.to}
+                                  className="px-3 py-1.5 text-[11.5px] font-medium text-gray-600 hover:text-[#D71920] hover:bg-gray-50 rounded-md transition-all flex items-center gap-1"
+                                  onClick={() => setAcademicsOpen(false)}
+                                >
+                                  • {course.label}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+>>>>>>> e7f6cab (feat: align academics mega-menu and add dynamic 4-year timelines for all courses)
                       </div>
                     )}
                   </div>

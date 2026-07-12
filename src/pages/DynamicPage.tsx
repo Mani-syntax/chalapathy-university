@@ -4,6 +4,79 @@ import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard } from "lucide-react";
+import { PROGRAMS_DATA } from "../data/programsData";
+
+
+const getProgramTimeline = (title: string) => {
+  const isCse = title.toLowerCase().includes("cse") || title.toLowerCase().includes("computer") || title.toLowerCase().includes("intelligence") || title.toLowerCase().includes("data science");
+  const isEce = title.toLowerCase().includes("ece") || title.toLowerCase().includes("electronics") || title.toLowerCase().includes("vlsi") || title.toLowerCase().includes("embedded");
+  const isEee = title.toLowerCase().includes("eee") || title.toLowerCase().includes("electrical") || title.toLowerCase().includes("power") || title.toLowerCase().includes("grid");
+  const isMech = title.toLowerCase().includes("mechanical") || title.toLowerCase().includes("mechatronics") || title.toLowerCase().includes("automobile") || title.toLowerCase().includes("manufacturing");
+  const isCivil = title.toLowerCase().includes("civil") || title.toLowerCase().includes("structure") || title.toLowerCase().includes("construction");
+  
+  let coreYear1 = ["Engineering Math I & II", "Programming Fundamentals", "Applied Sciences", "Design Thinking & CAD"];
+  let coreYear2 = ["Data Structures & Logic", "Circuit Theory & Devices", "Digital Electronics", "Object Oriented Paradigm"];
+  let coreYear3 = ["Advanced Database Systems", "Network Communications", "Professional Core Electives", "Mini Project Lab"];
+  let coreYear4 = ["Major Capstone Project", "Industrial Internships", "Global Immersion", "Corporate Placement Placement"];
+
+  if (isCse) {
+    coreYear1 = ["Python Programming", "Computational Mathematics", "Engineering Physics", "Creative Design thinking"];
+    coreYear2 = ["Data Structures & Algorithms", "Computer Organization & Architecture", "Database Systems", "Discrete Mathematics"];
+    coreYear3 = ["Operating Systems & Virtualization", "Computer Networks", "Software Engineering & QA", "Artificial Intelligence Core"];
+    coreYear4 = ["Capstone Project & Research Thesis", "Full-stack Web Deployment", "Cloud Infrastructure Interfacing", "Secure Coding Practices"];
+  } else if (isEce) {
+    coreYear1 = ["Electric Circuit Analysis", "Applied Physics", "Differential Equations", "Electronic Workshops"];
+    coreYear2 = ["Electronic Devices & Circuits", "Signals & Systems", "Digital Logic Design", "Electromagnetic Fields"];
+    coreYear3 = ["Microcontrollers & Interfacing", "Digital Signal Processing", "Analog & Digital Communications", "VLSI Design Basics"];
+    coreYear4 = ["Embedded System Design Lab", "Antenna & Microwave Systems", "Optical & Wireless Networks", "Major Industrial Project"];
+  } else if (isEee) {
+    coreYear1 = ["Fundamentals of Electric Circuits", "Engineering Chemistry", "Matrix Algebra & Calculus", "Basic Workshops"];
+    coreYear2 = ["DC & AC Machines", "Power Systems Generation", "Electrical Measurements", "Network Analysis & Synthesis"];
+    coreYear3 = ["Power Electronics & Converters", "Control Systems Engineering", "Power System Transmission", "Microprocessors"];
+    coreYear4 = ["Smart Grid Systems & Integration", "Renewable Energy Systems", "High Voltage Engineering", "Major Project"];
+  } else if (isMech) {
+    coreYear1 = ["Engineering Drawing & Graphics", "Basic Thermodynamics", "Calculus & Geometry", "Materials Workshop"];
+    coreYear2 = ["Strength of Materials", "Kinematics of Machinery", "Fluid Mechanics & Turbines", "Manufacturing Processes"];
+    coreYear3 = ["Design of Machine Elements", "Heat & Mass Transfer", "Dynamics of Machinery", "CAD/CAM Integrated Systems"];
+    coreYear4 = ["Mechatronics & Control Lab", "Automobile Engineering Systems", "Production & Operations Management", "Major Capstone Project"];
+  } else if (isCivil) {
+    coreYear1 = ["Engineering Mechanics", "Applied Geology & Soil", "Surveying & Mapping Basics", "Calculus & Physics"];
+    coreYear2 = ["Strength of Materials", "Fluid Mechanics & Hydraulics", "Concrete Technology", "Structural Analysis I"];
+    coreYear3 = ["Geotechnical Engineering", "Design of Reinforced Concrete Structures", "Environmental Engineering", "Transportation Infrastructure"];
+    coreYear4 = ["Construction Planning & Estimating", "Design of Steel Structures", "Foundation Design & Analysis", "Major Capstone Project"];
+  }
+
+  return [
+    {
+      year: "Year 1",
+      focus: "Foundational Skills",
+      badges: ["Skill Courses", "Foundations"],
+      courses: coreYear1,
+      immersions: ["Social Internship", "Design Thinking Workshop", "Creative Communication"]
+    },
+    {
+      year: "Year 2",
+      focus: "Core Disciplines",
+      badges: ["Major Core", "Minor Electives"],
+      courses: coreYear2,
+      immersions: ["Community Project", "Corporate Immersion Days", "Industry Internships"]
+    },
+    {
+      year: "Year 3",
+      focus: "Advanced Tracks",
+      badges: ["Specialization", "Open Electives"],
+      courses: coreYear3,
+      immersions: ["Research Publications", "Professional Seminars", "Pre-Placement Training"]
+    },
+    {
+      year: "Year 4",
+      focus: "Capstone & Placement",
+      badges: ["Major Projects", "Thesis / Placement"],
+      courses: coreYear4,
+      immersions: ["Capstone Project (6 Months)", "Global Immersion Track", "Corporate Placement Preparation"]
+    }
+  ];
+};
 
 // Helper to generate dynamic, rich content based on current path
 const getPageContent = (path: string) => {
@@ -290,6 +363,131 @@ const getPageContent = (path: string) => {
 
   // Academics Pages
   if (cleanPath.startsWith("/academics")) {
+    const matchedProgram = PROGRAMS_DATA.find(p => cleanPath.endsWith(p.slug));
+    if (matchedProgram) {
+      return {
+        title: matchedProgram.title,
+        category: "Academics",
+        desc: matchedProgram.desc,
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm leading-relaxed">
+            <div className="bg-[#072A6C]/5 border border-gray-100 p-5 rounded-r-[16px] grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-bold text-[#072A6C] mb-6">
+              <div>
+                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Duration</span>
+                <span>{matchedProgram.duration}</span>
+              </div>
+              <div>
+                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Department</span>
+                <span>{matchedProgram.department}</span>
+              </div>
+              <div>
+                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Degree Type</span>
+                <span>{matchedProgram.degreeType}</span>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-base font-extrabold text-[#072A6C] mb-2">Course Overview</h3>
+              <p className="font-light">{matchedProgram.overview}</p>
+            </div>
+
+            <div>
+              <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Core Focus Modules</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {matchedProgram.curriculum.map((item, idx) => (
+                  <div key={idx} className="bg-white border border-gray-200/80 rounded-xl p-3 text-center text-xs font-semibold text-gray-700 shadow-sm hover:border-[#D71920]/45 transition-colors">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Career Prospects</h3>
+              <div className="space-y-3">
+                {matchedProgram.careers.map((career, idx) => (
+                  <div key={idx} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
+                    <h4 className="font-bold text-[#D71920] text-xs">{career.title}</h4>
+                    <p className="text-[11px] text-gray-500 mt-1 leading-normal font-light">{career.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Dynamic Visual Timeline Section */}
+            <div className="pt-8 border-t border-gray-100">
+              <h3 className="text-lg font-extrabold text-[#072A6C] mb-1">Course Structure & Year-Wise Timeline</h3>
+              <p className="text-xs text-gray-500 mb-6 font-light">Explore your multi-year learning trajectory, core specializations, and mandatory internship milestones.</p>
+              
+              {/* Colored Degree Bar */}
+              <div className="bg-gradient-to-r from-[#D71920] to-[#072A6C] text-white text-[10px] uppercase font-bold tracking-widest px-4 py-2.5 rounded-full mb-6 text-center select-none shadow-sm">
+                4-Year Integrated Program structure: {matchedProgram.degreeType} Honors Degree
+              </div>
+
+              {/* 4 Columns Year-wise Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                {getProgramTimeline(matchedProgram.title).map((step, idx) => (
+                  <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
+                    {/* Top red bar hover effect */}
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 group-hover:bg-[#D71920] transition-colors" />
+                    
+                    <div>
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-sm font-extrabold text-[#072A6C]">{step.year}</span>
+                        <span className="text-[9px] text-[#D71920] font-extrabold uppercase bg-[#D71920]/5 px-2 py-0.5 rounded-full">{step.focus}</span>
+                      </div>
+                      
+                      {/* Badges */}
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {step.badges.map((b, i) => (
+                          <span key={i} className="text-[9.5px] font-semibold text-gray-500 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100">
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Course list */}
+                      <div className="space-y-1.5 mb-4">
+                        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Academics</span>
+                        {step.courses.map((course, i) => (
+                          <div key={i} className="text-[11.5px] font-medium text-gray-700 leading-snug">
+                            • {course}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-gray-100/60 mt-4">
+                      <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-1.5">Immersion</span>
+                      {step.immersions.map((imm, i) => (
+                        <div key={i} className="text-[11px] text-gray-500 font-light leading-normal italic">
+                          - {imm}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Exit Options Alert */}
+              <div className="bg-[#072A6C]/5 border border-[#072A6C]/10 rounded-xl p-4 mt-6">
+                <span className="text-xs font-bold text-[#072A6C] block mb-1">🎓 Flexible Learning Pathways & Exit Points</span>
+                <p className="text-[11px] text-gray-500 leading-normal font-light">
+                  Aligning with National Education Policy (NEP) guidelines, scholars can choose to exit at varied points:
+                  <br />• Exit after 3 Years: Eligible to graduate with a standard Degree in the respective major category.
+                  <br />• Completion of 4 Years: Graduate with an Integrated Honours Degree with minor specialization certifications.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-[8px] text-[11px] text-blue-900 font-light mt-6">
+              This curriculum is aligned with the outcome-based education (OBE) model. Regular updates are carried out via the Board of Studies (BOS) incorporating direct inputs from industry veterans.
+            </div>
+          </div>
+        )
+      };
+    }
+
     if (cleanPath.includes("calendar")) {
       return {
         title: "Academic Calendar",

@@ -164,6 +164,8 @@ export default function App() {
             <Route path="/academics/rules" element={<DynamicPage />} />
             <Route path="/academics/teaching" element={<DynamicPage />} />
             <Route path="/academics/bos" element={<DynamicPage />} />
+            <Route path="/academics/*" element={<DynamicPage />} />
+
 
             {/* Admissions Routes */}
             <Route path="/admissions" element={<DynamicPage />} />
