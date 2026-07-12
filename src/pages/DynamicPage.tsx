@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User } from "lucide-react";
 import { PROGRAMS_DATA } from "../data/programsData";
 
 
@@ -841,30 +841,7 @@ const getPageContent = (path: string) => {
         title: "Our Esteemed Faculty",
         category: "Management",
         desc: "Experienced professors, industry scholars, and dedicated research guides.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Our professors bring a rich blend of research publications, patents, and industrial consultancy experience to guide student achievements.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                { name: "Dr. K. Chandrasekhar", dept: "Principal & Professor (CSE)", edu: "Ph.D. in Computer Science & Engineering" },
-                { name: "Prof. P. V. Ramana", dept: "Dean Academics & Head of CSE", edu: "M.Tech, Ph.D. Scholar" },
-                { name: "Dr. M. Sridhar", dept: "Professor (ECE)", edu: "Ph.D. in Signal Processing" },
-                { name: "Dr. T. Anuradha", dept: "Professor (Pharmacy)", edu: "Ph.D. in Pharmaceutics" }
-              ].map((faculty, i) => (
-                <div key={i} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#D71920]/5 flex items-center justify-center text-[#D71920] font-bold text-xs">
-                    Prof
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-[#072A6C] text-xs">{faculty.name}</h5>
-                    <p className="text-[10px] text-gray-500 font-semibold mt-0.5">{faculty.dept}</p>
-                    <p className="text-[9px] text-gray-400 font-medium">{faculty.edu}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )
+        body: <FacultyDirectory />
       };
     }
     if (cleanPath.includes("staff")) {
@@ -2228,6 +2205,275 @@ export default function DynamicPage() {
             </div>
           </div>
         </motion.div>
+
+      </div>
+    </div>
+  );
+}
+
+const DEPARTMENTS = [
+  "Computer Science & Engineering",
+  "Artificial Intelligence & ML",
+  "Data Science",
+  "School of Pharmacy",
+  "School of Management"
+];
+
+const FACULTY_DATA: Record<string, {
+  hod: { name: string; title: string; edu: string; interests: string; phone: string; email: string; avatar: string };
+  others: Array<{ name: string; title: string; edu: string; interests: string; phone: string; email: string; avatar: string }>;
+}> = {
+  "Computer Science & Engineering": {
+    hod: {
+      name: "Prof. P. V. Ramana",
+      title: "HOD & Professor",
+      edu: "Ph.D - Indian Institute of Technology Madras, India",
+      interests: "Algorithms, Distributed Networks, Database Optimization",
+      phone: "0863 2345432",
+      email: "hod.cse@city.ac.in",
+      avatar: "R"
+    },
+    others: [
+      {
+        name: "Dr. A. Kiran Kumar",
+        title: "Professor",
+        edu: "Ph.D - National Institute of Technology Warangal, India",
+        interests: "Cyber Security, Network Architectures & Trust Models",
+        phone: "0863 2345433",
+        email: "kiran.cse@city.ac.in",
+        avatar: "K"
+      },
+      {
+        name: "Mrs. K. Jhansi",
+        title: "Assistant Professor",
+        edu: "M.Tech - Jawaharlal Nehru Technological University, Kakinada",
+        interests: "Software Engineering & Object Oriented Designs",
+        phone: "0863 2345434",
+        email: "jhansi.cse@city.ac.in",
+        avatar: "J"
+      }
+    ]
+  },
+  "Artificial Intelligence & ML": {
+    hod: {
+      name: "Dr. K. Chandrasekhar",
+      title: "Principal & Professor",
+      edu: "Ph.D - Indian Institute of Technology Delhi, India",
+      interests: "Machine Learning, Natural Language Processing, AI Ethics",
+      phone: "0863 2345430",
+      email: "principal@city.ac.in",
+      avatar: "C"
+    },
+    others: [
+      {
+        name: "Dr. S. Vignesh",
+        title: "Associate Professor",
+        edu: "Ph.D - International Institute of Information Technology Hyderabad",
+        interests: "Computer Vision, Neural Networks, Image Restoration",
+        phone: "0863 2345451",
+        email: "vignesh.aiml@city.ac.in",
+        avatar: "V"
+      },
+      {
+        name: "Mr. P. Rajesh",
+        title: "Assistant Professor",
+        edu: "M.Tech - Indian Institute of Technology Bombay, India",
+        interests: "Deep Learning, Reinforcement Learning, Robot Navigation",
+        phone: "0863 2345452",
+        email: "rajesh.aiml@city.ac.in",
+        avatar: "R"
+      }
+    ]
+  },
+  "Data Science": {
+    hod: {
+      name: "Dr. G. Madhavi",
+      title: "HOD & Associate Professor",
+      edu: "Ph.D - Andhra University, Visakhapatnam, India",
+      interests: "Big Data Analytics, Statistical Modeling, Predictive Mining",
+      phone: "0863 2345460",
+      email: "hod.ds@city.ac.in",
+      avatar: "M"
+    },
+    others: [
+      {
+        name: "Dr. R. Karthik",
+        title: "Professor",
+        edu: "Ph.D - National Institute of Technology Trichy, India",
+        interests: "Cloud Computing, Parallel Databases, Hadoop Infrastructures",
+        phone: "0863 2345461",
+        email: "karthik.ds@city.ac.in",
+        avatar: "K"
+      }
+    ]
+  },
+  "School of Pharmacy": {
+    hod: {
+      name: "Dr. T. Anuradha",
+      title: "HOD & Professor",
+      edu: "Ph.D - Birla Institute of Technology and Science Pilani, India",
+      interests: "Pharmaceutics, Target-oriented nano-carrier formulations",
+      phone: "0863 2345470",
+      email: "hod.pharm@city.ac.in",
+      avatar: "A"
+    },
+    others: [
+      {
+        name: "Dr. V. Satish",
+        title: "Associate Professor",
+        edu: "Ph.D - Jawaharlal Nehru Technological University, Hyderabad",
+        interests: "Pharmacology, Drug toxicity screenings, Clinical Trials",
+        phone: "0863 2345471",
+        email: "satish.pharm@city.ac.in",
+        avatar: "S"
+      }
+    ]
+  },
+  "School of Management": {
+    hod: {
+      name: "Dr. L. Rama Krishna",
+      title: "HOD & Professor",
+      edu: "Ph.D - Osmania University, Hyderabad, India",
+      interests: "Financial Management, Investment portfolios, Venture Cap",
+      phone: "0863 2345480",
+      email: "hod.mba@city.ac.in",
+      avatar: "R"
+    },
+    others: [
+      {
+        name: "Mrs. S. Lakshmi",
+        title: "Assistant Professor",
+        edu: "MBA - Acharya Nagarjuna University, Guntur, India",
+        interests: "Human Resource Management, Industrial Relations, Ethics",
+        phone: "0863 2345481",
+        email: "lakshmi.mba@city.ac.in",
+        avatar: "L"
+      }
+    ]
+  }
+};
+
+function FacultyDirectory() {
+  const [selectedDept, setSelectedDept] = React.useState("Computer Science & Engineering");
+  const activeDept = FACULTY_DATA[selectedDept] || FACULTY_DATA["Computer Science & Engineering"];
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
+      {/* Left Sidebar */}
+      <div className="lg:col-span-3 flex flex-col border border-gray-200/80 rounded-2xl bg-white shadow-sm overflow-hidden divide-y divide-gray-100">
+        {DEPARTMENTS.map((dept) => {
+          const isActive = dept === selectedDept;
+          return (
+            <button
+              key={dept}
+              onClick={() => setSelectedDept(dept)}
+              className={`w-full text-left px-5 py-3.5 text-xs font-bold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 ${
+                isActive 
+                  ? "bg-[#D71920]/5 text-[#D71920] border-[#D71920]" 
+                  : "text-[#072A6C] hover:bg-gray-50 border-transparent"
+              }`}
+            >
+              <span>{dept}</span>
+              <ChevronRight size={14} className={isActive ? "text-[#D71920]" : "text-gray-300"} />
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Right Content */}
+      <div className="lg:col-span-9 space-y-8">
+        
+        {/* Featured HOD Header Card */}
+        {activeDept.hod && (
+          <div className="space-y-4">
+            <h4 className="text-xs font-extrabold text-[#D4AF37] uppercase tracking-wider">Head of Department</h4>
+            <div className="bg-white border-2 border-[#D4AF37] rounded-[24px] p-6 md:p-8 shadow-md hover:shadow-lg transition-shadow relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start">
+              {/* Gold Ribbon Tag */}
+              <div className="absolute top-0 right-0 bg-[#D4AF37] text-gray-900 font-extrabold text-[9px] uppercase tracking-widest px-4 py-1.5 rounded-bl-2xl">
+                HOD
+              </div>
+              
+              {/* Left Column Avatar */}
+              <div className="shrink-0">
+                <div className="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-amber-50/50 bg-[#072A6C]/5 flex items-center justify-center font-bold text-3xl text-[#072A6C] shadow-inner select-none">
+                  {activeDept.hod.avatar}
+                </div>
+              </div>
+
+              {/* Right Column Details */}
+              <div className="flex-grow space-y-3 text-center md:text-left min-w-0">
+                <div className="space-y-1">
+                  <h3 className="text-lg md:text-xl font-black text-[#072A6C]">{activeDept.hod.name}</h3>
+                  <div className="flex items-center justify-center md:justify-start gap-1.5 text-xs text-[#D71920] font-bold">
+                    <GraduationCap size={14} />
+                    <span>{activeDept.hod.title}</span>
+                  </div>
+                </div>
+
+                <div className="text-xs text-gray-600 space-y-1 bg-amber-50/40 p-4 rounded-xl border border-amber-100/50">
+                  <p className="font-light">{activeDept.hod.edu}</p>
+                  <p className="pt-1.5"><strong className="font-extrabold text-gray-700">Areas of Interest:</strong> {activeDept.hod.interests}</p>
+                </div>
+
+                {/* Contact grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[11px] text-gray-500 font-medium pt-1">
+                  <div className="flex items-center justify-center md:justify-start gap-2">
+                    <Phone size={13} className="text-gray-400 shrink-0" />
+                    <span>{activeDept.hod.phone}</span>
+                  </div>
+                  <div className="flex items-center justify-center md:justify-start gap-2">
+                    <Mail size={13} className="text-gray-400 shrink-0" />
+                    <span className="truncate">{activeDept.hod.email}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Other Faculty Members Grid */}
+        <div className="space-y-4">
+          <h4 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">Department Faculty</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {activeDept.others.map((faculty, fIdx) => (
+              <div key={fIdx} className="bg-white border border-gray-200/80 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col items-center justify-between text-center min-h-[320px]">
+                
+                {/* Avatar container */}
+                <div className="w-20 h-20 rounded-full border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-bold text-xl text-[#072A6C] shadow-inner mb-4 select-none">
+                  {faculty.avatar}
+                </div>
+
+                <div className="space-y-3 flex-1 flex flex-col justify-center w-full">
+                  <div className="space-y-0.5">
+                    <h5 className="font-extrabold text-[#072A6C] text-sm leading-snug">{faculty.name}</h5>
+                    <span className="text-[10px] text-[#D71920] font-bold uppercase tracking-wider block">{faculty.title}</span>
+                  </div>
+
+                  <p className="text-[11px] text-gray-500 font-light leading-relaxed px-2 bg-gray-50/50 py-2.5 rounded-lg border border-gray-100/50">
+                    {faculty.edu}
+                  </p>
+
+                  <p className="text-[10px] text-gray-400 leading-normal">
+                    <strong className="font-bold text-gray-600 block mb-0.5 text-[10px]">Areas of Interest:</strong> {faculty.interests}
+                  </p>
+                </div>
+
+                {/* Foot contact details */}
+                <div className="w-full pt-4 border-t border-gray-50 grid grid-cols-2 gap-2 text-[10px] text-gray-500 mt-4">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <Phone size={11} className="text-gray-300" />
+                    <span>{faculty.phone}</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1.5 truncate">
+                    <Mail size={11} className="text-gray-300 shrink-0" />
+                    <span className="truncate" title={faculty.email}>{faculty.email}</span>
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </div>
+        </div>
 
       </div>
     </div>
