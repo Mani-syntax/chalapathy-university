@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard } from "lucide-react";
 import { PROGRAMS_DATA } from "../data/programsData";
 
 
@@ -493,39 +493,7 @@ const getPageContent = (path: string) => {
         title: "Academic Calendar",
         category: "Academics",
         desc: "Schedule of semesters, internal assessments, holidays, and examination blocks for the academic term.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Our academic calendar is structured to provide clear timelines for classes, mid-term examinations, laboratory evaluations, and preparation holidays.</p>
-            <div className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm bg-white max-w-md">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100 text-gray-700 font-bold">
-                    <th className="p-4">Academic Event</th>
-                    <th className="p-4">Tentative Dates</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  <tr>
-                    <td className="p-4 font-semibold text-[#072A6C]">Commencement of Classwork</td>
-                    <td className="p-4">July 15, 2026</td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 font-semibold text-[#072A6C]">First Mid-Term Examinations</td>
-                    <td className="p-4">September 04 – 09, 2026</td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 font-semibold text-[#072A6C]">Second Mid-Term Examinations</td>
-                    <td className="p-4">November 12 – 18, 2026</td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 font-semibold text-[#072A6C]">Practical & End Semester Exams</td>
-                    <td className="p-4">December 02 – 22, 2026</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )
+        body: <AcademicCalendar />
       };
     }
     if (cleanPath.includes("flexibilities")) {
@@ -1070,6 +1038,164 @@ const getPageContent = (path: string) => {
     body: <p className="text-gray-600 text-sm">Please select a topic from the main navigation menu or search directory.</p>
   };
 };
+
+function AcademicCalendar() {
+  const [selectedYear, setSelectedYear] = React.useState("2026-27");
+  const [activeCourse, setActiveCourse] = React.useState<string | null>(null);
+
+  const years = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23"];
+
+  const collegesData: Record<string, Record<string, { label: string; key: string }[]>> = {
+    "2026-27": {
+      "College of Engineering": [
+        { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
+        { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
+        { label: "B.Tech. Lateral Entry (UG Engineering)", key: "btech-lateral" },
+        { label: "M.Tech. I & II Year Programs", key: "mtech" }
+      ],
+      "College of Management": [
+        { label: "MBA I & II Year Programs", key: "mba" },
+        { label: "MCA I & II Year Programs", key: "mca" },
+        { label: "BBA Undergraduate Programs", key: "bba" }
+      ],
+      "College of Pharmacy": [
+        { label: "B.Pharm I Year Coursework", key: "bpharm-1" },
+        { label: "B.Pharm II, III & IV Year", key: "bpharm-2-3-4" },
+        { label: "M.Pharm & Pharm.D Programs", key: "mpharm" }
+      ]
+    },
+    "2025-26": {
+      "College of Engineering": [
+        { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
+        { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
+        { label: "M.Tech. Programs", key: "mtech" }
+      ],
+      "College of Management": [
+        { label: "MBA & MCA Programs", key: "mgmt" }
+      ],
+      "College of Pharmacy": [
+        { label: "B.Pharm Programs", key: "bpharm" }
+      ]
+    }
+  };
+
+  // Pre-fill previous years dynamically so we have 5 years covered
+  years.forEach(y => {
+    if (!collegesData[y]) {
+      collegesData[y] = {
+        "College of Engineering": [
+          { label: `B.Tech. Programs (${y})`, key: `btech-${y}` },
+          { label: `M.Tech. Programs (${y})`, key: `mtech-${y}` }
+        ],
+        "College of Management": [
+          { label: `MBA & MCA Programs (${y})`, key: `mgmt-${y}` }
+        ],
+        "College of Pharmacy": [
+          { label: `B.Pharm & M.Pharm (${y})`, key: `pharm-${y}` }
+        ]
+      };
+    }
+  });
+
+  const getCalendarTable = (key: string, year: string) => {
+    const yStart = year.split("-")[0];
+    const yEnd = "20" + year.split("-")[1];
+    
+    const events = [
+      { event: "Commencement of Classwork", date: `July 15, ${yStart}` },
+      { event: "First Mid-Term Examinations", date: `September 04 – 09, ${yStart}` },
+      { event: "Second Mid-Term Examinations", date: `November 12 – 18, ${yStart}` },
+      { event: "Practical Examinations", date: `December 02 – 07, ${yStart}` },
+      { event: "End Semester Theory Exams", date: `December 09 – 22, ${yStart}` },
+      { event: "Commencement of Next Semester", date: `January 05, ${yEnd}` }
+    ];
+
+    return (
+      <div className="p-4 bg-gray-50/70 border-t border-gray-100 animate-slide-down">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-[10px] font-bold text-[#072A6C] uppercase tracking-wider">Calendar Details for {year}</span>
+          <button 
+            onClick={() => alert(`Academic Calendar PDF for ${year} is queued for download.`)}
+            className="text-[10px] font-bold text-[#D71920] hover:text-[#072A6C] transition-colors"
+          >
+            📥 Download Calendar PDF
+          </button>
+        </div>
+        <div className="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-sm">
+          <table className="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr className="bg-gray-100/60 border-b border-gray-200/60 text-gray-700 font-bold">
+                <th className="p-3">Academic Event</th>
+                <th className="p-3">Dates</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {events.map((e, idx) => (
+                <tr key={idx} className="hover:bg-gray-50/30">
+                  <td className="p-3 font-semibold text-[#072A6C]">{e.event}</td>
+                  <td className="p-3 text-gray-600">{e.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* 5-Year Selection Pills */}
+      <div className="flex flex-wrap gap-2 pb-2 border-b border-gray-100">
+        {years.map((year) => (
+          <button
+            key={year}
+            onClick={() => {
+              setSelectedYear(year);
+              setActiveCourse(null);
+            }}
+            className={`px-4 py-2 text-xs font-bold rounded-full transition-all cursor-pointer outline-none ${
+              selectedYear === year
+                ? "bg-[#D71920] text-white shadow-sm"
+                : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
+            }`}
+          >
+            {year} {year === "2026-27" && "(Present)"}
+          </button>
+        ))}
+      </div>
+
+      {/* College Categories & Course Lists */}
+      <div className="space-y-6">
+        {Object.entries(collegesData[selectedYear] || {}).map(([collegeName, courses]) => (
+          <div key={collegeName} className="bg-white border border-gray-200/60 rounded-[16px] p-5 shadow-sm">
+            <h4 className="text-xs font-extrabold text-[#072A6C] mb-4 border-l-4 border-[#D71920] pl-3 tracking-wide uppercase">
+              {collegeName}
+            </h4>
+            <div className="flex flex-col gap-2">
+              {courses.map((course) => {
+                const uniqueKey = `${selectedYear}-${course.key}`;
+                const isExpanded = activeCourse === uniqueKey;
+                return (
+                  <div key={course.key} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <button
+                      onClick={() => setActiveCourse(isExpanded ? null : uniqueKey)}
+                      className="w-full px-4 py-3 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
+                    >
+                      <span>• {course.label}</span>
+                      <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
+                    </button>
+                    {isExpanded && getCalendarTable(course.key, selectedYear)}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function DynamicPage() {
   const { pathname } = useLocation();

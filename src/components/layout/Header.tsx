@@ -156,13 +156,13 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </Link>
 
           {/* Center nav */}
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-1 h-full">
             {navLinks.map((name) => {
               if (name === "Academics") {
                 return (
                   <div
                     key={name}
-                    className=""
+                    className="h-full flex items-center"
                     onMouseEnter={() => setAcademicsOpen(true)}
                     onMouseLeave={() => setAcademicsOpen(false)}
                   >
