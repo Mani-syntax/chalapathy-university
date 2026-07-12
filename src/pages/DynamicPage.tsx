@@ -2124,6 +2124,7 @@ function DepartmentFacultyView({ slug }: { slug: string }) {
 export default function DynamicPage() {
   const { pathname } = useLocation();
   const content = getPageContent(pathname);
+  const isManagement = pathname.toLowerCase().startsWith("/management");
 
   useEffect(() => {
     document.title = `${content.title} | City Chalapathi Institute of Technology`;
@@ -2170,7 +2171,7 @@ export default function DynamicPage() {
           transition={{ duration: 0.5 }}
         >
           {/* Main Info */}
-          <div className="lg:col-span-8 bg-white border border-gray-200/60 rounded-[16px] p-8 shadow-sm">
+          <div className={`${isManagement ? "lg:col-span-12" : "lg:col-span-8"} bg-white border border-gray-200/60 rounded-[16px] p-8 shadow-sm w-full`}>
             <span className="text-[11px] font-bold text-[#D71920] uppercase tracking-wider block mb-1">{content.category}</span>
             <h1 className="text-[28px] md:text-[34px] font-[800] text-[#072A6C] leading-snug tracking-tight mb-4">
               {content.title}
@@ -2184,26 +2185,28 @@ export default function DynamicPage() {
           </div>
 
           {/* Quick Info Sidebar */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#072A6C] text-white rounded-[16px] p-6 shadow-sm">
-              <h3 className="font-bold text-sm mb-3">Quick Navigation</h3>
-              <ul className="space-y-2 text-xs text-blue-200">
-                <li><Link to="/about" className="hover:text-white transition-colors flex items-center justify-between">About Institution <ArrowRight size={10} /></Link></li>
-                <li><Link to="/academics" className="hover:text-white transition-colors flex items-center justify-between">Academic Programs <ArrowRight size={10} /></Link></li>
-                <li><Link to="/admissions" className="hover:text-white transition-colors flex items-center justify-between">Enrollment & Fees <ArrowRight size={10} /></Link></li>
-                <li><Link to="/placements" className="hover:text-white transition-colors flex items-center justify-between">Placements & Statistics <ArrowRight size={10} /></Link></li>
-                <li><Link to="/contact" className="hover:text-white transition-colors flex items-center justify-between">Contact Support <ArrowRight size={10} /></Link></li>
-              </ul>
-            </div>
+          {!isManagement && (
+            <div className="lg:col-span-4 space-y-6">
+              <div className="bg-[#072A6C] text-white rounded-[16px] p-6 shadow-sm">
+                <h3 className="font-bold text-sm mb-3">Quick Navigation</h3>
+                <ul className="space-y-2 text-xs text-blue-200">
+                  <li><Link to="/about" className="hover:text-white transition-colors flex items-center justify-between">About Institution <ArrowRight size={10} /></Link></li>
+                  <li><Link to="/academics" className="hover:text-white transition-colors flex items-center justify-between">Academic Programs <ArrowRight size={10} /></Link></li>
+                  <li><Link to="/admissions" className="hover:text-white transition-colors flex items-center justify-between">Enrollment & Fees <ArrowRight size={10} /></Link></li>
+                  <li><Link to="/placements" className="hover:text-white transition-colors flex items-center justify-between">Placements & Statistics <ArrowRight size={10} /></Link></li>
+                  <li><Link to="/contact" className="hover:text-white transition-colors flex items-center justify-between">Contact Support <ArrowRight size={10} /></Link></li>
+                </ul>
+              </div>
 
-            <div className="bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm">
-              <h3 className="font-bold text-sm text-[#072A6C] mb-3">Admission Helpdesk</h3>
-              <p className="text-xs text-gray-500 leading-relaxed mb-4">Have questions about registration, courses, or hostels? Reach our advisors directly.</p>
-              <a href="tel:8886630355" className="h-10 w-full bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-[8px] flex items-center justify-center gap-1.5 transition-colors">
-                <Phone size={13} /> Call Counselor
-              </a>
+              <div className="bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm">
+                <h3 className="font-bold text-sm text-[#072A6C] mb-3">Admission Helpdesk</h3>
+                <p className="text-xs text-gray-500 leading-relaxed mb-4">Have questions about registration, courses, or hostels? Reach our advisors directly.</p>
+                <a href="tel:8886630355" className="h-10 w-full bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-[8px] flex items-center justify-center gap-1.5 transition-colors">
+                  <Phone size={13} /> Call Counselor
+                </a>
+              </div>
             </div>
-          </div>
+          )}
         </motion.div>
 
       </div>
