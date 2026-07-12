@@ -26,33 +26,12 @@ const EVENTS_DATA = [
     date: "03 Oct 2026",
     category: "Corporate",
     image: "/prog_management.png"
-  }
-];
-
-const NEWS_DATA = [
-  {
-    title: "AI Research Lab Inaugurated on Campus",
-    date: "12 May 2025",
-    category: "Innovation",
-    image: "/prog_computer.png"
   },
   {
-    title: "Engineering Students Win Smart Hackathon 2025",
-    date: "06 May 2025",
-    category: "Achievement",
-    image: "/prog_engineering.png"
-  },
-  {
-    title: "MoU Signed with Top Global Corporations for Placements",
-    date: "03 May 2025",
-    category: "Corporate Link",
-    image: "/prog_management.png"
-  },
-  {
-    title: "New Pharmacy Research Formulations Published",
-    date: "28 Apr 2025",
-    category: "Research",
-    image: "/prog_pharmacy.png"
+    title: "Global Alumni Reunion & Endowment Gala",
+    date: "14 Nov 2026",
+    category: "Alumni Connect",
+    image: "/students_admission.png"
   }
 ];
 
@@ -106,7 +85,7 @@ export default function Events() {
     setCurrentPage(index);
   };
 
-  const totalPages = Math.ceil(currentData.length / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1));
+  const totalPages = currentData.length; // 5 pages since it's 1 card per page
 
   return (
     <div className="min-h-screen bg-[#FDFBF7]/30 font-[var(--font-poppins)] pb-24">
@@ -157,7 +136,7 @@ export default function Events() {
             {currentData.map((item, idx) => (
               <div
                 key={idx}
-                className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start snap-always"
+                className="w-full shrink-0 snap-start snap-always"
               >
                 <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
                   {/* Image */}
