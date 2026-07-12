@@ -80,12 +80,9 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [searchOpen, setSearchOpen] = useState(false);
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
-<<<<<<< HEAD
   const [managementOpen, setManagementOpen] = useState(false);
   const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
-=======
   const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
->>>>>>> e7f6cab (feat: align academics mega-menu and add dynamic 4-year timelines for all courses)
   const location = useLocation();
 
   useEffect(() => {
@@ -172,19 +169,6 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${academicsOpen ? "rotate-180" : ""}`} />
                     </button>
                     {academicsOpen && (
-<<<<<<< HEAD
-                      <div className="absolute top-full left-0 mt-0 w-[240px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
-                        {academicsItems.map((item) => (
-                          <Link
-                            key={item.label}
-                            to={item.to}
-                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all"
-                            onClick={() => setAcademicsOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-=======
                       <div 
                         className="absolute left-5 right-5 top-full mt-0 w-auto bg-white border border-gray-200/80 rounded-[20px] shadow-2xl p-6 z-50 flex gap-6 animate-fade-in text-left font-[var(--font-poppins)]"
                         onMouseEnter={() => setAcademicsOpen(true)}
@@ -279,7 +263,6 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             </div>
                           )}
                         </div>
->>>>>>> e7f6cab (feat: align academics mega-menu and add dynamic 4-year timelines for all courses)
                       </div>
                     )}
                   </div>
