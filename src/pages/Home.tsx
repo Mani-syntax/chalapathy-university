@@ -30,6 +30,63 @@ const scaleIn = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
+function AnimatedCounter({ value, duration = 2500 }: { value: string; duration?: number }) {
+  const [count, setCount] = React.useState(0);
+  const elementRef = React.useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = React.useState(false);
+
+  const numericPart = parseInt(value.replace(/,/g, "").replace(/[^0-9]/g, ""), 10) || 0;
+  const suffix = value.replace(/[0-9,]/g, "");
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let startTimestamp: number | null = null;
+          const step = (timestamp: number) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(easeProgress * numericPart));
+            if (progress < 1) {
+              window.requestAnimationFrame(step);
+            }
+          };
+          window.requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [numericPart, duration, hasAnimated]);
+
+  const formattedCount = numericPart >= 10000 
+    ? count.toLocaleString("en-IN") 
+    : count;
+
+  return (
+    <span 
+      ref={elementRef} 
+      className={`block text-[22px] font-[800] leading-none text-[#D4AF37] transition-all duration-300 ${
+        hasAnimated && count < numericPart ? "scale-[0.95] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" : "scale-100"
+      }`}
+    >
+      {formattedCount}{suffix}
+    </span>
+  );
+}
+
 export default function Home() {
   const [directionsFrom, setDirectionsFrom] = useState("");
 
@@ -146,12 +203,11 @@ export default function Home() {
               const Icon = s.icon;
               return (
                 <motion.div key={i} className="flex flex-col items-center max-w-[160px] rounded-[14px]" variants={fadeUp}>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-3 border border-[#D4AF37]/30 shadow-sm">
-                    <Icon size={18} className="text-[#D4AF37]" strokeWidth={2} />
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-3 border border-[#D4AF37]/30 shadow-sm relative group overflow-hidden">
+                    <Icon size={18} className="text-[#D4AF37] relative z-10 transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                    <div className="absolute inset-0 bg-[#D4AF37]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
-                  <span className="block text-[22px] font-[800] leading-none text-[#D4AF37]">
-                    {s.n}
-                  </span>
+                  <AnimatedCounter value={s.n} />
                   <span className="block text-[11px] text-gray-200 font-[500] mt-2 leading-tight">
                     {s.label}
                   </span>
@@ -160,6 +216,29 @@ export default function Home() {
             })}
           </div>
         </motion.div>
+      </section>
+
+      {/* ═══ ADMISSION ALERT TICKER ═══ */}
+      <section className="relative z-10 w-full h-[50px] bg-[#F4B400] text-[#0A2D6D] flex items-center overflow-hidden select-none font-[var(--font-poppins)] font-[700] text-[18px] shadow-[inset_0_4px_6px_rgba(0,0,0,0.08),0_2px_4px_rgba(0,0,0,0.05)] border-none">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .marquee-inner {
+            display: flex;
+            width: max-content;
+            animation: marquee 20s linear infinite;
+            will-change: transform;
+          }
+          .marquee-inner:hover {
+            animation-play-state: paused;
+          }
+        `}} />
+        <div className="marquee-inner">
+          <span className="px-4 whitespace-nowrap">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • NAAC Accredited Institution • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
+          <span className="px-4 whitespace-nowrap" aria-hidden="true">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • NAAC Accredited Institution • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
+        </div>
       </section>
 
       {/* ═══ WHY CHOOSE US SECTION ═══ */}
