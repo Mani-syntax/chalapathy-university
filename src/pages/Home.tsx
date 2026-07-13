@@ -530,28 +530,28 @@ export default function Home() {
                 className="group bg-white border border-gray-100 rounded-[16px] overflow-hidden shadow-sm hover:shadow-md transition-shadow relative"
                 variants={scaleIn}
               >
-                <div className="h-[140px] relative overflow-hidden bg-gray-100">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                </div>
-
-                <div className="px-4 pb-4 relative pt-6 text-center">
-                  <div
-                    className="absolute -top-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white border-[3px] border-white shadow-md group-hover:scale-110 transition-transform"
-                    style={{ backgroundColor: p.color }}
-                  >
-                    <GraduationCap size={14} />
+                <Link to={p.to} className="block w-full h-full">
+                  <div className="h-[140px] relative overflow-hidden bg-gray-100">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   </div>
-                  <Link to={p.to} className="block">
+
+                  <div className="px-4 pb-4 relative pt-6 text-center">
+                    <div
+                      className="absolute -top-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white border-[3px] border-white shadow-md group-hover:scale-110 transition-transform"
+                      style={{ backgroundColor: p.color }}
+                    >
+                      <GraduationCap size={14} />
+                    </div>
                     <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
                       {p.name}
                     </h3>
-                  </Link>
-                </div>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
