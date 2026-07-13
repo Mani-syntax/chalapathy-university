@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { featurePillars } from "@/data";
 import { ROUTES } from "@/constants";
 
@@ -31,7 +31,7 @@ export default function FeatureStrip() {
             </span>
           </div>
           <Link
-            href={ROUTES.about}
+            to={ROUTES.about}
             className="h-10 px-6 bg-white text-[#D91E18] hover:bg-red-50 text-[11px] font-bold rounded-full inline-flex items-center gap-1.5 shadow-md transition-colors whitespace-nowrap"
           >
             Discover More →

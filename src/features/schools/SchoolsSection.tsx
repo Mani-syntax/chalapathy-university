@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { schools } from "@/data";
 import SchoolCard from "./SchoolCard";
@@ -15,7 +15,7 @@ export default function SchoolsSection() {
           Explore Our Schools
         </h2>
         <Link
-          href="/schools"
+          to="/academics/schools"
           className="text-[12px] font-bold text-[#D91E18] hover:underline flex items-center gap-0.5"
         >
           View All Schools <ArrowRight size={13} />

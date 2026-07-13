@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { ArrowRight, Building2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeUp } from "@/lib/animations";
@@ -28,7 +28,7 @@ export default function AdmissionsCard() {
         </p>
       </div>
       <Link
-        href={ROUTES.apply}
+        to={ROUTES.apply}
         className="relative z-10 mt-6 inline-flex items-center gap-1.5 bg-white text-[#D91E18] font-bold text-[12px] px-5 py-2.5 rounded-md shadow hover:bg-red-50 transition-colors w-fit"
       >
         Apply Now <ArrowRight size={13} />

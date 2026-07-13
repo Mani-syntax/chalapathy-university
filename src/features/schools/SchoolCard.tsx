@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fadeUp } from "@/lib/animations";
 import type { School } from "@/types";
@@ -21,7 +21,7 @@ export default function SchoolCard({ school }: SchoolCardProps) {
       viewport={{ once: true }}
     >
       <Link
-        href={`/schools/${school.slug}`}
+        to={`/academics/schools`}
         className="group bg-white border border-[#E5E7EB] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 block"
       >
         <div className="h-[130px] relative overflow-hidden bg-[#F7F7F7]">

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { newsItems, upcomingEvents, accreditationBadges } from "@/data";
 
 export default function NewsEventsSection() {
@@ -14,7 +14,7 @@ export default function NewsEventsSection() {
             <h3 className="text-[16px] font-[var(--font-poppins)] font-extrabold text-[#081A36]">
               News & Events
             </h3>
-            <Link href="/news" className="text-[11px] font-bold text-[#D91E18] hover:underline">
+            <Link to="/news" className="text-[11px] font-bold text-[#D91E18] hover:underline">
               View All News →
             </Link>
           </div>
@@ -31,7 +31,7 @@ export default function NewsEventsSection() {
                 <div>
                   <h4 className="text-[13px] font-bold text-[#222] leading-snug">{n.title}</h4>
                   <Link
-                    href="/news"
+                    to="/news"
                     className="text-[10px] font-bold text-[#D91E18] hover:underline mt-1 inline-block"
                   >
                     Read More →
@@ -73,7 +73,7 @@ export default function NewsEventsSection() {
             <h3 className="text-[16px] font-[var(--font-poppins)] font-extrabold text-[#081A36]">
               Upcoming Events
             </h3>
-            <Link href="#" className="text-[11px] font-bold text-[#D91E18] hover:underline">
+            <Link to="#" className="text-[11px] font-bold text-[#D91E18] hover:underline">
               View Calendar →
             </Link>
           </div>
