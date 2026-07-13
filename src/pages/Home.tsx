@@ -414,7 +414,26 @@ export default function Home() {
             variants={staggerContainer}
           >
             {/* Vertical timeline connector */}
-            <div className="absolute left-[70px] top-6 bottom-6 w-0.5 bg-gray-100 z-0" />
+            <div className="absolute left-[70px] top-6 bottom-6 w-0.5 bg-gray-100 z-0">
+              {/* Yellow animated line overlay */}
+              <div 
+                className="absolute top-0 left-0 w-full bg-[#F4B400] shadow-[0_0_8px_#F4B400]" 
+                style={{
+                  height: '100%',
+                  transformOrigin: 'top',
+                  animation: 'drawTimelineLine 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                  background: 'linear-gradient(to bottom, #F4B400, #F4B400 80%, rgba(244, 180, 0, 0.2))'
+                }} 
+              />
+              <style>{`
+                @keyframes drawTimelineLine {
+                  0% { transform: scaleY(0); opacity: 1; }
+                  50% { transform: scaleY(1); opacity: 1; }
+                  85% { transform: scaleY(1); opacity: 0; }
+                  100% { transform: scaleY(0); opacity: 0; }
+                }
+              `}</style>
+            </div>
 
             {[
               { step: "01", title: "DISCOVER", desc: "Explore programs and find your passion.", icon: Compass, to: "/academics" },
