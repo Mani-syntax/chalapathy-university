@@ -501,6 +501,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                     {campusLifeOpen && (
                       <div 
                         className="absolute left-0 mt-0 w-[240px] max-h-[380px] overflow-y-auto bg-white border border-gray-200/80 rounded-[20px] shadow-2xl p-4 z-50 flex flex-col gap-1 animate-fade-in text-left font-[var(--font-poppins)]"
+                        style={{ overscrollBehavior: "contain", scrollPaddingTop: "16px", scrollPaddingBottom: "16px" }}
                         onMouseEnter={() => setCampusLifeOpen(true)}
                         onMouseLeave={() => setCampusLifeOpen(false)}
                       >
@@ -513,6 +514,9 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                 ? "text-[#D71920] bg-[#D71920]/5"
                                 : "text-gray-700 hover:text-[#D71920] hover:bg-gray-50"
                             }`}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                            }}
                             onClick={() => setCampusLifeOpen(false)}
                           >
                             {item.label}

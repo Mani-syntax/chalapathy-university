@@ -4619,114 +4619,151 @@ const LEADERS = [
 ];
 
 function LeadershipView() {
-  const [selectedLeader, setSelectedLeader] = React.useState<typeof LEADERS[0] | null>(null);
-
-  if (selectedLeader) {
-    return (
-      <div className="space-y-6 font-[var(--font-poppins)] text-left w-full mt-4 animate-fade-in">
-        {/* Banner */}
-        <div className="relative w-full h-40 md:h-48 rounded-2xl overflow-hidden bg-[#072A6C] flex items-center justify-center select-none shadow-sm mb-6">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&h=400&fit=crop')] bg-cover bg-center opacity-30 mix-blend-overlay" />
-          <h2 className="text-white text-3xl font-extrabold tracking-tight relative z-10">Leadership Profile</h2>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-8 items-start">
-          {/* Left Column Card */}
-          <div className="w-full md:w-1/3 bg-white border border-gray-200/80 rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
-            <div className="w-48 h-48 rounded-xl border border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black select-none overflow-hidden mb-4">
-              <img src={getAvatarUrl(selectedLeader.avatar)} alt={selectedLeader.name} className="w-full h-full object-cover" />
-            </div>
-            <h3 className="font-extrabold text-[#D71920] text-lg leading-snug tracking-tight">
-              {selectedLeader.name}
-            </h3>
-            <span className="text-xs text-gray-500 font-bold uppercase tracking-wider mt-1 block">
-              {selectedLeader.title}
-            </span>
-          </div>
-
-          {/* Right Column Details */}
-          <div className="w-full md:w-2/3 space-y-6 bg-white border border-gray-200/80 rounded-2xl p-8 shadow-sm">
-            <div className="border-b border-gray-100 pb-4">
-              <h2 className="text-2xl font-extrabold text-[#072A6C]">{selectedLeader.name}</h2>
-              <p className="text-[#D71920] font-bold text-sm mt-1">{selectedLeader.title}</p>
-            </div>
-            
-            <div className="space-y-4">
-              <p className="text-gray-600 text-sm leading-relaxed font-light whitespace-pre-line">
-                {selectedLeader.bio}
-              </p>
-              <div className="bg-[#072A6C]/5 p-4.5 rounded-xl text-xs space-y-1.5 text-gray-700">
-                <span className="font-bold block text-gray-500 uppercase tracking-wider text-[10px] mb-1">Education Qualification</span>
-                {selectedLeader.edu}
-              </div>
-            </div>
-
-            {/* Contact details */}
-            <div className="pt-6 border-t border-gray-100 space-y-3 text-xs text-gray-600">
-              <h4 className="font-bold text-[#072A6C] uppercase tracking-wider text-[10px]">Contact Information</h4>
-              <p><strong>Address:</strong> {selectedLeader.address}</p>
-              <p><strong>Email:</strong> <a href={`mailto:${selectedLeader.email}`} className="text-[#D71920] hover:underline">{selectedLeader.email}</a></p>
-              <p><strong>Tel:</strong> <a href={`tel:${selectedLeader.phone}`} className="text-[#D71920] hover:underline">{selectedLeader.phone}</a></p>
-            </div>
-
-            <button
-              onClick={() => setSelectedLeader(null)}
-              className="mt-4 px-5 py-2.5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer outline-none border-none flex items-center gap-1.5"
-            >
-              ← Back to Board
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6 font-[var(--font-poppins)] text-left w-full mt-4">
-      {/* Banner */}
-      <div className="relative w-full h-40 md:h-48 rounded-2xl overflow-hidden bg-[#072A6C] flex items-center justify-center select-none shadow-sm mb-6">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&h=400&fit=crop')] bg-cover bg-center opacity-30 mix-blend-overlay" />
-        <h2 className="text-white text-3xl font-extrabold tracking-tight relative z-10">Leadership</h2>
-      </div>
+    <div className="w-full text-left font-[var(--font-poppins)] overflow-hidden relative bg-white -mt-10 -mx-5 px-5">
+      
+      {/* SECTION 1 – PREMIUM HERO (Full Viewport Height / Rich Gradient Mesh) */}
+      <section className="relative min-h-[90vh] flex items-center justify-center py-20 px-4 md:px-12 overflow-hidden bg-radial from-[#072A6C] via-[#081A36] to-[#020B18] text-white rounded-b-[40px] shadow-2xl">
+        {/* Animated Mesh Gradients & Floating Blobs */}
+        <div className="absolute inset-0 z-0 opacity-40">
+          <div className="absolute top-10 left-10 w-[300px] h-[300px] rounded-full bg-[#D4AF37] blur-[150px] animate-pulse" />
+          <div className="absolute bottom-10 right-10 w-[400px] h-[400px] rounded-full bg-[#D71920] blur-[200px] animate-pulse" />
+          <div className="absolute top-1/2 left-1/3 w-[350px] h-[350px] rounded-full bg-[#2563EB] blur-[180px]" />
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {LEADERS.map((leader, index) => (
-          <div
-            key={index}
-            onClick={() => setSelectedLeader(leader)}
-            className="bg-white border border-gray-200/80 rounded-2xl p-4 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer relative group min-h-[360px]"
-          >
-            <div>
-              {/* Photo box */}
-              <div className="w-full h-48 rounded-xl border border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black select-none overflow-hidden mb-4 relative">
-                <img src={getAvatarUrl(leader.avatar)} alt={leader.name} className="w-full h-full object-cover" />
-                {/* Glance on Hover (overlay) */}
-                <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-center text-center">
-                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider mb-2">Interests & Focus</span>
-                  <p className="text-white text-[11px] leading-relaxed font-light">
-                    {leader.interests}
-                  </p>
-                  <span className="text-[10px] text-[#D71920] font-bold mt-4 animate-pulse">Click for Full Profile</span>
-                </div>
-              </div>
-
-              <h4 className="font-extrabold text-[#D71920] text-sm group-hover:text-[#b71217] transition-colors leading-snug">
-                {leader.name}
-              </h4>
-              <p className="text-[11px] text-gray-500 font-bold uppercase tracking-wider mt-0.5">
-                {leader.title}
-              </p>
-            </div>
-
-            {/* Bottom arrow container */}
-            <div className="flex justify-end pt-4">
-              <div className="w-8 h-8 rounded-lg bg-gray-50 group-hover:bg-[#D71920]/10 flex items-center justify-center transition-colors">
-                <ChevronRight size={16} className="text-gray-400 group-hover:text-[#D71920] transition-colors rotate-[-45deg]" />
+        <div className="max-w-[1440px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          {/* Left Side: Portrait & Floating 3D Bezel */}
+          <div className="lg:col-span-5 flex justify-center relative">
+            <div className="relative group">
+              {/* Soft Golden Glow Ring */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#D71920] opacity-40 blur-2xl group-hover:opacity-75 transition-all duration-500 scale-105" />
+              
+              {/* 3D Glass Frame bezel */}
+              <div className="relative w-[320px] h-[320px] md:w-[400px] md:h-[400px] rounded-full p-2.5 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl overflow-hidden transition-transform duration-500 hover:rotate-2 hover:scale-[1.02]">
+                <img 
+                  src="/chairman.png" 
+                  alt="Chairman" 
+                  className="w-full h-full object-cover rounded-full filter saturate-110"
+                  style={{ mixBlendMode: "normal" }}
+                />
               </div>
             </div>
           </div>
-        ))}
-      </div>
+
+          {/* Right Side: Large Headings & Titles */}
+          <div className="lg:col-span-7 space-y-6">
+            <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-widest text-[#D4AF37] inline-block">University Leadership</span>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase bg-gradient-to-r from-white via-gray-100 to-[#D4AF37] bg-clip-text text-transparent">
+              Chairman's Message
+            </h1>
+            <p className="text-lg md:text-2xl text-blue-200 font-medium italic">
+              "Inspiring Excellence, Integrity & Innovation"
+            </p>
+            <div className="h-[3px] w-24 bg-[#D4AF37] rounded-full" />
+            <div className="space-y-1">
+              <h3 className="text-xl md:text-2xl font-extrabold text-white">Sri Y. V. Anjaneyulu</h3>
+              <p className="text-xs uppercase tracking-wider text-gray-400 font-bold">Founder Chairman & President</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-1.5 opacity-60">
+          <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400">Scroll Down</span>
+          <div className="w-1 h-6 bg-white/40 rounded-full relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-[#D4AF37] rounded-full animate-infinite-scroll" />
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2 – THE MESSAGE BODY (Premium Glassmorphic container) */}
+      <section className="py-20 md:py-28 max-w-[1000px] mx-auto px-5 relative z-10">
+        <div className="bg-white border border-gray-100 rounded-[32px] p-8 md:p-16 shadow-2xl relative overflow-hidden group">
+          {/* Dynamic soft perimeter glow on hover */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/5 via-[#D71920]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          
+          <span className="text-8xl font-serif text-[#D4AF37] opacity-25 absolute -top-4 -left-2 select-none">“</span>
+          
+          <div className="relative z-10 space-y-6 text-gray-600 text-[15px] md:text-[17px] leading-relaxed font-medium text-justify">
+            <p>Welcome to Chalapathi University, an institution built upon the pillars of <span className="text-[#D71920] font-bold">academic rigour, social responsibility, and future-centric innovation</span>. From our modest beginnings, we have constantly pushed the boundaries of knowledge, seeking to create an educational ecosystem that nurtures tomorrow's global leaders.</p>
+            <p>We believe that education must go beyond conventional memorization. Our classrooms, research centers, and digital modules are designed to cultivate critical thinking, design awareness, and technological skills. By prioritizing <span className="text-[#D4AF37] font-bold">ethical values, domain specialization, and hands-on exposure</span>, we empower our graduates to lead with integrity in an ever-evolving world.</p>
+            <p>I invite you to explore our advanced research pathways, engage in collaborative innovation drives, and join us in our continuous pursuit of excellence. Together, let us shape a bright tomorrow.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3 – CORE VALUES (4 Glass Cards) */}
+      <section className="py-16 bg-gray-50/50 border-y border-gray-100 rounded-[40px] px-5">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-black text-[#072A6C] tracking-tight uppercase">OUR GOVERNING PHILOSOPHIES</h2>
+            <div className="h-1 w-16 bg-[#D71920] mx-auto mt-3 rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Vision", desc: "Setting benchmarks in global learning systems and digital technology transfers." },
+              { title: "Leadership", desc: "Empowering student cohorts to lead academic, corporate, and civil domains." },
+              { title: "Innovation", desc: "Fostering active laboratory research, patent designs, and startup projects." },
+              { title: "Excellence", desc: "Upholding high standards of quality assurance, accreditations, and placements." }
+            ].map((v, i) => (
+              <div key={i} className="bg-white border border-gray-100 rounded-[24px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#D71920] to-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                <h3 className="font-extrabold text-[#072A6C] text-base mb-2 group-hover:text-[#D71920] transition-colors">{v.title}</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4 – INSPIRING QUOTE */}
+      <section className="py-24 bg-gradient-to-tr from-[#072A6C] to-[#020B18] text-white text-center px-5 rounded-[40px] my-16 shadow-lg relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
+        <div className="max-w-[800px] mx-auto space-y-6 relative z-10">
+          <h3 className="text-2xl md:text-4xl font-serif italic text-blue-200">
+            "The goal of true education is to convert mirrors into windows, fostering independent minds that create rather than conform."
+          </h3>
+          <div className="w-16 h-1 bg-[#D4AF37] mx-auto rounded-full" />
+          <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-bold">Sri Y. V. Anjaneyulu</span>
+        </div>
+      </section>
+
+      {/* SECTION 5 – MESSAGE HIGHLIGHTS (Modern feature cards) */}
+      <section className="py-16 max-w-[1440px] mx-auto px-5">
+        <div className="text-center mb-12">
+          <h2 className="text-2xl md:text-3xl font-black text-[#072A6C] tracking-tight uppercase">STRATEGIC FOCUS AREAS</h2>
+          <div className="h-1 w-16 bg-[#D71920] mx-auto mt-3 rounded-full" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { title: "Student-First Paradigm", desc: "Academic pathways tailored to nurture personal development, creative leadership, and career readiness." },
+            { title: "Research & Development", desc: "Collaborating with global institutions to build patents, research papers, and domain advancements." },
+            { title: "Ethics & Integrity", desc: "Preserving core humanitarian values, transparency in governance, and societal contribution." }
+          ].map((h, i) => (
+            <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-1.5 h-full bg-[#D71920]" />
+              <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D71920] transition-colors">{h.title}</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">{h.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SECTION 6 – CLOSING STATEMENT */}
+      <section className="py-20 bg-gray-50 border-t border-gray-100 text-center rounded-t-[40px] px-5">
+        <div className="max-w-[600px] mx-auto space-y-6">
+          <img src="/logo.png" alt="University Logo" className="h-12 mx-auto filter saturate-100" />
+          <h3 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-tight">SHAPING INDEPENDENT FUTURES</h3>
+          <p className="text-xs text-gray-500 leading-relaxed">We welcome you to become a part of our legacy and contribute to our technological progress.</p>
+          <div className="pt-6 border-t border-gray-200">
+            <h4 className="font-extrabold text-sm text-[#D71920]">Sri Y. V. Anjaneyulu</h4>
+            <p className="text-[10px] uppercase tracking-wider text-gray-400 mt-0.5">Chancellor & Chairman, Chalapathi University</p>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
