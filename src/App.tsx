@@ -59,17 +59,17 @@ export default function App() {
   });
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const fallbackTimerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (showSplash) {
       document.body.style.overflow = "hidden";
       
-      // Safety fallback: dismiss splash screen after 6.5s in case of slow loading or browser play blocks
-      const fallbackTimer = setTimeout(() => {
+      // Safety fallback: dismiss splash screen after 10s if stuck loading
+      fallbackTimerRef.current = setTimeout(() => {
         setShowSplash(false);
-      }, 6500);
+      }, 10000);
 
-      // Attempt programmatic play to bypass stricter mobile browser restrictions
       if (videoRef.current) {
         videoRef.current.play().catch((err) => {
           console.log("Autoplay blocked or video error, fallback active:", err);
@@ -77,7 +77,7 @@ export default function App() {
       }
 
       return () => {
-        clearTimeout(fallbackTimer);
+        if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
         document.body.style.overflow = "";
       };
     } else {
@@ -85,6 +85,14 @@ export default function App() {
       sessionStorage.setItem("chalapathy_visited", "true");
     }
   }, [showSplash]);
+
+  const handleVideoPlay = () => {
+    // Clear safety loading timer once playback starts to avoid cutting video mid-play
+    if (fallbackTimerRef.current) {
+      clearTimeout(fallbackTimerRef.current);
+      fallbackTimerRef.current = null;
+    }
+  };
 
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
   const [showAnnouncementsDrawer, setShowAnnouncementsDrawer] = useState(false);
@@ -173,7 +181,7 @@ export default function App() {
         {showSplash && (
           <motion.div
             key="splash"
-            className="fixed inset-0 z-[9999] bg-black flex items-center justify-center select-none"
+            className="fixed inset-0 z-[999999] bg-black flex items-center justify-center select-none"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
           >
@@ -184,6 +192,8 @@ export default function App() {
               muted
               playsInline
               preload="auto"
+              onPlay={handleVideoPlay}
+              onError={() => setShowSplash(false)}
               onEnded={() => {
                 setTimeout(() => {
                   setShowSplash(false);
@@ -191,10 +201,57 @@ export default function App() {
               }}
               className="w-full h-full object-cover"
             />
-            {/* Elegant Skip Button */}
-             <button
+            <style dangerouslySetInnerHTML={{__html: `
+              .intro-speech-bubble {
+                position: absolute;
+                bottom: 96px;
+                right: 24px;
+                background: #ffffff;
+                border: 3.5px solid #D71920;
+                border-radius: 16px;
+                padding: 12px 22px;
+                font-weight: 900;
+                font-size: 11px;
+                color: #072A6C;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+                cursor: pointer;
+                outline: none;
+                transition: all 0.2s ease;
+                z-index: 1000000;
+              }
+              .intro-speech-bubble:hover {
+                transform: scale(1.05);
+              }
+              .intro-speech-bubble:active {
+                transform: scale(0.95);
+              }
+              .intro-speech-bubble::after, .intro-speech-bubble::before {
+                top: 100%;
+                left: 25%;
+                border: solid transparent;
+                content: "";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+              }
+              .intro-speech-bubble::after {
+                border-top-color: #ffffff;
+                border-width: 9px;
+                margin-left: -9px;
+              }
+              .intro-speech-bubble::before {
+                border-top-color: #D71920;
+                border-width: 13px;
+                margin-left: -13px;
+              }
+            `}} />
+            
+            <button
               onClick={() => setShowSplash(false)}
-              className="absolute bottom-[98px] right-[40px] px-6 py-3.5 bg-black hover:bg-black/90 text-white text-[11px] font-extrabold rounded-full border border-white/20 shadow-2xl transition-all active:scale-95 cursor-pointer outline-none tracking-widest uppercase"
+              className="intro-speech-bubble"
             >
               Skip Intro ➔
             </button>
@@ -214,6 +271,7 @@ export default function App() {
             <Route path="/about/history" element={<DynamicPage />} />
             <Route path="/about/vision" element={<DynamicPage />} />
             <Route path="/about/leadership" element={<DynamicPage />} />
+            <Route path="/about/advantage" element={<DynamicPage />} />
 
             {/* Academics Routes */}
             <Route path="/academics" element={<DynamicPage />} />

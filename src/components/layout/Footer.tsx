@@ -10,6 +10,7 @@ export default function Footer() {
     { label: "Vision & Mission", to: "/about/vision" },
     { label: "Leadership", to: "/about/leadership" },
     { label: "History & Heritage", to: "/about/history" },
+    { label: "Chalapathi Advantage", to: "/about/advantage" },
     { label: "Accreditations", to: "/about" },
   ];
 

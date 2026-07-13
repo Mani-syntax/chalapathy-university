@@ -3,8 +3,9 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe, QrCode, Award, ChevronLeft } from "lucide-react";
 import { PROGRAMS_DATA } from "../data/programsData";
+import { UNDERGRADUATE_GROUPS, MEGA_MENU_PROGRAMS } from "../components/layout/Header";
 
 
 const getProgramTimeline = (title: string) => {
@@ -266,21 +267,7 @@ const getPageContent = (path: string) => {
         title: "Our History & Heritage",
         category: "About Us",
         desc: "Established with a vision to nurture innovators, City Chalapathi Institute of Technology has a rich heritage of educational brilliance dating back over 25 years.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Founded in Guntur, Andhra Pradesh, our institution was established to bridge the gap between academic education and industry requirements. Over the past two and a half decades, we have evolved from a local college into a premier autonomous research university of national reputation.</p>
-            <div className="border-l-4 border-[#D71920] pl-4 my-6 italic text-gray-700 font-medium">
-              "To provide value-based quality technical education and produce competent engineers who can contribute to the progress of the society."
-            </div>
-            <h3 className="text-lg font-bold text-[#072A6C] mt-6">Milestones Journey</h3>
-            <ul className="space-y-3 list-disc pl-5 mt-2">
-              <li><strong>2001:</strong> Inception of the college with three basic undergraduate branches.</li>
-              <li><strong>2008:</strong> Accredited by NBA for all core engineering departments.</li>
-              <li><strong>2015:</strong> Conferred Autonomous Status, allowing custom industry-driven curricula.</li>
-              <li><strong>2021:</strong> Awarded NAAC A+ accreditation for excellence in infrastructure and academics.</li>
-            </ul>
-          </div>
-        )
+        body: <HistoryView />
       };
     }
     if (cleanPath.includes("vision")) {
@@ -288,29 +275,7 @@ const getPageContent = (path: string) => {
         title: "Vision & Mission",
         category: "About Us",
         desc: "Our core beliefs and guiding stars directing our future pathways of excellence.",
-        body: (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-            <div className="bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm">
-              <h3 className="text-lg font-extrabold text-[#072A6C] mb-4 flex items-center gap-2">
-                <Info className="text-[#D71920]" size={20} /> OUR VISION
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                To emerge as a premier destination for value-based technical education and research, creating globally competent leaders who drive social and technological progress through innovation.
-              </p>
-            </div>
-            <div className="bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm">
-              <h3 className="text-lg font-extrabold text-[#072A6C] mb-4 flex items-center gap-2">
-                <ShieldCheck className="text-[#D71920]" size={20} /> OUR MISSION
-              </h3>
-              <ul className="space-y-3 text-gray-600 text-sm list-disc pl-5">
-                <li>Impart high-quality, practical technical education through modern teaching methodologies.</li>
-                <li>Foster an environment of innovation, research, and entrepreneurship.</li>
-                <li>Collaborate with top industries and global universities to keep learning current.</li>
-                <li>Nurture ethical, empathetic values alongside technical competency.</li>
-              </ul>
-            </div>
-          </div>
-        )
+        body: <VisionView />
       };
     }
     if (cleanPath.includes("leadership")) {
@@ -318,24 +283,15 @@ const getPageContent = (path: string) => {
         title: "Leadership & Governing Body",
         category: "About Us",
         desc: "Meet the visionary leaders directing the strategic progress of City Chalapathi Institute of Technology.",
-        body: (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            {[
-              { name: "Sri Y. V. Anjaneyulu", role: "Chairman & President", desc: "A visionary educationist leading multiple initiatives in Guntur district." },
-              { name: "Dr. K. Chandrasekhar", role: "Principal", desc: "Bringing over 30 years of academic and administrative engineering excellence." },
-              { name: "Prof. P. V. Ramana", role: "Dean Academics", desc: "Ensuring industry-current curricular updates across all departments." }
-            ].map((leader, i) => (
-              <div key={i} className="bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm text-center">
-                <div className="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center font-bold text-xl text-[#072A6C]">
-                  {leader.name.split(" ").slice(-1)[0][0]}
-                </div>
-                <h4 className="font-extrabold text-[#072A6C] text-sm">{leader.name}</h4>
-                <p className="text-xs text-[#D71920] font-semibold mt-1">{leader.role}</p>
-                <p className="text-xs text-gray-500 mt-3 leading-relaxed">{leader.desc}</p>
-              </div>
-            ))}
-          </div>
-        )
+        body: <LeadershipView />
+      };
+    }
+    if (cleanPath.includes("advantage")) {
+      return {
+        title: "The Chalapathi Advantage",
+        category: "About Us",
+        desc: "Discover why Chalapathi Institute of Technology stands out as a leading hub of educational excellence and innovation.",
+        body: <ChalapathiAdvantage />
       };
     }
     return {
@@ -343,18 +299,23 @@ const getPageContent = (path: string) => {
       category: "About Us",
       desc: "City Chalapathi Institute of Technology is a leading autonomous engineering college dedicated to empowering tomorrow's innovators.",
       body: (
-        <div className="space-y-6 text-gray-600 text-sm">
-          <p>We believe in imparting hands-on, practical knowledge that equips our students to address real-world challenges. Explore our links to learn more about our vision, leadership, and glorious heritage.</p>
-          <div className="grid grid-cols-3 gap-4 my-8">
-            <Link to="/about/history" className="bg-white border border-gray-100 rounded-[16px] p-4 text-center hover:border-[#072A6C] transition-all">
-              <span className="block font-bold text-[#072A6C] text-sm">History</span>
-            </Link>
-            <Link to="/about/vision" className="bg-white border border-gray-100 rounded-[16px] p-4 text-center hover:border-[#072A6C] transition-all">
-              <span className="block font-bold text-[#072A6C] text-sm">Vision</span>
-            </Link>
-            <Link to="/about/leadership" className="bg-white border border-gray-100 rounded-[16px] p-4 text-center hover:border-[#072A6C] transition-all">
-              <span className="block font-bold text-[#072A6C] text-sm">Leadership</span>
-            </Link>
+        <div className="space-y-6">
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p className="font-light leading-relaxed">We believe in imparting hands-on, practical knowledge that equips our students to address real-world challenges. Explore our links to learn more about our vision, leadership, and glorious heritage.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
+              <Link to="/about/history" className="bg-white border border-gray-200/80 rounded-2xl p-5 text-center hover:border-[#072A6C] transition-all shadow-sm block">
+                <span className="block font-black text-[#072A6C] text-xs uppercase tracking-wider">Heritage & Milestones</span>
+              </Link>
+              <Link to="/about/vision" className="bg-white border border-gray-200/80 rounded-2xl p-5 text-center hover:border-[#072A6C] transition-all shadow-sm block">
+                <span className="block font-black text-[#072A6C] text-xs uppercase tracking-wider">Vision & Mission</span>
+              </Link>
+              <Link to="/about/leadership" className="bg-white border border-gray-200/80 rounded-2xl p-5 text-center hover:border-[#072A6C] transition-all shadow-sm block">
+                <span className="block font-black text-[#072A6C] text-xs uppercase tracking-wider">Governing Leadership</span>
+              </Link>
+              <Link to="/about/advantage" className="bg-white border border-gray-200/80 rounded-2xl p-5 text-center hover:border-[#072A6C] transition-all shadow-sm block">
+                <span className="block font-black text-[#072A6C] text-xs uppercase tracking-wider">Chalapathi Advantage</span>
+              </Link>
+            </div>
           </div>
         </div>
       )
@@ -510,14 +471,64 @@ const getPageContent = (path: string) => {
         category: "Academics",
         desc: "List of approved B.Tech, M.Tech, MCA, MBA, and Pharmacy programs.",
         body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>We offer undergraduate and postgraduate courses affiliated and accredited for premium industrial placements.</p>
-            <ul className="space-y-2 list-disc pl-5">
-              <li><strong>B.Tech:</strong> Computer Science, AI & ML, Data Science, ECE, EEE, Mechanical, Civil.</li>
-              <li><strong>M.Tech:</strong> Computer Science, Power Systems, VLSI & Embedded Systems.</li>
-              <li><strong>Pharmacy:</strong> B.Pharm, M.Pharm, D.Pharm.</li>
-              <li><strong>Management:</strong> MBA, MCA.</li>
-            </ul>
+          <div className="space-y-8 text-gray-600 text-sm font-[var(--font-poppins)]">
+            <p className="text-sm font-light leading-relaxed">
+              We offer undergraduate and postgraduate courses affiliated and accredited for premium industrial placements.
+            </p>
+            
+            <div className="space-y-6">
+              {/* Undergraduate (UG) Section */}
+              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+                <h3 className="text-base font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
+                  Undergraduate (UG) Programs
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
+                    <div key={dept} className="space-y-2">
+                      <h4 className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">{dept}</h4>
+                      <div className="flex flex-col gap-1.5 pl-2">
+                        {courses.map((course) => (
+                          <Link
+                            key={course.slug}
+                            to={`/academics/${course.slug}`}
+                            className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                            {course.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Postgraduate (PG) & Other Sections */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Object.entries(MEGA_MENU_PROGRAMS).map(([level, list]) => {
+                  if (level === "Undergraduate (UG)") return null;
+                  return (
+                    <div key={level} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+                      <h3 className="text-sm font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
+                        {level}
+                      </h3>
+                      <div className="flex flex-col gap-2 pl-2">
+                        {list.map((course) => (
+                          <Link
+                            key={course.label}
+                            to={course.to}
+                            className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                            {course.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )
       };
@@ -651,30 +662,7 @@ const getPageContent = (path: string) => {
         title: "Apply Online",
         category: "Admissions",
         desc: "Start your journey today. Fill out our online application form to secure your seat.",
-        body: (
-          <form className="space-y-4 max-w-lg mt-4 bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm">
-            <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
-              <input type="text" className="w-full px-3 py-2 border border-gray-200 rounded-[8px] text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" placeholder="Enter full name" />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
-              <input type="email" className="w-full px-3 py-2 border border-gray-200 rounded-[8px] text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" placeholder="Enter email" />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Selected Program</label>
-              <select className="w-full px-3 py-2 border border-gray-200 rounded-[8px] text-xs outline-none focus:ring-1 focus:ring-[#072A6C]">
-                <option>Engineering (B.Tech)</option>
-                <option>Computer Applications (MCA)</option>
-                <option>Management (MBA)</option>
-                <option>Pharmacy (B.Pharm)</option>
-              </select>
-            </div>
-            <button type="button" onClick={() => alert("Application Saved! Registration details sent to email.")} className="w-full py-2.5 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-[8px] transition-colors">
-              Submit Registration
-            </button>
-          </form>
-        )
+        body: <AdmissionsApplyFlow />
       };
     }
     if (cleanPath.includes("fees")) {
@@ -682,41 +670,7 @@ const getPageContent = (path: string) => {
         title: "Academic Fee Structure",
         category: "Admissions",
         desc: "Transparent and competitive tuition fee details across all core streams.",
-        body: (
-          <div className="bg-white border border-gray-100 rounded-[16px] overflow-hidden shadow-sm mt-4">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
-                  <th className="p-4">Program Stream</th>
-                  <th className="p-4">Annual Tuition Fee</th>
-                  <th className="p-4">Exam Cell Fee</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 text-gray-600">
-                <tr>
-                  <td className="p-4 font-semibold text-[#072A6C]">B.Tech (Computer Science / AI)</td>
-                  <td className="p-4">₹90,000 / Year</td>
-                  <td className="p-4">₹5,000 / Year</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-semibold text-[#072A6C]">B.Tech (ECE / Mech / EEE)</td>
-                  <td className="p-4">₹75,000 / Year</td>
-                  <td className="p-4">₹5,000 / Year</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-semibold text-[#072A6C]">MCA (Computer Applications)</td>
-                  <td className="p-4">₹55,000 / Year</td>
-                  <td className="p-4">₹4,000 / Year</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-semibold text-[#072A6C]">MBA (Management)</td>
-                  <td className="p-4">₹65,000 / Year</td>
-                  <td className="p-4">₹4,000 / Year</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )
+        body: <FeesView />
       };
     }
     if (cleanPath.includes("scholarships")) {
@@ -724,18 +678,7 @@ const getPageContent = (path: string) => {
         title: "Scholarships & Merit Schemes",
         category: "Admissions",
         desc: "Ensuring financial need never deters brilliant academic potential.",
-        body: (
-          <div className="space-y-4 text-gray-600 text-sm mt-4">
-            <div className="bg-white border border-gray-100 p-5 rounded-[16px] shadow-sm">
-              <h4 className="font-extrabold text-[#072A6C] text-sm mb-2">1. Merit Scholarship</h4>
-              <p className="text-xs">Students securing top 100 ranks in entrance exams are eligible for a 50% tuition waiver.</p>
-            </div>
-            <div className="bg-white border border-gray-100 p-5 rounded-[16px] shadow-sm">
-              <h4 className="font-extrabold text-[#072A6C] text-sm mb-2">2. Sports & Athletic Waiver</h4>
-              <p className="text-xs">State or National level athletes receive up to 100% hostel and fee exemptions.</p>
-            </div>
-          </div>
-        )
+        body: <ScholarshipsView />
       };
     }
     return {
@@ -861,28 +804,11 @@ const getPageContent = (path: string) => {
   // Placements Pages
   if (cleanPath.startsWith("/placements")) {
     return {
-      title: "Placements & Careers Cell",
+      title: "Placements & Career Development",
       category: "Placements",
-      desc: "Bridging campus learning with career placement inside global MNC tech giants.",
-      body: (
-        <div className="space-y-6 text-gray-600 text-sm">
-          <p>Our dedicated placement cell hosts campus interviews, provides aptitude workshops, and guides internship allocations during the final semesters.</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
-            <div className="bg-white border border-gray-100 p-5 rounded-[16px] text-center shadow-sm">
-              <span className="block text-2xl font-extrabold text-[#072A6C]">₹18 LPA</span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase mt-1 block">Highest Package</span>
-            </div>
-            <div className="bg-white border border-gray-100 p-5 rounded-[16px] text-center shadow-sm">
-              <span className="block text-2xl font-extrabold text-[#072A6C]">₹5.5 LPA</span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase mt-1 block">Average Package</span>
-            </div>
-            <div className="bg-white border border-gray-100 p-5 rounded-[16px] text-center shadow-sm">
-              <span className="block text-2xl font-extrabold text-[#072A6C]">95%</span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase mt-1 block">Placement Record</span>
-            </div>
-          </div>
-        </div>
-      )
+      desc: "Empowering careers and shaping global leaders through robust industry ecosystems.",
+      body: <PlacementsView />,
+      hideHeader: true
     };
   }
 
@@ -917,29 +843,11 @@ const getPageContent = (path: string) => {
   // Contact Pages
   if (cleanPath.startsWith("/contact")) {
     return {
-      title: "Contact Our Office",
+      title: "Contact Us",
       category: "Support",
-      desc: "Get in touch with admissions, administration, and campus security staff.",
-      body: (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-          <div className="space-y-4">
-            <h4 className="font-extrabold text-[#072A6C] text-sm">Office Address</h4>
-            <p className="text-xs text-gray-600 leading-relaxed">City Chalapathi Institute of Technology<br />A.R. Nagar, Mothadaka, Guntur District,<br />Andhra Pradesh - 522034</p>
-            <h4 className="font-extrabold text-[#072A6C] text-sm pt-2">Admission Hotlines</h4>
-            <p className="text-xs text-gray-600">Mobile: +91 88866 30355, 88866 30356<br />Email: admissions@city.ac.in</p>
-          </div>
-          <div className="h-60 rounded-[16px] overflow-hidden border border-gray-200">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.974950454796!2d80.28581691486445!3d16.375218788685984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4a79679802cfad%3A0xe67e2a901bbd33fe!2sChalapathi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1657523129846!5m2!1sen!2sin"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen={false}
-              loading="lazy"
-            ></iframe>
-          </div>
-        </div>
-      )
+      desc: "Connect with admissions, administration, and campus advisors directly.",
+      body: <ContactUsView />,
+      hideHeader: true
     };
   }
 
@@ -2127,51 +2035,65 @@ export default function DynamicPage() {
         </div>
 
         {/* Layout Cards */}
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="space-y-8">
           {/* Main Info */}
-          <div className={`${isManagement ? "lg:col-span-12" : "lg:col-span-8"} bg-white border border-gray-200/60 rounded-[16px] p-8 shadow-sm w-full`}>
-            <span className="text-[11px] font-bold text-[#D71920] uppercase tracking-wider block mb-1">{content.category}</span>
-            <h1 className="text-[28px] md:text-[34px] font-[800] text-[#072A6C] leading-snug tracking-tight mb-4">
-              {content.title}
-            </h1>
-            <p className="text-[14px] text-gray-500 leading-relaxed font-light mb-8 pb-6 border-b border-gray-100">
-              {content.desc}
-            </p>
+          <motion.div
+            className="bg-white border border-gray-200/60 rounded-[16px] p-6 md:p-8 shadow-sm w-full"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {!content.hideHeader && (
+              <>
+                <span className="text-[11px] font-bold text-[#D71920] uppercase tracking-wider block mb-1">{content.category}</span>
+                <h1 className="text-[28px] md:text-[34px] font-[800] text-[#072A6C] leading-snug tracking-tight mb-4">
+                  {content.title}
+                </h1>
+                <p className="text-[14px] text-gray-500 leading-relaxed font-light mb-8 pb-6 border-b border-gray-100">
+                  {content.desc}
+                </p>
+              </>
+            )}
             <div>
               {content.body}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Quick Info Sidebar */}
+          {/* Horizontal Quick Info box at the bottom of every page */}
           {!isManagement && (
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-[#072A6C] text-white rounded-[16px] p-6 shadow-sm">
-                <h3 className="font-bold text-sm mb-3">Quick Navigation</h3>
-                <ul className="space-y-2 text-xs text-blue-200">
-                  <li><Link to="/about" className="hover:text-white transition-colors flex items-center justify-between">About Institution <ArrowRight size={10} /></Link></li>
-                  <li><Link to="/academics" className="hover:text-white transition-colors flex items-center justify-between">Academic Programs <ArrowRight size={10} /></Link></li>
-                  <li><Link to="/admissions" className="hover:text-white transition-colors flex items-center justify-between">Enrollment & Fees <ArrowRight size={10} /></Link></li>
-                  <li><Link to="/placements" className="hover:text-white transition-colors flex items-center justify-between">Placements & Statistics <ArrowRight size={10} /></Link></li>
-                  <li><Link to="/contact" className="hover:text-white transition-colors flex items-center justify-between">Contact Support <ArrowRight size={10} /></Link></li>
-                </ul>
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {/* Quick Navigation Card */}
+              <div className="bg-[#072A6C] text-white rounded-[16px] p-6 shadow-sm flex flex-col justify-between">
+                <div>
+                  <h3 className="font-extrabold text-sm mb-3 uppercase tracking-wider text-left">Quick Navigation</h3>
+                  <ul className="grid grid-cols-2 gap-2.5 text-xs text-blue-200 text-left">
+                    <li><Link to="/about/history" className="hover:text-white transition-colors flex items-center justify-between">About Institution <ArrowRight size={10} /></Link></li>
+                    <li><Link to="/academics/programmes" className="hover:text-white transition-colors flex items-center justify-between">Academic Programs <ArrowRight size={10} /></Link></li>
+                    <li><Link to="/admissions/fees" className="hover:text-white transition-colors flex items-center justify-between">Enrollment & Fees <ArrowRight size={10} /></Link></li>
+                    <li><Link to="/placements" className="hover:text-white transition-colors flex items-center justify-between">Placements & Statistics <ArrowRight size={10} /></Link></li>
+                    <li className="col-span-2"><Link to="/contact" className="hover:text-white transition-colors flex items-center justify-between">Contact Support <ArrowRight size={10} /></Link></li>
+                  </ul>
+                </div>
               </div>
 
-              <div className="bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm">
-                <h3 className="font-bold text-sm text-[#072A6C] mb-3">Admission Helpdesk</h3>
-                <p className="text-xs text-gray-500 leading-relaxed mb-4">Have questions about registration, courses, or hostels? Reach our advisors directly.</p>
-                <a href="tel:8886630355" className="h-10 w-full bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-[8px] flex items-center justify-center gap-1.5 transition-colors">
-                  <Phone size={13} /> Call Counselor
+              {/* Helpdesk Card */}
+              <div className="bg-white border border-gray-200/80 rounded-[16px] p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
+                <div className="space-y-1 sm:max-w-[65%]">
+                  <h3 className="font-extrabold text-sm text-[#072A6C] uppercase tracking-wider">Admission Helpdesk</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed font-light">Have questions about registration, courses, or hostels? Reach our advisors directly.</p>
+                </div>
+                <a href="tel:8886630355" className="h-11 px-6 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors shrink-0 outline-none border-none cursor-pointer">
+                  <Phone size={14} /> Call Counselor
                 </a>
               </div>
-            </div>
+            </motion.div>
           )}
-        </motion.div>
-
+        </div>
       </div>
     </div>
   );
@@ -3878,6 +3800,2014 @@ function FacultyDirectory() {
         </div>
       )}
 
+    </div>
+  );
+}
+
+const LEADERS = [
+  {
+    name: "Sri Y. V. Anjaneyulu",
+    title: "Chancellor",
+    edu: "Renowned Educationist & Founder Sponsor Representative",
+    avatar: "YVA",
+    interests: "Strategic leadership, academic governance, public relations, and legal policies.",
+    bio: "Sri Y. V. Anjaneyulu, a visionary educationist and prominent leader, has been the guiding force behind the establishment and development of City Chalapathi Institute of Technology. With over 35 years of experience in administrative leadership, he has spearheaded numerous educational and social initiatives in the Guntur district. As Chancellor, he focuses on strategic growth, long-term policy formulation, infrastructure advancement, and cultivating partnerships with industries and global institutions to ensure academic quality and values-driven education.",
+    phone: "+91 863 2345401",
+    email: "chancellor@city.ac.in",
+    address: "Chalapathi Nagar, Lam, Guntur, Andhra Pradesh - 522034"
+  },
+  {
+    name: "Sri Y. Sujit Kumar",
+    title: "Pro Chancellor",
+    edu: "M.Tech & MBA - Executive Education",
+    avatar: "YSK",
+    interests: "Institutional progress planning, modernization initiatives, and industry collaborations.",
+    bio: "Sri Y. Sujit Kumar holds a postgraduate degree in engineering and executive education in management. As Pro Chancellor, he works closely with the governing board to implement modernization initiatives, digital transformation of the campus, and strategic expansion projects. With 18 years of experience, he leads university-industry collaborations, global academic partnerships, and entrepreneurship programs, preparing students for dynamic international careers.",
+    phone: "+91 863 2345402",
+    email: "prochan@city.ac.in",
+    address: "Chalapathi Nagar, Lam, Guntur, Andhra Pradesh - 522034"
+  },
+  {
+    name: "Dr. K. Prasad Rao",
+    title: "Vice Chancellor",
+    edu: "Ph.D., Former Senior Professor - Administration & Research",
+    avatar: "KPR",
+    interests: "Curriculum planning coordination, academic excellence, and international relations.",
+    bio: "Dr. K. Prasad Rao is an eminent academician and researcher with a Ph.D. and over 30 years of teaching, research, and administrative experience. He has published numerous research papers in international journals and overseen critical accreditation achievements. As Vice Chancellor, he heads academic governance, research direction, outcome-based curricula, and student-centric learning frameworks, steering the university towards national and international prominence.",
+    phone: "+91 863 2345403",
+    email: "vc@city.ac.in",
+    address: "Chalapathi Nagar, Lam, Guntur, Andhra Pradesh - 522034"
+  },
+  {
+    name: "Prof. T. Sivaramaiah",
+    title: "Registrar",
+    edu: "M.Tech, Ph.D. - Computer Networks",
+    avatar: "TS",
+    interests: "General administration, statutory records management, and legal affairs compliance.",
+    bio: "Prof. T. Sivaramaiah holds an M.Tech and Ph.D. in Computer Science and Networks, bringing 25 years of teaching and administrative expertise to his role. As Registrar, he oversees general university administration, legal affairs compliance, statutory records, academic senate meetings, and external partnerships. He is dedicated to maintaining administrative transparency, efficiency, and student support systems.",
+    phone: "+91 863 2345404",
+    email: "registrar@city.ac.in",
+    address: "Chalapathi Nagar, Lam, Guntur, Andhra Pradesh - 522034"
+  }
+];
+
+function LeadershipView() {
+  const [selectedLeader, setSelectedLeader] = React.useState<typeof LEADERS[0] | null>(null);
+
+  if (selectedLeader) {
+    return (
+      <div className="space-y-6 font-[var(--font-poppins)] text-left w-full mt-4 animate-fade-in">
+        {/* Banner */}
+        <div className="relative w-full h-40 md:h-48 rounded-2xl overflow-hidden bg-[#072A6C] flex items-center justify-center select-none shadow-sm mb-6">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&h=400&fit=crop')] bg-cover bg-center opacity-30 mix-blend-overlay" />
+          <h2 className="text-white text-3xl font-extrabold tracking-tight relative z-10">Leadership Profile</h2>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-8 items-start">
+          {/* Left Column Card */}
+          <div className="w-full md:w-1/3 bg-white border border-gray-200/80 rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
+            <div className="w-48 h-48 rounded-xl border border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black select-none overflow-hidden mb-4">
+              <img src={getAvatarUrl(selectedLeader.avatar)} alt={selectedLeader.name} className="w-full h-full object-cover" />
+            </div>
+            <h3 className="font-extrabold text-[#D71920] text-lg leading-snug tracking-tight">
+              {selectedLeader.name}
+            </h3>
+            <span className="text-xs text-gray-500 font-bold uppercase tracking-wider mt-1 block">
+              {selectedLeader.title}
+            </span>
+          </div>
+
+          {/* Right Column Details */}
+          <div className="w-full md:w-2/3 space-y-6 bg-white border border-gray-200/80 rounded-2xl p-8 shadow-sm">
+            <div className="border-b border-gray-100 pb-4">
+              <h2 className="text-2xl font-extrabold text-[#072A6C]">{selectedLeader.name}</h2>
+              <p className="text-[#D71920] font-bold text-sm mt-1">{selectedLeader.title}</p>
+            </div>
+            
+            <div className="space-y-4">
+              <p className="text-gray-600 text-sm leading-relaxed font-light whitespace-pre-line">
+                {selectedLeader.bio}
+              </p>
+              <div className="bg-[#072A6C]/5 p-4.5 rounded-xl text-xs space-y-1.5 text-gray-700">
+                <span className="font-bold block text-gray-500 uppercase tracking-wider text-[10px] mb-1">Education Qualification</span>
+                {selectedLeader.edu}
+              </div>
+            </div>
+
+            {/* Contact details */}
+            <div className="pt-6 border-t border-gray-100 space-y-3 text-xs text-gray-600">
+              <h4 className="font-bold text-[#072A6C] uppercase tracking-wider text-[10px]">Contact Information</h4>
+              <p><strong>Address:</strong> {selectedLeader.address}</p>
+              <p><strong>Email:</strong> <a href={`mailto:${selectedLeader.email}`} className="text-[#D71920] hover:underline">{selectedLeader.email}</a></p>
+              <p><strong>Tel:</strong> <a href={`tel:${selectedLeader.phone}`} className="text-[#D71920] hover:underline">{selectedLeader.phone}</a></p>
+            </div>
+
+            <button
+              onClick={() => setSelectedLeader(null)}
+              className="mt-4 px-5 py-2.5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer outline-none border-none flex items-center gap-1.5"
+            >
+              ← Back to Board
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6 font-[var(--font-poppins)] text-left w-full mt-4">
+      {/* Banner */}
+      <div className="relative w-full h-40 md:h-48 rounded-2xl overflow-hidden bg-[#072A6C] flex items-center justify-center select-none shadow-sm mb-6">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&h=400&fit=crop')] bg-cover bg-center opacity-30 mix-blend-overlay" />
+        <h2 className="text-white text-3xl font-extrabold tracking-tight relative z-10">Leadership</h2>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {LEADERS.map((leader, index) => (
+          <div
+            key={index}
+            onClick={() => setSelectedLeader(leader)}
+            className="bg-white border border-gray-200/80 rounded-2xl p-4 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer relative group min-h-[360px]"
+          >
+            <div>
+              {/* Photo box */}
+              <div className="w-full h-48 rounded-xl border border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black select-none overflow-hidden mb-4 relative">
+                <img src={getAvatarUrl(leader.avatar)} alt={leader.name} className="w-full h-full object-cover" />
+                {/* Glance on Hover (overlay) */}
+                <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-center text-center">
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider mb-2">Interests & Focus</span>
+                  <p className="text-white text-[11px] leading-relaxed font-light">
+                    {leader.interests}
+                  </p>
+                  <span className="text-[10px] text-[#D71920] font-bold mt-4 animate-pulse">Click for Full Profile</span>
+                </div>
+              </div>
+
+              <h4 className="font-extrabold text-[#D71920] text-sm group-hover:text-[#b71217] transition-colors leading-snug">
+                {leader.name}
+              </h4>
+              <p className="text-[11px] text-gray-500 font-bold uppercase tracking-wider mt-0.5">
+                {leader.title}
+              </p>
+            </div>
+
+            {/* Bottom arrow container */}
+            <div className="flex justify-end pt-4">
+              <div className="w-8 h-8 rounded-lg bg-gray-50 group-hover:bg-[#D71920]/10 flex items-center justify-center transition-colors">
+                <ChevronRight size={16} className="text-gray-400 group-hover:text-[#D71920] transition-colors rotate-[-45deg]" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HistoryView() {
+  return (
+    <div className="space-y-8 text-gray-600 text-sm leading-relaxed text-left font-[var(--font-poppins)]">
+      <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm">
+        <p className="font-light">
+          Founded in Guntur, Andhra Pradesh under the aegis of Chalapathi Educational Society, City Chalapathi Institute of Technology was established to bridge the gap between academic theory and technical engineering requirements. Over the past two and a half decades, we have evolved from a local college into a premier autonomous research university of national reputation.
+        </p>
+        <div className="border-l-4 border-[#D71920] pl-4 my-6 italic text-gray-700 font-medium bg-gray-50 py-3 pr-3 rounded-r-xl">
+          "To provide value-based quality technical education and produce competent engineers who can contribute to the progress of the society."
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-extrabold text-[#072A6C]">Milestones Journey</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[
+            { year: "2001", title: "Inception", desc: "Started operations with core engineering undergraduate branches and 180 intake." },
+            { year: "2008", title: "NBA Accreditation", desc: "Received first NBA accreditation for key programs, verifying academic standards." },
+            { year: "2015", title: "Conferred Autonomous Status", desc: "Granted UGC autonomous status, enabling flexible industry-centric curricula." },
+            { year: "2021", title: "NAAC A+ Rank", desc: "Achieved prestigious NAAC A+ accreditation status with outstanding GPA scores." }
+          ].map((milestone, i) => (
+            <div key={i} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 group-hover:bg-[#D71920] transition-colors" />
+              <span className="text-[#D71920] text-xl font-black block mb-2">{milestone.year}</span>
+              <h4 className="font-bold text-[#072A6C] text-sm mb-1.5">{milestone.title}</h4>
+              <p className="text-xs text-gray-400 font-light leading-normal">{milestone.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VisionView() {
+  return (
+    <div className="space-y-8 text-left font-[var(--font-poppins)]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-white border border-gray-100 rounded-[20px] p-8 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="w-10 h-10 rounded-xl bg-[#D71920]/5 flex items-center justify-center mb-4">
+              <Info className="text-[#D71920]" size={20} />
+            </div>
+            <h3 className="text-lg font-extrabold text-[#072A6C] mb-3">OUR VISION</h3>
+            <p className="text-gray-500 text-xs leading-relaxed font-light">
+              To emerge as a premier destination for value-based technical education and research, creating globally competent leaders who drive social and technological progress through innovation.
+            </p>
+          </div>
+        </div>
+        <div className="bg-white border border-gray-100 rounded-[20px] p-8 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="w-10 h-10 rounded-xl bg-[#072A6C]/5 flex items-center justify-center mb-4">
+              <ShieldCheck className="text-[#072A6C]" size={20} />
+            </div>
+            <h3 className="text-lg font-extrabold text-[#072A6C] mb-3">OUR MISSION</h3>
+            <ul className="space-y-2.5 text-gray-500 text-xs font-light list-disc pl-4 leading-relaxed">
+              <li>Impart high-quality, practical technical education through modern teaching methodologies.</li>
+              <li>Foster an environment of innovation, research, and entrepreneurship.</li>
+              <li>Collaborate with top industries and global universities to keep learning current.</li>
+              <li>Nurture ethical, empathetic values alongside technical competency.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const FEES_DATA = [
+  {
+    id: "01",
+    title: "B.Tech. Computer Science & Engineering (All Specializations)",
+    courses: [
+      "B.Tech. Computer Science & Eng",
+      "B.Tech. CSE (AI & Machine Learning)",
+      "B.Tech. CSE (Data Science)",
+      "B.Tech. CSE (Cyber Security)",
+      "B.Tech. CSE (Internet of Things)",
+      "B.Tech. CSE (Cloud Computing)",
+      "B.Tech. CSE (Blockchain)",
+      "B.Tech. CSE (Software Engineering)"
+    ],
+    duration: "4 Years",
+    feePerYear: "₹90,000 / Year",
+    examFee: "₹5,000 / Year"
+  },
+  {
+    id: "02",
+    title: "B.Tech. Electronics & Communication Engineering (All Specializations)",
+    courses: [
+      "B.Tech. Electronics & Comm Eng",
+      "B.Tech. ECE (VLSI Design)",
+      "B.Tech. ECE (Embedded Systems)",
+      "B.Tech. ECE (Robotics & Automation)",
+      "B.Tech. ECE (IoT Specialization)"
+    ],
+    duration: "4 Years",
+    feePerYear: "₹80,000 / Year",
+    examFee: "₹5,000 / Year"
+  },
+  {
+    id: "03",
+    title: "B.Tech. Electrical, Mechanical & Automobile Engineering",
+    courses: [
+      "B.Tech. Electrical & Electronics Eng",
+      "B.Tech. EEE (Electric Vehicles)",
+      "B.Tech. EEE (Renewable Energy)",
+      "B.Tech. EEE (Smart Grid)",
+      "B.Tech. Mechanical Engineering",
+      "B.Tech. Mechanical (Mechatronics)",
+      "B.Tech. Mechanical (Robotics)",
+      "B.Tech. Mechanical (Automobile)",
+      "B.Tech. Mechanical (Manufacturing)"
+    ],
+    duration: "4 Years",
+    feePerYear: "₹75,000 / Year",
+    examFee: "₹5,000 / Year"
+  },
+  {
+    id: "04",
+    title: "B.Tech. Civil, Bio & Agricultural Engineering",
+    courses: [
+      "B.Tech. Civil Engineering",
+      "B.Tech. Civil (Smart Infrastructure)",
+      "B.Tech. Civil (Construction Tech)",
+      "B.Tech. Emerging (AI)",
+      "B.Tech. Emerging (Data Science)",
+      "B.Tech. Emerging (Robotics)",
+      "B.Tech. Biomedical Engineering",
+      "B.Tech. Biotechnology",
+      "B.Tech. Agricultural Engineering"
+    ],
+    duration: "4 Years",
+    feePerYear: "₹70,000 / Year",
+    examFee: "₹5,000 / Year"
+  },
+  {
+    id: "05",
+    title: "Postgraduate M.Tech Programs",
+    courses: [
+      "M.Tech. Computer Science",
+      "M.Tech. Power Systems",
+      "M.Tech. VLSI & Embedded Systems"
+    ],
+    duration: "2 Years",
+    feePerYear: "₹60,000 / Year",
+    examFee: "₹4,000 / Year"
+  },
+  {
+    id: "06",
+    title: "Management & Applications (MBA & MCA)",
+    courses: [
+      "MBA (Master of Business Administration)",
+      "MCA (Master of Computer Applications)"
+    ],
+    duration: "2 Years",
+    feePerYear: "₹65,000 / Year",
+    examFee: "₹4,000 / Year"
+  },
+  {
+    id: "07",
+    title: "Pharmacy Programs (B.Pharm, M.Pharm, D.Pharm)",
+    courses: [
+      "B.Pharm. (Bachelor of Pharmacy) - 4 Years - ₹85,000 / Year",
+      "M.Pharm. (Master of Pharmacy) - 2 Years - ₹95,000 / Year",
+      "D.Pharm. (Diploma in Pharmacy) - 2 Years - ₹45,000 / Year"
+    ],
+    duration: "Varies",
+    feePerYear: "See Details",
+    examFee: "₹4,000 / Year"
+  },
+  {
+    id: "08",
+    title: "Diploma in Engineering (Polytechnic)",
+    courses: [
+      "Diploma in Engineering (Polytechnic) - Civil, Mech, EEE, ECE, CSE"
+    ],
+    duration: "3 Years",
+    feePerYear: "₹35,000 / Year",
+    examFee: "₹3,000 / Year"
+  },
+  {
+    id: "09",
+    title: "Transportation / Bus Fee Details",
+    courses: [
+      "Guntur City Route - ₹18,000 / Year",
+      "Vijayawada Route - ₹22,000 / Year",
+      "Mothadaka Local Route - ₹12,000 / Year",
+      "Other Intermediate Routes - ₹15,000 to ₹20,000 / Year"
+    ],
+    duration: "Annual",
+    feePerYear: "Varies by Route",
+    examFee: "N/A"
+  }
+];
+
+function AdmissionsApplyFlow() {
+  const [step, setStep] = React.useState(1);
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+    mobile: "",
+    state: "Andhra Pradesh",
+    password: "",
+    otp: "",
+    dob: "",
+    gender: "Male",
+    school: "School of Engineering",
+    program: "B.Tech. Computer Science & Eng",
+    tenthMarks: "",
+    twelfthMarks: "",
+    photo: null as File | null,
+    marksheet10: null as File | null,
+    marksheet12: null as File | null,
+    paymentMethod: "UPI",
+    cardNumber: "",
+    cardExpiry: "",
+    cardCvv: ""
+  });
+
+  const [otpSent, setOtpSent] = React.useState(false);
+  const [timer, setTimer] = React.useState(60);
+  const [isVerifying, setIsVerifying] = React.useState(false);
+  const [isUploading, setIsUploading] = React.useState(false);
+  const [uploadProgress, setUploadProgress] = React.useState(0);
+  const [isPaying, setIsPaying] = React.useState(false);
+
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (otpSent && timer > 0) {
+      interval = setInterval(() => setTimer((t) => t - 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [otpSent, timer]);
+
+  const handleNext = () => setStep((s) => s + 1);
+  const handleBack = () => setStep((s) => s - 1);
+
+  const handleDownloadReceipt = () => {
+    const receiptText = `
+=========================================
+      CHALAPATHI UNIVERSITY (AUTONOMOUS)
+=========================================
+          ADMISSION APPLICATION RECEIPT
+=========================================
+
+Date: ${new Date().toLocaleDateString()}
+Time: ${new Date().toLocaleTimeString()}
+
+STUDENT DETAILS:
+----------------
+Name:          ${formData.name}
+Email:         ${formData.email}
+Mobile:        ${formData.mobile}
+Gender:        ${formData.gender}
+DOB:           ${formData.dob}
+State:         ${formData.state}
+
+ACADEMIC CHOICE:
+----------------
+School:        ${formData.school}
+Program:       ${formData.program}
+
+PAYMENT DETAILS:
+----------------
+Application No: CC-2026-89421
+Transaction ID: TXN_${Math.floor(Math.random() * 900000000 + 100000000)}
+Amount Paid:    ₹1,000
+Fee Type:       Admission Registration Fee
+Payment Status: SUCCESSFUL
+
+Note: This is a system-generated receipt. Please preserve it for counseling and future admissions reference.
+=========================================
+    Thank you for choosing Chalapathi!
+=========================================
+`;
+
+    const blob = new Blob([receiptText], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `CIT_Admission_Receipt_${formData.name.replace(/\\s+/g, "_")}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const startOtpFlow = () => {
+    if (!formData.name || !formData.email || !formData.mobile) {
+      alert("Please fill all fields to continue.");
+      return;
+    }
+    setOtpSent(true);
+    setTimer(60);
+    handleNext();
+  };
+
+  const verifyOtp = () => {
+    if (formData.otp.length !== 6) {
+      alert("Please enter a valid 6-digit OTP.");
+      return;
+    }
+    setIsVerifying(true);
+    setTimeout(() => {
+      setIsVerifying(false);
+      handleNext();
+    }, 1500);
+  };
+
+  const handleFileUpload = (field: "photo" | "marksheet10" | "marksheet12", files: FileList | null) => {
+    if (files && files[0]) {
+      setFormData({ ...formData, [field]: files[0] });
+    }
+  };
+
+  const startUpload = () => {
+    if (!formData.photo || !formData.marksheet10 || !formData.marksheet12) {
+      alert("Please select all required files to continue.");
+      return;
+    }
+    setIsUploading(true);
+    setUploadProgress(10);
+    const interval = setInterval(() => {
+      setUploadProgress((p) => {
+        if (p >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setIsUploading(false);
+            handleNext();
+          }, 500);
+          return 100;
+        }
+        return p + 30;
+      });
+    }, 300);
+  };
+
+  const processPayment = () => {
+    if (formData.paymentMethod === "Card" && (!formData.cardNumber || !formData.cardExpiry || !formData.cardCvv)) {
+      alert("Please fill all card details.");
+      return;
+    }
+    setIsPaying(true);
+    setTimeout(() => {
+      setIsPaying(false);
+      handleNext();
+    }, 2500);
+  };
+
+  const steps = [
+    { num: 1, label: "Register" },
+    { num: 2, label: "Verify" },
+    { num: 3, label: "Form" },
+    { num: 4, label: "Documents" },
+    { num: 5, label: "Payment" }
+  ];
+
+  return (
+    <div className="max-w-xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 shadow-md font-[var(--font-poppins)] text-left">
+      {step <= 5 && (
+        <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+          {steps.map((s) => (
+            <div key={s.num} className="flex flex-col items-center gap-1 flex-1 relative">
+              <div 
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                  step >= s.num 
+                    ? "bg-[#D71920] text-white" 
+                    : "bg-gray-100 text-gray-400"
+                }`}
+              >
+                {s.num}
+              </div>
+              <span className="text-[10px] font-bold text-gray-500 hidden sm:block uppercase tracking-wider">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {step === 1 && (
+        <div className="space-y-4 animate-fade-in">
+          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Register Yourself</h3>
+          <p className="text-xs text-gray-500 font-light mb-4">Create your account to start the digital admission journey.</p>
+          <div className="space-y-3.5">
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 mb-1">Full Name *</label>
+              <input 
+                type="text" 
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]" 
+                placeholder="Enter full name" 
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 mb-1">Email Address *</label>
+              <input 
+                type="email" 
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]" 
+                placeholder="name@domain.com" 
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 mb-1">Mobile Number *</label>
+              <input 
+                type="tel" 
+                value={formData.mobile}
+                onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]" 
+                placeholder="10-digit phone number" 
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 mb-1">State *</label>
+              <select 
+                value={formData.state}
+                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]"
+              >
+                <option>Andhra Pradesh</option>
+                <option>Telangana</option>
+                <option>Karnataka</option>
+                <option>Tamil Nadu</option>
+                <option>Other State</option>
+              </select>
+            </div>
+          </div>
+          <button 
+            type="button" 
+            onClick={startOtpFlow} 
+            className="w-full py-3 mt-6 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+          >
+            Register & Send Verification Code
+          </button>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="space-y-4 animate-fade-in">
+          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Verify Mobile / Email</h3>
+          <div className="bg-amber-50 border-l-4 border-[#D4AF37] p-3.5 rounded-r-xl text-[11.5px] text-amber-900 font-semibold mb-2 flex items-center justify-between shadow-sm">
+            <span>📲 Demo Mode: Use OTP <strong className="text-base text-[#D71920] tracking-wider font-extrabold">123456</strong></span>
+            <button 
+              type="button"
+              onClick={() => setFormData({ ...formData, otp: "123456" })}
+              className="px-3 py-1 bg-[#D71920] hover:bg-[#b71217] text-white text-[10px] font-bold rounded-lg cursor-pointer transition-colors border-none outline-none"
+            >
+              Auto-Fill OTP
+            </button>
+          </div>
+          <p className="text-xs text-gray-500 font-light">
+            We have sent a mock 6-digit verification code (OTP) to <strong>{formData.email}</strong> and <strong>{formData.mobile}</strong>.
+          </p>
+          <div className="space-y-4 pt-2">
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 mb-1">Enter 6-Digit OTP *</label>
+              <input 
+                type="text" 
+                maxLength={6}
+                value={formData.otp}
+                onChange={(e) => setFormData({ ...formData, otp: e.target.value.replace(/\D/g, "") })}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-center text-lg font-bold tracking-[8px] outline-none focus:border-[#D71920]" 
+                placeholder="******" 
+              />
+            </div>
+            
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-gray-400">
+                {timer > 0 ? `Resend in ${timer}s` : "Didn't receive code?"}
+              </span>
+              {timer === 0 && (
+                <button 
+                  onClick={() => { setOtpSent(true); setTimer(60); }} 
+                  className="text-[#D71920] font-bold hover:underline"
+                >
+                  Resend OTP
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <button 
+              type="button" 
+              onClick={handleBack} 
+              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            >
+              Back
+            </button>
+            <button 
+              type="button" 
+              onClick={verifyOtp} 
+              disabled={isVerifying}
+              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+            >
+              {isVerifying ? "Verifying..." : "Verify & Continue"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div className="space-y-4 animate-fade-in">
+          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Fill Online Application</h3>
+          <p className="text-xs text-gray-500 font-light">Provide your basic academic and personal details.</p>
+          
+          <div className="space-y-3.5">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-bold text-gray-700 mb-1">Date of Birth *</label>
+                <input 
+                  type="date" 
+                  value={formData.dob}
+                  onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-gray-700 mb-1">Gender *</label>
+                <select 
+                  value={formData.gender}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]"
+                >
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 mb-1">Select School *</label>
+              <select 
+                value={formData.school}
+                onChange={(e) => setFormData({ ...formData, school: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]"
+              >
+                <option>School of Engineering</option>
+                <option>School of Management</option>
+                <option>School of Pharmacy</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 mb-1">Selected Program *</label>
+              <select 
+                value={formData.program}
+                onChange={(e) => setFormData({ ...formData, program: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]"
+              >
+                <option>B.Tech. Computer Science & Eng</option>
+                <option>B.Tech. CSE (AI & Machine Learning)</option>
+                <option>B.Tech. CSE (Data Science)</option>
+                <option>B.Tech. Electronics & Comm Eng</option>
+                <option>MBA (Master of Business Administration)</option>
+                <option>MCA (Master of Computer Applications)</option>
+                <option>B.Pharm. (Bachelor of Pharmacy)</option>
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-bold text-gray-700 mb-1">Class X Marks (%) *</label>
+                <input 
+                  type="text" 
+                  value={formData.tenthMarks}
+                  onChange={(e) => setFormData({ ...formData, tenthMarks: e.target.value })}
+                  placeholder="e.g. 92.4"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-gray-700 mb-1">Class XII Marks (%) *</label>
+                <input 
+                  type="text" 
+                  value={formData.twelfthMarks}
+                  onChange={(e) => setFormData({ ...formData, twelfthMarks: e.target.value })}
+                  placeholder="e.g. 95.8"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <button 
+              type="button" 
+              onClick={handleBack} 
+              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            >
+              Back
+            </button>
+            <button 
+              type="button" 
+              onClick={handleNext} 
+              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            >
+              Save & Continue
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div className="space-y-4 animate-fade-in">
+          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Upload Required Documents</h3>
+          <p className="text-xs text-gray-500 font-light">Upload scanned files in PDF or JPEG formats.</p>
+
+          <div className="space-y-4 pt-2">
+            <div className="border border-dashed border-gray-200 rounded-2xl p-4 flex items-center justify-between">
+              <div>
+                <span className="block text-xs font-bold text-gray-700">Passport Size Photo *</span>
+                <span className="text-[10px] text-gray-400 font-light">{formData.photo ? formData.photo.name : "JPEG, under 2MB"}</span>
+              </div>
+              <label className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-[#072A6C] font-bold text-[11px] rounded-xl cursor-pointer select-none">
+                {formData.photo ? "Change" : "Browse"}
+                <input type="file" accept="image/*" onChange={(e) => handleFileUpload("photo", e.target.files)} className="hidden" />
+              </label>
+            </div>
+
+            <div className="border border-dashed border-gray-200 rounded-2xl p-4 flex items-center justify-between">
+              <div>
+                <span className="block text-xs font-bold text-gray-700">Class X Marksheet *</span>
+                <span className="text-[10px] text-gray-400 font-light">{formData.marksheet10 ? formData.marksheet10.name : "PDF/JPEG, under 5MB"}</span>
+              </div>
+              <label className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-[#072A6C] font-bold text-[11px] rounded-xl cursor-pointer select-none">
+                {formData.marksheet10 ? "Change" : "Browse"}
+                <input type="file" accept="image/*,application/pdf" onChange={(e) => handleFileUpload("marksheet10", e.target.files)} className="hidden" />
+              </label>
+            </div>
+
+            <div className="border border-dashed border-gray-200 rounded-2xl p-4 flex items-center justify-between">
+              <div>
+                <span className="block text-xs font-bold text-gray-700">Class XII Marksheet *</span>
+                <span className="text-[10px] text-gray-400 font-light">{formData.marksheet12 ? formData.marksheet12.name : "PDF/JPEG, under 5MB"}</span>
+              </div>
+              <label className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-[#072A6C] font-bold text-[11px] rounded-xl cursor-pointer select-none">
+                {formData.marksheet12 ? "Change" : "Browse"}
+                <input type="file" accept="image/*,application/pdf" onChange={(e) => handleFileUpload("marksheet12", e.target.files)} className="hidden" />
+              </label>
+            </div>
+
+            {isUploading && (
+              <div className="space-y-1.5 pt-2">
+                <div className="flex justify-between text-[11px] font-semibold text-gray-500">
+                  <span>Uploading files...</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-[#D71920] transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="flex gap-4 pt-6">
+            <button 
+              type="button" 
+              onClick={handleBack} 
+              disabled={isUploading}
+              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            >
+              Back
+            </button>
+            <button 
+              type="button" 
+              onClick={startUpload} 
+              disabled={isUploading}
+              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+            >
+              {isUploading ? "Uploading..." : "Upload & Continue"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 5 && (
+        <div className="space-y-4 animate-fade-in">
+          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Pay Application Fee</h3>
+          <p className="text-xs text-gray-500 font-light">Pay the mandatory application processing fee of <strong>₹1,000</strong> to submit your form.</p>
+
+          <div className="space-y-4 pt-2">
+            <div className="flex gap-3 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+              <button 
+                type="button" 
+                onClick={() => setFormData({ ...formData, paymentMethod: "UPI" })}
+                className={`flex-1 py-2 text-center text-xs font-bold rounded-lg transition-colors cursor-pointer outline-none border-none ${
+                  formData.paymentMethod === "UPI" ? "bg-[#072A6C] text-white" : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                }`}
+              >
+                UPI / QR Code
+              </button>
+              <button 
+                type="button" 
+                onClick={() => setFormData({ ...formData, paymentMethod: "Card" })}
+                className={`flex-1 py-2 text-center text-xs font-bold rounded-lg transition-colors cursor-pointer outline-none border-none ${
+                  formData.paymentMethod === "Card" ? "bg-[#072A6C] text-white" : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                }`}
+              >
+                Credit / Debit Card
+              </button>
+            </div>
+
+            {formData.paymentMethod === "UPI" ? (
+              <div className="flex flex-col items-center p-6 border border-gray-200 rounded-2xl space-y-4">
+                <div className="w-40 h-40 bg-white border-2 border-[#072A6C] p-2 rounded-xl flex items-center justify-center shadow-inner">
+                  <QrCode size={120} className="text-[#072A6C]" />
+                </div>
+                <span className="text-[11px] font-bold text-[#072A6C] uppercase tracking-wider text-center">Scan QR code using BHIM, GPay, PhonePe, or Paytm</span>
+              </div>
+            ) : (
+              <div className="space-y-3 p-4 border border-gray-200 rounded-2xl">
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Card Number</label>
+                  <input 
+                    type="text" 
+                    value={formData.cardNumber}
+                    onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value.replace(/\D/g, "").slice(0, 16) })}
+                    placeholder="4111 2222 3333 4444"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Expiry Date</label>
+                    <input 
+                      type="text" 
+                      value={formData.cardExpiry}
+                      onChange={(e) => setFormData({ ...formData, cardExpiry: e.target.value.slice(0, 5) })}
+                      placeholder="MM/YY"
+                      className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">CVV</label>
+                    <input 
+                      type="password" 
+                      maxLength={3}
+                      value={formData.cardCvv}
+                      onChange={(e) => setFormData({ ...formData, cardCvv: e.target.value.replace(/\D/g, "") })}
+                      placeholder="123"
+                      className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isPaying && (
+              <div className="flex items-center justify-center gap-2 py-2 text-xs font-bold text-gray-500">
+                <Clock size={14} className="animate-spin text-[#D71920]" /> Processing secure transaction...
+              </div>
+            )}
+          </div>
+
+          <div className="flex gap-4 pt-6">
+            <button 
+              type="button" 
+              onClick={handleBack} 
+              disabled={isPaying}
+              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            >
+              Back
+            </button>
+            <button 
+              type="button" 
+              onClick={processPayment} 
+              disabled={isPaying}
+              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+            >
+              {isPaying ? "Paying..." : "Pay ₹1,000 & Submit"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 6 && (
+        <div className="text-center py-6 space-y-6 animate-fade-in">
+          <div className="w-16 h-16 bg-[#072A6C]/10 text-[#072A6C] rounded-full flex items-center justify-center mx-auto shadow-inner">
+            <ShieldCheck size={36} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-extrabold text-[#072A6C] uppercase tracking-wide">Application Submitted!</h3>
+            <p className="text-xs text-gray-500 font-light max-w-sm mx-auto leading-relaxed">
+              Congratulations, <strong>{formData.name}</strong>! Your application for <strong>{formData.program}</strong> has been received successfully.
+            </p>
+          </div>
+
+          <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 max-w-xs mx-auto text-xs space-y-2 text-left shadow-inner">
+            <div className="flex justify-between border-b border-gray-200 pb-1.5">
+              <span className="text-gray-400">Application No:</span>
+              <span className="font-bold text-[#072A6C]">CC-2026-89421</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 pb-1.5">
+              <span className="text-gray-400">Stream:</span>
+              <span className="font-bold text-[#072A6C]">B.Tech. Program</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-400">Fee Status:</span>
+              <span className="font-bold text-[#D71920] uppercase tracking-wider">Paid (₹1,000)</span>
+            </div>
+          </div>
+
+          <div className="pt-4 flex flex-col gap-2 max-w-xs mx-auto">
+            <button 
+              type="button" 
+              onClick={handleDownloadReceipt}
+              className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            >
+              📥 Download Receipt PDF
+            </button>
+            <Link 
+              to="/" 
+              className="w-full py-2.5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider block text-center"
+            >
+              Go to Home Page
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FeesView() {
+  return (
+    <div className="space-y-6 font-[var(--font-poppins)] text-left w-full mt-4">
+      <div className="relative w-full h-40 md:h-48 rounded-2xl overflow-hidden bg-[#072A6C] flex items-center justify-center select-none shadow-sm mb-6">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1200&h=400&fit=crop')] bg-cover bg-center opacity-30 mix-blend-overlay" />
+        <h2 className="text-white text-3xl font-extrabold tracking-tight relative z-10">Fee Structure</h2>
+      </div>
+
+      <div className="space-y-6">
+        {FEES_DATA.map((feeRow) => (
+          <div key={feeRow.id} className="flex gap-4 md:gap-6 items-start">
+            <div className="w-14 h-14 md:w-16 md:h-16 shrink-0 bg-gradient-to-b from-[#072A6C] to-[#0c409c] text-white text-lg md:text-xl font-extrabold flex items-center justify-center rounded-full shadow-md">
+              {feeRow.id}
+            </div>
+
+            <div className="flex-1 bg-white border border-gray-155 rounded-2xl p-5 md:p-6 shadow-sm">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 border-b border-gray-100 pb-3 mb-4">
+                <h4 className="font-extrabold text-[#072A6C] text-sm md:text-base leading-snug">
+                  {feeRow.title}
+                </h4>
+                
+                <div className="flex flex-wrap gap-2">
+                  {feeRow.duration !== "Varies" && (
+                    <span className="px-3 py-1 bg-[#D71920]/5 text-[#D71920] font-bold text-[10px] uppercase tracking-wider rounded-md border border-[#D71920]/15">
+                      {feeRow.duration}
+                    </span>
+                  )}
+                  {feeRow.feePerYear !== "See Details" && (
+                    <span className="px-3 py-1 bg-[#D4AF37]/10 text-gray-900 font-extrabold text-[10px] uppercase tracking-wider rounded-md border border-[#D4AF37]/35">
+                      {feeRow.feePerYear}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider block mb-1">Applicable Programs</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-600 font-light">
+                  {feeRow.courses.map((course, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5 leading-relaxed">
+                      <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full shrink-0" />
+                      <span>{course}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] text-gray-400 font-medium gap-1">
+                {feeRow.examFee !== "N/A" ? (
+                  <span>* Mandatory Exam Cell Fee: <strong>{feeRow.examFee}</strong></span>
+                ) : (
+                  <span>* Transportation service is optional and routes vary</span>
+                )}
+                <span>{feeRow.id === "09" ? "* Transportation fee is payable annually" : "* Semester registration charges extra as applicable"}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ScholarshipsView() {
+  return (
+    <div className="space-y-8 text-left font-[var(--font-poppins)] mt-4">
+      <div className="relative w-full h-40 md:h-48 rounded-2xl overflow-hidden bg-[#072A6C] flex items-center justify-center select-none shadow-sm mb-6">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&h=400&fit=crop')] bg-cover bg-center opacity-30 mix-blend-overlay" />
+        <h2 className="text-white text-3xl font-extrabold tracking-tight relative z-10">Scholarships & Merits</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div className="border-b-2 border-[#D71920]/80 pb-2 flex items-center gap-2">
+          <Award className="text-[#D71920] shrink-0" size={24} />
+          <h2 className="text-xl md:text-2xl font-extrabold text-[#072A6C] uppercase tracking-tight">
+            Merit Scholarships
+          </h2>
+        </div>
+
+        <div className="bg-white border border-gray-155 border-l-4 border-l-[#D71920] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
+          <div>
+            <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">
+              Chalapathi Merit Scholarship Test (CMST)
+            </h3>
+            <p className="text-xs text-gray-500 font-light mt-1.5 leading-relaxed">
+              The Chalapathi Merit Scholarship Test (CMST) offers deserving students an opportunity to receive substantial tuition fee concessions based on their academic excellence and performance.
+            </p>
+          </div>
+
+          <div className="pt-2">
+            <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block mb-2">Scholarship Highlights</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-600 font-light">
+              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
+                <span className="text-[#D71920] font-black text-sm">✓</span>
+                <span>Tuition fee waiver of up to 100% for top-performing students.</span>
+              </div>
+              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
+                <span className="text-[#D71920] font-black text-sm">✓</span>
+                <span>Scholarships awarded based on merit and eligibility.</span>
+              </div>
+              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
+                <span className="text-[#D71920] font-black text-sm">✓</span>
+                <span>Recognition for exceptional academic talent.</span>
+              </div>
+              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
+                <span className="text-[#D71920] font-black text-sm">✓</span>
+                <span>Encouragement for students to pursue excellence throughout their academic journey.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-gray-155 border-l-4 border-l-[#D4AF37] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
+          <div>
+            <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">
+              Entrance Exam Merit Scholarships
+            </h3>
+            <p className="text-xs text-gray-500 font-light mt-1.5 leading-relaxed">
+              Students with outstanding performance in national and state-level entrance examinations are eligible for merit-based scholarships during admission.
+            </p>
+          </div>
+
+          <div className="pt-2">
+            <h4 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block mb-2">Eligible Entrance Examinations</h4>
+            <div className="flex flex-wrap gap-2">
+              {["AP EAPCET", "JEE Main", "NEET (for eligible programs)", "Intermediate / Class XII Academic Merit"].map((exam, idx) => (
+                <span key={idx} className="px-3 py-1 bg-amber-50 text-gray-800 font-extrabold text-[10.5px] uppercase tracking-wider rounded-md border border-amber-200">
+                  {exam}
+                </span>
+              ))}
+            </div>
+            <p className="text-[11px] text-gray-400 italic font-light mt-3 leading-normal">
+              * Scholarship benefits are offered based on rank, score, and institutional eligibility criteria.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-6 pt-6">
+        <div className="border-b-2 border-[#D71920]/80 pb-2 flex items-center gap-2">
+          <ShieldCheck className="text-[#D71920] shrink-0" size={24} />
+          <h2 className="text-xl md:text-2xl font-extrabold text-[#072A6C] uppercase tracking-tight">
+            Government Scholarship Support
+          </h2>
+        </div>
+
+        <div className="bg-white border border-gray-155 border-l-4 border-l-[#072A6C] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
+          <p className="text-xs text-gray-500 font-light leading-relaxed">
+            The institute facilitates eligible students in availing various Government of Andhra Pradesh and Government of India scholarship schemes.
+          </p>
+
+          <div>
+            <h4 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block mb-3">Supported Schemes Include</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs text-gray-700">
+              <div className="p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                <span className="font-extrabold text-[#072A6C] block mb-1">Post-Matric Scholarships</span>
+                <span className="text-[10.5px] text-gray-400 font-light">State and national scholarship programs for reserved and minority categories.</span>
+              </div>
+              <div className="p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                <span className="font-extrabold text-[#072A6C] block mb-1">AICTE Pragati & Saksham</span>
+                <span className="text-[10.5px] text-gray-400 font-light">Support programs for female advancement in technology (Pragati) and differently-abled students (Saksham).</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4.5 rounded-r-xl text-xs text-blue-900 font-medium">
+            💡 Our dedicated student support team assists eligible candidates throughout the entire application and documentation process on the National Scholarship Portal (NSP) schemes.
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-6 pt-6">
+        <div className="border-b-2 border-[#D71920]/80 pb-2 flex items-center gap-2">
+          <BookOpen className="text-[#D71920] shrink-0" size={24} />
+          <h2 className="text-xl md:text-2xl font-extrabold text-[#072A6C] uppercase tracking-tight">
+            Rewards for Academic Excellence
+          </h2>
+        </div>
+
+        <div className="bg-white border border-gray-155 border-l-4 border-l-[#D71920] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
+          <p className="text-xs text-gray-500 font-light leading-relaxed">
+            Academic excellence is celebrated and encouraged through various recognition programs.
+          </p>
+
+          <div>
+            <h4 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block mb-2.5">Students are recognized through</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { title: "Merit Awards", subtitle: "Cash rewards for toppers" },
+                { title: "Academic Excellence Certificates", subtitle: "Official university records" },
+                { title: "University Rank Recognition", subtitle: "BOS and senate felicitations" },
+                { title: "Performance-Based Incentives", subtitle: "Project grants and waivers" }
+              ].map((reward, i) => (
+                <div key={i} className="bg-amber-50/50 border border-amber-200/50 rounded-xl p-3 text-center">
+                  <span className="font-extrabold text-[#072A6C] text-xs block">{reward.title}</span>
+                  <span className="text-[9.5px] text-gray-400 font-light block mt-0.5">{reward.subtitle}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-[11px] text-[#D71920] italic font-extrabold mt-4 text-center leading-normal uppercase tracking-wider">
+              ★ Special Recognition for Outstanding Achievements in a Unique Way! ★
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PlacementsView() {
+  const [showEnquiry, setShowEnquiry] = React.useState(false);
+  const [enquiryForm, setEnquiryForm] = React.useState({ name: "", email: "", mobile: "", query: "" });
+  const sliderRef = React.useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (sliderRef.current) {
+      const { scrollLeft, clientWidth } = sliderRef.current;
+      const scrollTo = direction === "left" ? scrollLeft - clientWidth / 2 : scrollLeft + clientWidth / 2;
+      sliderRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    }
+  };
+
+  const handleEnquirySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("Thank you! Our Placement Officer will contact you shortly.");
+    setShowEnquiry(false);
+  };
+
+  const PLACED_STUDENTS = [
+    { name: "P. Vinay Kumar", branch: "Computer Science", company: "Amazon", ctc: "₹18.0 LPA", img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=500&fit=crop&crop=face" },
+    { name: "K. Hari Priya", branch: "Artificial Intelligence", company: "Microsoft", ctc: "₹15.5 LPA", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face" },
+    { name: "Ch. Sandeep", branch: "Information Technology", company: "Adobe", ctc: "₹14.0 LPA", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" },
+    { name: "M. Sneha Reddy", branch: "Electronics & Comm", company: "Cognizant", ctc: "₹12.0 LPA", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&crop=face" },
+    { name: "V. Sai Teja", branch: "Computer Science", company: "TCS Digital", ctc: "₹9.0 LPA", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face" },
+    { name: "A. Lakshmi Prasanna", branch: "Data Science", company: "Infosys", ctc: "₹9.5 LPA", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face" },
+    { name: "G. Rajesh Babu", branch: "Mechanical Eng", company: "L&T Core", ctc: "₹8.0 LPA", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face" },
+    { name: "S. Niharika", branch: "Civil Engineering", company: "JMC Projects", ctc: "₹7.5 LPA", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=500&fit=crop&crop=face" }
+  ];
+
+  const INDUSTRIES = [
+    { name: "Software Development", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&fit=crop" },
+    { name: "Core Engineering", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&fit=crop" },
+    { name: "AI & Data Science", img: "https://images.unsplash.com/photo-1527474305487-b87b222841cc?w=400&fit=crop" },
+    { name: "Cyber Security", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&fit=crop" },
+    { name: "Embedded Systems", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&fit=crop" },
+    { name: "Mechanical & Civil", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&fit=crop" },
+    { name: "Business & Management", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&fit=crop" },
+    { name: "Research & Higher Ed", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&fit=crop" },
+    { name: "Startups & Ventures", img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=400&fit=crop" }
+  ];
+
+  const RECRUITERS = [
+    { name: "TCS", logo: "https://logo.clearbit.com/tcs.com" },
+    { name: "Infosys", logo: "https://logo.clearbit.com/infosys.com" },
+    { name: "Mindtree", logo: "https://logo.clearbit.com/ltimindtree.com" },
+    { name: "L&T", logo: "https://logo.clearbit.com/larsentoubro.com" },
+    { name: "HCL", logo: "https://logo.clearbit.com/hcltech.com" },
+    { name: "Wipro", logo: "https://logo.clearbit.com/wipro.com" },
+    { name: "Oracle", logo: "https://logo.clearbit.com/oracle.com" },
+    { name: "Tech Mahindra", logo: "https://logo.clearbit.com/techmahindra.com" }
+  ];
+
+  return (
+    <div className="space-y-12 text-left font-[var(--font-poppins)] mt-4">
+      {/* 0. Hotstar-style sliding list container at the top of the placements page */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-end">
+          <div className="space-y-1">
+            <span className="text-[10px] text-[#D71920] font-extrabold uppercase tracking-widest">Our Placed Stars</span>
+            <h2 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-wide">Recent Placements</h2>
+          </div>
+          
+          <div className="flex gap-2">
+            <button 
+              onClick={() => scroll("left")}
+              className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:bg-gray-50 active:scale-95 transition-all shadow-sm outline-none cursor-pointer"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={() => scroll("right")}
+              className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:bg-gray-50 active:scale-95 transition-all shadow-sm outline-none cursor-pointer"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Horizontal Slider Area */}
+        <div 
+          ref={sliderRef}
+          className="flex gap-5 overflow-x-auto pb-4 scroll-smooth scrollbar-none snap-x snap-mandatory"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {PLACED_STUDENTS.map((student, idx) => (
+            <div 
+              key={idx} 
+              className="w-48 md:w-56 shrink-0 aspect-[3/4.2] bg-white border border-gray-150 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group snap-start relative flex flex-col justify-end cursor-pointer"
+            >
+              {/* Profile Image */}
+              <img 
+                src={student.img} 
+                alt={student.name} 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              {/* Bottom Dark Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
+
+              {/* Placed Company Badge */}
+              <div className="absolute top-3 left-3 bg-[#072A6C]/90 text-white font-extrabold text-[9px] px-2 py-0.5 rounded-md uppercase tracking-wider shadow-sm z-10">
+                {student.company}
+              </div>
+
+              {/* Student details text overlay - default view */}
+              <div className="z-10 p-4 space-y-1 group-hover:opacity-0 transition-opacity duration-200">
+                <span className="block text-white font-bold text-xs md:text-sm truncate">{student.name}</span>
+                <span className="block text-[10px] text-gray-300 font-light truncate">{student.branch}</span>
+                <div className="flex items-center justify-between pt-1 border-t border-white/10 mt-1">
+                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider">Package</span>
+                  <span className="text-xs text-[#D4AF37] font-black">{student.ctc}</span>
+                </div>
+              </div>
+
+              {/* Hotstar Expanded Popover on Hover */}
+              <div className="absolute inset-0 bg-[#0c111b]/95 z-25 p-4 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto text-left font-[var(--font-poppins)]">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[9px] bg-[#D71920]/20 text-[#D71920] border border-[#D71920]/30 px-1.5 py-0.5 rounded font-black uppercase tracking-widest animate-pulse">Placed</span>
+                    <span className="text-xs text-[#D4AF37] font-black">{student.ctc}</span>
+                  </div>
+                  
+                  <h4 className="text-xs md:text-sm font-black text-white leading-tight uppercase pt-1">{student.name}</h4>
+                  <p className="text-[10px] text-gray-300 font-light">{student.branch}</p>
+                  <p className="text-[9.5px] text-gray-400 font-light leading-relaxed italic border-l border-l-[#D71920] pl-2 pt-0.5">
+                    "Secured placement with CIT Training Cell coordination."
+                  </p>
+                </div>
+
+                <div className="space-y-2 pt-2 border-t border-gray-800">
+                  <div className="flex items-center gap-1.5 text-[9px] text-gray-400">
+                    <span className="font-semibold text-white">Company:</span>
+                    <span>{student.company}</span>
+                    <span>•</span>
+                    <span className="font-semibold text-white">Year:</span>
+                    <span>2026 Batch</span>
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      alert(`Inquiry sent for placement profile details of ${student.name}.`);
+                    }}
+                    className="w-full py-2 bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold rounded-lg transition-colors border-none outline-none flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    View Offer Profile
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 1. Hero Section (Match Jupiter Placement Screenshot Layout) */}
+      <div className="bg-[#072A6C]/5 rounded-3xl p-6 md:p-10 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden border border-gray-100 shadow-sm">
+        {/* Soft Wavy background graphic decoration */}
+        <div className="absolute inset-y-0 right-0 w-1/2 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500 via-indigo-500 to-transparent pointer-events-none" />
+
+        {/* Text Area */}
+        <div className="flex-1 space-y-4 md:space-y-6 z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#D71920]/10 text-[#D71920] rounded-lg font-bold text-xs uppercase tracking-wider">
+            Placements & Career Development
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black text-[#072A6C] tracking-tight leading-tight uppercase">
+            A Step Towards Success!
+          </h1>
+          <p className="text-[#D4AF37] font-bold text-sm uppercase tracking-widest mt-[-8px]">
+            Building Careers. Creating Leaders.
+          </p>
+          <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-light">
+            At Chalapathi Institute of Technology, placements are more than securing a job—they are about preparing students for lifelong professional success. Our dedicated Training & Placement Cell bridges the gap between academic learning and industry expectations by equipping students with the knowledge, skills, and confidence to excel in today's competitive global workforce.
+          </p>
+          <button
+            onClick={() => setShowEnquiry(true)}
+            className="px-8 py-3 bg-[#072A6C] hover:bg-[#0c409c] text-white text-xs font-bold rounded-full transition-all uppercase tracking-wider shadow-md hover:shadow-lg cursor-pointer outline-none border-none"
+          >
+            Enquire Now
+          </button>
+        </div>
+
+        {/* Hero image matching screenshot portrait/layout */}
+        <div className="flex-1 w-full md:w-1/2 z-10">
+          <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-white p-2">
+            <img 
+              src="/campus_placement.png" 
+              alt="Campus Placement Drive Illustration" 
+              className="w-full h-auto object-contain rounded-xl" 
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Indicators */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="bg-white border border-gray-100 p-6 rounded-2xl text-center shadow-sm">
+          <span className="block text-3xl font-black text-[#072A6C]">₹18 LPA</span>
+          <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Highest Package</span>
+        </div>
+        <div className="bg-white border border-gray-150 p-6 rounded-2xl text-center shadow-sm">
+          <span className="block text-3xl font-black text-[#072A6C]">₹5.5 LPA</span>
+          <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Average Package</span>
+        </div>
+        <div className="bg-white border border-gray-150 p-6 rounded-2xl text-center shadow-sm">
+          <span className="block text-3xl font-black text-[#D71920]">95%</span>
+          <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Placement Record</span>
+        </div>
+      </div>
+
+      {/* Placement Philosophy */}
+      <div className="bg-white border border-gray-150 p-6 rounded-2xl shadow-sm border-l-4 border-l-[#D71920]">
+        <h3 className="font-extrabold text-[#072A6C] text-sm uppercase tracking-wider mb-2">Our Placement Philosophy</h3>
+        <p className="text-xs text-gray-500 font-light leading-relaxed">
+          We focus on developing industry-ready professionals through a holistic approach that combines academic excellence, technical expertise, professional skills, and real-world exposure. Students receive continuous support throughout their academic journey, enabling them to confidently transition from campus to career.
+        </p>
+      </div>
+
+      {/* Industries We Cater (Card grid matching screen structure) */}
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-black text-[#072A6C] uppercase tracking-wide">Industries We Cater</h2>
+          <div className="w-16 h-1 bg-[#D71920] mx-auto rounded-full" />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {INDUSTRIES.map((ind, idx) => (
+            <div key={idx} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group cursor-default">
+              <div className="h-40 overflow-hidden relative">
+                <img 
+                  src={ind.img} 
+                  alt={ind.name} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+                  <span className="text-white font-extrabold text-xs md:text-sm uppercase tracking-wide">
+                    {ind.name}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Career Development Programs & Industry Connect */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Career Development Card */}
+        <div className="bg-white border border-gray-150 rounded-2xl p-6 shadow-sm space-y-4">
+          <h4 className="font-extrabold text-[#072A6C] text-sm uppercase tracking-wider border-b border-gray-100 pb-2 flex items-center gap-2">
+            <Award className="text-[#D71920]" size={18} /> Career Development Programs
+          </h4>
+          <ul className="space-y-2.5 text-xs text-gray-500 font-light">
+            {[
+              "Industry-oriented technical training",
+              "Aptitude and logical reasoning development",
+              "Communication and soft skills enhancement",
+              "Coding and programming practice sessions",
+              "Resume building and portfolio development",
+              "Group discussion and interview preparation",
+              "Mock interviews with industry professionals",
+              "Personality development workshops",
+              "Internship guidance and career mentoring"
+            ].map((item, idx) => (
+              <li key={idx} className="flex items-center gap-2">
+                <span className="text-[#D71920] font-bold">✓</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Industry Connect Card */}
+        <div className="bg-white border border-gray-150 rounded-2xl p-6 shadow-sm space-y-4">
+          <h4 className="font-extrabold text-[#072A6C] text-sm uppercase tracking-wider border-b border-gray-100 pb-2 flex items-center gap-2">
+            <Globe className="text-[#D4AF37]" size={18} /> Industry Connect
+          </h4>
+          <p className="text-xs text-gray-400 font-light leading-relaxed">
+            The institute actively collaborates with leading organizations to provide students with meaningful industry exposure through:
+          </p>
+          <ul className="space-y-2.5 text-xs text-gray-500 font-light">
+            {[
+              "Campus recruitment drives",
+              "Internship opportunities",
+              "Industry expert lectures",
+              "Corporate mentoring sessions",
+              "Technical workshops and certification programs",
+              "Industrial visits and experiential learning",
+              "Live projects and collaborative initiatives"
+            ].map((item, idx) => (
+              <li key={idx} className="flex items-center gap-2">
+                <span className="text-[#D4AF37] font-bold">★</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Placement Cell Responsibilities */}
+      <div className="bg-white border border-gray-150 rounded-2xl p-6 shadow-sm space-y-4">
+        <h4 className="font-extrabold text-[#072A6C] text-sm uppercase tracking-wider border-b border-gray-100 pb-2">
+          Dedicated Training & Placement Cell
+        </h4>
+        <p className="text-xs text-gray-400 font-light leading-relaxed">
+          Our Placement Cell works closely with students and recruiters to ensure a seamless recruitment process.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs text-gray-600 font-light">
+          {[
+            { t: "Mentorship", d: "Career counseling and mentoring" },
+            { t: "Assessment", d: "Placement readiness assessments" },
+            { t: "Recruitment Drives", d: "Organizing campus placement sessions" },
+            { t: "Internships", d: "Facilitating internship placements" },
+            { t: "Collaborations", d: "Industry-academia partnerships" },
+            { t: "Relations", d: "Employer relationship management" },
+            { t: "Career Pathing", d: "Higher education guidance" },
+            { t: "Alumni Network", d: "Interaction and alumni links" }
+          ].map((resp, i) => (
+            <div key={i} className="p-3 bg-gray-50 rounded-xl border border-gray-100/50 space-y-1">
+              <span className="font-extrabold text-[#072A6C] text-xs block">{resp.t}</span>
+              <span className="text-[10px] text-gray-400 leading-normal block">{resp.d}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 5. Infinite scrolling company logo marquee visited Chalapathi */}
+      <div className="space-y-4 pt-4 border-t border-gray-100 overflow-hidden">
+        <div className="text-center">
+          <span className="text-[10px] text-[#D4AF37] font-extrabold uppercase tracking-widest">Global Collaborators</span>
+          <h3 className="text-lg font-black text-[#072A6C] uppercase tracking-wide">Top Recruiters Visited</h3>
+        </div>
+
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes companyMarquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-company-marquee {
+            display: flex;
+            width: max-content;
+            animation: companyMarquee 20s linear infinite;
+          }
+        `}} />
+
+        <div className="relative w-full overflow-hidden bg-gray-50 py-6 rounded-2xl border border-gray-100 flex items-center">
+          {/* Fading Gradients at edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
+          
+          <div className="animate-company-marquee gap-10 md:gap-14 flex items-center">
+            {[...RECRUITERS, ...RECRUITERS].map((company, i) => (
+              <div key={i} className="flex flex-col items-center justify-center bg-white border border-gray-200/60 rounded-xl p-4 w-32 shrink-0 select-none shadow-sm hover:shadow-md transition-shadow gap-2">
+                {/* Real Corporate Logo */}
+                <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50 p-1 border border-gray-100 shrink-0">
+                  <img 
+                    src={company.logo} 
+                    alt={`${company.name} logo`} 
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${company.name}&background=072A6C&color=fff&size=64&font-size=0.45&bold=true`;
+                    }}
+                  />
+                </div>
+                <span className="font-extrabold text-[10px] text-gray-500 tracking-wider uppercase text-center">{company.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Enquiry Modal */}
+      {showEnquiry && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative animate-scale-up space-y-4 text-left">
+            <button 
+              onClick={() => setShowEnquiry(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 border-none bg-transparent cursor-pointer outline-none"
+            >
+              ✕
+            </button>
+            <h3 className="text-lg font-extrabold text-[#072A6C] uppercase tracking-wide">Placement Enquiry</h3>
+            <p className="text-xs text-gray-400 font-light mt-1">Submit your details to connect with the Training & Placement Cell.</p>
+            <form onSubmit={handleEnquirySubmit} className="space-y-3 pt-2">
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Full Name</label>
+                <input 
+                  type="text" 
+                  required
+                  value={enquiryForm.name}
+                  onChange={(e) => setEnquiryForm({ ...enquiryForm, name: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                  placeholder="Enter full name" 
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Email Address</label>
+                <input 
+                  type="email" 
+                  required
+                  value={enquiryForm.email}
+                  onChange={(e) => setEnquiryForm({ ...enquiryForm, email: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                  placeholder="name@domain.com" 
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Mobile Number</label>
+                <input 
+                  type="tel" 
+                  required
+                  value={enquiryForm.mobile}
+                  onChange={(e) => setEnquiryForm({ ...enquiryForm, mobile: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                  placeholder="10-digit number" 
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Your Query</label>
+                <textarea 
+                  required
+                  rows={3}
+                  value={enquiryForm.query}
+                  onChange={(e) => setEnquiryForm({ ...enquiryForm, query: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C] resize-none" 
+                  placeholder="Ask a question..." 
+                />
+              </div>
+              <button 
+                type="submit"
+                className="w-full py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider mt-4"
+              >
+                Submit Request
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ContactUsView() {
+  const [captchaText, setCaptchaText] = React.useState("p s t 5 s");
+  const [formData, setFormData] = React.useState({ firstName: "", lastName: "", mobile: "", email: "", message: "", captcha: "" });
+
+  const handleCaptchaRefresh = () => {
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    for (let i = 0; i < 5; i++) {
+      text += chars.charAt(Math.floor(Math.random() * chars.length)) + " ";
+    }
+    setCaptchaText(text.trim());
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.captcha.replace(/\s+/g, "") !== captchaText.replace(/\s+/g, "")) {
+      alert("Invalid captcha text. Please try again.");
+      return;
+    }
+    alert("Message sent successfully! Our representative will contact you shortly.");
+    setFormData({ firstName: "", lastName: "", mobile: "", email: "", message: "", captcha: "" });
+    handleCaptchaRefresh();
+  };
+
+  return (
+    <div className="space-y-10 text-left font-[var(--font-poppins)] mt-4">
+      {/* Hero Banner header matching Placements page styling but with Contact details */}
+      <div className="bg-[#072A6C] rounded-3xl p-6 md:p-8 text-white relative overflow-hidden border border-gray-100 shadow-sm mb-6">
+        <div className="absolute inset-y-0 right-0 w-1/3 opacity-15 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white to-transparent pointer-events-none" />
+        <div className="z-10 relative space-y-2">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-white/10 text-white rounded-lg font-bold text-[10px] uppercase tracking-wider">
+            Contact Support
+          </div>
+          <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Contact Us</h1>
+          <p className="text-xs text-blue-100 font-light max-w-xl">
+            Whether you're a prospective student, parent, recruiter, alumnus, or visitor, we're here to help. Reach out to us for admissions, academic inquiries, placements, scholarships, or any assistance regarding campus life.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Two-Column Block (Matching screenshot layout) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        {/* Left Side: Get In Touch Cards Grid */}
+        <div className="lg:col-span-6 bg-white border border-gray-200/80 rounded-2xl overflow-hidden shadow-sm flex flex-col">
+          <div className="bg-[#072A6C] text-white py-4 px-6 text-center font-extrabold text-sm uppercase tracking-wider">
+            Get In Touch With Us Now!
+          </div>
+          
+          <div className="grid grid-cols-2 gap-px bg-gray-100 flex-1">
+            
+            {/* Phone */}
+            <div className="bg-white p-6 flex flex-col items-center text-center justify-center space-y-2.5">
+              <span className="p-3 bg-[#072A6C]/5 text-[#072A6C] rounded-full">
+                <Phone size={20} />
+              </span>
+              <span className="font-extrabold text-[#072A6C] text-xs uppercase tracking-wide">Phone Number</span>
+              <span className="text-xs font-semibold text-gray-700">+91 95055 05566</span>
+            </div>
+
+            {/* Email */}
+            <div className="bg-white p-6 flex flex-col items-center text-center justify-center space-y-2.5">
+              <span className="p-3 bg-[#072A6C]/5 text-[#072A6C] rounded-full">
+                <Mail size={20} />
+              </span>
+              <span className="font-extrabold text-[#072A6C] text-xs uppercase tracking-wide">Email</span>
+              <span className="text-xs font-semibold text-gray-700">info@city.ac.in</span>
+            </div>
+
+            {/* Location */}
+            <div className="bg-white p-6 flex flex-col items-center text-center justify-center space-y-2.5">
+              <span className="p-3 bg-[#072A6C]/5 text-[#072A6C] rounded-full">
+                <Globe size={20} />
+              </span>
+              <span className="font-extrabold text-[#072A6C] text-xs uppercase tracking-wide">Location</span>
+              <span className="text-[10px] text-gray-500 leading-normal font-light">
+                A.R. Nagar, Mothadaka,<br />Guntur, AP – 522016
+              </span>
+            </div>
+
+            {/* Working Hours */}
+            <div className="bg-white p-6 flex flex-col items-center text-center justify-center space-y-2.5">
+              <span className="p-3 bg-[#072A6C]/5 text-[#072A6C] rounded-full">
+                <Clock size={20} />
+              </span>
+              <span className="font-extrabold text-[#072A6C] text-xs uppercase tracking-wide">Working Hours</span>
+              <span className="text-[10px] text-gray-500 font-semibold">
+                Mon - Sat: 09:00 AM - 05:00 PM<br />
+                <span className="text-red-500 font-normal">Sunday: Closed</span>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Right Side: Message Submission Form */}
+        <div className="lg:col-span-6 bg-white border border-gray-200/80 rounded-2xl overflow-hidden shadow-sm flex flex-col">
+          <div className="bg-[#072A6C] text-white py-4 px-6 text-center font-extrabold text-sm uppercase tracking-wider">
+            Contact Us
+          </div>
+          
+          <form onSubmit={handleSubmit} className="p-6 space-y-4 text-left bg-gray-50/55 flex-1">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-1">First Name *</label>
+                <input 
+                  type="text" 
+                  required
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  placeholder="First name"
+                  className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-1">Last Name</label>
+                <input 
+                  type="text" 
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  placeholder="Last name"
+                  className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-1">Mobile No *</label>
+                <input 
+                  type="tel" 
+                  required
+                  value={formData.mobile}
+                  onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                  placeholder="Phone number"
+                  className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-1">Email ID *</label>
+                <input 
+                  type="email" 
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="name@domain.com"
+                  className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-1">Message</label>
+              <textarea 
+                rows={3}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                placeholder="Type your message..."
+                className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C] resize-none" 
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-1">Please type the characters *</label>
+              <div className="flex gap-4 items-center">
+                <input 
+                  type="text" 
+                  required
+                  value={formData.captcha}
+                  onChange={(e) => setFormData({ ...formData, captcha: e.target.value })}
+                  className="w-1/2 px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#072A6C]" 
+                  placeholder="Characters"
+                />
+                <div className="w-1/2 bg-white border border-gray-200 rounded-xl py-2 px-4 text-center font-mono font-bold tracking-[6px] select-none select-all relative overflow-hidden flex items-center justify-between">
+                  <span className="text-[#072A6C] text-xs">{captchaText}</span>
+                  <button 
+                    type="button" 
+                    onClick={handleCaptchaRefresh}
+                    className="text-[9px] font-bold text-gray-400 hover:text-gray-600 outline-none border-none bg-transparent cursor-pointer"
+                  >
+                    Refresh
+                  </button>
+                </div>
+              </div>
+              <p className="text-[9px] text-gray-400 italic">This helps us prevent spam, thank you.</p>
+            </div>
+
+            <button 
+              type="submit"
+              className="w-full py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2 mt-4 cursor-pointer outline-none border-none"
+            >
+              Submit Request
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      {/* Grid of Department-wise helplines */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        {/* Admissions Office */}
+        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div>
+            <span className="font-extrabold text-[#072A6C] block uppercase tracking-wide text-xs border-b border-gray-100 pb-2 mb-2">Admissions Office</span>
+            <div className="space-y-1 text-xs text-gray-500 font-light">
+              <span className="block font-semibold text-gray-700">Helpline Numbers:</span>
+              <span className="block">+91 88866 30340</span>
+              <span className="block">+91 88866 30341</span>
+            </div>
+          </div>
+          <div className="space-y-0.5 text-xs text-gray-500 font-light pt-2">
+            <span className="block font-semibold text-gray-700">Email:</span>
+            <a href="mailto:admissions@city.ac.in" className="block text-[#D71920] font-semibold hover:underline truncate">admissions@city.ac.in</a>
+          </div>
+        </div>
+
+        {/* Principal's Office */}
+        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div>
+            <span className="font-extrabold text-[#072A6C] block uppercase tracking-wide text-xs border-b border-gray-100 pb-2 mb-2">Principal's Office</span>
+            <div className="space-y-1 text-xs text-gray-500 font-light">
+              <span className="block font-medium text-[#D4AF37] font-semibold mb-1">Dr. Kolla Naga Sreenivasa Rao</span>
+              <span className="block font-semibold text-gray-700">Mobile Connections:</span>
+              <span className="block">+91 88866 30355</span>
+              <span className="block">+91 88866 30356</span>
+            </div>
+          </div>
+          <div className="space-y-0.5 text-xs text-gray-500 font-light pt-2">
+            <span className="block font-semibold text-gray-700">Email:</span>
+            <a href="mailto:principal@city.ac.in" className="block text-[#D71920] font-semibold hover:underline truncate">principal@city.ac.in</a>
+          </div>
+        </div>
+
+        {/* Placements Cell */}
+        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div>
+            <span className="font-extrabold text-[#072A6C] block uppercase tracking-wide text-xs border-b border-gray-100 pb-2 mb-2">Training & Placements</span>
+            <div className="space-y-1 text-xs text-gray-500 font-light">
+              <span className="block font-semibold text-gray-700">Placement Cell Hotline:</span>
+              <span className="block">+91 88866 30342</span>
+            </div>
+          </div>
+          <div className="space-y-0.5 text-[11px] text-gray-500 font-light pt-2">
+            <span className="block font-semibold text-xs text-gray-700">Recruitment Team:</span>
+            <a href="mailto:jayachandra@city.ac.in" className="block text-[#D71920] hover:underline truncate">jayachandra@city.ac.in</a>
+            <a href="mailto:saipraveen@city.ac.in" className="block text-[#D71920] hover:underline truncate">saipraveen@city.ac.in</a>
+            <a href="mailto:paulpraveenn@city.ac.in" className="block text-[#D71920] hover:underline truncate">paulpraveenn@city.ac.in</a>
+          </div>
+        </div>
+
+        {/* Exam & Scholarship Section */}
+        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div>
+            <span className="font-extrabold text-[#072A6C] block uppercase tracking-wide text-xs border-b border-gray-100 pb-2 mb-2">Exams & Scholarships</span>
+            <div className="space-y-1 text-xs text-gray-500 font-light">
+              <span className="block font-semibold text-gray-700">Examination Cell:</span>
+              <span className="block">08645-326372</span>
+              <a href="mailto:exams@city.ac.in" className="block text-[#D71920] hover:underline truncate">exams@city.ac.in</a>
+            </div>
+          </div>
+          <div className="space-y-0.5 text-xs text-gray-500 font-light pt-2 border-t border-gray-50 mt-1">
+            <span className="block font-semibold text-gray-700">Scholarship Office:</span>
+            <span className="block">+91 98481 33748</span>
+            <span className="block">08645-326372</span>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Google Maps Container */}
+      <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider">
+              Find Us on the Map
+            </h3>
+            <p className="text-xs text-gray-400 font-light leading-normal">
+              Chalapathi Institute of Technology (Autonomous), Abburi Raghavaiah Nagar, Mothadaka, Guntur, AP – 522016, India.
+            </p>
+          </div>
+          <a 
+            href="https://maps.app.goo.gl/Y5JcrXLvSg8M6W1M9" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="h-10 px-5 bg-[#072A6C] hover:bg-[#0c409c] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shrink-0 outline-none border-none text-center"
+          >
+            Open in Google Maps
+          </a>
+        </div>
+        
+        {/* Map iframe */}
+        <div className="rounded-xl overflow-hidden border border-gray-200 h-64 md:h-80 shadow-inner">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.657936166885!2d80.37583647488057!3d16.442999384288053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35f114c0000001%3A0x608e1a81230491d9!2sChalapathi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1720853500000!5m2!1sen!2sin" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen={true} 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChalapathiAdvantage() {
+  const ADVANTAGES = [
+    { num: "01", title: "Academic Excellence", desc: "A curriculum designed to meet global standards with experiential learning.", icon: GraduationCap, color: "#9333EA", bgClass: "bg-purple-600", textClass: "text-purple-600", borderClass: "border-purple-200" },
+    { num: "02", title: "Innovation Ecosystem", desc: "Research, incubation, hackathons, and project-based learning.", icon: BookOpen, color: "#2563EB", bgClass: "bg-blue-600", textClass: "text-blue-600", borderClass: "border-blue-200" },
+    { num: "03", title: "Industry Connect", desc: "Internships, expert mentorship, and corporate collaborations.", icon: Landmark, color: "#D97706", bgClass: "bg-amber-600", textClass: "text-amber-600", borderClass: "border-amber-200" },
+    { num: "04", title: "Career Excellence", desc: "Comprehensive placement training and career guidance.", icon: Award, color: "#0D9488", bgClass: "bg-teal-600", textClass: "text-teal-600", borderClass: "border-teal-200" },
+    { num: "05", title: "Global Perspective", desc: "Preparing graduates to thrive in an interconnected world.", icon: Globe, color: "#DC2626", bgClass: "bg-rose-600", textClass: "text-rose-600", borderClass: "border-rose-200" },
+    { num: "06", title: "Holistic Development", desc: "Leadership, ethics, communication, and lifelong learning.", icon: UserCheck, color: "#4F46E5", bgClass: "bg-indigo-600", textClass: "text-indigo-600", borderClass: "border-indigo-200" }
+  ];
+
+  return (
+    <div className="space-y-8 py-8 font-[var(--font-poppins)] text-center border-t border-gray-100 mt-6">
+      <div className="space-y-2">
+        <span className="text-[10px] text-[#D71920] font-extrabold uppercase tracking-widest">Why Choose Us</span>
+        <h2 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-wide">The Chalapathi Advantage</h2>
+        <div className="w-16 h-1 bg-[#D71920] mx-auto rounded-full" />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-10 relative">
+        {ADVANTAGES.map((adv, idx) => {
+          const IconComponent = adv.icon;
+          return (
+            <div key={idx} className="flex flex-col items-center relative group">
+              {/* Top Hexagon Number Badge */}
+              <div className="relative z-10 -mb-6 flex flex-col items-center">
+                <div 
+                  className={`w-14 h-14 ${adv.bgClass} text-white font-black text-lg flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300`}
+                  style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+                >
+                  {adv.num}
+                </div>
+                {/* Curved wave accent underneath */}
+                <div className={`w-8 h-2 rounded-full opacity-60 mt-1 ${adv.bgClass}`} />
+              </div>
+
+              {/* Main Card Body */}
+              <div className="bg-white border border-gray-150 rounded-2xl p-6 pt-10 shadow-sm hover:shadow-md transition-all flex flex-col items-center text-center space-y-3 w-full h-full relative z-0">
+                {/* Custom Icon inside circular badge */}
+                <div className={`p-2.5 rounded-full ${adv.bgClass}/10 ${adv.textClass}`}>
+                  <IconComponent size={20} />
+                </div>
+                
+                <h4 className="font-extrabold text-sm text-[#072A6C] uppercase tracking-wider">{adv.title}</h4>
+                <p className="text-xs text-gray-500 font-light leading-relaxed max-w-[90%]">{adv.desc}</p>
+                
+                {/* Bottom Connecting Hex Bullet Decoration */}
+                <div className="pt-2 flex justify-center w-full">
+                  <div 
+                    className={`w-6 h-6 border-2 ${adv.borderClass} bg-white flex items-center justify-center`}
+                    style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+                  >
+                    <div className={`w-2 h-2 ${adv.bgClass}`} style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X, ChevronDown } from "lucide-react";
+import { Search, Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 
-const UNDERGRADUATE_GROUPS = {
+export const UNDERGRADUATE_GROUPS = {
   "Computer Science & Eng": [
     { title: "B.Tech. Computer Science & Eng", slug: "btech-cse" },
     { title: "B.Tech. CSE (AI & Machine Learning)", slug: "btech-cse-ai-ml" },
@@ -44,7 +44,7 @@ const UNDERGRADUATE_GROUPS = {
   ]
 };
 
-const MEGA_MENU_PROGRAMS: Record<string, { label: string; to: string }[]> = {
+export const MEGA_MENU_PROGRAMS: Record<string, { label: string; to: string }[]> = {
   "Undergraduate (UG)": [], // Handled dynamically by UNDERGRADUATE_GROUPS
   "Postgraduate (PG)": [
     { label: "M.Tech. Computer Science", to: "/academics/mtech-cse" },
@@ -74,15 +74,58 @@ const MEGA_MENU_PROGRAMS: Record<string, { label: string; to: string }[]> = {
   ]
 };
 
+const CATEGORY_INFO: Record<string, { desc: string; linkText: string; to: string; title: string }> = {
+  "Academic Calendar": {
+    title: "Academic Calendar",
+    desc: "Plan your semester ahead. View critical academic timelines, examination blocks, holidays, and key milestones.",
+    linkText: "View Calendar",
+    to: "/academics/calendar"
+  },
+  "Flexibilities": {
+    title: "Academic Flexibilities",
+    desc: "Customize your learning path. Explore options for minor specializations, honors tracks, and flexible credit transfers.",
+    linkText: "Explore Flexibilities",
+    to: "/academics/flexibilities"
+  },
+  "Grading System": {
+    title: "Grading System",
+    desc: "Understand evaluation metrics. Access information about CGPA/SGPA calculation, credit weightages, and passing criteria.",
+    linkText: "View Grading Policy",
+    to: "/academics/grading"
+  },
+  "Award of Degrees": {
+    title: "Award of Degrees",
+    desc: "Graduation and compliance. Check eligibility criteria for degree awards, convocation schedules, and transcript requests.",
+    linkText: "Read Degree Guidelines",
+    to: "/academics/degrees"
+  },
+  "Rules & Regulations": {
+    title: "Rules & Regulations",
+    desc: "Campus compliance. Learn about attendance requirements, credit minimums, and code of conduct.",
+    linkText: "Read Rules Handbook",
+    to: "/academics/rules"
+  },
+  "Teaching & Evaluation": {
+    title: "Teaching & Evaluation",
+    desc: "Outcome-Based Education. Discover our pedagogy, continuous internal assessment schemes, and evaluation standards.",
+    linkText: "View Teaching & Evaluation",
+    to: "/academics/teaching"
+  }
+};
+
 export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
+  const [mobileProgrammesOpen, setMobileProgrammesOpen] = useState(false);
   const [managementOpen, setManagementOpen] = useState(false);
   const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
+  const [hoveredCategory, setHoveredCategory] = useState("Programmes Offered");
   const location = useLocation();
 
   useEffect(() => {
@@ -95,7 +138,16 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     setMobileOpen(false);
     setMobileAcademicsOpen(false);
     setMobileManagementOpen(false);
+    setMobileProgrammesOpen(false);
+    setMobileAboutOpen(false);
   }, [location.pathname]);
+
+  const aboutItems = [
+    { label: "History", to: "/about/history" },
+    { label: "Vision & Mission", to: "/about/vision" },
+    { label: "Leadership", to: "/about/leadership" },
+    { label: "Chalapathi Advantage", to: "/about/advantage" }
+  ];
 
   const navLinks = [
     "About Us", "Academics", "Admissions", "Research", "Management",
@@ -116,15 +168,13 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   };
 
   const academicsItems = [
-    { label: "Academics @ Chalapathi", to: "/academics" },
+    { label: "Programmes Offered", to: "/academics/programmes" },
     { label: "Academic Calendar", to: "/academics/calendar" },
     { label: "Flexibilities", to: "/academics/flexibilities" },
-    { label: "Programmes Offered", to: "/academics/programmes" },
-    { label: "Grading", to: "/academics/grading" },
+    { label: "Grading System", to: "/academics/grading" },
     { label: "Award of Degrees", to: "/academics/degrees" },
     { label: "Rules & Regulations", to: "/academics/rules" },
-    { label: "Teaching & Evaluation", to: "/academics/teaching" },
-    { label: "BOS Members", to: "/academics/bos" }
+    { label: "Teaching & Evaluation", to: "/academics/teaching" }
   ];
 
   const managementItems = [
@@ -154,12 +204,47 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           {/* Center nav */}
           <nav className="hidden xl:flex items-center gap-1 h-full">
             {navLinks.map((name) => {
+              if (name === "About Us") {
+                return (
+                  <div
+                    key={name}
+                    className="relative h-full flex items-center"
+                    onMouseEnter={() => setAboutOpen(true)}
+                    onMouseLeave={() => setAboutOpen(false)}
+                  >
+                    <button
+                      type="button"
+                      className="px-3.5 py-2 text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                    >
+                      {name} <ChevronDown size={14} className={`transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {aboutOpen && (
+                      <div className="absolute top-full left-0 mt-0 w-[180px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
+                        {aboutItems.map((item) => (
+                          <Link
+                            key={item.label}
+                            to={item.to}
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all text-left"
+                            onClick={() => setAboutOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               if (name === "Academics") {
                 return (
                   <div
                     key={name}
                     className="h-full flex items-center"
-                    onMouseEnter={() => setAcademicsOpen(true)}
+                    onMouseEnter={() => {
+                      setAcademicsOpen(true);
+                      setHoveredCategory("Programmes Offered");
+                    }}
                     onMouseLeave={() => setAcademicsOpen(false)}
                   >
                     <button
@@ -184,17 +269,17 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             { label: "Grading System", to: "/academics/grading" },
                             { label: "Award of Degrees", to: "/academics/degrees" },
                             { label: "Rules & Regulations", to: "/academics/rules" },
-                            { label: "Teaching & Evaluation", to: "/academics/teaching" },
-                            { label: "BOS Members", to: "/academics/bos" }
+                            { label: "Teaching & Evaluation", to: "/academics/teaching" }
                           ].map((item) => (
                             <Link
                               key={item.label}
                               to={item.to}
                               className={`px-3 py-2 text-[12px] font-bold rounded-lg transition-all ${
-                                location.pathname === item.to
+                                location.pathname === item.to || (item.label === "Grading System" && location.pathname === "/academics/grading")
                                   ? "text-[#D71920] bg-[#D71920]/5"
                                   : "text-gray-700 hover:text-[#D71920] hover:bg-gray-50"
                               }`}
+                              onMouseEnter={() => setHoveredCategory(item.label)}
                               onClick={() => setAcademicsOpen(false)}
                             >
                               {item.label}
@@ -203,66 +288,91 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                         </div>
 
                         {/* Column 2: Program Levels */}
-                        <div className="w-[180px] border-r border-gray-100 pr-5 flex flex-col gap-1 shrink-0">
-                          <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Levels</span>
-                          {Object.keys(MEGA_MENU_PROGRAMS).map((level) => (
-                            <button
-                              key={level}
-                              type="button"
-                              onMouseEnter={() => setActiveLevel(level)}
-                              onClick={() => setActiveLevel(level)}
-                              className={`px-3 py-2 text-[12px] font-bold rounded-lg text-left transition-all cursor-pointer outline-none ${
-                                activeLevel === level
-                                  ? "text-[#D71920] bg-[#D71920]/5"
-                                  : "text-gray-600 hover:text-[#D71920] hover:bg-gray-50"
-                              }`}
-                            >
-                              {level}
-                            </button>
-                          ))}
-                        </div>
-
-                        {/* Column 3 & 4: Specific Programs List */}
-                        <div className="flex-1 pl-2">
-                          <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-3 block">
-                            Programs ({activeLevel})
-                          </span>
-                          
-                          {activeLevel === "Undergraduate (UG)" ? (
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-h-[360px] overflow-y-auto pr-2">
-                              {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
-                                <div key={dept} className="space-y-1.5">
-                                  <h5 className="text-[11px] font-extrabold text-[#072A6C] tracking-wide border-b border-gray-100 pb-1">{dept}</h5>
-                                  <div className="flex flex-col gap-1">
-                                    {courses.map((course) => (
-                                      <Link
-                                        key={course.slug}
-                                        to={`/academics/${course.slug}`}
-                                        className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed"
-                                        onClick={() => setAcademicsOpen(false)}
-                                      >
-                                        • {course.title}
-                                      </Link>
-                                    ))}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                              {MEGA_MENU_PROGRAMS[activeLevel].map((course) => (
-                                <Link
-                                  key={course.label}
-                                  to={course.to}
-                                  className="px-3 py-1.5 text-[11.5px] font-medium text-gray-600 hover:text-[#D71920] hover:bg-gray-50 rounded-md transition-all flex items-center gap-1"
-                                  onClick={() => setAcademicsOpen(false)}
+                        {hoveredCategory === "Programmes Offered" ? (
+                          <>
+                            <div className="w-[180px] border-r border-gray-100 pr-5 flex flex-col gap-1 shrink-0">
+                              <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Levels</span>
+                              {Object.keys(MEGA_MENU_PROGRAMS).map((level) => (
+                                <button
+                                  key={level}
+                                  type="button"
+                                  onMouseEnter={() => setActiveLevel(level)}
+                                  onClick={() => setActiveLevel(level)}
+                                  className={`px-3 py-2 text-[12px] font-bold rounded-lg text-left transition-all cursor-pointer outline-none ${
+                                    activeLevel === level
+                                      ? "text-[#D71920] bg-[#D71920]/5"
+                                      : "text-gray-600 hover:text-[#D71920] hover:bg-gray-50"
+                                  }`}
                                 >
-                                  • {course.label}
-                                </Link>
+                                  {level}
+                                </button>
                               ))}
                             </div>
-                          )}
-                        </div>
+
+                            {/* Column 3 & 4: Specific Programs List */}
+                            <div className="flex-1 pl-2">
+                              <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-3 block">
+                                Programs ({activeLevel})
+                              </span>
+                              
+                              {activeLevel === "Undergraduate (UG)" ? (
+                                <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-h-[360px] overflow-y-auto pr-2">
+                                  {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
+                                    <div key={dept} className="space-y-1.5">
+                                      <h5 className="text-[11px] font-extrabold text-[#072A6C] tracking-wide border-b border-gray-100 pb-1">{dept}</h5>
+                                      <div className="flex flex-col gap-1">
+                                        {courses.map((course) => (
+                                          <Link
+                                            key={course.slug}
+                                            to={`/academics/${course.slug}`}
+                                            className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed"
+                                            onClick={() => setAcademicsOpen(false)}
+                                          >
+                                            • {course.title}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                                  {MEGA_MENU_PROGRAMS[activeLevel].map((course) => (
+                                    <Link
+                                      key={course.label}
+                                      to={course.to}
+                                      className="px-3 py-1.5 text-[11.5px] font-medium text-gray-600 hover:text-[#D71920] hover:bg-gray-50 rounded-md transition-all flex items-center gap-1"
+                                      onClick={() => setAcademicsOpen(false)}
+                                    >
+                                      • {course.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </>
+                        ) : (
+                          CATEGORY_INFO[hoveredCategory] && (
+                            <div className="flex-1 pl-8 flex flex-col justify-between max-w-xl">
+                              <div>
+                                <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2 block">Quick Info</span>
+                                <h4 className="text-[#072A6C] text-lg font-extrabold mb-3">
+                                  {CATEGORY_INFO[hoveredCategory].title}
+                                </h4>
+                                <p className="text-gray-500 text-xs leading-relaxed font-light mb-6">
+                                  {CATEGORY_INFO[hoveredCategory].desc}
+                                </p>
+                              </div>
+                              <Link
+                                to={CATEGORY_INFO[hoveredCategory].to}
+                                onClick={() => setAcademicsOpen(false)}
+                                className="w-fit h-9 px-5 bg-[#D71920] hover:bg-[#b71217] text-white text-[11px] font-bold rounded-[8px] inline-flex items-center justify-center gap-1.5 transition-colors font-[var(--font-poppins)]"
+                              >
+                                {CATEGORY_INFO[hoveredCategory].linkText} <ArrowRight size={12} />
+                              </Link>
+                            </div>
+                          )
+                        )}
                       </div>
                     )}
                   </div>
@@ -359,6 +469,35 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
       {mobileOpen && (
         <div className="fixed inset-0 top-[90px] z-30 bg-white flex flex-col p-6 overflow-y-auto xl:hidden shadow-2xl">
           {navLinks.map((name) => {
+            if (name === "About Us") {
+              return (
+                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
+                  <button
+                    type="button"
+                    onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                  >
+                    <span>{name}</span>
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileAboutOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileAboutOpen && (
+                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50 text-left">
+                      {aboutItems.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             if (name === "Academics") {
               return (
                 <div key={name} className="flex flex-col border-b border-gray-100 py-3">
@@ -372,16 +511,87 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   </button>
                   {mobileAcademicsOpen && (
                     <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50">
-                      {academicsItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
+                      {academicsItems.map((item) => {
+                        if (item.label === "Programmes Offered") {
+                          return (
+                            <div key={item.label} className="flex flex-col">
+                              <div className="w-full flex items-center justify-between">
+                                <Link
+                                  to={item.to}
+                                  className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                                  onClick={() => setMobileOpen(false)}
+                                >
+                                  {item.label}
+                                </Link>
+                                <button
+                                  type="button"
+                                  onClick={() => setMobileProgrammesOpen(!mobileProgrammesOpen)}
+                                  className="p-1.5 text-gray-500 hover:text-[#D71920] transition-colors cursor-pointer outline-none"
+                                >
+                                  <ChevronDown size={14} className={`transition-transform duration-200 ${mobileProgrammesOpen ? "rotate-180" : ""}`} />
+                                </button>
+                              </div>
+                              {mobileProgrammesOpen && (
+                                <div className="pl-3 flex flex-col gap-3 mt-1.5 pb-2 border-l border-gray-100">
+                                  {Object.entries(MEGA_MENU_PROGRAMS).map(([level, list]) => (
+                                    <div key={level} className="flex flex-col gap-1">
+                                      <span className="text-[10px] font-extrabold text-[#072A6C] uppercase tracking-wider">{level}</span>
+                                      {level === "Undergraduate (UG)" ? (
+                                        <div className="flex flex-col gap-1.5 pl-1.5 mt-0.5 border-l border-gray-50">
+                                          {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
+                                            <div key={dept} className="flex flex-col gap-1">
+                                              <span className="text-[9px] font-extrabold text-[#D4AF37] uppercase tracking-wide">{dept}</span>
+                                              {courses.map((course) => (
+                                                <Link
+                                                  key={course.slug}
+                                                  to={`/academics/${course.slug}`}
+                                                  className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
+                                                  onClick={() => {
+                                                    setMobileOpen(false);
+                                                    setMobileAcademicsOpen(false);
+                                                  }}
+                                                >
+                                                  • {course.title}
+                                                </Link>
+                                              ))}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      ) : (
+                                        <div className="flex flex-col gap-1 pl-1.5 mt-0.5 border-l border-gray-50">
+                                          {list.map((course) => (
+                                            <Link
+                                              key={course.label}
+                                              to={course.to}
+                                              className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
+                                              onClick={() => {
+                                                setMobileOpen(false);
+                                                setMobileAcademicsOpen(false);
+                                              }}
+                                            >
+                                              • {course.label}
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        }
+                        return (
+                          <Link
+                            key={item.label}
+                            to={item.to}
+                            className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
