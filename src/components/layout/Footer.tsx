@@ -121,19 +121,30 @@ export default function Footer() {
         {/* Col 6: Contact Us */}
         <div className="space-y-4">
           <h4 className="text-white font-semibold text-[13px] mb-5 tracking-wide">Contact Us</h4>
+          <div className="flex gap-4 items-start">
+            <div className="space-y-3.5 text-[11px] text-[#D1D5DB] font-light flex-1">
+              <div className="flex items-start gap-2">
+                <MapPin size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+                <span>A.R. Nagar, Mothadaka, Guntur, Andhra Pradesh - 522034</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Phone size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+                <span>8886630355 | 8886630356 9905505566</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Mail size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+                <span>admissions@city.ac.in</span>
+              </div>
+            </div>
+            <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 shadow-lg shrink-0 select-none">
+              <img 
+                src="/chairman.png" 
+                alt="Chairman" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+          </div>
           <div className="space-y-3.5 text-[11px] text-[#D1D5DB] font-light">
-            <div className="flex items-start gap-2">
-              <MapPin size={13} className="text-[#D71920] mt-0.5 shrink-0" />
-              <span>A.R. Nagar, Mothadaka, Guntur, Andhra Pradesh - 522034</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Phone size={13} className="text-[#D71920] mt-0.5 shrink-0" />
-              <span>8886630355 | 8886630356 9905505566</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Mail size={13} className="text-[#D71920] mt-0.5 shrink-0" />
-              <span>admissions@city.ac.in</span>
-            </div>
             {/* Social Logos */}
             <div className="flex items-center gap-2.5 pt-3">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-white/5 hover:bg-[#E1306C] hover:scale-110 text-white flex items-center justify-center transition-all duration-200 shadow-sm border border-white/5" title="Instagram">
