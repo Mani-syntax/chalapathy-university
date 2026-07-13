@@ -138,7 +138,7 @@ export default function Footer() {
             </div>
             <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 shadow-lg shrink-0 select-none">
               <img 
-                src="/chairman.png" 
+                src="/chairman_v2.png" 
                 alt="Chairman" 
                 className="w-full h-full object-cover" 
               />
