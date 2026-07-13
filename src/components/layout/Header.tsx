@@ -83,6 +83,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
   const [managementOpen, setManagementOpen] = useState(false);
   const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
+  const [campusLifeOpen, setCampusLifeOpen] = useState(false);
+  const [mobileCampusLifeOpen, setMobileCampusLifeOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
   const location = useLocation();
   const navigate = useNavigate();
@@ -146,6 +148,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     setMobileOpen(false);
     setMobileAcademicsOpen(false);
     setMobileManagementOpen(false);
+    setMobileCampusLifeOpen(false);
   }, [location.pathname]);
 
   const navLinks = [
@@ -182,6 +185,25 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     { label: "Board Members", to: "/management/board-members" },
     { label: "Faculty", to: "/management/faculty" },
     { label: "Staff", to: "/management/staff" }
+  ];
+
+  const campusLifeItems = [
+    { label: "Campus Overview", to: "/campus-life" },
+    { label: "Central Library", to: "/campus-life/library" },
+    { label: "Smart Classrooms", to: "/campus-life/smart-classrooms" },
+    { label: "Laboratories", to: "/campus-life/laboratories" },
+    { label: "Hostel Facilities", to: "/campus-life/hostels" },
+    { label: "Sports & Fitness", to: "/campus-life/sports" },
+    { label: "Cafeteria", to: "/campus-life/cafeteria" },
+    { label: "Transportation", to: "/campus-life/transportation" },
+    { label: "Wi-Fi Campus", to: "/campus-life/wifi" },
+    { label: "Health Centre", to: "/campus-life/health-centre" },
+    { label: "Student Clubs", to: "/campus-life/clubs" },
+    { label: "Events & Festivals", to: "/campus-life/events" },
+    { label: "Innovation Hub", to: "/campus-life/innovation-hub" },
+    { label: "Campus Safety", to: "/campus-life/safety" },
+    { label: "NSS & NCC", to: "/campus-life/nss-ncc" },
+    { label: "Grievance Cell", to: "/campus-life/grievance-cell" }
   ];
 
   return (
@@ -352,6 +374,64 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 );
               }
 
+              if (name === "Campus Life") {
+                return (
+                  <div
+                    key={name}
+                    className="relative"
+                    onMouseEnter={() => setCampusLifeOpen(true)}
+                    onMouseLeave={() => setCampusLifeOpen(false)}
+                  >
+                    <button
+                      type="button"
+                      className="px-3.5 py-2 text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                    >
+                      {name} <ChevronDown size={14} className={`transition-transform duration-200 ${campusLifeOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {campusLifeOpen && (
+                      <div className="absolute top-full left-0 mt-0 w-[240px] max-h-[380px] overflow-y-auto bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
+                        <style dangerouslySetInnerHTML={{__html: `
+                          .campus-menu-item {
+                            transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+                            position: relative;
+                            padding-left: 20px;
+                          }
+                          .campus-menu-item::before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            bottom: 0;
+                            width: 3px;
+                            background-color: #D4AF37;
+                            transform: scaleY(0);
+                            transition: transform 280ms ease;
+                          }
+                          .campus-menu-item:hover {
+                            background-color: #072A6C !important;
+                            color: white !important;
+                            transform: translateX(8px);
+                          }
+                          .campus-menu-item:hover::before {
+                            transform: scaleY(1);
+                          }
+                        `}} />
+                        {campusLifeItems.map((item) => (
+                          <Link
+                            key={item.label}
+                            to={item.to}
+                            className="campus-menu-item px-4 py-2 text-[12.5px] font-medium text-[#222222] transition-all"
+                            onClick={() => setCampusLifeOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={name}
@@ -458,6 +538,35 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   {mobileManagementOpen && (
                     <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50">
                       {managementItems.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            if (name === "Campus Life") {
+              return (
+                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
+                  <button
+                    type="button"
+                    onClick={() => setMobileCampusLifeOpen(!mobileCampusLifeOpen)}
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                  >
+                    <span>{name}</span>
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileCampusLifeOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileCampusLifeOpen && (
+                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50 max-h-[260px] overflow-y-auto">
+                      {campusLifeItems.map((item) => (
                         <Link
                           key={item.label}
                           to={item.to}

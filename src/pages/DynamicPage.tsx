@@ -1028,6 +1028,126 @@ const getPageContent = (path: string) => {
         )
       };
     }
+    if (cleanPath.includes("smart-classrooms")) {
+      return {
+        title: "Smart Classrooms",
+        category: "Campus Life",
+        desc: "Interactive learning environments equipped with modern digital tools.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Our classrooms are designed with dynamic display systems, visualizers, and interactive projectors to support immersive learning paradigms.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("laboratories")) {
+      return {
+        title: "Laboratories & Research Centres",
+        category: "Campus Life",
+        desc: "Advanced domain-specific facilities for practical learning and R&D projects.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Explore engineering, pharmacy, and computer labs featuring cutting-edge simulation software, professional instruments, and robust data clusters.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("cafeteria")) {
+      return {
+        title: "Cafeteria & Dining Hall",
+        category: "Campus Life",
+        desc: "Nutritious, hygienic food and popular hangout spaces on campus.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Enjoy a wide variety of vegetarian dining choices prepared under strict quality guidelines to support students' daily nutritional requirements.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("transportation")) {
+      return {
+        title: "Transportation Network",
+        category: "Campus Life",
+        desc: "Excellent connectivity covering Guntur, Vijayawada, and surrounding regions.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Our fleet of GPS-enabled university buses ensures secure and punctual daily transit for all commuting students and staff members.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("wifi")) {
+      return {
+        title: "Wi-Fi Campus Network",
+        category: "Campus Life",
+        desc: "High-speed wireless broadband coverage across the entire campus.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Students enjoy secure, high-bandwidth connection access in all academic blocks, common lounges, residential hostels, and library corridors.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("health-centre")) {
+      return {
+        title: "University Health Centre",
+        category: "Campus Life",
+        desc: "Primary care, emergency medical support, and student wellness counseling.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Our medical center is staffed with resident nurses, on-call physicians, and has critical transport services prepared for emergency situations.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("innovation-hub")) {
+      return {
+        title: "Innovation Hub & Incubation Center",
+        category: "Campus Life",
+        desc: "Nurturing student startups, technology transfers, and intellectual property portfolios.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Providing working desk environments, mentor panels, patent assistance, and seed funding support for promising student ventures.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("safety")) {
+      return {
+        title: "Campus Safety & Security",
+        category: "Campus Life",
+        desc: "24/7 campus surveillance, strict gate policies, and rapid response units.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Creating a safe educational ecosystem with constant patrols, digital access controls, and strict compliance protocols.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("nss-ncc")) {
+      return {
+        title: "NSS & NCC Wings",
+        category: "Campus Life",
+        desc: "Fostering discipline, leadership, patriotism, and social service responsibilities.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Engage in blood donation camps, environmental cleanups, disaster relief drives, and national integration training programs.</p>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("grievance-cell")) {
+      return {
+        title: "Student Grievance Cell",
+        category: "Campus Life",
+        desc: "A transparent mechanism for addressing student feedback, complaints, and requests.",
+        body: (
+          <div className="space-y-4 text-gray-600 text-sm mt-4">
+            <p>Ensuring an unbiased environment where all student queries, academic appeals, or amenity concerns are addressed promptly.</p>
+          </div>
+        )
+      };
+    }
     return {
       title: "Campus Life & Amenities",
       category: "Campus Life",
