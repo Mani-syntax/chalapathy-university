@@ -30,8 +30,90 @@ const scaleIn = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
+function AnimatedCounter({ value, duration = 2500 }: { value: string; duration?: number }) {
+  const [count, setCount] = React.useState(0);
+  const elementRef = React.useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = React.useState(false);
+
+  const numericPart = parseInt(value.replace(/,/g, "").replace(/[^0-9]/g, ""), 10) || 0;
+  const suffix = value.replace(/[0-9,]/g, "");
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let startTimestamp: number | null = null;
+          const step = (timestamp: number) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(easeProgress * numericPart));
+            if (progress < 1) {
+              window.requestAnimationFrame(step);
+            }
+          };
+          window.requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [numericPart, duration, hasAnimated]);
+
+  const formattedCount = numericPart >= 10000 
+    ? count.toLocaleString("en-IN") 
+    : count;
+
+  return (
+    <span 
+      ref={elementRef} 
+      className={`block text-[22px] font-[800] leading-none text-[#D4AF37] transition-all duration-300 ${
+        hasAnimated && count < numericPart ? "scale-[0.95] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" : "scale-100"
+      }`}
+    >
+      {formattedCount}{suffix}
+    </span>
+  );
+}
+
 export default function Home() {
   const [directionsFrom, setDirectionsFrom] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const slides = [
+    {
+      heading: ["SHAPING", "TOMORROW'S", "INNOVATORS"],
+      tagline: "Empowering ambitious minds through world-class education, cutting-edge research, industry collaboration, and transformative learning experiences that prepare future leaders."
+    },
+    {
+      heading: ["LEARN", "TODAY.", "LEAD TOMORROW."],
+      tagline: "Discover an ecosystem where innovation meets opportunity, guided by expert faculty, modern infrastructure, global exposure, and career-focused education."
+    },
+    {
+      heading: ["CREATE", "YOUR", "FUTURE"],
+      tagline: "Transform your ideas into reality through advanced laboratories, startup incubation, interdisciplinary learning, and hands-on industry experience."
+    },
+    {
+      heading: ["YOUR", "SUCCESS", "STARTS HERE"],
+      tagline: "Join thousands of successful graduates who built remarkable careers through excellence in academics, innovation, leadership, and professional development."
+    }
+  ];
 
   const handleDirections = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,13 +123,100 @@ export default function Home() {
   };
 
   useEffect(() => {
-    document.title = "City Chalapathi Institute of Technology | Autonomous University";
+    document.title = "Chalapathi University | Best Private University in Andhra Pradesh";
   }, []);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          setCurrentSlide((slide) => (slide + 1) % slides.length);
+          return 0;
+        }
+        return prev + 2;
+      });
+    }, 100);
+    return () => clearInterval(interval);
+  }, [isPaused, slides.length]);
+
+  const handleDotClick = (index: number) => {
+    setCurrentSlide(index);
+    setProgress(0);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    if (distance > 50) {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setProgress(0);
+    }
+    if (distance < -50) {
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+      setProgress(0);
+    }
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F7F8FC] text-[#222222] overflow-x-hidden font-[var(--font-poppins)]">
       {/* ═══ HERO SECTION (720px height) ═══ */}
-      <section className="relative w-full overflow-hidden bg-white" style={{ height: "720px" }}>
+      <section 
+        className="relative w-full overflow-hidden bg-white select-none" 
+        style={{ height: "720px" }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes slideEntrance {
+            0% {
+              opacity: 0;
+              transform: translateY(40px);
+              filter: blur(8px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+              filter: blur(0);
+            }
+          }
+          @keyframes letter-fade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          .animate-letter-fade {
+            opacity: 0;
+            animation: letter-fade 300ms ease-out forwards;
+          }
+          @keyframes tagline-fade {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+          .animate-tagline-fade {
+            opacity: 0;
+            animation: tagline-fade 500ms ease-out forwards;
+          }
+          @keyframes scale-width {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+          }
+          .animate-scale-width {
+            transform: scaleX(0);
+            animation: scale-width 600ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          }
+        `}} />
+
         {/* Background image covering right side, fading to white/gray on the left */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -58,31 +227,62 @@ export default function Home() {
 
         {/* Content (1440px Container) */}
         <div className="relative z-10 max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between">
-          <motion.div
-            className="w-full md:w-[60%] lg:w-[48%] space-y-6"
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-          >
-            <motion.h1
-              className="font-[var(--font-poppins)] text-[44px] md:text-[54px] lg:text-[62px] font-[800] leading-[1.1] tracking-tight text-[#072A6C]"
-              variants={fadeUp}
+          <div className="w-full md:w-[60%] lg:w-[48%] space-y-6">
+            <div 
+              key={currentSlide}
+              style={{
+                animation: 'slideEntrance 900ms cubic-bezier(0.25, 1, 0.5, 1) forwards'
+              }}
             >
-              SHAPING
-              <br />
-              TOMORROW'S
-              <br />
-              <span className="text-[#D71920]">INNOVATORS</span>
-            </motion.h1>
+              {/* Heading */}
+              <h1 className="font-[var(--font-poppins)] text-[44px] md:text-[54px] lg:text-[62px] font-[800] leading-[1.1] tracking-tight text-[#072A6C] relative">
+                {slides[currentSlide].heading.map((word, wordIndex) => {
+                  const isAccent = (currentSlide === 0 && wordIndex === 2) || 
+                                   (currentSlide === 1 && wordIndex === 2) ||
+                                   (currentSlide === 2 && wordIndex === 2) ||
+                                   (currentSlide === 3 && wordIndex >= 1);
+                  return (
+                    <React.Fragment key={wordIndex}>
+                      {wordIndex > 0 && <br />}
+                      <span className={isAccent ? "text-[#D71920]" : ""}>
+                        {word.split("").map((letter, letterIndex) => (
+                          <span 
+                            key={letterIndex}
+                            className="inline-block animate-letter-fade"
+                            style={{
+                              animationDelay: `${wordIndex * 150 + letterIndex * 35}ms`
+                            }}
+                          >
+                            {letter}
+                          </span>
+                        ))}
+                      </span>
+                    </React.Fragment>
+                  );
+                })}
+                {/* Underline */}
+                <div 
+                  className="h-1 bg-[#D4AF37] w-24 rounded-full mt-4 animate-scale-width" 
+                  style={{
+                    transformOrigin: 'left',
+                    animationDelay: '800ms'
+                  }}
+                />
+              </h1>
 
-            <motion.p
-              className="text-[15px] md:text-[16px] text-[#666666] leading-relaxed max-w-md font-[400]"
-              variants={fadeUp}
-            >
-              Empowering minds through quality education, advanced learning and real-world experience. Your future begins here.
-            </motion.p>
+              {/* Tagline */}
+              <p 
+                className="text-[15px] md:text-[16px] text-[#666666] leading-relaxed max-w-md font-[400] mt-5 animate-tagline-fade"
+                style={{
+                  animationDelay: '950ms'
+                }}
+              >
+                {slides[currentSlide].tagline}
+              </p>
+            </div>
 
-            <motion.div className="flex flex-wrap items-center gap-4" variants={fadeUp}>
+            {/* Buttons remain static/visible throughout */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 to="/admissions"
                 className="h-11 px-7 bg-[#072A6C] hover:bg-[#051c4a] text-white text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all shadow-sm active:scale-95"
@@ -98,8 +298,8 @@ export default function Home() {
                   <Play size={8} className="fill-current ml-0.5" />
                 </div>
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Right Floating Card Stack (16px border-radius) */}
           <div className="hidden lg:flex flex-col gap-2.5 z-20">
@@ -122,6 +322,28 @@ export default function Home() {
               );
             })}
           </div>
+        </div>
+
+        {/* Navigation dots in the lower right corner */}
+        <div className="absolute bottom-8 left-5 lg:left-auto lg:right-8 flex gap-2 z-20">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`h-2.5 rounded-full transition-all duration-300 border-none cursor-pointer ${
+                currentSlide === index ? "w-8 bg-[#072A6C]" : "w-2.5 bg-gray-300 hover:bg-gray-400"
+              }`}
+              title={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Progress bar at the bottom */}
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-100/30 z-20">
+          <div 
+            className="h-full bg-[#D4AF37] transition-all duration-100 ease-linear"
+            style={{ width: `${progress}%` }}
+          />
         </div>
       </section>
 
@@ -146,12 +368,11 @@ export default function Home() {
               const Icon = s.icon;
               return (
                 <motion.div key={i} className="flex flex-col items-center max-w-[160px] rounded-[14px]" variants={fadeUp}>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-3 border border-[#D4AF37]/30 shadow-sm">
-                    <Icon size={18} className="text-[#D4AF37]" strokeWidth={2} />
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-3 border border-[#D4AF37]/30 shadow-sm relative group overflow-hidden">
+                    <Icon size={18} className="text-[#D4AF37] relative z-10 transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                    <div className="absolute inset-0 bg-[#D4AF37]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
-                  <span className="block text-[22px] font-[800] leading-none text-[#D4AF37]">
-                    {s.n}
-                  </span>
+                  <AnimatedCounter value={s.n} />
                   <span className="block text-[11px] text-gray-200 font-[500] mt-2 leading-tight">
                     {s.label}
                   </span>
@@ -160,6 +381,29 @@ export default function Home() {
             })}
           </div>
         </motion.div>
+      </section>
+
+      {/* ═══ ADMISSION ALERT TICKER ═══ */}
+      <section className="relative z-10 w-full h-[50px] bg-[#F4B400] text-[#0A2D6D] flex items-center overflow-hidden select-none font-[var(--font-poppins)] font-[700] text-[18px] shadow-[inset_0_4px_6px_rgba(0,0,0,0.08),0_2px_4px_rgba(0,0,0,0.05)] border-none">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .marquee-inner {
+            display: flex;
+            width: max-content;
+            animation: marquee 20s linear infinite;
+            will-change: transform;
+          }
+          .marquee-inner:hover {
+            animation-play-state: paused;
+          }
+        `}} />
+        <div className="marquee-inner">
+          <span className="px-4 whitespace-nowrap">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • NAAC Accredited Institution • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
+          <span className="px-4 whitespace-nowrap" aria-hidden="true">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • NAAC Accredited Institution • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
+        </div>
       </section>
 
       {/* ═══ WHY CHOOSE US SECTION ═══ */}
@@ -286,28 +530,28 @@ export default function Home() {
                 className="group bg-white border border-gray-100 rounded-[16px] overflow-hidden shadow-sm hover:shadow-md transition-shadow relative"
                 variants={scaleIn}
               >
-                <div className="h-[140px] relative overflow-hidden bg-gray-100">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                </div>
-
-                <div className="px-4 pb-4 relative pt-6 text-center">
-                  <div
-                    className="absolute -top-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white border-[3px] border-white shadow-md group-hover:scale-110 transition-transform"
-                    style={{ backgroundColor: p.color }}
-                  >
-                    <GraduationCap size={14} />
+                <Link to={p.to} className="block w-full h-full">
+                  <div className="h-[140px] relative overflow-hidden bg-gray-100">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   </div>
-                  <Link to={p.to} className="block">
+
+                  <div className="px-4 pb-4 relative pt-6 text-center">
+                    <div
+                      className="absolute -top-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white border-[3px] border-white shadow-md group-hover:scale-110 transition-transform"
+                      style={{ backgroundColor: p.color }}
+                    >
+                      <GraduationCap size={14} />
+                    </div>
                     <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
                       {p.name}
                     </h3>
-                  </Link>
-                </div>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
@@ -335,7 +579,26 @@ export default function Home() {
             variants={staggerContainer}
           >
             {/* Vertical timeline connector */}
-            <div className="absolute left-[70px] top-6 bottom-6 w-0.5 bg-gray-100 z-0" />
+            <div className="absolute left-[70px] top-6 bottom-6 w-0.5 bg-gray-100 z-0">
+              {/* Yellow animated line overlay */}
+              <div 
+                className="absolute top-0 left-0 w-full bg-[#F4B400] shadow-[0_0_8px_#F4B400]" 
+                style={{
+                  height: '100%',
+                  transformOrigin: 'top',
+                  animation: 'drawTimelineLine 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                  background: 'linear-gradient(to bottom, #F4B400, #F4B400 80%, rgba(244, 180, 0, 0.2))'
+                }} 
+              />
+              <style>{`
+                @keyframes drawTimelineLine {
+                  0% { transform: scaleY(0); opacity: 1; }
+                  50% { transform: scaleY(1); opacity: 1; }
+                  85% { transform: scaleY(1); opacity: 0; }
+                  100% { transform: scaleY(0); opacity: 0; }
+                }
+              `}</style>
+            </div>
 
             {[
               { step: "01", title: "DISCOVER", desc: "Explore programs and find your passion.", icon: Compass, to: "/academics" },

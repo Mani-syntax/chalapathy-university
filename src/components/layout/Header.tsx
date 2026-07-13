@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 
 export const UNDERGRADUATE_GROUPS = {
@@ -119,14 +119,67 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [searchOpen, setSearchOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
   const [mobileProgrammesOpen, setMobileProgrammesOpen] = useState(false);
   const [managementOpen, setManagementOpen] = useState(false);
   const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
+  const [campusLifeOpen, setCampusLifeOpen] = useState(false);
+  const [mobileCampusLifeOpen, setMobileCampusLifeOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
   const [hoveredCategory, setHoveredCategory] = useState("Programmes Offered");
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSearchSubmit = () => {
+    if (!searchQuery.trim()) return;
+    const q = searchQuery.toLowerCase();
+
+    if (q.includes("computer") || q.includes("cse") || q.includes("software") || q.includes("b.tech")) {
+      navigate("/academics/computer-science");
+    } else if (q.includes("ai") || q.includes("ml") || q.includes("artificial") || q.includes("intelligence")) {
+      navigate("/academics/artificial-intelligence");
+    } else if (q.includes("data") || q.includes("ds")) {
+      navigate("/academics/data-science");
+    } else if (q.includes("program") || q.includes("course") || q.includes("academic")) {
+      navigate("/academics");
+    } else if (q.includes("faculty") || q.includes("teacher") || q.includes("professor") || q.includes("hod")) {
+      navigate("/management/faculty");
+    } else if (q.includes("staff") || q.includes("admin") || q.includes("clerk")) {
+      navigate("/management/staff");
+    } else if (q.includes("board") || q.includes("governing") || q.includes("chancellor") || q.includes("registrar")) {
+      navigate("/management/board-members");
+    } else if (q.includes("event") || q.includes("news") || q.includes("announcement")) {
+      navigate("/news");
+    } else if (q.includes("undergrad") || q.includes("ug")) {
+      navigate("/admissions/undergraduate");
+    } else if (q.includes("postgrad") || q.includes("pg") || q.includes("mba") || q.includes("mca")) {
+      navigate("/admissions/postgraduate");
+    } else if (q.includes("fee") || q.includes("cost") || q.includes("tuition")) {
+      navigate("/admissions/fees");
+    } else if (q.includes("scholarship") || q.includes("waiver")) {
+      navigate("/admissions/scholarships");
+    } else if (q.includes("apply") || q.includes("registration") || q.includes("enrol")) {
+      navigate("/admissions/apply");
+    } else if (q.includes("hostel") || q.includes("room") || q.includes("accommodation") || q.includes("dorm")) {
+      navigate("/campus-life/hostels");
+    } else if (q.includes("library") || q.includes("book") || q.includes("study")) {
+      navigate("/campus-life/library");
+    } else if (q.includes("sports") || q.includes("gym") || q.includes("play") || q.includes("cricket")) {
+      navigate("/campus-life/sports");
+    } else if (q.includes("club") || q.includes("society") || q.includes("extracurricular")) {
+      navigate("/campus-life/clubs");
+    } else if (q.includes("contact") || q.includes("phone") || q.includes("email") || q.includes("map") || q.includes("address")) {
+      navigate("/contact");
+    } else if (q.includes("admission")) {
+      navigate("/admissions");
+    } else {
+      navigate("/academics");
+    }
+    setSearchQuery("");
+    setSearchOpen(false);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -140,6 +193,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     setMobileManagementOpen(false);
     setMobileProgrammesOpen(false);
     setMobileAboutOpen(false);
+    setMobileCampusLifeOpen(false);
   }, [location.pathname]);
 
   const aboutItems = [
@@ -181,6 +235,25 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     { label: "Board Members", to: "/management/board-members" },
     { label: "Faculty", to: "/management/faculty" },
     { label: "Staff", to: "/management/staff" }
+  ];
+
+  const campusLifeItems = [
+    { label: "Campus Overview", to: "/campus-life" },
+    { label: "Central Library", to: "/campus-life/library" },
+    { label: "Smart Classrooms", to: "/campus-life/smart-classrooms" },
+    { label: "Laboratories", to: "/campus-life/laboratories" },
+    { label: "Hostel Facilities", to: "/campus-life/hostels" },
+    { label: "Sports & Fitness", to: "/campus-life/sports" },
+    { label: "Cafeteria", to: "/campus-life/cafeteria" },
+    { label: "Transportation", to: "/campus-life/transportation" },
+    { label: "Wi-Fi Campus", to: "/campus-life/wifi" },
+    { label: "Health Centre", to: "/campus-life/health-centre" },
+    { label: "Student Clubs", to: "/campus-life/clubs" },
+    { label: "Events & Festivals", to: "/campus-life/events" },
+    { label: "Innovation Hub", to: "/campus-life/innovation-hub" },
+    { label: "Campus Safety", to: "/campus-life/safety" },
+    { label: "NSS & NCC", to: "/campus-life/nss-ncc" },
+    { label: "Grievance Cell", to: "/campus-life/grievance-cell" }
   ];
 
   return (
@@ -411,6 +484,64 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 );
               }
 
+              if (name === "Campus Life") {
+                return (
+                  <div
+                    key={name}
+                    className="relative"
+                    onMouseEnter={() => setCampusLifeOpen(true)}
+                    onMouseLeave={() => setCampusLifeOpen(false)}
+                  >
+                    <button
+                      type="button"
+                      className="px-3.5 py-2 text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                    >
+                      {name} <ChevronDown size={14} className={`transition-transform duration-200 ${campusLifeOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {campusLifeOpen && (
+                      <div className="absolute top-full left-0 mt-0 w-[240px] max-h-[380px] overflow-y-auto bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
+                        <style dangerouslySetInnerHTML={{__html: `
+                          .campus-menu-item {
+                            transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+                            position: relative;
+                            padding-left: 20px;
+                          }
+                          .campus-menu-item::before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            bottom: 0;
+                            width: 3px;
+                            background-color: #D4AF37;
+                            transform: scaleY(0);
+                            transition: transform 280ms ease;
+                          }
+                          .campus-menu-item:hover {
+                            background-color: rgba(215, 25, 32, 0.05) !important;
+                            color: #D71920 !important;
+                            transform: translateX(8px);
+                          }
+                          .campus-menu-item:hover::before {
+                            transform: scaleY(1);
+                          }
+                        `}} />
+                        {campusLifeItems.map((item) => (
+                          <Link
+                            key={item.label}
+                            to={item.to}
+                            className="campus-menu-item px-4 py-2 text-[12.5px] font-medium text-[#222222] transition-all"
+                            onClick={() => setCampusLifeOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={name}
@@ -448,16 +579,21 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </div>
         </div>
 
-        {/* Search overlay */}
         {searchOpen && (
           <div className="absolute top-full left-0 w-full bg-[#072A6C] p-4 shadow-xl z-50 animate-slide-down">
             <div className="max-w-2xl mx-auto flex gap-2">
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
                 placeholder="Search programs, faculty, events..."
                 className="flex-1 bg-white/10 text-white border border-white/20 rounded-[12px] px-4 py-2.5 text-sm focus:outline-none focus:border-[#D71920] placeholder:text-white/50 font-[var(--font-poppins)]"
               />
-              <button className="bg-[#D71920] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#b71217] transition-colors font-[var(--font-poppins)]">
+              <button 
+                onClick={handleSearchSubmit}
+                className="bg-[#D71920] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#b71217] transition-colors font-[var(--font-poppins)]"
+              >
                 Search
               </button>
             </div>
@@ -612,6 +748,35 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   {mobileManagementOpen && (
                     <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50">
                       {managementItems.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            if (name === "Campus Life") {
+              return (
+                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
+                  <button
+                    type="button"
+                    onClick={() => setMobileCampusLifeOpen(!mobileCampusLifeOpen)}
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                  >
+                    <span>{name}</span>
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileCampusLifeOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileCampusLifeOpen && (
+                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50 max-h-[260px] overflow-y-auto">
+                      {campusLifeItems.map((item) => (
                         <Link
                           key={item.label}
                           to={item.to}
