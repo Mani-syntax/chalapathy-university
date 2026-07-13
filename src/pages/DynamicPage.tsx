@@ -2388,8 +2388,10 @@ export default function DynamicPage() {
       desc: "Our interactive classrooms are designed to maximize engagement and digital content access.",
       heroImage: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=1600&q=80",
       sections: [
-        { title: "Interactive Displays", desc: "Every classroom features large multi-touch displays, digital writing boards, and wireless projecting nodes.", image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" },
-        { title: "Audio Visual Systems", desc: "Acoustically designed lecture halls equipped with premium mic channels and immersive sound systems.", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" }
+        { title: "Interactive Smart Boards", desc: "Multi-touch collaborative screens enabling digital ink, real-time annotations, and cloud content synchronization.", image: "https://images.unsplash.com/photo-1571844307880-751c6d86f3f3?auto=format&fit=crop&w=800&q=80" },
+        { title: "Digital Teaching & Webcasting", desc: "Integrated digital cameras and recording nodes to capture lectures and deliver virtual learning feeds.", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" },
+        { title: "Audio Visual Systems", desc: "Acoustically treated halls containing professional sound networks and high-definition projections.", image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80" },
+        { title: "Student Collaboration Hubs", desc: "Configurable seating structures allowing teams to interface project modules with personal smart devices.", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" }
       ],
       gallery: [
         "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=600&q=80",
@@ -2407,8 +2409,11 @@ export default function DynamicPage() {
       desc: "Advanced research laboratories for Computer Science, AI, Electronics, and Mechanical Engineering.",
       heroImage: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=1600&q=80",
       sections: [
-        { title: "AI & IoT Computing Labs", desc: "Equipped with high-compute GPU nodes, sensors, microcontrollers, and wireless development systems.", image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" },
-        { title: "Hardware & Mechanical Labs", desc: "Featuring heavy industrial testing setups, CNC milling nodes, and advanced thermal simulation platforms.", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" }
+        { title: "Computer & Software Labs", desc: "Equipped with modern client workstations, enterprise database servers, and industry-standard design tools.", image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" },
+        { title: "AI & Deep Learning Labs", desc: "High-compute GPU setups optimized for artificial intelligence frameworks and machine learning training tasks.", image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80" },
+        { title: "IoT & Embedded Systems", desc: "Equipped with sensors, development boards, and communication nodes to prototype smart grids.", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" },
+        { title: "Mechanical & Civil Labs", desc: "Featuring heavy industrial testing setups, material characterization machinery, and fluid dynamics chambers.", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" },
+        { title: "Electronics & VLSI Labs", desc: "Equipped with high-frequency oscilloscopes, signal generators, and software setups for integrated circuit layout designs.", image: "https://images.unsplash.com/photo-1517059224940-d4af9eec41b7?auto=format&fit=crop&w=800&q=80" }
       ],
       gallery: [
         "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80",
@@ -2464,7 +2469,9 @@ export default function DynamicPage() {
       desc: "Our food courts offer diverse dining choices under strict quality and cleanliness guidelines.",
       heroImage: "https://images.unsplash.com/photo-1567529854338-fc097b962123?auto=format&fit=crop&w=1600&q=80",
       sections: [
-        { title: "Snacks & Coffee Lounge", desc: "A cozy place for students to connect, relax between lectures, and enjoy light meals.", image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80" }
+        { title: "Multi-Cuisine Food Court", desc: "A spacious dining zone offering freshly cooked regional and continental dishes under strict hygiene controls.", image: "https://images.unsplash.com/photo-1567529854338-fc097b962123?auto=format&fit=crop&w=800&q=80" },
+        { title: "Healthy Meals & Salads", desc: "Fresh organic salads, juices, and low-calorie options preparing students with active physical energy.", image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80" },
+        { title: "Coffee & Lounge Corner", desc: "A warm community space to enjoy specialty coffee, tea, and quick snacks with project partners.", image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80" }
       ],
       gallery: [
         "https://images.unsplash.com/photo-1567529854338-fc097b962123?auto=format&fit=crop&w=600&q=80",
@@ -2482,7 +2489,9 @@ export default function DynamicPage() {
       desc: "Our GPS-enabled bus network connects the campus to Guntur, Vijayawada, and adjoining communities.",
       heroImage: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=1600&q=80",
       sections: [
-        { title: "Safe & Regulated Bus Routes", desc: "A vast fleet of regularly maintained transit buses ensuring punctual daily travel.", image: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80" }
+        { title: "University Bus Fleet", desc: "A large collection of modern buses carrying standard safety measures and comfortable seating arrangements.", image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80" },
+        { title: "GPS Tracking & Safety", desc: "Real-time satellite GPS updates, Speed controllers, and emergency contact systems inside all transit networks.", image: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80" },
+        { title: "Multiple City Routes", desc: "Connecting students across all major points in Guntur, Tenali, Vijayawada, and surrounding towns.", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80" }
       ],
       gallery: [
         "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=600&q=80",
@@ -2500,7 +2509,8 @@ export default function DynamicPage() {
       desc: "Gigabit-speed wireless connectivity covering all academic corridors and hostels.",
       heroImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80",
       sections: [
-        { title: "Continuous Academic Wi-Fi", desc: "Access study resources, collaborative research portals, and digital libraries instantly.", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" }
+        { title: "High-Speed Fiber Backbone", desc: "Gigabit fiber internet linking computing systems, servers, and visual classrooms seamlessly.", image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" },
+        { title: "Wireless Coverage Spots", desc: "High-density access points located across academic corridors, hostels, auditoriums, and open gardens.", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" }
       ],
       gallery: [
         "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80",
