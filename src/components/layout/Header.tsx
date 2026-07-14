@@ -266,11 +266,11 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
       >
         <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between gap-6 relative">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0 py-1">
+          <Link to="/" className="flex items-center shrink-0 py-1">
             <img
-              src="/logo.svg"
+              src="/logo.png"
               alt="Chalapathi University"
-              className="h-14 w-auto object-contain transition-all"
+              className="h-14 w-auto object-contain"
             />
           </Link>
 
