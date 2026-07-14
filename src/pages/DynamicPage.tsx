@@ -5,8 +5,8 @@ import { createPortal } from "react-dom";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe, QrCode, Award, ChevronLeft } from "lucide-react";
-import { PROGRAMS_DATA } from "../data/programsData";
 import { UNDERGRADUATE_GROUPS, MEGA_MENU_PROGRAMS } from "../components/layout/Header";
+import { useData } from "../context/DataContext";
 
 
 const getProgramTimeline = (title: string) => {
@@ -81,7 +81,7 @@ const getProgramTimeline = (title: string) => {
 };
 
 // Helper to generate dynamic, rich content based on current path
-const getPageContent = (path: string) => {
+const getPageContent = (path: string, programs: any[]) => {
   const cleanPath = path.toLowerCase().replace(/\/$/, "");
 
   // News Article Pages
@@ -325,8 +325,21 @@ const getPageContent = (path: string) => {
 
   // Academics Pages
   if (cleanPath.startsWith("/academics")) {
-    const matchedProgram = PROGRAMS_DATA.find(p => cleanPath.endsWith(p.slug));
+    const matchedProgram = programs.find(p => cleanPath.endsWith(p.slug));
     if (matchedProgram) {
+      const getFlowchartData = () => {
+        const timeline = getProgramTimeline(matchedProgram.title);
+        const y1 = localStorage.getItem(`flowchart_${matchedProgram.slug}_y1`);
+        const y2 = localStorage.getItem(`flowchart_${matchedProgram.slug}_y2`);
+        const y3 = localStorage.getItem(`flowchart_${matchedProgram.slug}_y3`);
+        const y4 = localStorage.getItem(`flowchart_${matchedProgram.slug}_y4`);
+        if (y1) timeline[0].courses = y1.split(",").map(c => c.trim()).filter(Boolean);
+        if (y2) timeline[1].courses = y2.split(",").map(c => c.trim()).filter(Boolean);
+        if (y3) timeline[2].courses = y3.split(",").map(c => c.trim()).filter(Boolean);
+        if (y4) timeline[3].courses = y4.split(",").map(c => c.trim()).filter(Boolean);
+        return timeline;
+      };
+
       return {
         title: matchedProgram.title,
         category: "Academics",
@@ -356,7 +369,7 @@ const getPageContent = (path: string) => {
             <div>
               <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Core Focus Modules</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {matchedProgram.curriculum.map((item, idx) => (
+                {matchedProgram.curriculum.map((item: string, idx: number) => (
                   <div key={idx} className="bg-white border border-gray-200/80 rounded-xl p-3 text-center text-xs font-semibold text-gray-700 shadow-sm hover:border-[#D71920]/45 transition-colors">
                     {item}
                   </div>
@@ -367,7 +380,7 @@ const getPageContent = (path: string) => {
             <div>
               <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Career Prospects</h3>
               <div className="space-y-3">
-                {matchedProgram.careers.map((career, idx) => (
+                {matchedProgram.careers.map((career: { title: string; desc: string }, idx: number) => (
                   <div key={idx} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
                     <h4 className="font-bold text-[#D71920] text-xs">{career.title}</h4>
                     <p className="text-[11px] text-gray-500 mt-1 leading-normal font-light">{career.desc}</p>
@@ -375,6 +388,22 @@ const getPageContent = (path: string) => {
                 ))}
               </div>
             </div>
+
+            {localStorage.getItem(`syllabus_${matchedProgram.slug}`) && (
+              <div className="bg-emerald-50 border border-emerald-200/50 p-4 rounded-xl flex justify-between items-center mt-6">
+                <div>
+                  <span className="text-xs font-bold text-emerald-800 block">📚 Syllabus & Curriculum Details Available</span>
+                  <span className="text-[10px] text-emerald-600/80 font-light">{localStorage.getItem(`syllabus_${matchedProgram.slug}`)}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => alert(`Downloading curriculum syllabus PDF: ${localStorage.getItem(`syllabus_${matchedProgram.slug}`)}`)}
+                  className="h-8 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase tracking-wider rounded-lg shadow-sm transition-colors cursor-pointer"
+                >
+                  Download Syllabus
+                </button>
+              </div>
+            )}
 
             {/* Dynamic Visual Timeline Section */}
             <div className="pt-8 border-t border-gray-100">
@@ -388,7 +417,7 @@ const getPageContent = (path: string) => {
 
               {/* 4 Columns Year-wise Grid */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-                {getProgramTimeline(matchedProgram.title).map((step, idx) => (
+                {getFlowchartData().map((step, idx) => (
                   <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
                     {/* Top red bar hover effect */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 group-hover:bg-[#D71920] transition-colors" />
@@ -1240,15 +1269,8 @@ function AcademicCalendar() {
   });
 
 function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKey: string }) {
-  const monthsData = [
-    { name: "July", yearOffset: 0, startDay: 2, totalDays: 31, events: { 15: "Commencement of Classwork" } },
-    { name: "August", yearOffset: 0, startDay: 5, totalDays: 31, events: {} },
-    { name: "September", yearOffset: 0, startDay: 1, totalDays: 30, events: { 5: "First Mid-Term Examinations" } },
-    { name: "October", yearOffset: 0, startDay: 3, totalDays: 31, events: {} },
-    { name: "November", yearOffset: 0, startDay: 6, totalDays: 30, events: { 14: "Second Mid-Term Examinations" } },
-    { name: "December", yearOffset: 0, startDay: 1, totalDays: 31, events: { 3: "Practical Examinations", 15: "End Semester Theory Exams" } },
-    { name: "January", yearOffset: 1, startDay: 4, totalDays: 31, events: { 5: "Commencement of Next Semester" } }
-  ];
+  const { calendarData } = useData();
+  const monthsData = calendarData;
 
   const [monthIndex, setMonthIndex] = React.useState(0);
   const [selectedDay, setSelectedDay] = React.useState<number | null>(15);
@@ -2315,7 +2337,8 @@ function DepartmentFacultyView({ slug }: { slug: string }) {
 
 export default function DynamicPage() {
   const { pathname } = useLocation();
-  const content = getPageContent(pathname);
+  const { programs } = useData();
+  const content = getPageContent(pathname, programs);
   const isManagement = pathname.toLowerCase().startsWith("/management");
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
 
@@ -2966,317 +2989,7 @@ const getAvatarUrl = (initials: string): string => {
   return avatarMap[initials] || `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=072A6C&color=fff&size=256&font-size=0.35&bold=true`;
 };
 
-const FACULTY_DATA: Record<string, {
-  hod: FacultyMember;
-  others: Array<FacultyMember>;
-}> = {
-  "Computer Science & Engineering": {
-    hod: {
-      name: "Prof. P. V. Ramana",
-      title: "HOD & Professor",
-      edu: "Ph.D - Indian Institute of Technology Madras, India",
-      interests: "Algorithms, Distributed Networks, Database Optimization",
-      phone: "0863 2345432",
-      email: "hod.cse@city.ac.in",
-      avatar: "PVR",
-      age: "52 Years",
-      experience: "24 Years of Teaching & Research",
-      idNo: "CCIT-CSE-001",
-      department: "Computer Science & Engineering"
-    },
-    others: [
-      {
-        name: "Dr. A. Kiran Kumar",
-        title: "Professor",
-        edu: "Ph.D - National Institute of Technology Warangal, India",
-        interests: "Cyber Security, Network Architectures & Trust Models",
-        phone: "0863 2345433",
-        email: "kiran.cse@city.ac.in",
-        avatar: "AKK",
-        age: "45 Years",
-        experience: "16 Years",
-        idNo: "CCIT-CSE-002",
-        department: "Computer Science & Engineering"
-      },
-      {
-        name: "Mrs. K. Jhansi",
-        title: "Assistant Professor",
-        edu: "M.Tech - JNTU, Kakinada",
-        interests: "Software Engineering & Object Oriented Designs",
-        phone: "0863 2345434",
-        email: "jhansi.cse@city.ac.in",
-        avatar: "KJ",
-        age: "34 Years",
-        experience: "8 Years",
-        idNo: "CCIT-CSE-003",
-        department: "Computer Science & Engineering"
-      },
-      {
-        name: "Dr. B. Satyanarayana",
-        title: "Associate Professor",
-        edu: "Ph.D - Osmania University, Hyderabad",
-        interests: "Cloud Architectures, Virtualization & High Compute Networks",
-        phone: "0863 2345435",
-        email: "satya.cse@city.ac.in",
-        avatar: "BS",
-        age: "41 Years",
-        experience: "14 Years",
-        idNo: "CCIT-CSE-004",
-        department: "Computer Science & Engineering"
-      },
-      {
-        name: "Mr. D. Srinivasa Rao",
-        title: "Assistant Professor",
-        edu: "M.Tech - Andhra University",
-        interests: "Data Warehousing, Data Mining & SQL Engines",
-        phone: "0863 2345436",
-        email: "srinu.cse@city.ac.in",
-        avatar: "DSR",
-        age: "36 Years",
-        experience: "10 Years",
-        idNo: "CCIT-CSE-005",
-        department: "Computer Science & Engineering"
-      }
-    ]
-  },
-  "Artificial Intelligence & ML": {
-    hod: {
-      name: "Dr. K. Chandrasekhar",
-      title: "Principal & Professor",
-      edu: "Ph.D - Indian Institute of Technology Delhi, India",
-      interests: "Machine Learning, Natural Language Processing, AI Ethics",
-      phone: "0863 2345430",
-      email: "principal@city.ac.in",
-      avatar: "KC",
-      age: "48 Years",
-      experience: "20 Years",
-      idNo: "CCIT-AIML-001",
-      department: "Artificial Intelligence & ML"
-    },
-    others: [
-      {
-        name: "Dr. S. Vignesh",
-        title: "Associate Professor",
-        edu: "Ph.D - IIIT Hyderabad",
-        interests: "Computer Vision, Neural Networks, Image Restoration",
-        phone: "0863 2345451",
-        email: "vignesh.aiml@city.ac.in",
-        avatar: "SV",
-        age: "39 Years",
-        experience: "12 Years",
-        idNo: "CCIT-AIML-002",
-        department: "Artificial Intelligence & ML"
-      },
-      {
-        name: "Mr. P. Rajesh",
-        title: "Assistant Professor",
-        edu: "M.Tech - Indian Institute of Technology Bombay, India",
-        interests: "Deep Learning, Reinforcement Learning, Robot Navigation",
-        phone: "0863 2345452",
-        email: "rajesh.aiml@city.ac.in",
-        avatar: "PR",
-        age: "31 Years",
-        experience: "6 Years",
-        idNo: "CCIT-AIML-003",
-        department: "Artificial Intelligence & ML"
-      },
-      {
-        name: "Dr. S. Kavitha",
-        title: "Associate Professor",
-        edu: "Ph.D - JNTU Hyderabad",
-        interests: "Cognitive Computing, Human-Machine Interface, Robotics",
-        phone: "0863 2345453",
-        email: "kavitha.aiml@city.ac.in",
-        avatar: "SK",
-        age: "43 Years",
-        experience: "15 Years",
-        idNo: "CCIT-AIML-004",
-        department: "Artificial Intelligence & ML"
-      },
-      {
-        name: "Mrs. M. Harika",
-        title: "Assistant Professor",
-        edu: "M.Tech - IIIT Bangalore",
-        interests: "Natural Language Processing, Sentiment Models & Transformers",
-        phone: "0863 2345454",
-        email: "harika.aiml@city.ac.in",
-        avatar: "MH",
-        age: "29 Years",
-        experience: "4 Years",
-        idNo: "CCIT-AIML-005",
-        department: "Artificial Intelligence & ML"
-      }
-    ]
-  },
-  "Data Science": {
-    hod: {
-      name: "Dr. G. Madhavi",
-      title: "HOD & Associate Professor",
-      edu: "Ph.D - Andhra University, Visakhapatnam, India",
-      interests: "Big Data Analytics, Statistical Modeling, Predictive Mining",
-      phone: "0863 2345460",
-      email: "hod.ds@city.ac.in",
-      avatar: "GM",
-      age: "42 Years",
-      experience: "15 Years",
-      idNo: "CCIT-DS-001",
-      department: "Data Science"
-    },
-    others: [
-      {
-        name: "Dr. R. Karthik",
-        title: "Professor",
-        edu: "Ph.D - National Institute of Technology Trichy, India",
-        interests: "Cloud Computing, Parallel Databases, Hadoop Infrastructures",
-        phone: "0863 2345461",
-        email: "karthik.ds@city.ac.in",
-        avatar: "RK",
-        age: "40 Years",
-        experience: "13 Years",
-        idNo: "CCIT-DS-002",
-        department: "Data Science"
-      },
-      {
-        name: "Dr. Y. V. Koteswara Rao",
-        title: "Professor",
-        edu: "Ph.D - IIT Madras",
-        interests: "Information Retrieval, Data Visualisation, Pattern Recognition",
-        phone: "0863 2345462",
-        email: "koteswar.ds@city.ac.in",
-        avatar: "YVK",
-        age: "46 Years",
-        experience: "19 Years",
-        idNo: "CCIT-DS-003",
-        department: "Data Science"
-      },
-      {
-        name: "Mrs. P. Radhika",
-        title: "Assistant Professor",
-        edu: "M.Tech - JNTU Kakinada",
-        interests: "Predictive Analytics, Python Data Pipelines, Statistics",
-        phone: "0863 2345463",
-        email: "radhika.ds@city.ac.in",
-        avatar: "PR",
-        age: "32 Years",
-        experience: "7 Years",
-        idNo: "CCIT-DS-004",
-        department: "Data Science"
-      }
-    ]
-  },
-  "School of Pharmacy": {
-    hod: {
-      name: "Dr. T. Anuradha",
-      title: "HOD & Professor",
-      edu: "Ph.D - BITS Pilani, India",
-      interests: "Pharmaceutics, Target-oriented nano-carrier formulations",
-      phone: "0863 2345470",
-      email: "hod.pharm@city.ac.in",
-      avatar: "TA",
-      age: "47 Years",
-      experience: "18 Years",
-      idNo: "CCIT-PHAR-001",
-      department: "School of Pharmacy"
-    },
-    others: [
-      {
-        name: "Dr. V. Satish",
-        title: "Associate Professor",
-        edu: "Ph.D - JNTU, Hyderabad",
-        interests: "Pharmacology, Drug toxicity screenings, Clinical Trials",
-        phone: "0863 2345471",
-        email: "satish.pharm@city.ac.in",
-        avatar: "VS",
-        age: "38 Years",
-        experience: "11 Years",
-        idNo: "CCIT-PHAR-002",
-        department: "School of Pharmacy"
-      },
-      {
-        name: "Dr. S. K. Rahaman",
-        title: "Professor",
-        edu: "Ph.D - Andhra University",
-        interests: "Pharmaceutical Chemistry, Drug Synthesis, Molecular Design",
-        phone: "0863 2345472",
-        email: "rahaman.pharm@city.ac.in",
-        avatar: "SKR",
-        age: "49 Years",
-        experience: "21 Years",
-        idNo: "CCIT-PHAR-003",
-        department: "School of Pharmacy"
-      },
-      {
-        name: "Mrs. N. Lakshmi",
-        title: "Assistant Professor",
-        edu: "M.Pharm - Acharya Nagarjuna University",
-        interests: "Pharmacognosy, Natural product extraction, Phytochemistry",
-        phone: "0863 2345473",
-        email: "lakshmi.pharm@city.ac.in",
-        avatar: "NL",
-        age: "31 Years",
-        experience: "6 Years",
-        idNo: "CCIT-PHAR-004",
-        department: "School of Pharmacy"
-      }
-    ]
-  },
-  "School of Management": {
-    hod: {
-      name: "Dr. L. Rama Krishna",
-      title: "HOD & Professor",
-      edu: "Ph.D - Osmania University, Hyderabad, India",
-      interests: "Financial Management, Investment portfolios, Venture Cap",
-      phone: "0863 2345480",
-      email: "hod.mba@city.ac.in",
-      avatar: "LRK",
-      age: "51 Years",
-      experience: "22 Years",
-      idNo: "CCIT-MGMT-001",
-      department: "School of Management"
-    },
-    others: [
-      {
-        name: "Mrs. S. Lakshmi",
-        title: "Assistant Professor",
-        edu: "MBA - ANU, Guntur, India",
-        interests: "Human Resource Management, Industrial Relations, Ethics",
-        phone: "0863 2345481",
-        email: "lakshmi.mba@city.ac.in",
-        avatar: "SL",
-        age: "35 Years",
-        experience: "9 Years",
-        idNo: "CCIT-MGMT-002",
-        department: "School of Management"
-      },
-      {
-        name: "Dr. P. S. R. Murthy",
-        title: "Associate Professor",
-        edu: "Ph.D - Andhra University",
-        interests: "Marketing Management, Consumer Behaviour, Digital Retail",
-        phone: "0863 2345482",
-        email: "murthy.mba@city.ac.in",
-        avatar: "PSM",
-        age: "44 Years",
-        experience: "17 Years",
-        idNo: "CCIT-MGMT-003",
-        department: "School of Management"
-      },
-      {
-        name: "Mr. G. Ravindra",
-        title: "Assistant Professor",
-        edu: "MBA - Acharya Nagarjuna University",
-        interests: "Operations Management, Supply Chain Logistics, Quality Auditing",
-        phone: "0863 2345483",
-        email: "ravi.mba@city.ac.in",
-        avatar: "GR",
-        age: "33 Years",
-        experience: "8 Years",
-        idNo: "CCIT-MGMT-004",
-        department: "School of Management"
-      }
-    ]
-  }
-};
+// FACULTY_DATA is managed dynamically from DataContext
 
 const BOARD_DEPARTMENTS = [
   "Governing Council",
@@ -3294,219 +3007,7 @@ const BOARD_DEPARTMENTS = [
   "Controller of Examinations"
 ];
 
-const BOARD_DATA: Record<string, {
-  hod: FacultyMember;
-  others: Array<FacultyMember>;
-}> = {
-  "Governing Council": {
-    hod: {
-      name: "Sri Y. V. Anjaneyulu",
-      title: "Chairman & President",
-      edu: "Graduate in Engineering & Humanities",
-      interests: "Administration, institutional strategy, policy planning, and infrastructure development.",
-      phone: "0863 2345401",
-      email: "chairman@city.ac.in",
-      avatar: "YVA",
-      age: "65 Years",
-      experience: "35 Years of Administrative Leadership",
-      idNo: "CUB-GC-001",
-      department: "Governing Council"
-    },
-    others: []
-  },
-  "Chancellor": {
-    hod: {
-      name: "Sri Y. V. Anjaneyulu",
-      title: "Chancellor",
-      edu: "Renowned Educationist & Founder Sponsor Representative",
-      interests: "Strategic leadership, academic governance, public relations, and legal policies.",
-      phone: "0863 2345401",
-      email: "chancellor@city.ac.in",
-      avatar: "YVA",
-      age: "65 Years",
-      experience: "35 Years",
-      idNo: "CUB-CH-001",
-      department: "Office of the Chancellor"
-    },
-    others: []
-  },
-  "Pro Chancellor": {
-    hod: {
-      name: "Sri Y. Sujit Kumar",
-      title: "Pro Chancellor",
-      edu: "M.Tech & MBA - Executive Education",
-      interests: "Institutional progress planning, modernization initiatives, and industry collaborations.",
-      phone: "0863 2345402",
-      email: "prochan@city.ac.in",
-      avatar: "YSK",
-      age: "42 Years",
-      experience: "18 Years",
-      idNo: "CUB-PC-001",
-      department: "Office of the Pro Chancellor"
-    },
-    others: []
-  },
-  "Vice Chancellor": {
-    hod: {
-      name: "Dr. K. Prasad Rao",
-      title: "Vice Chancellor",
-      edu: "Ph.D., Former Senior Professor - Administration & Research",
-      interests: "Curriculum planning coordination, academic excellence, and international relations.",
-      phone: "0863 2345403",
-      email: "vc@city.ac.in",
-      avatar: "KPR",
-      age: "58 Years",
-      experience: "30 Years",
-      idNo: "CUB-VC-001",
-      department: "Office of the Vice Chancellor"
-    },
-    others: []
-  },
-  "Registrar": {
-    hod: {
-      name: "Prof. T. Sivaramaiah",
-      title: "Registrar",
-      edu: "M.Tech, Ph.D. - Computer Networks",
-      interests: "General administration, statutory records management, and legal affairs compliance.",
-      phone: "0863 2345404",
-      email: "registrar@city.ac.in",
-      avatar: "TS",
-      age: "53 Years",
-      experience: "25 Years",
-      idNo: "CUB-RG-001",
-      department: "Registrar Office"
-    },
-    others: []
-  },
-  "Dean – Academic Affairs": {
-    hod: {
-      name: "Prof. P. V. Ramana",
-      title: "Dean – Academic Affairs",
-      edu: "Ph.D - Indian Institute of Technology Madras, India",
-      interests: "Academic planning, curriculum development, and examinations coordination.",
-      phone: "0863 2345432",
-      email: "dean.academics@city.ac.in",
-      avatar: "PVR",
-      age: "52 Years",
-      experience: "24 Years",
-      idNo: "CUB-DA-001",
-      department: "Academic Affairs Office"
-    },
-    others: []
-  },
-  "Dean – Research & Innovation": {
-    hod: {
-      name: "Dr. K. Chandrasekhar",
-      title: "Dean – Research & Innovation",
-      edu: "Ph.D - Indian Institute of Technology Delhi, India",
-      interests: "Research ecosystem governance, patent filing, sponsored grants, and innovations.",
-      phone: "0863 2345430",
-      email: "dean.research@city.ac.in",
-      avatar: "KC",
-      age: "48 Years",
-      experience: "20 Years",
-      idNo: "CUB-DR-001",
-      department: "Research & Development Cell"
-    },
-    others: []
-  },
-  "Dean – Student Affairs": {
-    hod: {
-      name: "Dr. G. Madhavi",
-      title: "Dean – Student Affairs",
-      edu: "Ph.D - Andhra University",
-      interests: "Student welfare guidelines, professional clubs, and hostel supervision.",
-      phone: "0863 2345460",
-      email: "dean.students@city.ac.in",
-      avatar: "GM",
-      age: "42 Years",
-      experience: "15 Years",
-      idNo: "CUB-DS-001",
-      department: "Student Affairs Cell"
-    },
-    others: []
-  },
-  "Dean – Faculty Affairs": {
-    hod: {
-      name: "Dr. T. Anuradha",
-      title: "Dean – Faculty Affairs",
-      edu: "Ph.D - BITS Pilani",
-      interests: "Faculty recruitment, performance reviews, and professional development programs.",
-      phone: "0863 2345470",
-      email: "dean.faculty@city.ac.in",
-      avatar: "TA",
-      age: "47 Years",
-      experience: "18 Years",
-      idNo: "CUB-DF-001",
-      department: "Faculty Affairs Office"
-    },
-    others: []
-  },
-  "Dean – Admissions": {
-    hod: {
-      name: "Dr. L. Rama Krishna",
-      title: "Dean – Admissions",
-      edu: "Ph.D - Osmania University",
-      interests: "Admissions operations, merit scholarships, and student enrollment support.",
-      phone: "0863 2345480",
-      email: "dean.admissions@city.ac.in",
-      avatar: "LRK",
-      age: "51 Years",
-      experience: "22 Years",
-      idNo: "CUB-DAD-001",
-      department: "Admissions Office"
-    },
-    others: []
-  },
-  "Dean – Placements & Relations": {
-    hod: {
-      name: "Dr. R. Karthik",
-      title: "Dean – Placements & Relations",
-      edu: "Ph.D - NIT Trichy",
-      interests: "Industry relations, placements campaigns, and placement coordinates.",
-      phone: "0863 2345461",
-      email: "dean.placements@city.ac.in",
-      avatar: "RK",
-      age: "40 Years",
-      experience: "13 Years",
-      idNo: "CUB-DP-001",
-      department: "Placement Office"
-    },
-    others: []
-  },
-  "Finance Officer": {
-    hod: {
-      name: "Sri G. Ravindra",
-      title: "Finance Officer",
-      edu: "MBA & Chartered Accountant",
-      interests: "Finance supervision, budgeting audits, cash logs, and payroll systems.",
-      phone: "0863 2345483",
-      email: "finance@city.ac.in",
-      avatar: "GR",
-      age: "33 Years",
-      experience: "8 Years",
-      idNo: "CUB-FO-001",
-      department: "Finance & Accounts Department"
-    },
-    others: []
-  },
-  "Controller of Examinations": {
-    hod: {
-      name: "Dr. V. Satish",
-      title: "Controller of Examinations",
-      edu: "Ph.D - JNTU Hyderabad",
-      interests: "Examinations conduction, grading papers, and degree certification.",
-      phone: "0863 2345471",
-      email: "coe@city.ac.in",
-      avatar: "VS",
-      age: "38 Years",
-      experience: "11 Years",
-      idNo: "CUB-COE-001",
-      department: "Examination Cell"
-    },
-    others: []
-  }
-};
+// BOARD_DATA is managed dynamically from DataContext
 
 const BOARD_MODAL_DETAILS: Record<string, {
   office: string;
@@ -3651,10 +3152,11 @@ const BOARD_MODAL_DETAILS: Record<string, {
 };
 
 function BoardDirectory() {
+  const { boardData } = useData();
   const [selectedDept, setSelectedDept] = React.useState("Governing Council");
   const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
   
-  const activeDept = BOARD_DATA[selectedDept] || BOARD_DATA["Governing Council"];
+  const activeDept = boardData[selectedDept] || boardData["Governing Council"] || { hod: {} as FacultyMember, others: [] };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
@@ -3820,432 +3322,14 @@ const STAFF_DEPARTMENTS = [
   "Sports Office"
 ];
 
-const STAFF_DATA: Record<string, {
-  hod: FacultyMember;
-  others: Array<FacultyMember>;
-}> = {
-  "Registrar Office": {
-    hod: {
-      name: "Sri M. Srinivasa Rao",
-      title: "Assistant Registrar",
-      edu: "M.A. in Public Administration - Andhra University",
-      interests: "General administration, statutory records maintenance, legal compliances support.",
-      phone: "0863 2345530",
-      email: "registrar.office@city.ac.in",
-      avatar: "MSR",
-      age: "48 Years",
-      experience: "18 Years",
-      idNo: "CUS-REG-001",
-      department: "Registrar Office"
-    },
-    others: [
-      {
-        name: "Sri K. Ramu",
-        title: "Section Officer",
-        edu: "B.Com - Acharya Nagarjuna University",
-        interests: "Files registry, letters cataloging, statutory documentation records.",
-        phone: "0863 2345531",
-        email: "ramu.reg@city.ac.in",
-        avatar: "KR",
-        age: "42 Years",
-        experience: "13 Years",
-        idNo: "CUS-REG-002",
-        department: "Registrar Office"
-      },
-      {
-        name: "Smt. G. Mary",
-        title: "Senior Assistant",
-        edu: "B.Sc - JNTU Kakinada",
-        interests: "Inward outward dispatch, student data catalog entries.",
-        phone: "0863 2345532",
-        email: "mary.reg@city.ac.in",
-        avatar: "GM",
-        age: "36 Years",
-        experience: "9 Years",
-        idNo: "CUS-REG-003",
-        department: "Registrar Office"
-      }
-    ]
-  },
-  "Academic Affairs": {
-    hod: {
-      name: "Sri V. Prasad",
-      title: "Academic Coordinator",
-      edu: "M.Tech in CSE",
-      interests: "Academic registers compilation, class logs allocation support.",
-      phone: "0863 2345540",
-      email: "academic.office@city.ac.in",
-      avatar: "VP",
-      age: "40 Years",
-      experience: "12 Years",
-      idNo: "CUS-ACAD-001",
-      department: "Academic Affairs"
-    },
-    others: []
-  },
-  "Finance & Accounts": {
-    hod: {
-      name: "Sri G. Suresh",
-      title: "Accounts Officer",
-      edu: "M.Com & MBA Finance",
-      interests: "Accounts logs entry, financial audits review, cash books.",
-      phone: "0863 2345550",
-      email: "accounts@city.ac.in",
-      avatar: "GS",
-      age: "45 Years",
-      experience: "16 Years",
-      idNo: "CUS-FIN-001",
-      department: "Finance & Accounts"
-    },
-    others: [
-      {
-        name: "Sri P. Naidu",
-        title: "Senior Accountant",
-        edu: "B.Com - ANU",
-        interests: "Bank reconciliation, audit vouchers compilation.",
-        phone: "0863 2345551",
-        email: "naidu.fin@city.ac.in",
-        avatar: "PN",
-        age: "38 Years",
-        experience: "10 Years",
-        idNo: "CUS-FIN-002",
-        department: "Finance & Accounts"
-      }
-    ]
-  },
-  "General Administration": {
-    hod: {
-      name: "Sri T. Satish",
-      title: "Administrative Officer",
-      edu: "M.A. - Public Admin",
-      interests: "Daily campus operations management, logistic arrangements.",
-      phone: "0863 2345560",
-      email: "ao.admin@city.ac.in",
-      avatar: "TS",
-      age: "46 Years",
-      experience: "17 Years",
-      idNo: "CUS-ADM-001",
-      department: "General Administration"
-    },
-    others: []
-  },
-  "Establishment": {
-    hod: {
-      name: "Sri K. Subba Rao",
-      title: "Establishment Head",
-      edu: "M.B.A. HR",
-      interests: "Leaves records entry, promotion database, service logs.",
-      phone: "0863 2345570",
-      email: "estab@city.ac.in",
-      avatar: "KSR",
-      age: "52 Years",
-      experience: "22 Years",
-      idNo: "CUS-EST-001",
-      department: "Establishment"
-    },
-    others: []
-  },
-  "Admissions Office": {
-    hod: {
-      name: "Smt. K. Aruna",
-      title: "Admission Officer",
-      edu: "MBA - Guntur",
-      interests: "Counseling support, digital portal checks, certificate verification.",
-      phone: "0863 2345580",
-      email: "admissions.office@city.ac.in",
-      avatar: "KA",
-      age: "38 Years",
-      experience: "11 Years",
-      idNo: "CUS-ADM-001",
-      department: "Admissions Office"
-    },
-    others: [
-      {
-        name: "Sri M. Ravi",
-        title: "Verification Officer",
-        edu: "B.Tech - JNTU",
-        interests: "Academic marks verification and entry verification.",
-        phone: "0863 2345581",
-        email: "ravi.admissions@city.ac.in",
-        avatar: "MR",
-        age: "33 Years",
-        experience: "7 Years",
-        idNo: "CUS-ADM-002",
-        department: "Admissions Office"
-      }
-    ]
-  },
-  "Examination Cell": {
-    hod: {
-      name: "Sri D. Srinivasa Rao",
-      title: "Assistant COE",
-      edu: "M.Tech - Andhra University",
-      interests: "Grade books processing, certificate logs, seating layouts.",
-      phone: "0863 2345590",
-      email: "exams.office@city.ac.in",
-      avatar: "DSR",
-      age: "43 Years",
-      experience: "14 Years",
-      idNo: "CUS-EXAM-001",
-      department: "Examination Cell"
-    },
-    others: [
-      {
-        name: "Smt. P. Kavitha",
-        title: "Evaluation Assistant",
-        edu: "B.Sc - ANU",
-        interests: "Paper marks entries, dispatch queues, certification database.",
-        phone: "0863 2345591",
-        email: "kavitha.exams@city.ac.in",
-        avatar: "PK",
-        age: "34 Years",
-        experience: "8 Years",
-        idNo: "CUS-EXAM-002",
-        department: "Examination Cell"
-      }
-    ]
-  },
-  "Placement Office": {
-    hod: {
-      name: "Sri K. Hari Prasad",
-      title: "Placement Officer",
-      edu: "M.B.A. HR & Marketing",
-      interests: "Recruiter relations, coordinate placement schedules, training camps.",
-      phone: "0863 2345600",
-      email: "placements.office@city.ac.in",
-      avatar: "KHP",
-      age: "39 Years",
-      experience: "12 Years",
-      idNo: "CUS-PLC-001",
-      department: "Placement Office"
-    },
-    others: [
-      {
-        name: "Smt. G. Swathi",
-        title: "Corporate Relations Executive",
-        edu: "M.A. English - Guntur",
-        interests: "Corporate placement communication, resumes collection support.",
-        phone: "0863 2345601",
-        email: "swathi.plc@city.ac.in",
-        avatar: "GS",
-        age: "31 Years",
-        experience: "6 Years",
-        idNo: "CUS-PLC-002",
-        department: "Placement Office"
-      }
-    ]
-  },
-  "Library": {
-    hod: {
-      name: "Dr. K. Swathi",
-      title: "Chief Librarian",
-      edu: "Ph.D. in Library Sciences",
-      interests: "Index registries compilation, online journal accesses, purchase catalogs.",
-      phone: "0863 2345610",
-      email: "library@city.ac.in",
-      avatar: "KS",
-      age: "47 Years",
-      experience: "18 Years",
-      idNo: "CUS-LIB-001",
-      department: "Library"
-    },
-    others: [
-      {
-        name: "Sri T. Kumar",
-        title: "Library Assistant",
-        edu: "M.Lib.Sc - ANU",
-        interests: "Book registry circulation, digital logs tracking.",
-        phone: "0863 2345611",
-        email: "kumar.lib@city.ac.in",
-        avatar: "TK",
-        age: "35 Years",
-        experience: "9 Years",
-        idNo: "CUS-LIB-002",
-        department: "Library"
-      }
-    ]
-  },
-  "Computer Centre": {
-    hod: {
-      name: "Sri K. Venkatesh",
-      title: "System Administrator",
-      edu: "M.Tech in Computer Networks",
-      interests: "Laboratory support, LAN firewalls, network monitoring.",
-      phone: "0863 2345620",
-      email: "sysadmin@city.ac.in",
-      avatar: "KV",
-      age: "41 Years",
-      experience: "15 Years",
-      idNo: "CUS-COMP-001",
-      department: "Computer Centre"
-    },
-    others: [
-      {
-        name: "Sri M. Ravi Kumar",
-        title: "Network Engineer",
-        edu: "B.Tech in CSE",
-        interests: "Fiber router access points configurations, server updates.",
-        phone: "0863 2345621",
-        email: "network@city.ac.in",
-        avatar: "MRK",
-        age: "32 Years",
-        experience: "6 Years",
-        idNo: "CUS-COMP-002",
-        department: "Computer Centre"
-      }
-    ]
-  },
-  "Research Office": {
-    hod: {
-      name: "Sri S. Venkatesh",
-      title: "Research Coordinator",
-      edu: "M.Tech - Research Associate",
-      interests: "Filing patent archives, project grants tracker coordination.",
-      phone: "0863 2345630",
-      email: "research.office@city.ac.in",
-      avatar: "SV",
-      age: "37 Years",
-      experience: "10 Years",
-      idNo: "CUS-RES-001",
-      department: "Research Office"
-    },
-    others: []
-  },
-  "Purchase & Stores": {
-    hod: {
-      name: "Sri B. Rajesh",
-      title: "Purchase Superintendent",
-      edu: "B.Tech - Mechanical",
-      interests: "Stores ledger tracking, inventory checks, vendor bills log.",
-      phone: "0863 2345640",
-      email: "stores@city.ac.in",
-      avatar: "BR",
-      age: "45 Years",
-      experience: "16 Years",
-      idNo: "CUS-PUR-001",
-      department: "Purchase & Stores"
-    },
-    others: []
-  },
-  "Estate Office": {
-    hod: {
-      name: "Sri P. S. Rao",
-      title: "Estate Officer",
-      edu: "B.Tech in Civil Engineering",
-      interests: "Campus utilities, maintenance supervisor, green cover records.",
-      phone: "0863 2345650",
-      email: "estate@city.ac.in",
-      avatar: "PSR",
-      age: "50 Years",
-      experience: "21 Years",
-      idNo: "CUS-EST-001",
-      department: "Estate Office"
-    },
-    others: []
-  },
-  "Public Relations": {
-    hod: {
-      name: "Sri K. Naidu",
-      title: "PRO Head",
-      edu: "M.A. in Journalism",
-      interests: "Press drafting, news releases, hospitality services logs.",
-      phone: "0863 2345660",
-      email: "pro@city.ac.in",
-      avatar: "KN",
-      age: "44 Years",
-      experience: "15 Years",
-      idNo: "CUS-PR-001",
-      department: "Public Relations"
-    },
-    others: []
-  },
-  "Student Affairs": {
-    hod: {
-      name: "Sri G. Ravindra",
-      title: "Student Welfare Assistant",
-      edu: "MBA - Student Coordinator",
-      interests: "Club registrations support, coordinate sports events, hostel rosters.",
-      phone: "0863 2345670",
-      email: "student.office@city.ac.in",
-      avatar: "GR",
-      age: "36 Years",
-      experience: "8 Years",
-      idNo: "CUS-SA-001",
-      department: "Student Affairs"
-    },
-    others: []
-  },
-  "Transport": {
-    hod: {
-      name: "Sri T. Prasad",
-      title: "Transport Supervisor",
-      edu: "Diploma in Mech Engineering",
-      interests: "Bus driver log records, route planning registers, fuel logs.",
-      phone: "0863 2345680",
-      email: "transport@city.ac.in",
-      avatar: "TP",
-      age: "48 Years",
-      experience: "20 Years",
-      idNo: "CUS-TR-001",
-      department: "Transport"
-    },
-    others: []
-  },
-  "Health Centre": {
-    hod: {
-      name: "Dr. S. Radha",
-      title: "Medical Officer",
-      edu: "M.B.B.S. - GMC",
-      interests: "First-aid, diagnostics logs, medical inventory support.",
-      phone: "0863 2345690",
-      email: "health@city.ac.in",
-      avatar: "SR",
-      age: "42 Years",
-      experience: "14 Years",
-      idNo: "CUS-MED-001",
-      department: "Health Centre"
-    },
-    others: []
-  },
-  "Guest House": {
-    hod: {
-      name: "Sri M. Ravi",
-      title: "Guest House Warden",
-      edu: "B.Sc - Hotel Management",
-      interests: "Room booking entries, inventory audit logs, pantry check.",
-      phone: "0863 2345700",
-      email: "guesthouse@city.ac.in",
-      avatar: "MR",
-      age: "35 Years",
-      experience: "9 Years",
-      idNo: "CUS-GST-001",
-      department: "Guest House"
-    },
-    others: []
-  },
-  "Sports Office": {
-    hod: {
-      name: "Sri K. Prasad",
-      title: "Physical Director",
-      edu: "M.P.Ed - Acharya Nagarjuna University",
-      interests: "Inventory coordinates, athletic roster planning, equipment audit.",
-      phone: "0863 2345710",
-      email: "sports.pd@city.ac.in",
-      avatar: "KP",
-      age: "43 Years",
-      experience: "15 Years",
-      idNo: "CUS-SPO-001",
-      department: "Sports Office"
-    },
-    others: []
-  }
-};
+// STAFF_DATA is managed dynamically from DataContext
 
 function StaffDirectory() {
+  const { staffData } = useData();
   const [selectedDept, setSelectedDept] = React.useState("Registrar Office");
   const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
   
-  const activeDept = STAFF_DATA[selectedDept] || STAFF_DATA["Registrar Office"];
+  const activeDept = staffData[selectedDept] || staffData["Registrar Office"] || { hod: {} as FacultyMember, others: [] };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
@@ -4414,10 +3498,11 @@ function StaffDirectory() {
 }
 
 function FacultyDirectory() {
+  const { facultyData } = useData();
   const [selectedDept, setSelectedDept] = React.useState("Computer Science & Engineering");
   const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
   
-  const activeDept = FACULTY_DATA[selectedDept] || FACULTY_DATA["Computer Science & Engineering"];
+  const activeDept = facultyData[selectedDept] || facultyData["Computer Science & Engineering"] || { hod: {} as FacultyMember, others: [] };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
@@ -4636,8 +3721,6 @@ const LEADERS = [
     title: "Registrar",
     edu: "M.Tech, Ph.D. - Computer Networks",
     avatar: "TS",
-    interests: "General administration, statutory records management, and legal affairs compliance.",
-    bio: "Prof. T. Sivaramaiah holds an M.Tech and Ph.D. in Computer Science and Networks, bringing 25 years of teaching and administrative expertise to his role. As Registrar, he oversees general university administration, legal affairs compliance, statutory records, academic senate meetings, and external partnerships. He is dedicated to maintaining administrative transparency, efficiency, and student support systems.",
     phone: "+91 863 2345404",
     email: "registrar@city.ac.in",
     address: "Chalapathi Nagar, Lam, Guntur, Andhra Pradesh - 522034"
@@ -4645,6 +3728,9 @@ const LEADERS = [
 ];
 
 function LeadershipView() {
+  const { aboutContent } = useData();
+  const leadership = aboutContent.leadership;
+
   return (
     <div className="w-full text-left font-[var(--font-poppins)] overflow-hidden relative bg-white -mt-10 -mx-5 px-5">
       
@@ -4680,15 +3766,15 @@ function LeadershipView() {
           <div className="lg:col-span-7 space-y-6">
             <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-widest text-[#D4AF37] inline-block">University Leadership</span>
             <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase bg-gradient-to-r from-white via-gray-100 to-[#D4AF37] bg-clip-text text-transparent">
-              Sri Y. V. Anjaneyulu
+              {leadership.chairmanName}
             </h1>
             <p className="text-lg md:text-2xl text-blue-200 font-medium italic">
-              Founder Chairman & President
+              {leadership.designation}
             </p>
             <div className="h-[3px] w-24 bg-[#D4AF37] rounded-full" />
             <div className="space-y-1">
               <h3 className="text-xl md:text-2xl font-extrabold text-white">Chairman's Message</h3>
-              <p className="text-xs uppercase tracking-wider text-gray-400 font-bold">"Inspiring Excellence, Integrity & Innovation"</p>
+              <p className="text-xs uppercase tracking-wider text-gray-400 font-bold">"{leadership.messageQuote}"</p>
             </div>
           </div>
         </div>
@@ -4711,9 +3797,9 @@ function LeadershipView() {
           <span className="text-8xl font-serif text-[#D4AF37] opacity-25 absolute -top-4 -left-2 select-none">“</span>
           
           <div className="relative z-10 space-y-6 text-gray-600 text-[15px] md:text-[17px] leading-relaxed font-medium text-justify">
-            <p>Welcome to Chalapathi University, an institution built upon the pillars of <span className="text-[#D71920] font-bold">academic rigour, social responsibility, and future-centric innovation</span>. From our modest beginnings, we have constantly pushed the boundaries of knowledge, seeking to create an educational ecosystem that nurtures tomorrow's global leaders.</p>
-            <p>We believe that education must go beyond conventional memorization. Our classrooms, research centers, and digital modules are designed to cultivate critical thinking, design awareness, and technological skills. By prioritizing <span className="text-[#D4AF37] font-bold">ethical values, domain specialization, and hands-on exposure</span>, we empower our graduates to lead with integrity in an ever-evolving world.</p>
-            <p>I invite you to explore our advanced research pathways, engage in collaborative innovation drives, and join us in our continuous pursuit of excellence. Together, let us shape a bright tomorrow.</p>
+            {leadership.messageParagraphs.map((pText, pIdx) => (
+              <p key={pIdx}>{pText}</p>
+            ))}
           </div>
         </div>
       </section>
@@ -4727,12 +3813,7 @@ function LeadershipView() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: "Vision", desc: "Setting benchmarks in global learning systems and digital technology transfers." },
-              { title: "Leadership", desc: "Empowering student cohorts to lead academic, corporate, and civil domains." },
-              { title: "Innovation", desc: "Fostering active laboratory research, patent designs, and startup projects." },
-              { title: "Excellence", desc: "Upholding high standards of quality assurance, accreditations, and placements." }
-            ].map((v, i) => (
+            {leadership.philosophies.map((v, i) => (
               <div key={i} className="bg-white border border-gray-100 rounded-[24px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#D71920] to-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                 <h3 className="font-extrabold text-[#072A6C] text-base mb-2 group-hover:text-[#D71920] transition-colors">{v.title}</h3>
@@ -4751,36 +3832,33 @@ function LeadershipView() {
             "The goal of true education is to convert mirrors into windows, fostering independent minds that create rather than conform."
           </h3>
           <div className="w-16 h-1 bg-[#D4AF37] mx-auto rounded-full" />
-          <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-bold">Sri Y. V. Anjaneyulu</span>
+          <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-bold">{leadership.chairmanName}</span>
         </div>
       </section>
-
 
     </div>
   );
 }
 
 function HistoryView() {
+  const { aboutContent } = useData();
+  const history = aboutContent.history;
+
   return (
     <div className="space-y-8 text-gray-600 text-sm leading-relaxed text-left font-[var(--font-poppins)]">
       <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm">
         <p className="font-light">
-          Founded in Guntur, Andhra Pradesh under the aegis of Chalapathi Educational Society, City Chalapathi Institute of Technology was established to bridge the gap between academic theory and technical engineering requirements. Over the past two and a half decades, we have evolved from a local college into a premier autonomous research university of national reputation.
+          {history.introText}
         </p>
         <div className="border-l-4 border-[#D71920] pl-4 my-6 italic text-gray-700 font-medium bg-gray-50 py-3 pr-3 rounded-r-xl">
-          "To provide value-based quality technical education and produce competent engineers who can contribute to the progress of the society."
+          "{history.quoteText}"
         </div>
       </div>
 
       <div className="space-y-4">
         <h3 className="text-lg font-extrabold text-[#072A6C]">Milestones Journey</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[
-            { year: "2001", title: "Inception", desc: "Started operations with core engineering undergraduate branches and 180 intake." },
-            { year: "2008", title: "NBA Accreditation", desc: "Received first NBA accreditation for key programs, verifying academic standards." },
-            { year: "2015", title: "Conferred Autonomous Status", desc: "Granted UGC autonomous status, enabling flexible industry-centric curricula." },
-            { year: "2021", title: "NAAC A+ Rank", desc: "Achieved prestigious NAAC A+ accreditation status with outstanding GPA scores." }
-          ].map((milestone, i) => (
+          {history.milestones.map((milestone, i) => (
             <div key={i} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 group-hover:bg-[#D71920] transition-colors" />
               <span className="text-[#D71920] text-xl font-black block mb-2">{milestone.year}</span>
@@ -4795,6 +3873,9 @@ function HistoryView() {
 }
 
 function VisionView() {
+  const { aboutContent } = useData();
+  const vision = aboutContent.vision;
+
   return (
     <div className="space-y-8 text-left font-[var(--font-poppins)]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -4805,7 +3886,7 @@ function VisionView() {
             </div>
             <h3 className="text-lg font-extrabold text-[#072A6C] mb-3">OUR VISION</h3>
             <p className="text-gray-500 text-xs leading-relaxed font-light">
-              To emerge as a premier destination for value-based technical education and research, creating globally competent leaders who drive social and technological progress through innovation.
+              {vision.visionText}
             </p>
           </div>
         </div>
@@ -4816,10 +3897,9 @@ function VisionView() {
             </div>
             <h3 className="text-lg font-extrabold text-[#072A6C] mb-3">OUR MISSION</h3>
             <ul className="space-y-2.5 text-gray-500 text-xs font-light list-disc pl-4 leading-relaxed">
-              <li>Impart high-quality, practical technical education through modern teaching methodologies.</li>
-              <li>Foster an environment of innovation, research, and entrepreneurship.</li>
-              <li>Collaborate with top industries and global universities to keep learning current.</li>
-              <li>Nurture ethical, empathetic values alongside technical competency.</li>
+              {vision.missionList.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -5797,6 +4877,7 @@ function ScholarshipsView() {
 }
 
 function PlacementsView() {
+  const { placementsContent } = useData();
   const [showEnquiry, setShowEnquiry] = React.useState(false);
   const [enquiryForm, setEnquiryForm] = React.useState({ name: "", email: "", mobile: "", query: "" });
   const sliderRef = React.useRef<HTMLDivElement>(null);
@@ -5815,16 +4896,7 @@ function PlacementsView() {
     setShowEnquiry(false);
   };
 
-  const PLACED_STUDENTS = [
-    { name: "P. Vinay Kumar", branch: "Computer Science", company: "Amazon", ctc: "₹18.0 LPA", img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=500&fit=crop&crop=face" },
-    { name: "K. Hari Priya", branch: "Artificial Intelligence", company: "Microsoft", ctc: "₹15.5 LPA", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face" },
-    { name: "Ch. Sandeep", branch: "Information Technology", company: "Adobe", ctc: "₹14.0 LPA", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" },
-    { name: "M. Sneha Reddy", branch: "Electronics & Comm", company: "Cognizant", ctc: "₹12.0 LPA", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&crop=face" },
-    { name: "V. Sai Teja", branch: "Computer Science", company: "TCS Digital", ctc: "₹9.0 LPA", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face" },
-    { name: "A. Lakshmi Prasanna", branch: "Data Science", company: "Infosys", ctc: "₹9.5 LPA", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face" },
-    { name: "G. Rajesh Babu", branch: "Mechanical Eng", company: "L&T Core", ctc: "₹8.0 LPA", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face" },
-    { name: "S. Niharika", branch: "Civil Engineering", company: "JMC Projects", ctc: "₹7.5 LPA", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=500&fit=crop&crop=face" }
-  ];
+  const PLACED_STUDENTS = placementsContent.placedStudents;
 
   const INDUSTRIES = [
     { name: "Software Development", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&fit=crop" },
@@ -5838,16 +4910,7 @@ function PlacementsView() {
     { name: "Startups & Ventures", img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=400&fit=crop" }
   ];
 
-  const RECRUITERS = [
-    { name: "TCS", logo: "https://img.logo.dev/tcs.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Infosys", logo: "https://img.logo.dev/infosys.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Mindtree", logo: "https://img.logo.dev/ltimindtree.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "L&T", logo: "https://img.logo.dev/larsentoubro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "HCL", logo: "https://img.logo.dev/hcltech.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Wipro", logo: "https://img.logo.dev/wipro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Oracle", logo: "https://img.logo.dev/oracle.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Tech Mahindra", logo: "https://img.logo.dev/techmahindra.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" }
-  ];
+  const RECRUITERS = placementsContent.recruiters;
 
   return (
     <div className="space-y-12 text-left font-[var(--font-poppins)] mt-4">
@@ -5961,13 +5024,13 @@ function PlacementsView() {
             Placements & Career Development
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-[#072A6C] tracking-tight leading-tight uppercase">
-            A Step Towards Success!
+            {placementsContent.heroTitle}
           </h1>
           <p className="text-[#D4AF37] font-bold text-sm uppercase tracking-widest mt-[-8px]">
-            Building Careers. Creating Leaders.
+            {placementsContent.heroSubtitle}
           </p>
           <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-light">
-            At Chalapathi Institute of Technology, placements are more than securing a job—they are about preparing students for lifelong professional success. Our dedicated Training & Placement Cell bridges the gap between academic learning and industry expectations by equipping students with the knowledge, skills, and confidence to excel in today's competitive global workforce.
+            {placementsContent.heroDescription}
           </p>
           <button
             onClick={() => setShowEnquiry(true)}
@@ -5992,15 +5055,15 @@ function PlacementsView() {
       {/* Stats Indicators */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="bg-white border border-gray-100 p-6 rounded-2xl text-center shadow-sm">
-          <span className="block text-3xl font-black text-[#072A6C]">₹18 LPA</span>
+          <span className="block text-3xl font-black text-[#072A6C]">{placementsContent.highestPackage}</span>
           <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Highest Package</span>
         </div>
         <div className="bg-white border border-gray-150 p-6 rounded-2xl text-center shadow-sm">
-          <span className="block text-3xl font-black text-[#072A6C]">₹5.5 LPA</span>
+          <span className="block text-3xl font-black text-[#072A6C]">{placementsContent.averagePackage}</span>
           <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Average Package</span>
         </div>
         <div className="bg-white border border-gray-150 p-6 rounded-2xl text-center shadow-sm">
-          <span className="block text-3xl font-black text-[#D71920]">95%</span>
+          <span className="block text-3xl font-black text-[#D71920]">{placementsContent.placementPercent}</span>
           <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Placement Record</span>
         </div>
       </div>
@@ -6009,7 +5072,7 @@ function PlacementsView() {
       <div className="bg-white border border-gray-150 p-6 rounded-2xl shadow-sm border-l-4 border-l-[#D71920]">
         <h3 className="font-extrabold text-[#072A6C] text-sm uppercase tracking-wider mb-2">Our Placement Philosophy</h3>
         <p className="text-xs text-gray-500 font-light leading-relaxed">
-          We focus on developing industry-ready professionals through a holistic approach that combines academic excellence, technical expertise, professional skills, and real-world exposure. Students receive continuous support throughout their academic journey, enabling them to confidently transition from campus to career.
+          {placementsContent.philosophyText}
         </p>
       </div>
 
@@ -6048,17 +5111,7 @@ function PlacementsView() {
             <Award className="text-[#D71920]" size={18} /> Career Development Programs
           </h4>
           <ul className="space-y-2.5 text-xs text-gray-500 font-light">
-            {[
-              "Industry-oriented technical training",
-              "Aptitude and logical reasoning development",
-              "Communication and soft skills enhancement",
-              "Coding and programming practice sessions",
-              "Resume building and portfolio development",
-              "Group discussion and interview preparation",
-              "Mock interviews with industry professionals",
-              "Personality development workshops",
-              "Internship guidance and career mentoring"
-            ].map((item, idx) => (
+            {placementsContent.careerPrograms.map((item, idx) => (
               <li key={idx} className="flex items-center gap-2">
                 <span className="text-[#D71920] font-bold">✓</span>
                 <span>{item}</span>
@@ -6073,18 +5126,10 @@ function PlacementsView() {
             <Globe className="text-[#D4AF37]" size={18} /> Industry Connect
           </h4>
           <p className="text-xs text-gray-400 font-light leading-relaxed">
-            The institute actively collaborates with leading organizations to provide students with meaningful industry exposure through:
+            {placementsContent.industryConnectDesc}
           </p>
           <ul className="space-y-2.5 text-xs text-gray-500 font-light">
-            {[
-              "Campus recruitment drives",
-              "Internship opportunities",
-              "Industry expert lectures",
-              "Corporate mentoring sessions",
-              "Technical workshops and certification programs",
-              "Industrial visits and experiential learning",
-              "Live projects and collaborative initiatives"
-            ].map((item, idx) => (
+            {placementsContent.industryConnectItems.map((item, idx) => (
               <li key={idx} className="flex items-center gap-2">
                 <span className="text-[#D4AF37] font-bold">★</span>
                 <span>{item}</span>
@@ -6100,19 +5145,10 @@ function PlacementsView() {
           Dedicated Training & Placement Cell
         </h4>
         <p className="text-xs text-gray-400 font-light leading-relaxed">
-          Our Placement Cell works closely with students and recruiters to ensure a seamless recruitment process.
+          {placementsContent.placementCellDesc}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs text-gray-600 font-light">
-          {[
-            { t: "Mentorship", d: "Career counseling and mentoring" },
-            { t: "Assessment", d: "Placement readiness assessments" },
-            { t: "Recruitment Drives", d: "Organizing campus placement sessions" },
-            { t: "Internships", d: "Facilitating internship placements" },
-            { t: "Collaborations", d: "Industry-academia partnerships" },
-            { t: "Relations", d: "Employer relationship management" },
-            { t: "Career Pathing", d: "Higher education guidance" },
-            { t: "Alumni Network", d: "Interaction and alumni links" }
-          ].map((resp, i) => (
+          {placementsContent.placementCellItems.map((resp, i) => (
             <div key={i} className="p-3 bg-gray-50 rounded-xl border border-gray-100/50 space-y-1">
               <span className="font-extrabold text-[#072A6C] text-xs block">{resp.t}</span>
               <span className="text-[10px] text-gray-400 leading-normal block">{resp.d}</span>
@@ -6546,14 +5582,15 @@ function ContactUsView() {
 }
 
 function ChalapathiAdvantage() {
-  const ADVANTAGES = [
-    { num: "01", title: "Academic Excellence", desc: "A curriculum designed to meet global standards with experiential learning.", icon: GraduationCap, color: "#9333EA", bgClass: "bg-purple-600", textClass: "text-purple-600", borderClass: "border-purple-200" },
-    { num: "02", title: "Innovation Ecosystem", desc: "Research, incubation, hackathons, and project-based learning.", icon: BookOpen, color: "#2563EB", bgClass: "bg-blue-600", textClass: "text-blue-600", borderClass: "border-blue-200" },
-    { num: "03", title: "Industry Connect", desc: "Internships, expert mentorship, and corporate collaborations.", icon: Landmark, color: "#D97706", bgClass: "bg-amber-600", textClass: "text-amber-600", borderClass: "border-amber-200" },
-    { num: "04", title: "Career Excellence", desc: "Comprehensive placement training and career guidance.", icon: Award, color: "#0D9488", bgClass: "bg-teal-600", textClass: "text-teal-600", borderClass: "border-teal-200" },
-    { num: "05", title: "Global Perspective", desc: "Preparing graduates to thrive in an interconnected world.", icon: Globe, color: "#DC2626", bgClass: "bg-rose-600", textClass: "text-rose-600", borderClass: "border-rose-200" },
-    { num: "06", title: "Holistic Development", desc: "Leadership, ethics, communication, and lifelong learning.", icon: UserCheck, color: "#4F46E5", bgClass: "bg-indigo-600", textClass: "text-indigo-600", borderClass: "border-indigo-200" }
-  ];
+  const { aboutContent } = useData();
+  
+  const Icons = [GraduationCap, BookOpen, Landmark, Award, Globe, UserCheck];
+  const Colors = ["#9333EA", "#2563EB", "#D97706", "#0D9488", "#DC2626", "#4F46E5"];
+  const BgClasses = ["bg-purple-600", "bg-blue-600", "bg-amber-600", "bg-teal-600", "bg-rose-600", "bg-indigo-600"];
+  const TextClasses = ["text-purple-600", "text-blue-600", "text-amber-600", "text-teal-600", "text-rose-600", "text-indigo-600"];
+  const BorderClasses = ["border-purple-200", "border-blue-200", "border-amber-200", "border-teal-200", "border-rose-200", "border-indigo-200"];
+
+  const list = aboutContent.advantage.cards;
 
   return (
     <div className="space-y-8 py-8 font-[var(--font-poppins)] text-center border-t border-gray-100 mt-6">
@@ -6563,40 +5600,46 @@ function ChalapathiAdvantage() {
         <div className="w-16 h-1 bg-[#D71920] mx-auto rounded-full" />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-10 relative">
-        {ADVANTAGES.map((adv, idx) => {
-          const IconComponent = adv.icon;
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-10 relative">
+        {list.map((adv, idx) => {
+          const IconComponent = Icons[idx % Icons.length];
+          const bgClass = BgClasses[idx % BgClasses.length];
+          const textClass = TextClasses[idx % TextClasses.length];
+          const borderClass = BorderClasses[idx % BorderClasses.length];
+          const num = String(idx + 1).padStart(2, "0");
+
           return (
             <div key={idx} className="flex flex-col items-center relative group">
               {/* Top Hexagon Number Badge */}
               <div className="relative z-10 -mb-6 flex flex-col items-center">
                 <div 
-                  className={`w-14 h-14 ${adv.bgClass} text-white font-black text-lg flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300`}
+                  className={`w-14 h-14 ${bgClass} text-white font-black text-lg flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300`}
                   style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
                 >
-                  {adv.num}
+                  {num}
                 </div>
                 {/* Curved wave accent underneath */}
-                <div className={`w-8 h-2 rounded-full opacity-60 mt-1 ${adv.bgClass}`} />
+                <div className={`w-8 h-2 rounded-full opacity-60 mt-1 ${bgClass}`} />
               </div>
 
               {/* Main Card Body */}
               <div className="bg-white border border-gray-150 rounded-2xl p-6 pt-10 shadow-sm hover:shadow-md transition-all flex flex-col items-center text-center space-y-3 w-full h-full relative z-0">
                 {/* Custom Icon inside circular badge */}
-                <div className={`p-2.5 rounded-full ${adv.bgClass}/10 ${adv.textClass}`}>
+                <div className={`p-2.5 rounded-full ${bgClass}/10 ${textClass}`}>
                   <IconComponent size={20} />
                 </div>
                 
                 <h4 className="font-extrabold text-sm text-[#072A6C] uppercase tracking-wider">{adv.title}</h4>
                 <p className="text-xs text-gray-500 font-light leading-relaxed max-w-[90%]">{adv.desc}</p>
+                <p className="text-[10px] text-gray-400 font-light leading-relaxed max-w-[90%]">{adv.detail}</p>
                 
                 {/* Bottom Connecting Hex Bullet Decoration */}
                 <div className="pt-2 flex justify-center w-full">
                   <div 
-                    className={`w-6 h-6 border-2 ${adv.borderClass} bg-white flex items-center justify-center`}
+                    className={`w-6 h-6 border-2 ${borderClass} bg-white flex items-center justify-center`}
                     style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
                   >
-                    <div className={`w-2 h-2 ${adv.bgClass}`} style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }} />
+                    <div className={`w-2 h-2 ${bgClass}`} style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }} />
                   </div>
                 </div>
               </div>

@@ -1,96 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2 } from "lucide-react";
-
-const NEWS_DATA = [
-  {
-    id: 1,
-    title: "AI Research Lab Inaugurated on Campus",
-    date: "12 May 2025",
-    time: "10:30 AM",
-    location: "Main Science Block, Room 302",
-    category: "Innovation",
-    excerpt: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
-    bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects. Student cohorts will have access to real-time research fellowships, academic grants, and direct mentoring pipelines to build future computing technologies.",
-    image: "/prog_computer.png"
-  },
-  {
-    id: 2,
-    title: "Engineering Students Win Smart Hackathon 2025",
-    date: "06 May 2025",
-    time: "09:00 AM",
-    location: "Tech Exhibition Hub, New Delhi",
-    category: "Achievement",
-    excerpt: "Our team developed a decentralized IoT mesh network algorithm to win first prize at the national technology showcase competition.",
-    bodyText: "We are extremely proud to announce that the student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication. The algorithm maintains high packet-delivery rates even during severe node disruptions. The project won first prize, carrying a gold trophy and a cash reward of ₹1,00,000, standing out among 250 participating institutions nationwide.",
-    image: "/prog_engineering.png"
-  },
-  {
-    id: 3,
-    title: "MoU Signed with Top Global Corporations for Placements",
-    date: "03 May 2025",
-    time: "02:00 PM",
-    location: "Administrative Boardroom",
-    category: "Corporate Link",
-    excerpt: "Enabling direct internship allocations, corporate-readiness workshops, and accelerated final semester student placements.",
-    bodyText: "City Chalapathi Institute of Technology has officially entered into a strategic Memorandum of Understanding (MoU) with leading multinational software and core engineering firms. This collaboration significantly strengthens our training and placement initiatives. Beginning this academic term, corporate mentors will conduct regular guest workshops on enterprise architectures and cloud DevOps technologies. The agreement also establishes a dedicated early-internship pipeline, allowing final-year engineering and management students to undertake structured industrial projects directly at corporate campuses, paving a fast-track pathway for high-compensation final placements.",
-    image: "/prog_management.png"
-  },
-  {
-    id: 4,
-    title: "New Pharmacy Research Formulations Published",
-    date: "28 Apr 2025",
-    time: "11:30 AM",
-    location: "Bio-Sciences Laboratory Hall",
-    category: "Research",
-    excerpt: "Our department has published groundbreaking formulations on nano-carrier systems in high-impact medical journals.",
-    bodyText: "The Department of Pharmaceutics at City Chalapathi has published a research breakthrough regarding target-oriented drug delivery systems. The research details a novel nano-carrier formulation that significantly increases the solubility and bioavailability of therapeutic drugs, offering potential applications for targeted anti-inflammatory treatments. Published in a highly respected international pharmaceutical journal, the research is the culmination of three years of rigorous laboratory analysis led by our postgraduate research scholars and senior faculty. This publication underscores our commitment to advancing pharmaceutical sciences on a global stage.",
-    image: "/prog_pharmacy.png"
-  },
-  {
-    id: 5,
-    title: "Global Education Fair and Career Expo Hosts 30+ Universities",
-    date: "15 Apr 2025",
-    time: "10:00 AM",
-    location: "Main University Auditorium",
-    category: "International",
-    excerpt: "Students interacted directly with global admission directors from US, UK, and European universities for postgraduate guidance.",
-    bodyText: "We successfully hosted the annual Global Education Fair and Career Expo on our central campus yesterday. The event hosted admissions directors and official representatives from over 30 leading universities across the United States, United Kingdom, Australia, and European Union countries. Hundreds of undergraduate students from final and pre-final semesters attended the fair to discuss entry requirements, IELTS/GRE waivers, postgraduate research opportunities, and scholarship applications directly with the university officials, opening new international education horizons for our graduates.",
-    image: "/prog_management.png"
-  },
-  {
-    id: 6,
-    title: "Annual Sports Meet Kickstarts with Inter-Department Matches",
-    date: "10 Apr 2025",
-    time: "08:30 AM",
-    location: "Central Sports Arena",
-    category: "Campus Life",
-    excerpt: "The campus cricket and basketball tournaments kicked off with participation from over 500 student athletes.",
-    bodyText: "The annual campus sports tournament commenced yesterday with a spectacular torch run and flag hoisting ceremony at the main sports complex. Over 500 student athletes representing all engineering, pharmacy, and science departments are participating in active inter-department tournaments spanning cricket, football, basketball, track & field events, and indoor sports. The opening matches saw high-energy contests, fostering team spirit and sportsmanship across the campus community.",
-    image: "/students_admission.png"
-  },
-  {
-    id: 7,
-    title: "Workshop on Sustainable Construction Materials Conducted",
-    date: "02 Apr 2025",
-    time: "09:30 AM",
-    location: "Civil Workshop Lab A",
-    category: "Workshop",
-    excerpt: "Civil engineering experts held a hands-on session demonstrating self-healing concrete applications.",
-    bodyText: "A comprehensive technical workshop on modern green construction materials was held by our Civil Engineering Department. Industry practitioners and structural engineers attended to demonstrate application techniques for self-healing concrete and fly-ash geopolymer composites. Students participated in concrete casting laboratories and stress testing, gaining valuable insight into eco-friendly engineering practices.",
-    image: "/prog_diploma.png"
-  },
-  {
-    id: 8,
-    title: "Alumni Meet 2025 Welcomes Back Distinguished Graduates",
-    date: "24 Mar 2025",
-    time: "05:00 PM",
-    location: "Grand Lawn & Seminar Gardens",
-    category: "Alumni Connect",
-    excerpt: "Over 200 alumni reconnected on campus, sharing industry insights and instituting new scholarship grants.",
-    bodyText: "The campus yesterday welcomed back more than 200 distinguished alumni representing graduates from the past two decades. The meet provided a platform for alumni to interact with current student cohorts, share industrial insights, and discuss mentorship opportunities. The alumni association announced the setup of a new student innovation fund to support budding startup projects on campus.",
-    image: "/students_admission.png"
-  }
-];
+import { useData } from "../context/DataContext";
 
 interface Article {
   id: number;
@@ -105,6 +15,7 @@ interface Article {
 }
 
 export default function News() {
+  const { news } = useData();
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [showShareMenu, setShowShareMenu] = useState(false);
 
@@ -137,7 +48,7 @@ export default function News() {
 
   // Get related articles excluding the active one
   const getRelatedArticles = (activeId: number) => {
-    return NEWS_DATA.filter(item => item.id !== activeId).slice(0, 3);
+    return news.filter(item => item.id !== activeId).slice(0, 3);
   };
 
   return (
@@ -170,7 +81,7 @@ export default function News() {
 
         {/* Responsive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {NEWS_DATA.map((newsItem, index) => (
+          {news.map((newsItem, index) => (
             <button 
               key={index}
               onClick={() => setSelectedArticle(newsItem)}

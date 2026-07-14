@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Bookmark, X, Clock, MapPin, CheckCircle } from "lucide-react";
+import { useData } from "../context/DataContext";
 
 interface EventItem {
   id: number;
@@ -12,60 +13,6 @@ interface EventItem {
   image: string;
   bodyText: string;
 }
-
-const EVENTS_DATA: EventItem[] = [
-  {
-    id: 1,
-    title: "Air Taxi Demonstration & Aviation Forum",
-    date: "17 Jul 2026",
-    time: "09:30 AM",
-    location: "Aeronautics Hangar & Airfield Complex",
-    category: "Aerospace",
-    image: "/prog_engineering.png",
-    bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models. Attendees will engage with senior flight control engineers, software architects, and regulators discussing flight path safety, battery technology, and battery charging infrastructure. The afternoon panel sessions will cover career pathways in modern avionics, autonomous navigation algorithms, and smart city infrastructure integration."
-  },
-  {
-    id: 2,
-    title: "Annual Innovation & Entrepreneurship Summit",
-    date: "05 Aug 2026",
-    time: "10:00 AM",
-    location: "Campus Incubation & Startup Block",
-    category: "Summit",
-    image: "/prog_computer.png",
-    bodyText: "The Annual Innovation & Entrepreneurship Summit at City Chalapathi stands as our premier event dedicated to building startup ecosystems. Student groups will pitch prototypes directly to angel investors, regional venture capital firms, and incubator heads. Keynote addresses from successful startup founders will share lessons on scaling, raising capital, and validating target markets. The summit hosts hands-on product design thinking sessions, intellectual property workshops for patent registrations, and networking tables connecting developers with business mentors."
-  },
-  {
-    id: 3,
-    title: "National Research Expo & Patent Showcase",
-    date: "12 Sep 2026",
-    time: "11:00 AM",
-    location: "Bio-Sciences Laboratory & Exhibition Hall",
-    category: "Research",
-    image: "/prog_pharmacy.png",
-    bodyText: "The National Research Expo is a celebrate-science event displaying active publications, doctoral research posters, and student innovations. Exhibitions cover structural engineering geopolymer research, target-oriented nano-carrier drug formulations, DST-funded smart irrigation devices, and artificial intelligence diagnostic apps. Senior scientists from national research institutes will evaluate student models and deliver talks on funding applications and research methodology."
-  },
-  {
-    id: 4,
-    // Past Event (Registration Closed)
-    title: "Industry Connect: Corporate Leadership Panel",
-    date: "10 Jun 2026",
-    time: "10:00 AM",
-    location: "MBA Seminar Block Center",
-    category: "Corporate",
-    image: "/prog_management.png",
-    bodyText: "Connecting student skills with market needs, the Industry Connect hosts executive panels from software, finance, and core manufacturing companies. Panel discussions will cover high-growth career tracks in artificial intelligence, full-stack architectures, and supply chain logistics. Representatives will detail summer internship opportunities and direct corporate placement guidelines."
-  },
-  {
-    id: 5,
-    title: "Global Alumni Reunion & Endowment Gala",
-    date: "14 Nov 2026",
-    time: "06:00 PM",
-    location: "University Grand Lawn Area",
-    category: "Alumni Connect",
-    image: "/students_admission.png",
-    bodyText: "The Global Alumni Reunion welcomes back our distinguished graduates to campus for a formal evening of networking and celebration. Alumni will interact with faculty members and student groups to share career paths and industry trends. The evening will host the announcement of the Alumni Endowment Fund to support underprivileged student scholarships."
-  }
-];
 
 export default function Events() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -101,7 +48,8 @@ export default function Events() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const currentData = EVENTS_DATA;
+  const { events } = useData();
+  const currentData = events;
 
   // Autoplay handler
   useEffect(() => {
@@ -162,7 +110,7 @@ export default function Events() {
   };
 
   const getRelatedEvents = (activeId: number) => {
-    return EVENTS_DATA.filter(item => item.id !== activeId).slice(0, 3);
+    return events.filter(item => item.id !== activeId).slice(0, 3);
   };
 
   return (

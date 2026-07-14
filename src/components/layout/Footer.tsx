@@ -166,6 +166,8 @@ export default function Footer() {
           <Link to="/terms-conditions" className="hover:text-white transition-colors">Terms & Conditions</Link>
           <span>|</span>
           <Link to="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
+          <span>|</span>
+          <Link to="/admin" className="hover:text-[#D4AF37] text-gray-400 font-bold transition-colors">Admin Portal</Link>
         </div>
       </div>
     </footer>

@@ -9,6 +9,8 @@ import DynamicPage from "./pages/DynamicPage";
 import Events from "./pages/Events";
 import News from "./pages/News";
 import AllEvents from "./pages/AllEvents";
+import AdminPortal from "./pages/AdminPortal";
+import { DataProvider, useData } from "./context/DataContext";
 
 // Scroll to top helper on route change
 function ScrollToTop() {
@@ -19,40 +21,17 @@ function ScrollToTop() {
   return null;
 }
 
-const ANNOUNCEMENTS_LIST = [
-  {
-    title: "Admissions 2026 Applications Open",
-    desc: "Apply online for all undergraduate and postgraduate engineering, management, and pharmacy streams.",
-    date: "12 May 2026",
-    icon: GraduationCap
-  },
-  {
-    title: "Orientation Program 2026 Schedule",
-    desc: "Schedule and venue details released for the incoming freshers orientation week starting next month.",
-    date: "08 May 2026",
-    icon: Calendar
-  },
-  {
-    title: "Semester Examination Notification",
-    desc: "The final semester examination timetable has been officially released by the controller of examinations.",
-    date: "02 May 2026",
-    icon: FileText
-  },
-  {
-    title: "Merit-Based Scholarship Applications",
-    desc: "Tuition waiver applications open for academic top performers and sports quota achievements.",
-    date: "28 Apr 2026",
-    icon: Award
-  },
-  {
-    title: "Mega Campus Placement Drive 2026",
-    desc: "Registrations now open for eligible pre-final year candidates for upcoming on-campus MNC recruitment drives.",
-    date: "22 Apr 2026",
-    icon: BookOpen
-  }
-];
+const IconMap: Record<string, React.ComponentType<any>> = {
+  GraduationCap: GraduationCap,
+  Calendar: Calendar,
+  FileText: FileText,
+  Award: Award,
+  BookOpen: BookOpen
+};
 
-export default function App() {
+function AppContent() {
+  const { announcements } = useData();
+
   const [showSplash, setShowSplash] = useState(() => {
     const visited = sessionStorage.getItem("chalapathy_visited");
     return !visited;
@@ -291,7 +270,6 @@ export default function App() {
             <Route path="/academics/bos" element={<DynamicPage />} />
             <Route path="/academics/*" element={<DynamicPage />} />
 
-
             {/* Admissions Routes */}
             <Route path="/admissions" element={<DynamicPage />} />
             <Route path="/admissions/undergraduate" element={<DynamicPage />} />
@@ -341,6 +319,9 @@ export default function App() {
             <Route path="/privacy-policy" element={<DynamicPage />} />
             <Route path="/terms-conditions" element={<DynamicPage />} />
             <Route path="/sitemap" element={<DynamicPage />} />
+            
+            {/* Admin Portal Route */}
+            <Route path="/admin" element={<AdminPortal />} />
           </Routes>
         </main>
         <Footer />
@@ -394,8 +375,8 @@ export default function App() {
 
             {/* Scrollable list items */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {ANNOUNCEMENTS_LIST.map((item, idx) => {
-                const Icon = item.icon;
+              {announcements.map((item, idx) => {
+                const Icon = IconMap[item.iconName] || Megaphone;
                 return (
                   <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow transition-shadow flex gap-3.5 items-start">
                     <div className="w-9 h-9 rounded-full bg-[#072A6C]/5 flex items-center justify-center shrink-0">
@@ -448,212 +429,187 @@ export default function App() {
             <button 
               onClick={() => setShowEnquiryModal(false)}
               className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/20 hover:bg-white/45 text-white flex items-center justify-center transition-colors cursor-pointer"
-              aria-label="Close modal"
             >
-              <X size={18} />
+              <X size={20} />
             </button>
 
-            {/* Scrollable Container */}
-            <div className="overflow-y-auto">
+            {/* Form Content */}
+            <div className="p-6 md:p-8 overflow-y-auto">
+              <h3 className="text-lg font-black uppercase text-[#072A6C] mb-1">Admission Enquiry</h3>
+              <p className="text-xs text-gray-500 mb-6">Enter details below to consult with our career counselors</p>
               
-              {/* Header Title Banner */}
-              <div className="bg-[#072A6C] text-white py-6 px-8 text-center relative">
-                <h3 className="text-xl md:text-2xl font-[800] tracking-tight">Admission Enquiry</h3>
-                <p className="text-[11px] text-blue-200 mt-1 font-light uppercase tracking-wider">Academic Year 2026-2027</p>
-              </div>
-
-              {/* Form Content */}
-              <div className="p-6 md:p-8">
-                {formSubmitted ? (
-                  <div className="py-10 text-center space-y-4 animate-fade-in">
-                    <CheckCircle2 className="mx-auto text-green-500" size={56} />
-                    <h4 className="text-xl font-bold text-[#072A6C]">Enquiry Submitted Successfully!</h4>
-                    <p className="text-sm text-gray-500 font-light max-w-sm mx-auto leading-relaxed">
-                      Thank you for your interest in City Chalapathi. Our admissions counselor will contact you shortly on <strong>{formData.mobile}</strong>.
-                    </p>
-                    <button
-                      onClick={() => setShowEnquiryModal(false)}
-                      className="h-10 px-6 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-xs font-bold rounded-xl transition-all active:scale-95 cursor-pointer"
-                    >
-                      Close Window
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4 font-[var(--font-poppins)]">
-                    
-                    {/* Name */}
-                    <div>
-                      <input
-                        type="text"
+              {formSubmitted ? (
+                <div className="flex flex-col items-center justify-center py-10 space-y-4">
+                  <CheckCircle2 size={56} className="text-emerald-500" />
+                  <h4 className="text-base font-extrabold text-[#072A6C]">Enquiry Submitted Successfully!</h4>
+                  <p className="text-xs text-gray-500 text-center max-w-[340px]">Our admissions helpdesk representative will contact you on your registered mobile number shortly.</p>
+                  <button 
+                    onClick={() => setShowEnquiryModal(false)}
+                    className="h-10 px-6 bg-[#072A6C] hover:bg-[#051c4a] text-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                  >
+                    Close Window
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4 text-xs font-[var(--font-poppins)]">
+                  {/* Grid Rows */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">Applicant Name *</label>
+                      <input 
+                        type="text" 
                         required
-                        className="w-full h-11 px-4 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white text-gray-700 placeholder-gray-400"
-                        placeholder="Enter Name *"
+                        placeholder="Enter full name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
                       />
                     </div>
-
-                    {/* Email */}
-                    <div>
-                      <input
-                        type="email"
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">Email Address *</label>
+                      <input 
+                        type="email" 
                         required
-                        className="w-full h-11 px-4 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white text-gray-700 placeholder-gray-400"
-                        placeholder="Enter Email Address *"
+                        placeholder="Enter email address"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
                       />
                     </div>
+                  </div>
 
-                    {/* Mobile Number Group */}
-                    <div className="flex gap-2">
-                      <select 
-                        className="h-11 px-3 text-xs border border-gray-200 rounded-lg outline-none bg-gray-50 text-gray-600 font-medium"
-                        defaultValue="+91"
-                      >
-                        <option>+91 (IND)</option>
-                        <option>+1 (USA)</option>
-                        <option>+44 (UK)</option>
-                      </select>
-                      <input
-                        type="tel"
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">Mobile Number *</label>
+                      <input 
+                        type="tel" 
                         required
-                        pattern="[0-9]{10}"
-                        className="flex-1 h-11 px-4 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white text-gray-700 placeholder-gray-400"
-                        placeholder="Enter Mobile Number *"
+                        placeholder="10-digit number"
                         value={formData.mobile}
                         onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
                       />
                     </div>
-
-                    {/* State & City selectors */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <select
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">State *</label>
+                      <input 
+                        type="text" 
                         required
-                        className="h-11 px-3 text-xs border border-gray-200 rounded-lg outline-none bg-white text-gray-500"
+                        placeholder="Andhra Pradesh"
                         value={formData.state}
                         onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                      >
-                        <option value="">Select State *</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                      </select>
-                      <select
+                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">City *</label>
+                      <input 
+                        type="text" 
                         required
-                        className="h-11 px-3 text-xs border border-gray-200 rounded-lg outline-none bg-white text-gray-500"
+                        placeholder="Guntur"
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      >
-                        <option value="">Select City *</option>
-                        <option value="Guntur">Guntur</option>
-                        <option value="Vijayawada">Vijayawada</option>
-                        <option value="Hyderabad">Hyderabad</option>
-                        <option value="Bengaluru">Bengaluru</option>
-                        <option value="Chennai">Chennai</option>
-                      </select>
+                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
+                      />
                     </div>
+                  </div>
 
-                    {/* College & Degree selectors */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <select
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">Target Degree *</label>
+                      <select 
                         required
-                        className="h-11 px-3 text-xs border border-gray-200 rounded-lg outline-none bg-white text-gray-500"
-                        value={formData.college}
-                        onChange={(e) => setFormData({ ...formData, college: e.target.value })}
-                      >
-                        <option value="">Select Faculty/College *</option>
-                        <option value="Engineering">School of Engineering</option>
-                        <option value="Pharmacy">School of Pharmacy</option>
-                        <option value="Management">School of Management</option>
-                      </select>
-                      <select
-                        required
-                        className="h-11 px-3 text-xs border border-gray-200 rounded-lg outline-none bg-white text-gray-500"
                         value={formData.degree}
                         onChange={(e) => setFormData({ ...formData, degree: e.target.value })}
+                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-bold bg-white"
                       >
-                        <option value="">Select Degree *</option>
-                        <option value="B.Tech">B.Tech (Undergraduate)</option>
-                        <option value="MBA">MBA (Postgraduate)</option>
-                        <option value="MCA">MCA (Postgraduate)</option>
-                        <option value="B.Pharm">B.Pharm (Pharmacy)</option>
+                        <option value="">Select Degree</option>
+                        <option value="btech">B.Tech Engineering</option>
+                        <option value="mtech">M.Tech Specialization</option>
+                        <option value="mba">MBA Management</option>
+                        <option value="mca">MCA Software Application</option>
+                        <option value="pharmacy">Pharmacy streams</option>
                       </select>
                     </div>
-
-                    {/* Program selector */}
-                    <div>
-                      <select
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">Academic Program *</label>
+                      <input 
+                        type="text" 
                         required
-                        className="w-full h-11 px-3 text-xs border border-gray-200 rounded-lg outline-none bg-white text-gray-500"
+                        placeholder="e.g. Computer Science Engineering"
                         value={formData.program}
                         onChange={(e) => setFormData({ ...formData, program: e.target.value })}
-                      >
-                        <option value="">Select Program *</option>
-                        <option value="CSE">Computer Science & Engineering</option>
-                        <option value="AIML">Artificial Intelligence & ML</option>
-                        <option value="DS">Data Science</option>
-                        <option value="ECE">Electronics & Communication</option>
-                      </select>
+                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
+                      />
                     </div>
+                  </div>
 
-                    {/* Captcha verification layout */}
-                    <div className="grid grid-cols-2 gap-3 items-center">
-                      <div className="h-11 border border-gray-200 rounded-lg flex items-center justify-between px-3 bg-gray-100 select-none">
-                        <span className="font-mono text-sm tracking-widest font-bold line-through text-gray-700 italic">
-                          {captchaCode}
-                        </span>
-                        <button 
-                          type="button"
-                          onClick={generateCaptcha}
-                          className="text-gray-400 hover:text-[#072A6C] transition-colors cursor-pointer"
-                        >
-                          <RefreshCw size={13} />
-                        </button>
+                  {/* CAPTCHA validation */}
+                  <div className="bg-gray-50 border border-gray-100 p-4 rounded-xl flex items-center justify-between gap-4 mt-2">
+                    <div className="flex items-center gap-3">
+                      <div className="px-4 py-2 bg-gradient-to-r from-gray-200 to-gray-300 font-mono text-base font-bold tracking-widest text-gray-800 rounded select-none shadow-inner border border-gray-300">
+                        {captchaCode}
                       </div>
-                      <input
-                        type="text"
+                      <button 
+                        type="button" 
+                        onClick={generateCaptcha}
+                        className="p-1 rounded hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors cursor-pointer outline-none"
+                      >
+                        <RefreshCw size={16} />
+                      </button>
+                    </div>
+                    <div className="flex-1 space-y-1 max-w-[200px]">
+                      <label className="text-[9px] font-bold uppercase text-gray-500">Verify Captcha *</label>
+                      <input 
+                        type="text" 
                         required
-                        className="h-11 px-4 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white text-gray-700 placeholder-gray-400 font-mono"
-                        placeholder="Enter Captcha"
+                        placeholder="Enter code"
                         value={formData.captchaInput}
                         onChange={(e) => setFormData({ ...formData, captchaInput: e.target.value })}
+                        className="w-full h-9 px-3.5 border border-gray-200 rounded focus:outline-none focus:border-[#072A6C] font-bold text-center"
                       />
                     </div>
+                  </div>
 
-                    {/* Disclaimer check */}
-                    <div className="flex items-start gap-2.5 pt-1">
-                      <input
-                        id="agree"
-                        type="checkbox"
-                        required
-                        className="w-3.5 h-3.5 mt-0.5 border border-gray-300 rounded accent-[#072A6C] cursor-pointer"
-                        checked={formData.agree}
-                        onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
-                      />
-                      <label htmlFor="agree" className="text-[10px] text-gray-500 leading-normal font-light cursor-pointer select-none">
-                        I authorize City Chalapathi Institute of Technology and its representatives to contact me regarding updates and notifications through Email, SMS, WhatsApp, and Calls. This consent overrides any DND/NDNC registration.
-                      </label>
-                    </div>
+                  {/* Terms checkbox */}
+                  <div className="flex gap-2 items-start pt-2">
+                    <input 
+                      type="checkbox" 
+                      id="agree" 
+                      required
+                      className="w-3.5 h-3.5 mt-0.5 border border-gray-300 rounded accent-[#072A6C] cursor-pointer"
+                      checked={formData.agree}
+                      onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
+                    />
+                    <label htmlFor="agree" className="text-[10px] text-gray-500 leading-normal font-light cursor-pointer select-none">
+                      I authorize City Chalapathi Institute of Technology and its representatives to contact me regarding updates and notifications through Email, SMS, WhatsApp, and Calls. This consent overrides any DND/NDNC registration.
+                    </label>
+                  </div>
 
-                    {/* Submit Button */}
-                    <button
-                      type="submit"
-                      className="w-full h-11 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-lg transition-colors cursor-pointer mt-2"
-                    >
-                      Submit
-                    </button>
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    className="w-full h-11 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-lg transition-colors cursor-pointer mt-2"
+                  >
+                    Submit
+                  </button>
 
-                  </form>
-                )}
-              </div>
-
+                </form>
+              )}
             </div>
+
           </div>
         </div>
       )}
 
     </BrowserRouter>
+  );
+}
+
+export default function App() {
+  return (
+    <DataProvider>
+      <AppContent />
+    </DataProvider>
   );
 }
