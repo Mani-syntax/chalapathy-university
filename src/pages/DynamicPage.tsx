@@ -5821,14 +5821,14 @@ function PlacementsView() {
   ];
 
   const RECRUITERS = [
-    { name: "TCS", logo: "https://logo.clearbit.com/tcs.com" },
-    { name: "Infosys", logo: "https://logo.clearbit.com/infosys.com" },
-    { name: "Mindtree", logo: "https://logo.clearbit.com/ltimindtree.com" },
-    { name: "L&T", logo: "https://logo.clearbit.com/larsentoubro.com" },
-    { name: "HCL", logo: "https://logo.clearbit.com/hcltech.com" },
-    { name: "Wipro", logo: "https://logo.clearbit.com/wipro.com" },
-    { name: "Oracle", logo: "https://logo.clearbit.com/oracle.com" },
-    { name: "Tech Mahindra", logo: "https://logo.clearbit.com/techmahindra.com" }
+    { name: "TCS", logo: "https://img.logo.dev/tcs.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Infosys", logo: "https://img.logo.dev/infosys.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Mindtree", logo: "https://img.logo.dev/ltimindtree.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "L&T", logo: "https://img.logo.dev/larsentoubro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "HCL", logo: "https://img.logo.dev/hcltech.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Wipro", logo: "https://img.logo.dev/wipro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Oracle", logo: "https://img.logo.dev/oracle.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Tech Mahindra", logo: "https://img.logo.dev/techmahindra.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" }
   ];
 
   return (
