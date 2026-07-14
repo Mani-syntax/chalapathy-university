@@ -268,7 +268,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0 py-1">
             <img
-              src="/logo.svg"
+              src="/logo.png?v=3"
               alt="Chalapathi University"
               className="h-14 w-auto object-contain"
             />
