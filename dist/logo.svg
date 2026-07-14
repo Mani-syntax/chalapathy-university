@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 115" width="100%" height="100%" fill="none">
   <!-- Deep Navy Blue Color: #0A1E42 -->
   <g fill="#0A1E42">
-    <!-- Three Stars above Shield (exact proportions from 2nd picture) -->
+    <!-- Three Stars above Shield -->
     <!-- Left Star -->
     <path d="M 40 13.8 L 41.3 17.5 L 45.2 17.5 L 42.1 19.8 L 43.3 23.5 L 40 21.2 L 36.7 23.5 L 37.9 19.8 L 34.8 17.5 L 38.7 17.5 Z" />
     <!-- Center Star (Slightly larger and higher) -->
@@ -9,20 +9,20 @@
     <!-- Right Star -->
     <path d="M 80 13.8 L 81.3 17.5 L 85.2 17.5 L 82.1 19.8 L 83.3 23.5 L 80 21.2 L 76.7 23.5 L 77.9 19.8 L 74.8 17.5 L 78.7 17.5 Z" />
 
-    <!-- Outer Stepped Wings of Shield Crest (Exact to 2nd picture) -->
+    <!-- Outer Stepped Wings of Shield Crest (Exact non-overlapping stepped geometry from 2nd picture) -->
     <!-- Left Wing -->
-    <path d="M 26 20 L 26 61 L 34 66 L 34 76 L 43 83 L 43 91 L 60 105 L 38 80 L 38 38 Z" />
+    <path d="M 24 24 L 24 56 L 32 62 L 32 72 L 40 78 L 40 86 L 60 100 L 55 80 L 38 66 L 38 38 Z" />
     <!-- Right Wing -->
-    <path d="M 94 20 L 94 61 L 86 66 L 86 76 L 77 83 L 77 91 L 60 105 L 82 80 L 82 38 Z" />
+    <path d="M 96 24 L 96 56 L 88 62 L 88 72 L 80 78 L 80 86 L 60 100 L 65 80 L 82 66 L 82 38 Z" />
 
-    <!-- Center Letter C with Cap (Exact to 2nd picture) -->
+    <!-- Center Monogram Letter C with Cap (Exact inner notched C geometry from 2nd picture) -->
     <!-- Cap above C -->
-    <path d="M 55 28 L 65 28 L 67 34 L 53 34 Z" />
-    <!-- Main C Monogram -->
-    <path d="M 44 37 L 74 37 L 74 46 L 55 46 L 55 62 L 74 62 L 74 71 L 44 71 Z" />
+    <path d="M 56 26 L 64 26 L 66 32 L 54 32 Z" />
+    <!-- Main C Monogram with right-angle notches -->
+    <path d="M 44 36 L 75 36 L 75 46 L 66 46 L 66 43 L 54 43 L 54 65 L 66 65 L 66 62 L 75 62 L 75 72 L 44 72 Z" />
 
     <!-- Typography: Chalapathi University -->
-    <text x="122" y="54" font-family="Georgia, 'Times New Roman', Times, serif" font-size="42" font-weight="700" letter-spacing="-0.5">Chalapathi</text>
-    <text x="122" y="97" font-family="Georgia, 'Times New Roman', Times, serif" font-size="42" font-weight="700" letter-spacing="-0.5">University</text>
+    <text x="122" y="53" font-family="Georgia, 'Times New Roman', Times, serif" font-size="42" font-weight="700" letter-spacing="-0.5">Chalapathi</text>
+    <text x="122" y="96" font-family="Georgia, 'Times New Roman', Times, serif" font-size="42" font-weight="700" letter-spacing="-0.5">University</text>
   </g>
 </svg>
