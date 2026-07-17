@@ -274,38 +274,40 @@ export default function Home() {
             variants={staggerContainer}
           >
             {[
-              { name: "Engineering", color: "#D71920", image: "/prog_engineering.png" },
-              { name: "Management", color: "#F59E0B", image: "/prog_management.png" },
-              { name: "Computer Applications", color: "#2563EB", image: "/prog_computer.png" },
-              { name: "Pharmacy", color: "#10B981", image: "/prog_pharmacy.png" },
-              { name: "Diploma", color: "#8B5CF6", image: "/prog_diploma.png" },
-              { name: "M.Tech Programs", color: "#EAB308", image: "/prog_mtech.png" }
+              { name: "Engineering", color: "#D71920", image: "/prog_engineering.png", to: "/academics/computer-science" },
+              { name: "Management", color: "#F59E0B", image: "/prog_management.png", to: "/academics/programmes" },
+              { name: "Computer Applications", color: "#2563EB", image: "/prog_computer.png", to: "/academics/programmes" },
+              { name: "Pharmacy", color: "#10B981", image: "/prog_pharmacy.png", to: "/academics/programmes" },
+              { name: "Diploma", color: "#8B5CF6", image: "/prog_diploma.png", to: "/academics/programmes" },
+              { name: "M.Tech Programs", color: "#EAB308", image: "/prog_mtech.png", to: "/academics/programmes" }
             ].map((p, idx) => (
               <motion.div
                 key={idx}
                 className="group bg-white border border-gray-100 rounded-[16px] overflow-hidden shadow-sm hover:shadow-md transition-shadow relative"
                 variants={scaleIn}
               >
-                <div className="h-[140px] relative overflow-hidden bg-gray-100">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                </div>
-
-                <div className="px-4 pb-4 relative pt-6 text-center">
-                  <div
-                    className="absolute -top-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white border-[3px] border-white shadow-md group-hover:scale-110 transition-transform"
-                    style={{ backgroundColor: p.color }}
-                  >
-                    <GraduationCap size={14} />
+                <Link href={p.to} className="block w-full h-full">
+                  <div className="h-[140px] relative overflow-hidden bg-gray-100">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   </div>
-                  <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
-                    {p.name}
-                  </h3>
-                </div>
+
+                  <div className="px-4 pb-4 relative pt-6 text-center">
+                    <div
+                      className="absolute -top-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white border-[3px] border-white shadow-md group-hover:scale-110 transition-transform"
+                      style={{ backgroundColor: p.color }}
+                    >
+                      <GraduationCap size={14} />
+                    </div>
+                    <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
+                      {p.name}
+                    </h3>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </motion.div>

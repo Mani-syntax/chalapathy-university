@@ -519,11 +519,11 @@ export default function Home() {
           >
             {[
               { name: "Engineering", color: "#D71920", image: "/prog_engineering.png", to: "/academics/computer-science" },
-              { name: "Management", color: "#F59E0B", image: "/prog_management.png", to: "/academics" },
-              { name: "Computer Applications", color: "#2563EB", image: "/prog_computer.png", to: "/academics/computer-science" },
-              { name: "Pharmacy", color: "#10B981", image: "/prog_pharmacy.png", to: "/academics" },
-              { name: "Diploma", color: "#8B5CF6", image: "/prog_diploma.png", to: "/academics" },
-              { name: "M.Tech Programs", color: "#EAB308", image: "/prog_mtech.png", to: "/academics" }
+              { name: "Management", color: "#F59E0B", image: "/prog_management.png", to: "/academics/programmes" },
+              { name: "Computer Applications", color: "#2563EB", image: "/prog_computer.png", to: "/academics/programmes" },
+              { name: "Pharmacy", color: "#10B981", image: "/prog_pharmacy.png", to: "/academics/programmes" },
+              { name: "Diploma", color: "#8B5CF6", image: "/prog_diploma.png", to: "/academics/programmes" },
+              { name: "M.Tech Programs", color: "#EAB308", image: "/prog_mtech.png", to: "/academics/programmes" }
             ].map((p, idx) => (
               <motion.div
                 key={idx}
