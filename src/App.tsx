@@ -273,6 +273,7 @@ function AppContent() {
               ref={videoRef}
               src="/videodisplay.mp4"
               autoPlay
+              muted
               playsInline
               preload="auto"
               onPlay={handleVideoPlay}
@@ -546,7 +547,14 @@ function AppContent() {
             <div className="w-full md:w-1/2 p-5 md:p-6 border-r border-gray-100 flex flex-col bg-slate-50/30 overflow-y-auto scrollbar-none">
               {/* Logo */}
               <div className="flex items-center justify-center mb-6 mt-2">
-                <img src="/logo.png?v=3" alt="Chalapathi University" className="h-20 w-auto object-contain" />
+                <img 
+                  src="/logo.png?v=3" 
+                  alt="Chalapathi University" 
+                  loading="eager"
+                  // @ts-ignore
+                  fetchpriority="high"
+                  className="h-20 w-auto object-contain" 
+                />
               </div>
 
               <h3 className="text-[12px] font-black uppercase text-[#072A6C] tracking-wide mb-0.5">
