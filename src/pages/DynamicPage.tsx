@@ -3774,14 +3774,14 @@ function LeadershipView() {
             <div className="h-[3px] w-24 bg-[#D4AF37] rounded-full" />
             <div className="space-y-1">
               <h3 className="text-xl md:text-2xl font-extrabold text-white">Chairman's Message</h3>
-              <p className="text-xs uppercase tracking-wider text-gray-400 font-bold">"{leadership.messageQuote}"</p>
+              <p className="text-xs uppercase tracking-wider text-white font-bold">"{leadership.messageQuote}"</p>
             </div>
           </div>
         </div>
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-1.5 opacity-60">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400">Scroll Down</span>
+          <span className="text-[10px] uppercase font-bold tracking-widest text-white">Scroll Down</span>
           <div className="w-1 h-6 bg-white/40 rounded-full relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1/2 bg-[#D4AF37] rounded-full animate-infinite-scroll" />
           </div>

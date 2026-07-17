@@ -253,7 +253,7 @@ export default function Home() {
                               animationDelay: `${wordIndex * 150 + letterIndex * 35}ms`
                             }}
                           >
-                            {letter}
+                            {letter === " " ? "\u00A0" : letter}
                           </span>
                         ))}
                       </span>
@@ -272,7 +272,7 @@ export default function Home() {
 
               {/* Tagline */}
               <p 
-                className="text-[15px] md:text-[16px] text-[#666666] leading-relaxed max-w-md font-[400] mt-5 animate-tagline-fade"
+                className="text-[15px] md:text-[16px] text-[#111111] leading-relaxed max-w-md font-[700] mt-5 animate-tagline-fade"
                 style={{
                   animationDelay: '950ms'
                 }}
@@ -666,7 +666,7 @@ export default function Home() {
           >
             <div className="text-center md:text-left min-w-[200px]">
               <h3 className="text-[15px] font-[700]">Find Your Way</h3>
-              <p className="text-[11px] text-gray-300 font-[300] mt-0.5">Get directions to City Chalapathi Institute of Technology</p>
+              <p className="text-[11px] text-white font-[300] mt-0.5">Get directions to City Chalapathi Institute of Technology</p>
             </div>
 
             {/* Combined Input Bar */}

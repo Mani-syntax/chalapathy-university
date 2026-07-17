@@ -399,7 +399,7 @@ export default function Home() {
           >
             <div className="text-center md:text-left min-w-[200px]">
               <h3 className="text-[15px] font-[700]">Find Your Way</h3>
-              <p className="text-[11px] text-gray-300 font-[300] mt-0.5">Get directions to City Chalapathi Institute of Technology</p>
+              <p className="text-[11px] text-white font-[300] mt-0.5">Get directions to City Chalapathi Institute of Technology</p>
             </div>
 
             {/* Combined Input Bar */}
