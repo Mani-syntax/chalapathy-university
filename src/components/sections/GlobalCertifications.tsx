@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { Award, ChevronRight, ArrowLeft, CheckCircle2, ShieldCheck, Briefcase, Zap, Globe, ArrowRight, X } from "lucide-react";
 
@@ -148,8 +149,9 @@ export default function GlobalCertifications() {
       {/* ======================================================== */}
       {/* 🌟 CERTIFICATION DETAIL POPUP MODAL                      */}
       {/* ======================================================== */}
-      <AnimatePresence>
-        {selectedCert && (
+      {createPortal(
+        <AnimatePresence>
+          {selectedCert && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -311,7 +313,9 @@ export default function GlobalCertifications() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }
