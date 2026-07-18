@@ -150,6 +150,8 @@ interface DataContextType {
   updateBoardData: (data: Record<string, DirectoryData>) => void;
   updateStaffData: (data: Record<string, DirectoryData>) => void;
   updatePlacementsContent: (data: PlacementsContent) => void;
+  showAnnouncementsDrawer: boolean;
+  setShowAnnouncementsDrawer: (show: boolean) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -596,6 +598,7 @@ const INITIAL_STAFF_DATA: Record<string, DirectoryData> = {
 };
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [showAnnouncementsDrawer, setShowAnnouncementsDrawer] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>(() => {
     const local = localStorage.getItem("chalapathi_announcements");
     return local ? JSON.parse(local) : INITIAL_ANNOUNCEMENTS;
@@ -717,7 +720,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updateFacultyData,
       updateBoardData,
       updateStaffData,
-      updatePlacementsContent
+      updatePlacementsContent,
+      showAnnouncementsDrawer,
+      setShowAnnouncementsDrawer
     }}>
       {children}
     </DataContext.Provider>

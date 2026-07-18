@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, Menu, X, ChevronDown, ArrowRight } from "lucide-react";
+import { Search, Menu, X, ChevronDown, ArrowRight, Megaphone } from "lucide-react";
+import { useData } from "../../context/DataContext";
 
 export const UNDERGRADUATE_GROUPS = {
   "Computer Science & Eng": [
@@ -120,6 +121,7 @@ const CATEGORY_INFO: Record<string, { desc: string; linkText: string; to: string
 };
 
 export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {}) {
+  const { announcements, showAnnouncementsDrawer, setShowAnnouncementsDrawer } = useData();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -595,6 +597,16 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
               Apply Now
             </Link>
             <button
+              onClick={() => setShowAnnouncementsDrawer(!showAnnouncementsDrawer)}
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D71920] hover:border-[#D71920] transition-colors cursor-pointer relative"
+              title="View Announcements"
+            >
+              <Megaphone size={16} />
+              {announcements.length > 0 && (
+                <span className="absolute top-1.5 right-1.5 bg-[#D71920] w-2.5 h-2.5 rounded-full border-2 border-white" />
+              )}
+            </button>
+            <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D71920] hover:border-[#D71920] transition-colors cursor-pointer"
             >
@@ -604,6 +616,16 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
           {/* Mobile menu trigger */}
           <div className="flex xl:hidden items-center gap-2">
+            <button 
+              onClick={() => setShowAnnouncementsDrawer(!showAnnouncementsDrawer)} 
+              className="p-2 text-[#222222] relative"
+              title="View Announcements"
+            >
+              <Megaphone size={18} />
+              {announcements.length > 0 && (
+                <span className="absolute top-1 right-1 bg-[#D71920] w-2 h-2 rounded-full border border-white" />
+              )}
+            </button>
             <button onClick={() => setSearchOpen(!searchOpen)} className="p-2 text-[#222222]"><Search size={18} /></button>
             <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-[#222222]">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
