@@ -216,88 +216,146 @@ export default function News() {
       {/* Main MSN News Content */}
       <section className="max-w-[1440px] mx-auto px-5 mt-10">
         
-        {/* Top 3-Column MSN Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
-          {/* Featured News Block (Spans 2 columns) */}
-          <div className="lg:col-span-2 bg-white rounded-[18px] shadow-sm border border-gray-100/80 overflow-hidden flex flex-col md:flex-row h-full min-h-[380px] group transition-all duration-300">
-            {/* Image (55%) */}
-            <div className="w-full md:w-[55%] relative overflow-hidden h-[240px] md:h-auto shrink-0">
-              <img 
-                src={featuredArticle.image} 
-                alt={featuredArticle.title} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <span className="absolute top-4 left-4 bg-[#D71920] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-md shadow-sm">
-                FEATURED NEWS
-              </span>
-              
-              {/* Slider Arrows */}
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setFeaturedIndex((prev) => (prev - 1 + Math.min(news.length, 3)) % Math.min(news.length, 3));
-                }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-10 cursor-pointer"
-                aria-label="Previous Slide"
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setFeaturedIndex((prev) => (prev + 1) % Math.min(news.length, 3));
-                }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-10 cursor-pointer"
-                aria-label="Next Slide"
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
+        {/* Top Featured News Hero Block (Full Width) */}
+        <div className="bg-white rounded-[18px] shadow-sm border border-gray-100/80 overflow-hidden flex flex-col md:flex-row h-full min-h-[380px] group transition-all duration-300 relative">
+          {/* Image (55%) */}
+          <div className="w-full md:w-[55%] relative overflow-hidden h-[240px] md:h-auto shrink-0">
+            <img 
+              src={featuredArticle.image} 
+              alt={featuredArticle.title} 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <span className="absolute top-4 left-4 bg-[#D71920] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-md shadow-sm">
+              FEATURED NEWS
+            </span>
             
-            {/* Content (45%) */}
-            <div className="w-full md:w-[45%] p-6 flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                  <span className="text-[#D71920]">{featuredArticle.category}</span>
-                  <span>•</span>
-                  <span>{featuredArticle.date}</span>
-                </div>
-                <h2 className="text-lg md:text-xl font-[800] text-[#072A6C] leading-snug tracking-tight">
-                  {featuredArticle.title}
-                </h2>
-                <p className="text-[12px] text-gray-500 font-[var(--font-inter)] leading-relaxed line-clamp-4">
-                  {featuredArticle.excerpt}
-                </p>
+            {/* Slider Arrows */}
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setFeaturedIndex((prev) => (prev - 1 + Math.min(news.length, 3)) % Math.min(news.length, 3));
+              }}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-10 cursor-pointer"
+              aria-label="Previous Slide"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setFeaturedIndex((prev) => (prev + 1) % Math.min(news.length, 3));
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-10 cursor-pointer"
+              aria-label="Next Slide"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+          
+          {/* Content (45%) */}
+          <div className="w-full md:w-[45%] p-6 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                <span className="text-[#D71920]">{featuredArticle.category}</span>
+                <span>•</span>
+                <span>{featuredArticle.date}</span>
               </div>
+              <h2 className="text-lg md:text-xl font-[800] text-[#072A6C] leading-snug tracking-tight">
+                {featuredArticle.title}
+              </h2>
+              <p className="text-[12px] text-gray-500 font-[var(--font-inter)] leading-relaxed line-clamp-4">
+                {featuredArticle.excerpt}
+              </p>
+            </div>
 
-              <div className="pt-5 flex flex-col gap-4">
-                <button 
-                  onClick={() => navigate(`/news/${featuredArticle.slug}`)}
-                  className="h-10 px-5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-[11px] font-bold rounded-xl inline-flex items-center justify-center gap-1.5 transition-all self-start cursor-pointer hover:shadow-md"
-                >
-                  <span>Read Full Story</span>
-                  <ArrowRight size={13} />
-                </button>
-                
-                {/* Dots indicators */}
-                <div className="flex items-center gap-2">
-                  {news.slice(0, 3).map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setFeaturedIndex(idx)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        idx === featuredIndex ? "bg-[#D71920] w-4" : "bg-gray-200"
-                      }`}
-                    />
-                  ))}
-                </div>
+            <div className="pt-5 flex flex-col gap-4">
+              <button 
+                onClick={() => navigate(`/news/${featuredArticle.slug}`)}
+                className="h-10 px-5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-[11px] font-bold rounded-xl inline-flex items-center justify-center gap-1.5 transition-all self-start cursor-pointer hover:shadow-md"
+              >
+                <span>Read Full Story</span>
+                <ArrowRight size={13} />
+              </button>
+              
+              {/* Dots indicators */}
+              <div className="flex items-center gap-2">
+                {news.slice(0, 3).map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setFeaturedIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      idx === featuredIndex ? "bg-[#D71920] w-4" : "bg-gray-200"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Right Column: Trending Now */}
-          <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 flex flex-col justify-between min-h-[380px]">
+        {/* 2-Column Horizontal Cards: Upcoming Events and Latest News list */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          
+          {/* Upcoming Events Card */}
+          <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 flex flex-col justify-between min-h-[380px] group text-left w-full">
+            <div>
+              <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                <div className="flex items-center gap-2 text-[#072A6C]">
+                  <Calendar size={16} className="text-[#D71920]" />
+                  <h3 className="text-sm font-black uppercase tracking-wider">UPCOMING EVENTS</h3>
+                </div>
+                <Link to="/news/events/all" className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+                  View All
+                </Link>
+              </div>
+              
+              <div className="space-y-4">
+                {events.slice(0, 3).map((event) => {
+                  const dateParts = event.date.split(" ");
+                  const day = dateParts[0] || "17";
+                  const month = (dateParts[1] || "JUL").toUpperCase();
+                  return (
+                    <Link 
+                      key={event.id} 
+                      to={`/news/events/${event.slug}`}
+                      className="flex gap-4 items-start border-b border-gray-50 pb-4 last:border-b-0 last:pb-0 group text-left block"
+                    >
+                      <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-[#D71920] shrink-0 border border-red-100/30 group-hover:bg-[#D71920] group-hover:text-white transition-colors">
+                        <span className="text-base font-black leading-none">{day}</span>
+                        <span className="text-[9px] font-black tracking-wider uppercase leading-none mt-1">{month}</span>
+                      </div>
+                      <div className="space-y-1 min-w-0 flex-1">
+                        <h4 className="text-[12px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors truncate">
+                          {event.title}
+                        </h4>
+                        <div className="flex flex-col gap-0.5 text-[9.5px] text-gray-400 font-semibold font-[var(--font-inter)]">
+                          <div className="flex items-center gap-1">
+                            <Clock size={9} />
+                            <span>{event.time}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MapPin size={9} />
+                            <span className="truncate">{event.location}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+            
+            <Link 
+              to="/news/events/all"
+              className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] inline-flex items-center gap-1 mt-5 transition-colors self-start"
+            >
+              <span>View All Events Directory</span>
+              <ChevronRight size={12} />
+            </Link>
+          </div>
+
+          {/* Latest News list card */}
+          <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 flex flex-col justify-between min-h-[380px] text-left w-full">
             <div>
               <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3 mb-4">
                 <Flame size={18} className="text-red-500 fill-current animate-pulse" />
@@ -335,12 +393,12 @@ export default function News() {
 
         </div>
 
-        {/* Lower Row: Filter & Latest Grid & Upcoming Events */}
+        {/* Lower Row: Filter & Latest Grid */}
         <div className="space-y-6 mt-12">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-200/80 pb-5">
             <div>
-              <h3 className="text-xl font-black text-[#072A6C]">Latest News</h3>
+              <h3 className="text-xl font-black text-[#072A6C]">News Directory</h3>
               <p className="text-[11px] text-gray-400 mt-1 font-light">Explore recent headlines, faculty achievements, and student innovations.</p>
             </div>
           </div>
@@ -364,105 +422,7 @@ export default function News() {
 
           {/* Latest News Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* News Cards 1 & 2 */}
-            {filteredNews.slice(0, 2).map((item) => (
-              <button
-                key={item.id}
-                onClick={() => navigate(`/news/${item.slug}`)}
-                className="bg-white rounded-[18px] border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group text-left w-full cursor-pointer outline-none"
-              >
-                <div>
-                  {/* Image Area */}
-                  <div className="h-44 w-full overflow-hidden relative">
-                    <img 
-                      src={item.image} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  {/* Content Details */}
-                  <div className="p-5 space-y-2">
-                    <div className="flex items-center gap-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
-                      <span className="text-[#D71920]">{item.category}</span>
-                      <span>•</span>
-                      <span>{item.date}</span>
-                    </div>
-                    <h4 className="text-[13px] font-[800] text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
-                      {item.title}
-                    </h4>
-                    <p className="text-[11.5px] text-gray-500 font-[var(--font-inter)] line-clamp-2 leading-relaxed font-light">
-                      {item.excerpt}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10px] font-bold text-[#072A6C] w-full">
-                  <span>Read More</span>
-                  <ArrowRight size={11} className="text-[#D71920] group-hover:translate-x-1 transition-transform" />
-                </div>
-              </button>
-            ))}
-
-            {/* Slot 3: Upcoming Events Card (stretching height naturally as row sibling) */}
-            <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 flex flex-col justify-between h-full group text-left w-full">
-              <div>
-                <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-[#072A6C]">
-                    <Calendar size={16} className="text-[#D71920]" />
-                    <h3 className="text-xs font-black uppercase tracking-wider">UPCOMING EVENTS</h3>
-                  </div>
-                  <Link to="/news/events/all" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
-                    View All
-                  </Link>
-                </div>
-                
-                <div className="space-y-4">
-                  {events.slice(0, 3).map((event) => {
-                    const dateParts = event.date.split(" ");
-                    const day = dateParts[0] || "17";
-                    const month = (dateParts[1] || "JUL").toUpperCase();
-                    return (
-                      <Link 
-                        key={event.id} 
-                        to={`/news/events/${event.slug}`}
-                        className="flex gap-3.5 items-start border-b border-gray-50 pb-3 last:border-b-0 last:pb-0 group text-left block"
-                      >
-                        <div className="flex flex-col items-center justify-center w-11 h-11 rounded-xl bg-red-50 text-[#D71920] shrink-0 border border-red-100/30 group-hover:bg-[#D71920] group-hover:text-white transition-colors">
-                          <span className="text-sm font-black leading-none">{day}</span>
-                          <span className="text-[8px] font-black tracking-wider uppercase leading-none mt-0.5">{month}</span>
-                        </div>
-                        <div className="space-y-0.5 min-w-0 flex-1">
-                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors truncate">
-                            {event.title}
-                          </h4>
-                          <div className="flex flex-col gap-0.5 text-[8.5px] text-gray-400 font-semibold font-[var(--font-inter)]">
-                            <div className="flex items-center gap-1">
-                              <Clock size={8} />
-                              <span>{event.time}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <MapPin size={8} />
-                              <span className="truncate">{event.location}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-              
-              <Link 
-                to="/news/events/all"
-                className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] inline-flex items-center gap-1 mt-4 transition-colors"
-              >
-                <span>View All Events Directory</span>
-                <ChevronRight size={11} />
-              </Link>
-            </div>
-
-            {/* Remaining News Cards (flowing into 3 columns below row 1) */}
-            {filteredNews.slice(2).map((item) => (
+            {filteredNews.map((item) => (
               <button
                 key={item.id}
                 onClick={() => navigate(`/news/${item.slug}`)}
