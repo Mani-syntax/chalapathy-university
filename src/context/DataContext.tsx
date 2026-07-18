@@ -288,12 +288,13 @@ const INITIAL_ABOUT_CONTENT: AboutUsContent = {
     ]
   },
   vision: {
-    visionText: "To emerge as a premier destination for value-based technical education and research, creating globally competent leaders who drive social and technological progress through innovation.",
+    visionText: "To become a globally respected university that empowers students through excellence in education, innovation, research, and ethical leadership.",
     missionList: [
-      "Impart high-quality, practical technical education through modern teaching methodologies.",
-      "Foster an environment of innovation, research, and entrepreneurship.",
-      "Nurture ethical values, professional discipline, and leadership traits in student cohorts.",
-      "Collaborate with leading global tech corporations to accelerate internship and final placement drives."
+      "To provide high-quality, industry-relevant education.",
+      "To foster innovation, critical thinking, and research culture.",
+      "To promote holistic student development and leadership.",
+      "To build strong academic and industry collaborations.",
+      "To contribute positively to society through knowledge and service."
     ],
     valuesList: [
       "Set academic benchmarks in global learning frameworks.",
