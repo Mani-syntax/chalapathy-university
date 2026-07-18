@@ -171,7 +171,7 @@ export default function Events() {
                   <div
                     key={idx}
                     onClick={() => navigate(`/news/events/${item.slug}`)}
-                    className="w-full md:w-[calc((100%-32px)/2)] lg:w-[calc((100%-64px)/3)] shrink-0 bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 flex flex-col h-full group text-left cursor-pointer outline-none pointer-events-auto"
+                    className="w-full md:w-[calc((100%-32px)/2)] lg:w-[calc((100%-64px)/3)] shrink-0 bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 flex flex-col group text-left cursor-pointer outline-none pointer-events-auto"
                   >
                     {/* Image */}
                     <div className="h-56 overflow-hidden bg-slate-900 relative w-full">

@@ -71,7 +71,7 @@ export default function AllEvents() {
                 <Link 
                   key={idx}
                   to={`/news/events/${item.slug}`}
-                  className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full text-left w-full cursor-pointer outline-none focus:ring-2 focus:ring-[#F97316]"
+                  className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col text-left w-full cursor-pointer outline-none focus:ring-2 focus:ring-[#F97316]"
                 >
                   <div className="h-56 overflow-hidden bg-slate-900 relative w-full">
                     <img
