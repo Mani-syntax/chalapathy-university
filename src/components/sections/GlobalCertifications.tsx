@@ -90,8 +90,8 @@ const certifications = [
     name: "Six Sigma & PMP",
     description: "Quality management, process improvement, and project management.",
     images: [
-      "https://logo.clearbit.com/sixsigma.com",
-      "https://logo.clearbit.com/pmi.org"
+      "/six-sigma.svg",
+      "/pmp.svg"
     ],
     color: "#8B5CF6"
   },
