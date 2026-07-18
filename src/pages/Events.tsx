@@ -1,10 +1,21 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Calendar, Clock, MapPin } from "lucide-react";
 import { useData } from "../context/DataContext";
 
 export default function Events() {
   const { events } = useData();
+  const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  
+  // Animation & Drag state refs
+  const xRef = useRef(0);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const currentX = useRef(0);
+  const isHovered = useRef(false);
+  const animationFrameId = useRef<number | null>(null);
 
   useEffect(() => {
     document.title = "Upcoming Events | City Chalapathi Institute of Technology";
@@ -35,8 +46,79 @@ export default function Events() {
     return false;
   };
 
+  // Prepare events list to make sure it's long enough to scroll infinitely
+  let eventSet = [...events];
+  if (events.length > 0) {
+    while (eventSet.length < 6) {
+      eventSet = [...eventSet, ...eventSet];
+    }
+  }
+  // Double it for seamless infinite loop wrapper
+  const displayEvents = [...eventSet, ...eventSet];
+
+  useEffect(() => {
+    if (events.length === 0 || !trackRef.current) return;
+
+    const track = trackRef.current;
+    
+    const updateAnimation = () => {
+      if (!isDragging.current && !isHovered.current) {
+        const totalWidth = track.scrollWidth;
+        const halfWidth = totalWidth / 2;
+        
+        // Speed: moves 1px per frame (approx. 25-30s for full set loop at 60fps)
+        xRef.current -= 1.0; 
+
+        // Reset if we have scrolled past one full set of cards
+        if (Math.abs(xRef.current) >= halfWidth) {
+          xRef.current = 0;
+        }
+
+        track.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
+      }
+      animationFrameId.current = requestAnimationFrame(updateAnimation);
+    };
+
+    animationFrameId.current = requestAnimationFrame(updateAnimation);
+
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, [events]);
+
+  // Touch / Mouse Drag handlers
+  const handleDragStart = (clientX: number) => {
+    isDragging.current = true;
+    startX.current = clientX - xRef.current;
+  };
+
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging.current || !trackRef.current) return;
+    
+    currentX.current = clientX - startX.current;
+    
+    const totalWidth = trackRef.current.scrollWidth;
+    const halfWidth = totalWidth / 2;
+
+    // Wrap around bounds during manual drag
+    if (currentX.current > 0) {
+      currentX.current = -halfWidth + (currentX.current % halfWidth);
+    } else if (Math.abs(currentX.current) >= halfWidth) {
+      currentX.current = currentX.current % halfWidth;
+    }
+
+    xRef.current = currentX.current;
+    trackRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
+  };
+
+  const handleDragEnd = () => {
+    isDragging.current = false;
+  };
+
   return (
-    <div className="min-h-screen bg-[#FDFBF7]/30 font-[var(--font-poppins)] pb-24 relative">
+    <div className="min-h-screen bg-[#FDFBF7]/30 font-[var(--font-poppins)] pb-24 relative select-none">
       {/* Header Banner */}
       <section className="bg-gradient-to-r from-[#072A6C] to-indigo-950 text-white py-16 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
@@ -51,8 +133,8 @@ export default function Events() {
         </div>
       </section>
 
-      {/* Events Grid Section */}
-      <section className="max-w-[1440px] mx-auto px-5 mt-16">
+      {/* Events Carousel Section */}
+      <section className="max-w-[1440px] mx-auto px-5 mt-16 overflow-hidden">
         <div className="mb-8 pb-5 border-b border-gray-200">
           <h2 className="text-2xl lg:text-3xl font-[800] text-[#072A6C]">
             Upcoming Events
@@ -65,60 +147,79 @@ export default function Events() {
             <p className="text-sm text-gray-400">No upcoming events listed at the moment.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((item, idx) => {
-              const closed = isRegistrationClosed(item.date);
-              return (
-                <Link
-                  key={idx}
-                  to={`/news/events/${item.slug}`}
-                  className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full group text-left cursor-pointer outline-none focus:ring-2 focus:ring-[#F97316]"
-                >
-                  {/* Image */}
-                  <div className="h-56 overflow-hidden bg-slate-900 relative w-full">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      draggable="false"
-                    />
-                    {closed && (
-                      <div className="absolute top-4 right-4 bg-gray-500/90 text-white text-[10px] font-bold px-3 py-1 rounded-full backdrop-blur-sm uppercase tracking-wider">
-                        Registration Closed
-                      </div>
-                    )}
-                    <span className="absolute bottom-4 left-4 text-[10px] font-black text-white bg-[#F97316] py-1 px-3 rounded-lg uppercase tracking-wider shadow-sm">
-                      {item.category}
-                    </span>
-                  </div>
-                  {/* Content Card Body */}
-                  <div className="p-6 flex-1 flex flex-col justify-between w-full">
-                    <div className="space-y-3">
-                      <div className="flex flex-col gap-1 text-[10px] text-gray-400 font-semibold uppercase">
-                        <div className="flex items-center gap-1">
-                          <Calendar size={11} className="text-[#F97316]" />
-                          <span>{item.date}</span>
+          <div 
+            ref={containerRef}
+            className="w-full overflow-hidden cursor-grab active:cursor-grabbing relative select-none"
+            onMouseEnter={() => { isHovered.current = true; }}
+            onMouseLeave={() => { isHovered.current = false; handleDragEnd(); }}
+            onMouseDown={(e) => handleDragStart(e.clientX)}
+            onMouseMove={(e) => handleDragMove(e.clientX)}
+            onMouseUp={handleDragEnd}
+            onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+            onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+            onTouchEnd={handleDragEnd}
+          >
+            {/* Carousel track */}
+            <div 
+              ref={trackRef}
+              className="flex gap-8 w-full transition-transform duration-75 ease-out will-change-transform"
+              style={{ transform: "translate3d(0px, 0, 0)" }}
+            >
+              {displayEvents.map((item, idx) => {
+                const closed = isRegistrationClosed(item.date);
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => navigate(`/news/events/${item.slug}`)}
+                    className="w-full md:w-[calc((100%-32px)/2)] lg:w-[calc((100%-64px)/3)] shrink-0 bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 flex flex-col h-full group text-left cursor-pointer outline-none pointer-events-auto"
+                  >
+                    {/* Image */}
+                    <div className="h-56 overflow-hidden bg-slate-900 relative w-full">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                        draggable="false"
+                        loading="lazy"
+                      />
+                      {closed && (
+                        <div className="absolute top-4 right-4 bg-gray-500/90 text-white text-[10px] font-bold px-3 py-1 rounded-full backdrop-blur-sm uppercase tracking-wider">
+                          Registration Closed
                         </div>
-                        <div className="flex items-center gap-1">
-                          <Clock size={11} className="text-[#F97316]" />
-                          <span>{item.time}</span>
-                        </div>
-                      </div>
-                      <h4 className="text-base font-extrabold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
-                        {item.title}
-                      </h4>
-                      <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed font-light font-[var(--font-inter)]">
-                        {item.bodyText}
-                      </p>
+                      )}
+                      <span className="absolute bottom-4 left-4 text-[10px] font-black text-white bg-[#F97316] py-1 px-3 rounded-lg uppercase tracking-wider shadow-sm">
+                        {item.category}
+                      </span>
                     </div>
-                    <div className="pt-4 border-t border-gray-50 mt-5 flex justify-between items-center text-xs font-bold text-[#072A6C]">
-                      <span>{closed ? "View Details" : "Register Now"}</span>
-                      <ArrowRight size={14} className={closed ? "text-gray-400" : "text-[#F97316]"} />
+                    {/* Content Card Body */}
+                    <div className="p-6 flex-1 flex flex-col justify-between w-full">
+                      <div className="space-y-3">
+                        <div className="flex flex-col gap-1 text-[10px] text-gray-400 font-semibold uppercase">
+                          <div className="flex items-center gap-1">
+                            <Calendar size={11} className="text-[#F97316]" />
+                            <span>{item.date}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Clock size={11} className="text-[#F97316]" />
+                            <span>{item.time}</span>
+                          </div>
+                        </div>
+                        <h4 className="text-base font-extrabold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                          {item.title}
+                        </h4>
+                        <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed font-light font-[var(--font-inter)]">
+                          {item.bodyText}
+                        </p>
+                      </div>
+                      <div className="pt-4 border-t border-gray-50 mt-5 flex justify-between items-center text-xs font-bold text-[#072A6C] group-hover:text-[#D71920] transition-colors">
+                        <span>{closed ? "View Details" : "Register Now"}</span>
+                        <ArrowRight size={14} className={closed ? "text-gray-400" : "text-[#F97316] group-hover:translate-x-1 transition-transform"} />
+                      </div>
                     </div>
                   </div>
-                </Link>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         )}
 
