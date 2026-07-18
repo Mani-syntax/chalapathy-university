@@ -417,14 +417,14 @@ function AppContent() {
       {/* ======================================================== */}
       {/* 🌟 SLIMMED NON-OVERLAPPING STACKED RIGHT-SIDE TABS       */}
       {/* ======================================================== */}
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3 items-end font-[var(--font-poppins)]">
+      <div className="fixed right-0 top-[40%] -translate-y-1/2 z-40 flex flex-col gap-3 items-end font-[var(--font-poppins)]">
         {/* Horizontal Announcements Tab (Gold/Dark Text) */}
         <button
           onClick={() => {
             setShowAnnouncementsDrawer(true);
             setHasViewedAnnouncements(true);
           }}
-          className="group flex items-center bg-[#D4AF37] hover:bg-[#c29e28] text-gray-900 rounded-l-xl shadow-md transition-all duration-300 hover:-translate-x-1 border border-r-0 border-white/20 outline-none overflow-hidden h-[48px]"
+          className="group flex items-center bg-[#D71920] hover:bg-[#b71217] text-white rounded-l-xl shadow-md transition-all duration-300 hover:-translate-x-1 border border-r-0 border-white/20 outline-none overflow-hidden h-[48px]"
         >
           <div className="relative flex items-center justify-center w-[48px] h-full shrink-0">
             <Megaphone className="w-5 h-5 transition-transform group-hover:scale-110" />
