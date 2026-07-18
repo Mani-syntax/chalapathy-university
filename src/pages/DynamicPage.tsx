@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe, QrCode, Award, ChevronLeft } from "lucide-react";
 import { UNDERGRADUATE_GROUPS, MEGA_MENU_PROGRAMS } from "../components/layout/Header";
 import { useData } from "../context/DataContext";
+import GlobalCertifications from "../components/sections/GlobalCertifications";
 
 
 const getProgramTimeline = (title: string) => {
@@ -559,6 +560,12 @@ const getPageContent = (path: string, programs: any[]) => {
                 })}
               </div>
             </div>
+
+            {/* Global Certifications Section (Full Width Breakout) */}
+            <div className="mt-20 w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw]">
+              <GlobalCertifications />
+            </div>
+
           </div>
         )
       };
