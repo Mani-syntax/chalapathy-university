@@ -79,6 +79,24 @@ export default function News() {
   const [showShare, setShowShare] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [activeShareItem, setActiveShareItem] = useState<{ type: "news" | "event"; id: number } | null>(null);
+  
+  // Upcoming Events drawer state
+  const [showEventsDrawer, setShowEventsDrawer] = useState(false);
+
+  // Close drawer on escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowEventsDrawer(false);
+      }
+    };
+    if (showEventsDrawer) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showEventsDrawer]);
 
   // Carousel state for the main Featured News
   const [activeSlide, setActiveSlide] = useState(0);
@@ -333,13 +351,19 @@ export default function News() {
           
           {/* Header */}
           <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-6">
-            <div className="flex items-center gap-2 text-[#072A6C]">
+            <button 
+              onClick={() => setShowEventsDrawer(true)}
+              className="flex items-center gap-2 text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none text-left"
+            >
               <Calendar size={16} className="text-[#D71920]" />
               <h3 className="text-xs font-black uppercase tracking-wider">Upcoming Events</h3>
-            </div>
-            <Link to="/news/events/all" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+            </button>
+            <button 
+              onClick={() => setShowEventsDrawer(true)}
+              className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none"
+            >
               View All
-            </Link>
+            </button>
           </div>
 
           {/* Grid layout containing 3 events */}
@@ -564,6 +588,104 @@ export default function News() {
           <Check size={14} className="text-green-400" />
           <span>Link copied successfully!</span>
         </div>
+      )}
+
+      {/* 🌟 Upcoming Events Sliding Drawer (Right Side) */}
+      {showEventsDrawer && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/45 backdrop-blur-sm z-50 transition-opacity duration-300 pointer-events-auto cursor-pointer"
+            onClick={() => setShowEventsDrawer(false)}
+          />
+          
+          {/* Drawer Track Container */}
+          <div className="fixed inset-0 z-50 flex justify-end pointer-events-none">
+            <div 
+              className="bg-[#F7F8FC] w-full max-w-[420px] h-full shadow-2xl relative flex flex-col text-left rounded-l-2xl transform transition-transform duration-300 animate-slide-in-right pointer-events-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="bg-[#072A6C] text-white p-5 flex items-center justify-between shadow-sm">
+                <div className="flex items-center gap-2">
+                  <Calendar size={18} className="text-[#F97316]" />
+                  <h3 className="font-extrabold text-sm tracking-wide">Upcoming Events</h3>
+                </div>
+                <button 
+                  onClick={() => setShowEventsDrawer(false)}
+                  className="text-white/80 hover:text-white transition-colors cursor-pointer outline-none"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Scrollable list of events */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+                {events.map((item, idx) => {
+                  return (
+                    <div 
+                      key={item.id}
+                      onClick={() => {
+                        setShowEventsDrawer(false);
+                        navigate(`/news/events/${item.slug}`);
+                      }}
+                      className="bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow transition-all flex flex-col gap-3.5 cursor-pointer text-left group"
+                    >
+                      {/* Badge & Image Row */}
+                      <div className="flex justify-between items-start gap-3">
+                        <span className="bg-[#F97316]/10 text-[#F97316] text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded">
+                          {item.category}
+                        </span>
+                        
+                        <div className="w-16 h-12 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
+                          <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        </div>
+                      </div>
+
+                      {/* Event Title */}
+                      <h4 className="text-xs font-bold text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-snug line-clamp-2">
+                        {item.title}
+                      </h4>
+
+                      {/* Info fields */}
+                      <div className="space-y-1.5 border-t border-gray-50 pt-3">
+                        <div className="flex items-center gap-2 text-[9px] text-gray-500 font-semibold font-[var(--font-inter)]">
+                          <Calendar size={10} className="text-[#D71920] shrink-0" />
+                          <span>{item.date}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[9px] text-gray-500 font-semibold font-[var(--font-inter)]">
+                          <Clock size={10} className="text-[#D71920] shrink-0" />
+                          <span>{item.time}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[9px] text-gray-500 font-semibold font-[var(--font-inter)]">
+                          <MapPin size={10} className="text-[#D71920] shrink-0" />
+                          <span className="truncate">{item.location}</span>
+                        </div>
+                      </div>
+
+                      {/* Excerpt */}
+                      <p className="text-[10.5px] text-gray-400 font-light leading-relaxed line-clamp-3">
+                        {item.bodyText}
+                      </p>
+
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Footer */}
+              <div className="p-4 border-t border-gray-200/60 bg-white flex justify-end">
+                <button 
+                  onClick={() => setShowEventsDrawer(false)}
+                  className="h-9 px-5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </>
       )}
 
     </div>
