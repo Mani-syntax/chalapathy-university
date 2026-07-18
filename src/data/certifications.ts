@@ -116,9 +116,7 @@ export const certifications: Certification[] = [
     name: "Digital Marketing",
     description: "SEO, SEM, social media marketing, analytics, and branding (Google, HubSpot & Meta).",
     images: [
-      "https://logo.clearbit.com/google.com",
-      "https://logo.clearbit.com/hubspot.com",
-      "https://logo.clearbit.com/meta.com"
+      "/digital-marketing.png"
     ],
     color: "#0668E1"
   }
