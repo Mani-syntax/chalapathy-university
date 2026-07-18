@@ -98,11 +98,11 @@ export default function GlobalCertifications() {
       ref={containerRef}
       className="relative w-full overflow-hidden font-sans bg-white"
     >
-      {/* Container with tight top padding to fix the gap issue */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pt-8 pb-24 relative z-10">
+      {/* Container with balanced spacing */}
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pt-12 pb-24 relative z-10">
         
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row gap-12 items-end mb-16">
+        {/* Header Section inside a red outline box */}
+        <div className="border border-red-500 rounded-2xl p-8 md:p-12 mb-12 bg-white/40 shadow-sm flex flex-col md:flex-row gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -141,22 +141,23 @@ export default function GlobalCertifications() {
             return (
               <motion.div
                 key={cert.name}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-20px" }}
-                transition={{ duration: 0.4, delay: (index % 4) * 0.1 }}
-                className="group flex flex-col bg-white border border-gray-200 rounded-[4px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300 relative pt-3 overflow-hidden"
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: (index % 4) * 0.1 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="group flex flex-col bg-white border border-gray-200 rounded-[4px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.15)] transition-all duration-400 relative pt-3 overflow-hidden cursor-pointer"
               >
-                {/* Top Folder Tab Decoration */}
-                <div className="absolute top-0 left-0 right-0 h-3 bg-[#7b8c9e]/80"></div>
+                {/* Top Folder Tab Decoration - expands slightly on hover */}
+                <div className="absolute top-0 left-0 right-0 h-3 bg-[#7b8c9e]/80 group-hover:h-4 transition-all duration-300"></div>
                 
                 {/* Circular Icon Badge */}
-                <div className="absolute top-1 right-4 w-10 h-10 bg-[#7b8c9e] rounded-full flex items-center justify-center text-white shadow-sm z-10">
+                <div className="absolute top-1 right-4 w-10 h-10 bg-[#7b8c9e] group-hover:bg-[#0FAFFF] group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 rounded-full flex items-center justify-center text-white shadow-sm z-10">
                   {cert.iconUrl ? (
                     <img 
                       src={cert.iconUrl} 
                       alt={cert.name} 
-                      className="w-5 h-5 object-contain"
+                      className="w-5 h-5 object-contain transition-transform duration-500"
                     />
                   ) : (
                     cert.Icon && <cert.Icon className="w-5 h-5 text-white" />
@@ -178,11 +179,11 @@ export default function GlobalCertifications() {
                     {cert.description.length > 80 ? cert.description.slice(0, 80) + '...' : cert.description}
                   </p>
                   
-                  <div className="text-sm text-[#006A80] font-medium mb-6 hover:underline cursor-pointer">
-                    Read more
+                  <div className="text-sm text-[#006A80] font-medium mb-6 group-hover:text-red-500 transition-colors flex items-center gap-1">
+                    Read more <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                   
-                  <button className="w-full py-3 bg-[#425974] hover:bg-[#203348] text-white text-[13px] font-semibold rounded-[4px] transition-colors mt-auto">
+                  <button className="w-full py-3 bg-[#425974] group-hover:bg-[#072A6C] text-white text-[13px] font-semibold rounded-[4px] transition-colors duration-300 mt-auto transform group-hover:-translate-y-1">
                     Start certification
                   </button>
                 </div>
