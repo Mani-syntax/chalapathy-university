@@ -55,7 +55,7 @@ const certifications = [
   {
     name: "NPTEL",
     description: "IIT/IISc-certified courses in engineering, technology, sciences, and management.",
-    images: ["https://logo.clearbit.com/nptel.ac.in"],
+    images: ["/nptel-logo.png"],
     color: "#072A6C"
   },
   {
@@ -63,7 +63,7 @@ const certifications = [
     description: "Cloud computing, AI, DevOps, cybersecurity, and data engineering.",
     images: [
       "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_icon.svg",
       "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg"
     ],
     color: "#FF9900"
