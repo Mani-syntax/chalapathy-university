@@ -196,7 +196,7 @@ const SCHOOLS_DATA: Record<string, {
       "Intellectual Property Rights"
     ],
     features: [
-      "State-of-the-art Moot Court Hall with regular inter-college events.",
+      "State-of-the-art Moot Court Hall with regular inter-university events.",
       "Mandatory summer internships with leading law firms, NGO councils, and advocates.",
       "Free Legal Aid Clinic offering community grievance counseling."
     ],

@@ -306,9 +306,9 @@ const getPageContent = (path: string, programs: any[]) => {
 
   // About Pages
   if (cleanPath.startsWith("/about")) {
-    if (cleanPath.includes("history")) {
+    if (cleanPath.includes("genesis")) {
       return {
-        title: "Our History & Heritage",
+        title: "Our Genesis & Heritage",
         category: "About Us",
         desc: "Established with a vision to nurture innovators, City Chalapathi Institute of Technology has a rich heritage of educational brilliance dating back over 25 years.",
         body: <HistoryView />
@@ -341,14 +341,14 @@ const getPageContent = (path: string, programs: any[]) => {
     return {
       title: "About Our Institution",
       category: "About Us",
-      desc: "City Chalapathi Institute of Technology is a leading autonomous engineering college dedicated to empowering tomorrow's innovators.",
+      desc: "City Chalapathi Institute of Technology is a leading autonomous engineering university dedicated to empowering tomorrow's innovators.",
       body: (
         <div className="space-y-6">
           <div className="space-y-6 text-gray-600 text-sm">
             <p className="font-light leading-relaxed">We believe in imparting hands-on, practical knowledge that equips our students to address real-world challenges. Explore our links to learn more about our vision, leadership, and glorious heritage.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
-              <Link to="/about/history" className="bg-white border border-gray-200/80 rounded-2xl p-5 text-center hover:border-[#072A6C] transition-all shadow-sm block">
-                <span className="block font-black text-[#072A6C] text-xs uppercase tracking-wider">Heritage & Milestones</span>
+              <Link to="/about/genesis" className="bg-white border border-gray-200/80 rounded-2xl p-5 text-center hover:border-[#072A6C] transition-all shadow-sm block">
+                <span className="block font-black text-[#072A6C] text-xs uppercase tracking-wider">Genesis & Heritage</span>
               </Link>
               <Link to="/about/vision" className="bg-white border border-gray-200/80 rounded-2xl p-5 text-center hover:border-[#072A6C] transition-all shadow-sm block">
                 <span className="block font-black text-[#072A6C] text-xs uppercase tracking-wider">Vision & Mission</span>
@@ -1009,7 +1009,7 @@ const getPageContent = (path: string, programs: any[]) => {
         desc: "Nurturing fitness, teamwork, and athletic excellence through state-of-the-art sports facilities.",
         body: (
           <div className="space-y-6 text-gray-600 text-sm mt-4">
-            <p>We encourage student fitness with indoor and outdoor complexes, expert coaching staff, and regular inter-college tournaments.</p>
+            <p>We encourage student fitness with indoor and outdoor complexes, expert coaching staff, and regular inter-university tournaments.</p>
             <div className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
               <h4 className="font-extrabold text-[#072A6C] mb-2">Our Sports Facilities Include:</h4>
               <ul className="list-disc list-inside space-y-2 text-xs text-gray-500">
@@ -1235,7 +1235,7 @@ const getPageContent = (path: string, programs: any[]) => {
             <h4 className="font-extrabold text-[#072A6C] uppercase">About</h4>
             <ul className="space-y-1 text-gray-500 font-medium">
               <li><Link to="/about" className="hover:text-[#D71920]">About Us</Link></li>
-              <li><Link to="/about/history" className="hover:text-[#D71920]">History & Heritage</Link></li>
+              <li><Link to="/about/genesis" className="hover:text-[#D71920]">Genesis & Heritage</Link></li>
               <li><Link to="/about/vision" className="hover:text-[#D71920]">Vision & Mission</Link></li>
               <li><Link to="/about/leadership" className="hover:text-[#D71920]">University Leadership</Link></li>
             </ul>
@@ -1278,35 +1278,35 @@ function AcademicCalendar() {
 
   const years = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23"];
 
-  const collegesData: Record<string, Record<string, { label: string; key: string }[]>> = {
+  const universitysData: Record<string, Record<string, { label: string; key: string }[]>> = {
     "2026-27": {
-      "College of Engineering": [
+      "University of Engineering": [
         { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
         { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
         { label: "B.Tech. Lateral Entry (UG Engineering)", key: "btech-lateral" },
         { label: "M.Tech. I & II Year Programs", key: "mtech" }
       ],
-      "College of Management": [
+      "University of Management": [
         { label: "MBA I & II Year Programs", key: "mba" },
         { label: "MCA I & II Year Programs", key: "mca" },
         { label: "BBA Undergraduate Programs", key: "bba" }
       ],
-      "College of Pharmacy": [
+      "University of Pharmacy": [
         { label: "B.Pharm I Year Coursework", key: "bpharm-1" },
         { label: "B.Pharm II, III & IV Year", key: "bpharm-2-3-4" },
         { label: "M.Pharm & Pharm.D Programs", key: "mpharm" }
       ]
     },
     "2025-26": {
-      "College of Engineering": [
+      "University of Engineering": [
         { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
         { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
         { label: "M.Tech. Programs", key: "mtech" }
       ],
-      "College of Management": [
+      "University of Management": [
         { label: "MBA & MCA Programs", key: "mgmt" }
       ],
-      "College of Pharmacy": [
+      "University of Pharmacy": [
         { label: "B.Pharm Programs", key: "bpharm" }
       ]
     }
@@ -1314,16 +1314,16 @@ function AcademicCalendar() {
 
   // Pre-fill previous years dynamically so we have 5 years covered
   years.forEach(y => {
-    if (!collegesData[y]) {
-      collegesData[y] = {
-        "College of Engineering": [
+    if (!universitysData[y]) {
+      universitysData[y] = {
+        "University of Engineering": [
           { label: `B.Tech. Programs (${y})`, key: `btech-${y}` },
           { label: `M.Tech. Programs (${y})`, key: `mtech-${y}` }
         ],
-        "College of Management": [
+        "University of Management": [
           { label: `MBA & MCA Programs (${y})`, key: `mgmt-${y}` }
         ],
-        "College of Pharmacy": [
+        "University of Pharmacy": [
           { label: `B.Pharm & M.Pharm (${y})`, key: `pharm-${y}` }
         ]
       };
@@ -1535,12 +1535,12 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
         ))}
       </div>
 
-      {/* College Categories & Course Lists */}
+      {/* University Categories & Course Lists */}
       <div className="space-y-6">
-        {Object.entries(collegesData[selectedYear] || {}).map(([collegeName, courses]) => (
-          <div key={collegeName} className="bg-white border border-gray-200/60 rounded-[16px] p-5 shadow-sm">
+        {Object.entries(universitysData[selectedYear] || {}).map(([universityName, courses]) => (
+          <div key={universityName} className="bg-white border border-gray-200/60 rounded-[16px] p-5 shadow-sm">
             <h4 className="text-xs font-extrabold text-[#072A6C] mb-4 border-l-4 border-[#D71920] pl-3 tracking-wide uppercase">
-              {collegeName}
+              {universityName}
             </h4>
             <div className="flex flex-col gap-2">
               {courses.map((course) => {
@@ -1623,7 +1623,7 @@ function AcademicFlexibilities() {
       title: "Specialization",
       key: "specialization",
       desc: "Deepens focus in high-demand fields. CSE students can choose targeted specializations (like Cyber Security, Data Science, AI & ML) by taking a set of matching elective courses and lab projects starting in their third year.",
-      highlights: ["Focused tracks within parent branch", "Industry-aligned specific curricula", "Prepares for specialized roles directly out of college"]
+      highlights: ["Focused tracks within parent branch", "Industry-aligned specific curricula", "Prepares for specialized roles directly out of university"]
     },
     {
       title: "Summer Term Registration",
@@ -2950,7 +2950,7 @@ export default function DynamicPage() {
                 <div>
                   <h3 className="font-extrabold text-sm mb-3 uppercase tracking-wider text-left">Quick Navigation</h3>
                   <ul className="grid grid-cols-2 gap-2.5 text-xs text-blue-200 text-left">
-                    <li><Link to="/about/history" className="hover:text-white transition-colors flex items-center justify-between">About Institution <ArrowRight size={10} /></Link></li>
+                    <li><Link to="/about/genesis" className="hover:text-white transition-colors flex items-center justify-between">About Institution <ArrowRight size={10} /></Link></li>
                     <li><Link to="/academics/programmes" className="hover:text-white transition-colors flex items-center justify-between">Academic Programs <ArrowRight size={10} /></Link></li>
                     <li><Link to="/admissions/fees" className="hover:text-white transition-colors flex items-center justify-between">Enrollment & Fees <ArrowRight size={10} /></Link></li>
                     <li><Link to="/placements" className="hover:text-white transition-colors flex items-center justify-between">Placements & Statistics <ArrowRight size={10} /></Link></li>

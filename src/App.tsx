@@ -333,7 +333,7 @@ function AppContent() {
             
             {/* About Routes */}
             <Route path="/about" element={<DynamicPage />} />
-            <Route path="/about/history" element={<DynamicPage />} />
+            <Route path="/about/genesis" element={<DynamicPage />} />
             <Route path="/about/vision" element={<DynamicPage />} />
             <Route path="/about/leadership" element={<DynamicPage />} />
             <Route path="/about/advantage" element={<DynamicPage />} />

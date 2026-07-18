@@ -206,7 +206,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   }, [location.pathname]);
 
   const aboutItems = [
-    { label: "History", to: "/about/history" },
+    { label: "Genesis", to: "/about/genesis" },
     { label: "Vision & Mission", to: "/about/vision" },
     { label: "Leadership", to: "/about/leadership" },
     { label: "Chalapathi Advantage", to: "/about/advantage" }
