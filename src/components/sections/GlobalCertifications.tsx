@@ -2,42 +2,42 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Award, Briefcase, GraduationCap, Zap, ChevronRight, ShieldCheck, Cpu, Bot, LineChart, Globe } from "lucide-react";
 
-// Content Data mapped from user request
+// Content Data mapped from user request with updated Wordmark Logos
 const certifications = [
   {
     name: "SAP",
     description: "Enterprise Resource Planning (ERP), business processes, supply chain, finance, and analytics.",
-    iconUrl: "https://cdn.simpleicons.org/sap/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/5/59/SAP_2011_logo.svg",
     color: "#0FAFFF"
   },
   {
     name: "ServiceNow",
     description: "AI-powered workflow automation, IT service management, and digital operations.",
-    iconUrl: "https://cdn.simpleicons.org/servicenow/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/9/9a/ServiceNow_logo.svg",
     color: "#81B5A1"
   },
   {
     name: "Juniper Networks",
     description: "AI-native networking, cloud infrastructure, and cybersecurity.",
-    iconUrl: "https://cdn.simpleicons.org/junipernetworks/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/3/36/Juniper_Networks_logo.svg",
     color: "#78A22F"
   },
   {
     name: "Salesforce",
     description: "Customer Relationship Management (CRM), sales automation, and business analytics.",
-    iconUrl: "https://cdn.simpleicons.org/salesforce/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",
     color: "#00A1E0"
   },
   {
     name: "Zscaler",
     description: "Zero Trust Security, SASE, and cloud cybersecurity.",
-    iconUrl: "https://cdn.simpleicons.org/zscaler/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/0/01/Zscaler_logo.svg",
     color: "#0054A6"
   },
   {
     name: "Microchip",
     description: "Embedded systems, IoT, microcontrollers, and Industry 4.0.",
-    iconUrl: "https://cdn.simpleicons.org/microchip/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/4/43/Microchip_Technology_logo.svg",
     color: "#E42528"
   },
   {
@@ -49,7 +49,7 @@ const certifications = [
   {
     name: "CodeChef",
     description: "Competitive programming, coding, and algorithmic problem-solving.",
-    iconUrl: "https://cdn.simpleicons.org/codechef/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/7/7b/Codechef_logo.svg/1200px-Codechef_logo.svg.png",
     color: "#5B4638"
   },
   {
@@ -61,19 +61,19 @@ const certifications = [
   {
     name: "AWS, Azure & Google Cloud",
     description: "Cloud computing, AI, DevOps, cybersecurity, and data engineering.",
-    iconUrl: "https://cdn.simpleicons.org/amazonwebservices/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
     color: "#FF9900"
   },
   {
     name: "Coursera & edX",
     description: "Professional certifications from leading global universities and industry partners.",
-    iconUrl: "https://cdn.simpleicons.org/coursera/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Coursera_logo.svg",
     color: "#0056D2"
   },
   {
     name: "Oracle & Java",
     description: "Database management, Java programming, and enterprise application development.",
-    iconUrl: "https://cdn.simpleicons.org/oracle/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
     color: "#F80000"
   },
   {
@@ -85,7 +85,7 @@ const certifications = [
   {
     name: "Digital Marketing",
     description: "SEO, SEM, social media marketing, analytics, and branding (Google, HubSpot & Meta).",
-    iconUrl: "https://cdn.simpleicons.org/meta/ffffff",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Logo_Google_2013_Official.svg",
     color: "#0668E1"
   }
 ];
@@ -151,21 +151,21 @@ export default function GlobalCertifications() {
                 {/* Top Folder Tab Decoration - expands slightly on hover */}
                 <div className="absolute top-0 left-0 right-0 h-3 bg-[#7b8c9e]/80 group-hover:h-4 transition-all duration-300"></div>
                 
-                {/* Circular Icon Badge */}
-                <div className="absolute top-1 right-4 w-10 h-10 bg-[#7b8c9e] group-hover:bg-[#0FAFFF] group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 rounded-full flex items-center justify-center text-white shadow-sm z-10">
+                {/* Rectangular Logo Badge (Expanded) */}
+                <div className="absolute top-4 right-4 h-12 min-w-[80px] max-w-[120px] bg-white rounded-md flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.1)] px-3 py-2 z-10 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 border border-gray-100">
                   {cert.iconUrl ? (
                     <img 
                       src={cert.iconUrl} 
                       alt={cert.name} 
-                      className="w-5 h-5 object-contain transition-transform duration-500"
+                      className="h-full w-auto object-contain transition-transform duration-500"
                     />
                   ) : (
-                    cert.Icon && <cert.Icon className="w-5 h-5 text-white" />
+                    cert.Icon && <cert.Icon className="w-7 h-7 text-[#7b8c9e] group-hover:text-[#0FAFFF] transition-colors duration-300" />
                   )}
                 </div>
 
-                <div className="p-6 pt-10 flex flex-col flex-grow relative z-0">
-                  <h3 className="text-xl font-bold text-[#203348] mb-6 pr-6 leading-tight min-h-[56px]">
+                <div className="p-6 pt-16 flex flex-col flex-grow relative z-0">
+                  <h3 className="text-xl font-bold text-[#203348] mb-6 pr-2 leading-tight min-h-[56px]">
                     {cert.name}
                   </h3>
                   
