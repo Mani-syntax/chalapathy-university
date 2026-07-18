@@ -10,6 +10,7 @@ import Events from "./pages/Events";
 import News from "./pages/News";
 import NewsDetails from "./pages/NewsDetails";
 import EventDetails from "./pages/EventDetails";
+import AnnouncementDetails from "./pages/AnnouncementDetails";
 import AllEvents from "./pages/AllEvents";
 import AdminPortal from "./pages/AdminPortal";
 import { DataProvider, useData } from "./context/DataContext";
@@ -399,6 +400,7 @@ function AppContent() {
             <Route path="/news/events" element={<Events />} />
             <Route path="/news/events/:slug" element={<EventDetails />} />
             <Route path="/news/events/all" element={<AllEvents />} />
+            <Route path="/announcements/:slug" element={<AnnouncementDetails />} />
 
             {/* Contact Route */}
             <Route path="/contact" element={<DynamicPage />} />
@@ -458,8 +460,14 @@ function AppContent() {
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {announcements.map((item, idx) => {
                 const Icon = IconMap[item.iconName] || Megaphone;
+                const slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
                 return (
-                  <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow transition-shadow flex gap-3.5 items-start">
+                  <Link 
+                    key={idx} 
+                    to={`/announcements/${slug}`}
+                    onClick={() => setShowAnnouncementsDrawer(false)}
+                    className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow hover:border-gray-200 transition-all flex gap-3.5 items-start cursor-pointer text-left block"
+                  >
                     <div className="w-9 h-9 rounded-full bg-[#072A6C]/5 flex items-center justify-center shrink-0">
                       <Icon size={16} className="text-[#072A6C]" />
                     </div>
@@ -475,7 +483,7 @@ function AppContent() {
                         {item.desc}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

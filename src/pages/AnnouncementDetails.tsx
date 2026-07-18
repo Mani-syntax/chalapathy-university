@@ -1,7 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
-import { Calendar, Clock, MapPin, Share2, ArrowLeft, CheckCircle, X, Link2, Check } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Share2, 
+  X, 
+  Link2, 
+  Check,
+  Megaphone,
+  GraduationCap,
+  Calendar,
+  Award,
+  BookOpen,
+  FileText
+} from "lucide-react";
+
+const IconMap: Record<string, any> = {
+  GraduationCap,
+  Calendar,
+  FileText,
+  Award,
+  BookOpen,
+  Megaphone
+};
 
 // Social Share Icons Helper Components (Official SVG path logos)
 const WhatsAppIcon = () => (
@@ -52,223 +73,46 @@ const ThreadsIcon = () => (
   </svg>
 );
 
-// Image sets mapping for each Event article slug
-const EVENT_IMAGES_MAP: Record<string, string[]> = {
-  "air-taxi-demonstration-aviation-forum": [
-    "/prog_engineering.png",
-    "/prog_computer.png",
-    "/prog_diploma.png",
-    "/prog_mtech.png"
-  ],
-  "smart-india-hackathon-2026": [
-    "/prog_computer.png",
-    "/prog_engineering.png",
-    "/prog_management.png",
-    "/prog_pharmacy.png"
-  ],
-  "green-chemistry-conference-2026": [
-    "/prog_pharmacy.png",
-    "/prog_diploma.png",
-    "/prog_computer.png",
-    "/prog_engineering.png"
-  ],
-  "placements-bootcamp-2026": [
-    "/prog_management.png",
-    "/prog_computer.png",
-    "/prog_engineering.png",
-    "/prog_pharmacy.png"
-  ],
-  "national-sports-meet-2026": [
-    "/prog_diploma.png",
-    "/prog_pharmacy.png",
-    "/prog_computer.png",
-    "/prog_engineering.png"
-  ]
+const getAnnouncementSlug = (title: string) => {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 };
 
-function ImageSlider({ images }: { images: string[] }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    if (isHovered || images.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isHovered, images.length]);
-
-  if (!images || images.length === 0) return null;
-
-  return (
-    <div 
-      className="relative w-full h-[300px] md:h-[450px] rounded-[18px] overflow-hidden shadow-sm select-none bg-gray-100"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Slides */}
-      <div className="w-full h-full flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-        {images.map((img, idx) => (
-          <img 
-            key={idx}
-            src={img} 
-            alt={`Slide ${idx + 1}`} 
-            className="w-full h-full object-cover shrink-0"
-            loading="lazy"
-          />
-        ))}
-      </div>
-
-      {/* Navigation Arrows */}
-      {images.length > 1 && (
-        <>
-          <button 
-            onClick={() => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95 z-10 text-xs font-bold"
-            aria-label="Previous image"
-          >
-            ◀
-          </button>
-          <button 
-            onClick={() => setCurrentIndex((prev) => (prev + 1) % images.length)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95 z-10 text-xs font-bold"
-            aria-label="Next image"
-          >
-            ▶
-          </button>
-        </>
-      )}
-
-      {/* Navigation Dots */}
-      {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-          {images.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? "bg-[#D71920] w-6" : "bg-white/60 hover:bg-white"
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default function EventDetails() {
+export default function AnnouncementDetails() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { events } = useData();
-  
+  const { announcements } = useData();
+
   // Share & Toast states
   const [showShare, setShowShare] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  
-  // Registration Form States
-  const [showRegForm, setShowRegForm] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", rollNo: "" });
-  const [regSuccess, setRegSuccess] = useState(false);
 
-  // Find current event
-  const currentIdx = events.findIndex((item) => item.slug === slug);
-  const eventItem = currentIdx !== -1 ? events[currentIdx] : null;
+  // Find the current announcement
+  const article = announcements.find((item) => getAnnouncementSlug(item.title) === slug);
 
-  // Dynamically configure meta tags for rich previews
   useEffect(() => {
-    if (!eventItem) return;
-    document.title = `${eventItem.title} | Events | Chalapathi University`;
-    window.scrollTo(0, 0);
-
-    const title = `${eventItem.title} | Chalapathi University`;
-    const desc = eventItem.bodyText ? eventItem.bodyText.substring(0, 150) : "";
-    const imgUrl = window.location.origin + eventItem.image;
-    const pageUrl = window.location.href;
-
-    // Update canonical link
-    let canonical = document.querySelector("link[rel='canonical']");
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
+    if (article) {
+      document.title = `${article.title} | Announcement | Chalapathi University`;
+      window.scrollTo(0, 0);
     }
-    canonical.setAttribute("href", pageUrl);
+  }, [article]);
 
-    // Meta helper
-    const updateMeta = (prop: string, val: string, isName = false) => {
-      const attr = isName ? "name" : "property";
-      let el = document.querySelector(`meta[${attr}='${prop}']`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attr, prop);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", val);
-    };
-
-    updateMeta("og:title", title);
-    updateMeta("og:description", desc);
-    updateMeta("og:image", imgUrl);
-    updateMeta("og:url", pageUrl);
-    updateMeta("og:type", "article");
-    updateMeta("og:site_name", "Chalapathi University");
-    updateMeta("twitter:card", "summary_large_image", true);
-    updateMeta("twitter:title", title, true);
-    updateMeta("twitter:description", desc, true);
-    updateMeta("twitter:image", imgUrl, true);
-  }, [eventItem]);
-
-  if (!eventItem) {
+  if (!article) {
     return (
       <div className="min-h-screen bg-[#F7F9FC] flex flex-col items-center justify-center p-6 text-center font-[var(--font-poppins)]">
-        <h2 className="text-2xl font-black text-[#072A6C] mb-2">Event Not Found</h2>
-        <p className="text-sm text-gray-500 mb-6 font-[var(--font-inter)]">The event you are looking for does not exist or has been removed.</p>
-        <Link to="/news/events/all" className="px-5 py-2.5 bg-[#D71920] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
-          Back to Event Directory
+        <h2 className="text-2xl font-black text-[#072A6C] mb-2">Announcement Not Found</h2>
+        <p className="text-sm text-gray-500 mb-6 font-[var(--font-inter)]">The announcement you are looking for does not exist or has been removed.</p>
+        <Link to="/" className="px-5 py-2.5 bg-[#D71920] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
+          Go to Home Page
         </Link>
       </div>
     );
   }
 
-  // Registration date cutoff check
-  const isRegistrationClosed = (eventDateStr: string) => {
-    try {
-      const parts = eventDateStr.split(" ");
-      if (parts.length >= 3) {
-        const day = parseInt(parts[0], 10);
-        const monthStr = parts[1];
-        const year = parseInt(parts[2], 10);
-        const months: Record<string, number> = {
-          Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-          Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
-        };
-        const month = months[monthStr.substring(0, 3)] ?? 0;
-        const eventDate = new Date(year, month, day);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        return today > eventDate;
-      }
-    } catch (e) {
-      return false;
-    }
-    return false;
-  };
-
-  const closed = isRegistrationClosed(eventItem.date);
-
-  const handleRegisterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone) return;
-    setRegSuccess(true);
-  };
-
   // Social Sharing Links Creator
   const getShareLinks = () => {
     const pageUrl = window.location.href;
-    const title = eventItem.title;
-    const summary = eventItem.bodyText ? eventItem.bodyText.substring(0, 150) : "";
+    const title = article.title;
+    const summary = article.desc || "";
 
     const encUrl = encodeURIComponent(pageUrl);
     const encTitle = encodeURIComponent(title);
@@ -294,175 +138,55 @@ export default function EventDetails() {
   };
 
   const shareLinks = getShareLinks();
-
-  // Load slider images (default to single image if slug not mapped)
-  const sliderImages = EVENT_IMAGES_MAP[eventItem.slug] || [eventItem.image || "/prog_engineering.png"];
+  const Icon = IconMap[article.iconName] || Megaphone;
 
   return (
     <div className="min-h-screen bg-[#F7F9FC] py-10 font-[var(--font-poppins)] relative text-left">
-      <div className="max-w-[1100px] mx-auto px-5">
+      <div className="max-w-[800px] mx-auto px-5">
         
         {/* Back Link */}
         <Link 
-          to="/news" 
+          to="/" 
           className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#D71920] transition-colors mb-6 uppercase tracking-wider"
         >
-          <ArrowLeft size={14} /> Back to News Center
+          <ArrowLeft size={14} /> Back to Home
         </Link>
 
-        {/* Main Event Box */}
-        <div className="bg-white rounded-[18px] overflow-hidden shadow-sm border border-gray-100/80 p-6 md:p-10 space-y-6 text-left">
+        {/* Main Details Card */}
+        <div className="bg-white rounded-[24px] shadow-sm border border-gray-100/80 p-6 md:p-10 space-y-6">
           
-          {/* Category & Status */}
+          {/* Header Info */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-5">
             <div className="flex items-center gap-2.5">
-              <span className="bg-[#F97316]/10 text-[#F97316] text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-full tracking-wider">
-                {eventItem.category}
+              <span className="bg-[#D71920]/10 text-[#D71920] text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-full tracking-wider">
+                Official Announcement
               </span>
-              {closed && (
-                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold uppercase px-3 py-1.5 rounded-full tracking-wider">
-                  Registration Closed
-                </span>
-              )}
+              <span className="text-xs text-gray-400 font-semibold font-[var(--font-inter)]">{article.date}</span>
             </div>
 
             {/* Share Trigger */}
             <button 
               onClick={() => setShowShare(!showShare)}
               className="w-9 h-9 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center transition-colors cursor-pointer"
-              title="Share Event"
+              title="Share Announcement"
             >
               <Share2 size={16} />
             </button>
           </div>
 
-          {/* Event Image replaced with premium ImageSlider */}
-          <ImageSlider images={sliderImages} />
-
-          {/* Event Title */}
-          <h1 className="text-2xl md:text-4xl font-[900] text-[#072A6C] tracking-tight leading-snug">
-            {eventItem.title}
-          </h1>
-
-          {/* Details Panel */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-gray-500 font-semibold bg-gray-50 p-5 rounded-2xl border border-gray-100">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F97316] flex items-center justify-center shrink-0">
-                <Calendar size={14} />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] text-gray-400 font-bold uppercase">Date</span>
-                <span className="text-gray-700 font-bold">{eventItem.date}</span>
-              </div>
+          {/* Icon and Title block */}
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#072A6C]/5 flex items-center justify-center shrink-0">
+              <Icon size={24} className="text-[#072A6C]" />
             </div>
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F97316] flex items-center justify-center shrink-0">
-                <Clock size={14} />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] text-gray-400 font-bold uppercase">Time</span>
-                <span className="text-gray-700 font-bold">{eventItem.time}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F97316] flex items-center justify-center shrink-0">
-                <MapPin size={14} />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] text-gray-400 font-bold uppercase">Location</span>
-                <span className="text-gray-700 font-bold">{eventItem.location}</span>
-              </div>
-            </div>
+            <h1 className="text-xl md:text-3xl font-extrabold text-[#072A6C] leading-snug tracking-tight">
+              {article.title}
+            </h1>
           </div>
 
-          <hr className="border-gray-100" />
-
-          {/* Body content & Registration form */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            
-            {/* Description Body */}
-            <div className="lg:col-span-2 space-y-5 text-sm text-gray-600 font-light leading-relaxed">
-              <p>{eventItem.bodyText}</p>
-            </div>
-
-            {/* Registration Box */}
-            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 self-start space-y-4">
-              <h3 className="text-sm font-black text-[#072A6C] uppercase tracking-wider">Registration</h3>
-              
-              {closed ? (
-                <div className="text-xs text-gray-400 bg-gray-100/50 p-4 rounded-xl text-center font-medium">
-                  We are no longer accepting registrations for this event since it has concluded.
-                </div>
-              ) : regSuccess ? (
-                <div className="bg-green-50 border border-green-100 p-4 rounded-xl text-center space-y-2">
-                  <CheckCircle className="mx-auto text-green-500" size={32} />
-                  <h4 className="text-xs font-bold text-green-800">Successfully Registered!</h4>
-                  <p className="text-[10px] text-green-600 font-light">Ticket details have been sent to <strong>{formData.email}</strong>.</p>
-                </div>
-              ) : !showRegForm ? (
-                <div className="space-y-3">
-                  <p className="text-[11px] text-gray-500 font-medium">Secure your seat for this upcoming campus activity online today.</p>
-                  <button 
-                    onClick={() => setShowRegForm(true)}
-                    className="w-full py-2.5 bg-[#D71920] hover:bg-[#072A6C] text-white text-xs font-bold rounded-xl transition-all cursor-pointer hover:shadow-md"
-                  >
-                    Register Online
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleRegisterSubmit} className="space-y-3.5 text-left">
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase">Full Name</label>
-                    <input 
-                      type="text" 
-                      required 
-                      className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white"
-                      placeholder="Enter name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase">Email Address</label>
-                    <input 
-                      type="email" 
-                      required 
-                      className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white"
-                      placeholder="Enter email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      required 
-                      className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white"
-                      placeholder="Enter phone"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    />
-                  </div>
-                  <div className="flex gap-2 pt-2">
-                    <button 
-                      type="button"
-                      onClick={() => setShowRegForm(false)}
-                      className="flex-1 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                    <button 
-                      type="submit"
-                      className="flex-1 py-2 bg-[#D71920] hover:bg-[#b71217] text-white text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                    >
-                      Confirm
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-
+          {/* Content Description */}
+          <div className="text-sm md:text-base text-gray-600 leading-relaxed font-[var(--font-inter)] font-light bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
+            {article.desc}
           </div>
 
         </div>
