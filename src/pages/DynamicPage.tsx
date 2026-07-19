@@ -1288,42 +1288,62 @@ function AcademicCalendar() {
 
   const years = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23"];
 
-  const universitysData: Record<string, Record<string, { label: string; key: string }[]>> = {
+  const universitysData: Record<string, Record<string, Record<string, { label: string; key: string }[]>>> = {
     "2026-27": {
-      "School of Computing Sciences": [
-        { label: "B.Tech – Computer Science and Engineering", key: "cse" },
-        { label: "M.Tech – Computer Science and Engineering", key: "mcse" },
-        { label: "MCA", key: "mca" },
-        { label: "Ph.D – Computer Science and Engineering", key: "phd-cse" },
-        { label: "B.Tech – CSE (Data Science)", key: "cse-ds" },
-        { label: "B.Tech – CSE (Artificial Intelligence)", key: "cse-ai" },
-        { label: "B.Tech – Artificial Intelligence & Machine Learning", key: "aiml" },
-        { label: "M.Tech – CSE (AI & ML)", key: "maiml" },
-        { label: "B.Tech – CSE (Cyber Security)", key: "cse-cyber" }
-      ],
-      "School of Engineering": [
-        { label: "B.Tech – Electronics and Communication Engineering", key: "ece" },
-        { label: "M.Tech – VLSI and Embedded Systems Design", key: "mvlsi" },
-        { label: "Ph.D – Electronics and Communication Engineering", key: "phd-ece" },
-        { label: "B.Tech – Civil Engineering", key: "civil" },
-        { label: "M.Tech – Structural Engineering", key: "mstructural" },
-        { label: "Ph.D – Structural Engineering", key: "phd-structural" }
-      ],
-      "School of Business & Management": [
-        { label: "MBA", key: "mba" }
-      ]
+      "School of Computing Sciences": {
+        "Computer Science & Engineering": [
+          { label: "B.Tech. Computer Science & Engineering", key: "btech-cse" },
+          { label: "M.Tech. Computer Science & Engineering", key: "mtech-cse" },
+          { label: "MCA", key: "mca" },
+          { label: "Ph.D. Computer Science & Engineering", key: "phd-cse" }
+        ],
+        "Artificial Intelligence": [
+          { label: "B.Tech. CSE (Artificial Intelligence)", key: "btech-cse-ai" },
+          { label: "B.Tech. Artificial Intelligence & Machine Learning", key: "btech-aiml" },
+          { label: "M.Tech. CSE (AI & ML)", key: "mtech-aiml" }
+        ],
+        "Data Science": [
+          { label: "B.Tech. CSE (Data Science)", key: "btech-cse-ds" }
+        ],
+        "Cyber Security": [
+          { label: "B.Tech. CSE (Cyber Security)", key: "btech-cse-cyber" }
+        ]
+      },
+      "School of Engineering": {
+        "Electronics and Communication Engineering": [
+          { label: "B.Tech. Electronics and Communication Engineering", key: "btech-ece" },
+          { label: "M.Tech. VLSI and Embedded Systems Design", key: "mtech-vlsi" },
+          { label: "Ph.D. Electronics and Communication Engineering", key: "phd-ece" }
+        ],
+        "Civil Engineering": [
+          { label: "B.Tech. Civil Engineering", key: "btech-civil" },
+          { label: "M.Tech. Structural Engineering", key: "mtech-structural" },
+          { label: "Ph.D. Structural Engineering", key: "phd-structural" }
+        ]
+      },
+      "School of Business & Management": {
+        "Business and Management": [
+          { label: "MBA", key: "mba" }
+        ]
+      }
     },
     "2025-26": {
-      "School of Computing Sciences": [
-        { label: "B.Tech – Computer Science and Engineering", key: "cse" },
-        { label: "MCA", key: "mca" }
-      ],
-      "School of Engineering": [
-        { label: "B.Tech – Electronics and Communication Engineering", key: "ece" }
-      ],
-      "School of Business & Management": [
-        { label: "MBA", key: "mba" }
-      ]
+      "School of Computing Sciences": {
+        "Computer Science & Engineering": [
+          { label: "B.Tech. Computer Science & Engineering", key: "btech-cse" },
+          { label: "MCA", key: "mca" }
+        ]
+      },
+      "School of Engineering": {
+        "Electronics and Communication Engineering": [
+          { label: "B.Tech. Electronics and Communication Engineering", key: "btech-ece" }
+        ]
+      },
+      "School of Business & Management": {
+        "Business and Management": [
+          { label: "MBA", key: "mba" }
+        ]
+      }
     }
   };
 
@@ -1331,15 +1351,21 @@ function AcademicCalendar() {
   years.forEach(y => {
     if (!universitysData[y]) {
       universitysData[y] = {
-        "School of Computing Sciences": [
-          { label: `B.Tech, M.Tech, MCA, Ph.D Programs (${y})`, key: `computing-${y}` }
-        ],
-        "School of Engineering": [
-          { label: `B.Tech, M.Tech, Ph.D Programs (${y})`, key: `engineering-${y}` }
-        ],
-        "School of Business & Management": [
-          { label: `MBA Programs (${y})`, key: `business-${y}` }
-        ]
+        "School of Computing Sciences": {
+          "Computer Science & Engineering": [
+            { label: `B.Tech, M.Tech, MCA, Ph.D Programs (${y})`, key: `computing-${y}` }
+          ]
+        },
+        "School of Engineering": {
+          "Electronics and Communication Engineering": [
+            { label: `B.Tech, M.Tech, Ph.D Programs (${y})`, key: `engineering-${y}` }
+          ]
+        },
+        "School of Business & Management": {
+          "Business and Management": [
+            { label: `MBA Programs (${y})`, key: `business-${y}` }
+          ]
+        }
       };
     }
   });
@@ -1551,28 +1577,35 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
 
       {/* University Categories & Course Lists */}
       <div className="space-y-6">
-        {Object.entries(universitysData[selectedYear] || {}).map(([universityName, courses]) => (
-          <div key={universityName} className="bg-white border border-gray-200/60 rounded-[16px] p-5 shadow-sm">
-            <h4 className="text-xs font-extrabold text-[#072A6C] mb-4 border-l-4 border-[#D71920] pl-3 tracking-wide uppercase">
-              {universityName}
+        {Object.entries(universitysData[selectedYear] || {}).map(([schoolName, departments]) => (
+          <div key={schoolName} className="bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm">
+            <h4 className="text-sm font-extrabold text-[#072A6C] mb-6 border-l-4 border-[#D71920] pl-3 tracking-wide uppercase">
+              {schoolName}
             </h4>
-            <div className="flex flex-col gap-2">
-              {courses.map((course) => {
-                const uniqueKey = `${selectedYear}-${course.key}`;
-                const isExpanded = activeCourse === uniqueKey;
-                return (
-                  <div key={course.key} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-blue-100 transition-all duration-300">
-                    <button
-                      onClick={() => setActiveCourse(isExpanded ? null : uniqueKey)}
-                      className="w-full px-4 py-3 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
-                    >
-                      <span>• {course.label}</span>
-                      <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
-                    </button>
-                    {isExpanded && <InteractiveCalendarWidget year={selectedYear} courseKey={course.key} />}
+            <div className="flex flex-col gap-6">
+              {Object.entries(departments).map(([deptName, courses]) => (
+                <div key={deptName} className="flex flex-col gap-3">
+                  <h5 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{deptName}</h5>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-2 border-l border-gray-100">
+                    {courses.map((course) => {
+                      const uniqueKey = `${selectedYear}-${course.key}`;
+                      const isExpanded = activeCourse === uniqueKey;
+                      return (
+                        <div key={course.key} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-blue-100 transition-all duration-300 col-span-1 md:col-span-full">
+                          <button
+                            onClick={() => setActiveCourse(isExpanded ? null : uniqueKey)}
+                            className="w-full px-4 py-3 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
+                          >
+                            <span>• {course.label}</span>
+                            <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
+                          </button>
+                          {isExpanded && <InteractiveCalendarWidget year={selectedYear} courseKey={course.key} />}
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         ))}

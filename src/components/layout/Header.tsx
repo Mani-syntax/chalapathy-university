@@ -3,40 +3,43 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Menu, X, ChevronDown, ArrowRight, Megaphone } from "lucide-react";
 import { useData } from "../../context/DataContext";
 
-export const UNDERGRADUATE_GROUPS = {
-  "School of Computing Sciences": [
-    { title: "B.Tech in CSE", slug: "btech-cse" },
-    { title: "B.Tech in CSE (AI & ML)", slug: "btech-cse-aiml" },
-    { title: "B.Tech in CSE (Data Science)", slug: "btech-cse-ds" },
-    { title: "B.Tech in IT", slug: "btech-it" },
-    { title: "BCA", slug: "bca" }
-  ],
-  "School of Engineering": [
-    { title: "B.Tech in ECE", slug: "btech-ece" },
-    { title: "B.Tech in EEE", slug: "btech-eee" },
-    { title: "B.Tech in Mechanical Engineering", slug: "btech-mech" },
-    { title: "B.Tech in Civil Engineering", slug: "btech-civil" }
-  ],
-  "School of Business & Management": [
-    { title: "BBA", slug: "bba" },
-    { title: "B.Com", slug: "bcom" }
-  ]
-};
-
-export const MEGA_MENU_PROGRAMS: Record<string, { label: string; to: string }[]> = {
-  "Undergraduate (UG)": [], // Handled dynamically by UNDERGRADUATE_GROUPS
-  "Postgraduate (PG)": [
-    { label: "M.Tech in CSE", to: "/academics/mtech-cse" },
-    { label: "M.Tech in VLSI Design", to: "/academics/mtech-vlsi" },
-    { label: "M.Tech in Structural Engineering", to: "/academics/mtech-structural" },
-    { label: "MBA", to: "/academics/mba" },
-    { label: "MCA", to: "/academics/mca" }
-  ],
-  "Doctoral (Ph.D.)": [
-    { label: "Ph.D. in Computer Science", to: "/academics/phd-cse" },
-    { label: "Ph.D. in Engineering", to: "/academics/phd-eng" },
-    { label: "Ph.D. in Management", to: "/academics/phd-mgmt" }
-  ]
+export const ACADEMIC_PROGRAMS_STRUCTURE: Record<string, Record<string, { label: string; to: string }[]>> = {
+  "School of Computing Sciences": {
+    "Computer Science & Engineering": [
+      { label: "B.Tech. Computer Science & Engineering", to: "/academics/btech-cse" },
+      { label: "M.Tech. Computer Science & Engineering", to: "/academics/mtech-cse" },
+      { label: "MCA", to: "/academics/mca" },
+      { label: "Ph.D. Computer Science & Engineering", to: "/academics/phd-cse" }
+    ],
+    "Artificial Intelligence": [
+      { label: "B.Tech. CSE (Artificial Intelligence)", to: "/academics/btech-cse-ai" },
+      { label: "B.Tech. Artificial Intelligence & Machine Learning", to: "/academics/btech-aiml" },
+      { label: "M.Tech. CSE (AI & ML)", to: "/academics/mtech-aiml" }
+    ],
+    "Data Science": [
+      { label: "B.Tech. CSE (Data Science)", to: "/academics/btech-cse-ds" }
+    ],
+    "Cyber Security": [
+      { label: "B.Tech. CSE (Cyber Security)", to: "/academics/btech-cse-cyber" }
+    ]
+  },
+  "School of Engineering": {
+    "Electronics and Communication Engineering": [
+      { label: "B.Tech. Electronics and Communication Engineering", to: "/academics/btech-ece" },
+      { label: "M.Tech. VLSI and Embedded Systems Design", to: "/academics/mtech-vlsi" },
+      { label: "Ph.D. Electronics and Communication Engineering", to: "/academics/phd-ece" }
+    ],
+    "Civil Engineering": [
+      { label: "B.Tech. Civil Engineering", to: "/academics/btech-civil" },
+      { label: "M.Tech. Structural Engineering", to: "/academics/mtech-structural" },
+      { label: "Ph.D. Structural Engineering", to: "/academics/phd-structural" }
+    ]
+  },
+  "School of Business & Management": {
+    "Business and Management": [
+      { label: "MBA", to: "/academics/mba" }
+    ]
+  }
 };
 
 const CATEGORY_INFO: Record<string, { desc: string; linkText: string; to: string; title: string }> = {
@@ -101,7 +104,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [mobileCampusLifeOpen, setMobileCampusLifeOpen] = useState(false);
   const [newsEventsOpen, setNewsEventsOpen] = useState(false);
   const [mobileNewsEventsOpen, setMobileNewsEventsOpen] = useState(false);
-  const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
+  const [activeSchool, setActiveSchool] = useState("School of Computing Sciences");
   const [hoveredCategory, setHoveredCategory] = useState("Programmes Offered");
   const location = useLocation();
   const navigate = useNavigate();
@@ -340,68 +343,53 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                           ))}
                         </div>
 
-                        {/* Column 2: Program Levels */}
+                        {/* Column 2: Schools Selection */}
                         {hoveredCategory === "Programmes Offered" ? (
                           <>
-                            <div className="w-[180px] border-r border-gray-100 pr-5 flex flex-col gap-1 shrink-0">
-                              <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Levels</span>
-                              {Object.keys(MEGA_MENU_PROGRAMS).map((level) => (
+                            <div className="w-[200px] border-r border-gray-100 pr-5 flex flex-col gap-1 shrink-0 bg-[#fbfbfb] -my-6 py-6 pl-4">
+                              <span className="text-[10px] text-gray-800 font-extrabold uppercase tracking-wider mb-2">Schools</span>
+                              {Object.keys(ACADEMIC_PROGRAMS_STRUCTURE).map((school) => (
                                 <button
-                                  key={level}
+                                  key={school}
                                   type="button"
-                                  onMouseEnter={() => setActiveLevel(level)}
-                                  onClick={() => setActiveLevel(level)}
-                                  className={`px-3 py-2 text-[12px] font-bold rounded-lg text-left transition-all cursor-pointer outline-none ${
-                                    activeLevel === level
-                                      ? "text-[#D71920] bg-[#D71920]/5"
+                                  onMouseEnter={() => setActiveSchool(school)}
+                                  onClick={() => setActiveSchool(school)}
+                                  className={`px-3 py-3 text-[12px] font-bold rounded-lg text-left transition-all cursor-pointer outline-none ${
+                                    activeSchool === school
+                                      ? "text-[#D71920] bg-red-50/50"
                                       : "text-gray-600 hover:text-[#D71920] hover:bg-gray-50"
                                   }`}
                                 >
-                                  {level}
+                                  {school}
                                 </button>
                               ))}
                             </div>
 
-                            {/* Column 3 & 4: Specific Programs List */}
-                            <div className="flex-1 pl-2">
-                              <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-3 block">
-                                Programs ({activeLevel})
+                            {/* Column 3 & 4: Specific Departments and Programs */}
+                            <div className="flex-1 pl-4 flex flex-col pt-1">
+                              <span className="text-[10px] text-gray-800 font-extrabold uppercase tracking-wider mb-4 block">
+                                Departments & Programs
                               </span>
                               
-                              {activeLevel === "Undergraduate (UG)" ? (
-                                <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-h-[360px] overflow-y-auto pr-2">
-                                  {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
-                                    <div key={dept} className="space-y-1.5">
-                                      <h5 className="text-[11px] font-extrabold text-[#072A6C] tracking-wide border-b border-gray-100 pb-1">{dept}</h5>
-                                      <div className="flex flex-col gap-1">
-                                        {courses.map((course) => (
-                                          <Link
-                                            key={course.slug}
-                                            to={`/academics/${course.slug}`}
-                                            className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed"
-                                            onClick={() => setAcademicsOpen(false)}
-                                          >
-                                            • {course.title}
-                                          </Link>
-                                        ))}
-                                      </div>
+                              <div className="grid grid-cols-2 gap-x-12 gap-y-6 max-h-[360px] overflow-y-auto pr-4">
+                                {Object.entries(ACADEMIC_PROGRAMS_STRUCTURE[activeSchool] || {}).map(([dept, courses]) => (
+                                  <div key={dept} className="space-y-2">
+                                    <h5 className="text-[12px] font-bold text-[#072A6C] tracking-wide">{dept}</h5>
+                                    <div className="flex flex-col gap-1.5">
+                                      {courses.map((course) => (
+                                        <Link
+                                          key={course.label}
+                                          to={course.to}
+                                          className="text-[12px] font-medium text-gray-500 hover:text-[#D71920] transition-colors leading-snug block py-0.5"
+                                          onClick={() => setAcademicsOpen(false)}
+                                        >
+                                          • {course.label}
+                                        </Link>
+                                      ))}
                                     </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                                  {MEGA_MENU_PROGRAMS[activeLevel].map((course) => (
-                                    <Link
-                                      key={course.label}
-                                      to={course.to}
-                                      className="px-3 py-1.5 text-[11.5px] font-medium text-gray-600 hover:text-[#D71920] hover:bg-gray-50 rounded-md transition-all flex items-center gap-1"
-                                      onClick={() => setAcademicsOpen(false)}
-                                    >
-                                      • {course.label}
-                                    </Link>
-                                  ))}
-                                </div>
-                              )}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </>
                         ) : (
@@ -687,47 +675,31 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                               </div>
                               {mobileProgrammesOpen && (
                                 <div className="pl-3 flex flex-col gap-3 mt-1.5 pb-2 border-l border-gray-100">
-                                  {Object.entries(MEGA_MENU_PROGRAMS).map(([level, list]) => (
-                                    <div key={level} className="flex flex-col gap-1">
-                                      <span className="text-[10px] font-extrabold text-[#072A6C] uppercase tracking-wider">{level}</span>
-                                      {level === "Undergraduate (UG)" ? (
-                                        <div className="flex flex-col gap-1.5 pl-1.5 mt-0.5 border-l border-gray-50">
-                                          {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
-                                            <div key={dept} className="flex flex-col gap-1">
-                                              <span className="text-[9px] font-extrabold text-[#D4AF37] uppercase tracking-wide">{dept}</span>
+                                  {Object.entries(ACADEMIC_PROGRAMS_STRUCTURE).map(([school, depts]) => (
+                                    <div key={school} className="flex flex-col gap-2">
+                                      <span className="text-[11px] font-extrabold text-[#072A6C] uppercase tracking-wider">{school}</span>
+                                      <div className="flex flex-col gap-3 pl-2 border-l border-gray-50">
+                                        {Object.entries(depts).map(([dept, courses]) => (
+                                          <div key={dept} className="flex flex-col gap-1">
+                                            <span className="text-[10px] font-bold text-gray-500">{dept}</span>
+                                            <div className="flex flex-col gap-1 pl-1">
                                               {courses.map((course) => (
                                                 <Link
-                                                  key={course.slug}
-                                                  to={`/academics/${course.slug}`}
+                                                  key={course.label}
+                                                  to={course.to}
                                                   className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
                                                   onClick={() => {
                                                     setMobileOpen(false);
                                                     setMobileAcademicsOpen(false);
                                                   }}
                                                 >
-                                                  • {course.title}
+                                                  • {course.label}
                                                 </Link>
                                               ))}
                                             </div>
-                                          ))}
-                                        </div>
-                                      ) : (
-                                        <div className="flex flex-col gap-1 pl-1.5 mt-0.5 border-l border-gray-50">
-                                          {list.map((course) => (
-                                            <Link
-                                              key={course.label}
-                                              to={course.to}
-                                              className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
-                                              onClick={() => {
-                                                setMobileOpen(false);
-                                                setMobileAcademicsOpen(false);
-                                              }}
-                                            >
-                                              • {course.label}
-                                            </Link>
-                                          ))}
-                                        </div>
-                                      )}
+                                          </div>
+                                        ))}
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
