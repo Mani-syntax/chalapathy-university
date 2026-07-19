@@ -3,6 +3,7 @@ export interface ProgramDetail {
   title: string;
   desc: string;
   duration: string;
+  school: string;
   department: string;
   degreeType: string;
   overview: string;
@@ -11,480 +12,214 @@ export interface ProgramDetail {
 }
 
 export const PROGRAMS_DATA: ProgramDetail[] = [
+  // ==========================================
+  // SCHOOL OF COMPUTING SCIENCES
+  // ==========================================
   // Computer Science & Engineering
   {
     slug: "btech-cse",
     title: "B.Tech. Computer Science & Engineering",
-    desc: "Empowering next-generation software architects, programmers, and technology leaders.",
-    duration: "4 Years (Undergraduate)",
+    desc: "Empowering next-generation software architects.",
+    duration: "4 Years",
+    school: "school-of-computing-sciences",
     department: "Computer Science & Engineering",
     degreeType: "B.Tech",
-    overview: "This course offers a solid foundation in computer systems, software architectures, database systems, and networking. Students engage in practical labs and project-driven cycles to build end-to-end applications.",
-    curriculum: ["Data Structures & Algorithms", "Operating Systems", "Database Management Systems", "Software Engineering", "Computer Networks", "Web Technologies"],
-    careers: [
-      { title: "Software Engineer", desc: "Design, develop, and maintain enterprise software applications." },
-      { title: "Systems Analyst", desc: "Evaluate and design information systems to solve business problems." },
-      { title: "Full Stack Developer", desc: "Build responsive frontend interfaces and robust backend architectures." }
-    ]
+    overview: "Foundation in computer systems and software architectures.",
+    curriculum: ["Data Structures", "OS", "DBMS"],
+    careers: [{ title: "Software Engineer", desc: "Build applications" }]
   },
   {
-    slug: "btech-cse-ai-ml",
-    title: "B.Tech. CSE (AI & Machine Learning)",
-    desc: "Unlocking automation, predictive modeling, and intelligent agent systems.",
-    duration: "4 Years (Undergraduate)",
+    slug: "mtech-cse",
+    title: "M.Tech. Computer Science & Engineering",
+    desc: "Advanced research in computing.",
+    duration: "2 Years",
+    school: "school-of-computing-sciences",
     department: "Computer Science & Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Specialized pathway focusing on advanced mathematical modeling, machine learning algorithms, deep learning neural networks, and computer vision systems. Highlights hands-on project creation in NLP and robotics.",
-    curriculum: ["Artificial Intelligence", "Machine Learning Techniques", "Deep Learning & Neural Networks", "Natural Language Processing", "Python for AI", "Reinforcement Learning"],
-    careers: [
-      { title: "AI Engineer", desc: "Develop and deploy deep learning models for predictive analytics." },
-      { title: "ML Ops Specialist", desc: "Manage deployment pipelines and scale machine learning models." },
-      { title: "Data Scientist (AI)", desc: "Synthesize large data streams into intelligent decision patterns." }
-    ]
+    degreeType: "M.Tech",
+    overview: "Specialized knowledge in advanced computing paradigms.",
+    curriculum: ["Advanced Algorithms", "Distributed Systems"],
+    careers: [{ title: "System Architect", desc: "Design complex systems" }]
   },
+  {
+    slug: "mca",
+    title: "MCA",
+    desc: "Master of Computer Applications.",
+    duration: "2 Years",
+    school: "school-of-computing-sciences",
+    department: "Computer Science & Engineering",
+    degreeType: "MCA",
+    overview: "Practical software development and IT management.",
+    curriculum: ["App Development", "Cloud Computing"],
+    careers: [{ title: "IT Consultant", desc: "Consult on IT solutions" }]
+  },
+  {
+    slug: "phd-cse",
+    title: "Ph.D. Computer Science & Engineering",
+    desc: "Doctoral research in computer science.",
+    duration: "3-5 Years",
+    school: "school-of-computing-sciences",
+    department: "Computer Science & Engineering",
+    degreeType: "Ph.D",
+    overview: "Original research contributing to the field of computer science.",
+    curriculum: ["Research Methodology", "Thesis Work"],
+    careers: [{ title: "Researcher", desc: "Conduct advanced research" }]
+  },
+  // Data Science
   {
     slug: "btech-cse-data-science",
     title: "B.Tech. CSE (Data Science)",
-    desc: "Transforming big data into actionable insights and strategic decisions.",
-    duration: "4 Years (Undergraduate)",
-    department: "Computer Science & Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Curriculum tailored to stats, data visualization, Hadoop pipelines, and predictive analytics modeling using Python, R, and modern database warehouses.",
-    curriculum: ["Applied Statistics", "Data Visualization & BI", "Big Data Analytics", "Hadoop & Spark Frameworks", "Data Mining", "Predictive Analytics"],
-    careers: [
-      { title: "Data Analyst", desc: "Perform statistical analyses and generate actionable business reports." },
-      { title: "Data Architect", desc: "Design and maintain high-performance database cluster architectures." },
-      { title: "Business Intelligence Developer", desc: "Construct dashboards and visual pipelines for executive decision support." }
-    ]
+    desc: "Transforming big data into actionable insights.",
+    duration: "4 Years",
+    school: "school-of-computing-sciences",
+    department: "Data Science",
+    degreeType: "B.Tech",
+    overview: "Predictive analytics and modeling using modern DBs.",
+    curriculum: ["Big Data", "Data Visualization", "Stats"],
+    careers: [{ title: "Data Scientist", desc: "Analyze data" }]
+  },
+  // Artificial Intelligence
+  {
+    slug: "btech-cse-ai",
+    title: "B.Tech. CSE (Artificial Intelligence)",
+    desc: "Unlocking intelligent agent systems.",
+    duration: "4 Years",
+    school: "school-of-computing-sciences",
+    department: "Artificial Intelligence",
+    degreeType: "B.Tech",
+    overview: "Foundations of AI and autonomous systems.",
+    curriculum: ["AI", "Neural Networks"],
+    careers: [{ title: "AI Engineer", desc: "Develop AI models" }]
   },
   {
-    slug: "btech-cse-cyber-security",
+    slug: "btech-aiml",
+    title: "B.Tech. Artificial Intelligence & Machine Learning",
+    desc: "Advanced predictive modeling.",
+    duration: "4 Years",
+    school: "school-of-computing-sciences",
+    department: "Artificial Intelligence",
+    degreeType: "B.Tech",
+    overview: "Core focus on ML algorithms and deep learning.",
+    curriculum: ["Machine Learning", "Deep Learning"],
+    careers: [{ title: "ML Engineer", desc: "Deploy ML models" }]
+  },
+  {
+    slug: "mtech-cse-aiml",
+    title: "M.Tech. CSE (AI & ML)",
+    desc: "Postgraduate specialization in AI & ML.",
+    duration: "2 Years",
+    school: "school-of-computing-sciences",
+    department: "Artificial Intelligence",
+    degreeType: "M.Tech",
+    overview: "Research-driven approach to AI technologies.",
+    curriculum: ["Advanced ML", "NLP"],
+    careers: [{ title: "AI Researcher", desc: "Innovate in AI" }]
+  },
+  // Cyber Security
+  {
+    slug: "btech-cse-cyber",
     title: "B.Tech. CSE (Cyber Security)",
-    desc: "Securing networks, digital assets, and critical infrastructures against modern cyber threats.",
-    duration: "4 Years (Undergraduate)",
-    department: "Computer Science & Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Designed to prepare scholars in cryptography, secure coding practices, cloud security architectures, and advanced penetration testing frameworks.",
-    curriculum: ["Cryptography", "Network Security Protocols", "Ethical Hacking & Penetration Testing", "Digital Forensics", "Secure Software Development", "Cloud Security"],
-    careers: [
-      { title: "Cyber Security Analyst", desc: "Monitor network traffic and resolve security incidents." },
-      { title: "Penetration Tester", desc: "Conduct authorized security audits and vulnerability assessments." },
-      { title: "Security Architect", desc: "Design immune enterprise network structures and security guidelines." }
-    ]
-  },
-  {
-    slug: "btech-cse-iot",
-    title: "B.Tech. CSE (Internet of Things)",
-    desc: "Bridging the gap between software systems and hardware physical interactions.",
-    duration: "4 Years (Undergraduate)",
-    department: "Computer Science & Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Focuses on sensor integration, wireless communication protocols, microcontroller firmware development, and IoT cloud dashboard integration.",
-    curriculum: ["Sensor Networks", "Microcontrollers & Embedded C", "Wireless Communication Protocols", "IoT Architecture & Cloud", "Edge Computing", "Smart Systems Lab"],
-    careers: [
-      { title: "IoT Firmware Engineer", desc: "Write low-level code for microcontrollers and connected sensors." },
-      { title: "Embedded Systems Developer", desc: "Design hardware-software integration protocols." },
-      { title: "Smart City Infrastructure Engineer", desc: "Deploy and optimize decentralized IoT networks." }
-    ]
-  },
-  {
-    slug: "btech-cse-cloud-computing",
-    title: "B.Tech. CSE (Cloud Computing)",
-    desc: "Scaling modern internet applications through cloud architectures and virtualization.",
-    duration: "4 Years (Undergraduate)",
-    department: "Computer Science & Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Teaches virtualization technologies, AWS/Azure/GCP cloud services, serverless computing, and infrastructure as code (Terraform).",
-    curriculum: ["Virtualization Technologies", "Cloud Infrastructure Services", "DevOps & CI/CD Pipelines", "Serverless Architectures", "Infrastructure as Code", "Containerization & Kubernetes"],
-    careers: [
-      { title: "Cloud Solutions Architect", desc: "Design and implement scalable, secure cloud environments." },
-      { title: "DevOps Engineer", desc: "Automate build, deployment, and testing infrastructure." },
-      { title: "Site Reliability Engineer", desc: "Ensure service uptime and optimal cloud resource usage." }
-    ]
-  },
-  {
-    slug: "btech-cse-blockchain",
-    title: "B.Tech. CSE (Blockchain)",
-    desc: "Designing decentralized networks, smart contracts, and secure consensus models.",
-    duration: "4 Years (Undergraduate)",
-    department: "Computer Science & Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Prepares students in cryptographic ledger structures, smart contracts (Solidity), decentralized application (DApp) development, and consensus mechanisms.",
-    curriculum: ["Cryptography & Hashing", "Consensus Algorithms", "Smart Contract Development", "Ethereum & Hyperledger", "Decentralized Apps (DApps)", "Tokenomics & DeFi Structures"],
-    careers: [
-      { title: "Blockchain Developer", desc: "Write and optimize secure smart contracts." },
-      { title: "Decentralized System Architect", desc: "Design consensus architectures for corporate consortia." },
-      { title: "Cryptographic Engineer", desc: "Deploy hashing and digital signature security frameworks." }
-    ]
-  },
-  {
-    slug: "btech-cse-software-engineering",
-    title: "B.Tech. CSE (Software Engineering)",
-    desc: "Applying rigorous engineering methodologies to large-scale software systems.",
-    duration: "4 Years (Undergraduate)",
-    department: "Computer Science & Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Focuses on software design patterns, Agile project management, software testing paradigms, and continuous integration workflows.",
-    curriculum: ["Software Design Patterns", "Agile Methodologies", "Software Testing & QA", "System Architecture & Design", "CI/CD Workflows", "Project Management Tools"],
-    careers: [
-      { title: "Software Architect", desc: "Design high-level structure and code guidelines for large systems." },
-      { title: "QA Automation Engineer", desc: "Write and run automated test suites for continuous verification." },
-      { title: "Project Manager", desc: "Guide software development teams through Agile sprint cycles." }
-    ]
+    desc: "Securing networks and digital assets.",
+    duration: "4 Years",
+    school: "school-of-computing-sciences",
+    department: "Cyber Security",
+    degreeType: "B.Tech",
+    overview: "Cryptography, ethical hacking and security.",
+    curriculum: ["Cryptography", "Network Security"],
+    careers: [{ title: "Security Analyst", desc: "Secure systems" }]
   },
 
-  // Electronics & Communication
+  // ==========================================
+  // SCHOOL OF ENGINEERING
+  // ==========================================
+  // Electronics and Communication Engineering
   {
     slug: "btech-ece",
-    title: "B.Tech. Electronics & Communication Engineering",
-    desc: "Designing high-performance communication systems, signal processing, and chip architectures.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electronics & Communication Engineering",
+    title: "B.Tech. Electronics and Communication Engineering",
+    desc: "Designing communication systems.",
+    duration: "4 Years",
+    school: "school-of-engineering",
+    department: "Electronics and Communication Engineering",
     degreeType: "B.Tech",
-    overview: "Covers semiconductor devices, analog/digital circuits, electromagnetic theory, microwave engineering, and satellite/wireless communication networks.",
-    curriculum: ["Analog Electronics", "Digital Signal Processing", "Electromagnetic Fields", "Microprocessors & Controllers", "Antenna & Wave Propagation", "Wireless Communication"],
-    careers: [
-      { title: "Communication Engineer", desc: "Design and optimize cellular networks and satellite links." },
-      { title: "Telecom Specialist", desc: "Deploy fiber optic and microwave communication backbones." },
-      { title: "Hardware Design Engineer", desc: "Prototype circuit board designs and signal transmitters." }
-    ]
+    overview: "Focus on electronic circuits and communication.",
+    curriculum: ["Signals & Systems", "VLSI Design"],
+    careers: [{ title: "Electronics Engineer", desc: "Design circuits" }]
   },
   {
-    slug: "btech-ece-vlsi",
-    title: "B.Tech. ECE (VLSI Design)",
-    desc: "Architecting microchips, integrated circuits (ICs), and semiconductor systems.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electronics & Communication Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Specialized curriculum focusing on CMOS technology, RTL coding, HDL simulation, ASIC/FPGA layout design, and electronic design automation (EDA) tools.",
-    curriculum: ["CMOS Digital Circuits", "Hardware Description Languages (Verilog)", "ASIC Design Flow", "FPGA Prototyping", "Mixed Signal Design", "EDA Tool Laboratory"],
-    careers: [
-      { title: "VLSI Design Engineer", desc: "Create schematics and layouts for advanced processors and memory chips." },
-      { title: "RTL Verification Engineer", desc: "Write verification testbenches to validate silicon logic before manufacturing." },
-      { title: "Physical Design Engineer", desc: "Optimize chip power, performance, and area (PPA) layouts." }
-    ]
+    slug: "mtech-vlsi",
+    title: "M.Tech. VLSI and Embedded Systems Design",
+    desc: "Advanced electronics design.",
+    duration: "2 Years",
+    school: "school-of-engineering",
+    department: "Electronics and Communication Engineering",
+    degreeType: "M.Tech",
+    overview: "Specialization in IC design and embedded tech.",
+    curriculum: ["Advanced VLSI", "Embedded C"],
+    careers: [{ title: "VLSI Engineer", desc: "Design chips" }]
   },
   {
-    slug: "btech-ece-embedded-systems",
-    title: "B.Tech. ECE (Embedded Systems)",
-    desc: "Engineering dedicated computing architectures inside smart consumer products and medical devices.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electronics & Communication Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Concentrates on real-time operating systems (RTOS), hardware-software co-design, ARM architectures, and peripheral interfacing.",
-    curriculum: ["Real-Time Operating Systems", "ARM Architecture", "Peripheral Interfacing", "Embedded Linux", "Hardware-Software Co-Design", "System on Chip (SoC)"],
-    careers: [
-      { title: "Embedded Software Developer", desc: "Write RTOS code and firmware for medical or consumer electronics." },
-      { title: "Validation Engineer", desc: "Test hardware peripherals and register communications." },
-      { title: "Product Prototyper", desc: "Integrate sensory and processing boards for smart appliances." }
-    ]
+    slug: "phd-ece",
+    title: "Ph.D. Electronics and Communication Engineering",
+    desc: "Doctoral research in ECE.",
+    duration: "3-5 Years",
+    school: "school-of-engineering",
+    department: "Electronics and Communication Engineering",
+    degreeType: "Ph.D",
+    overview: "Research in advanced communication or electronics.",
+    curriculum: ["Research Methodology"],
+    careers: [{ title: "Researcher", desc: "Conduct research" }]
   },
-  {
-    slug: "btech-ece-robotics-automation",
-    title: "B.Tech. ECE (Robotics & Automation)",
-    desc: "Developing autonomous robotic controls, industrial manipulators, and automated assembly systems.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electronics & Communication Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Combines sensor systems, feedback control networks, computer vision navigation, and robotic arm kinematics.",
-    curriculum: ["Robotic Kinematics & Dynamics", "Control Systems Engineering", "Robotic Vision Systems", "PLC & SCADA Programming", "Pneumatics & Hydraulics", "Autonomous Navigation"],
-    careers: [
-      { title: "Robotics Engineer", desc: "Design and implement autonomous robotic arms and navigation algorithms." },
-      { title: "Automation Architect", desc: "Deploy PLC/SCADA controllers for industrial manufacturing lines." },
-      { title: "Control Systems Designer", desc: "Optimize feedback loop stabilities in aerospace or automotive settings." }
-    ]
-  },
-  {
-    slug: "btech-ece-iot",
-    title: "B.Tech. ECE (IoT Specialization)",
-    desc: "Designing wireless sensory architectures and edge nodes for connected networks.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electronics & Communication Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Teaches sensor signal conditioning, wireless mesh protocols, low-power system layouts, and IoT gateways.",
-    curriculum: ["Signal Conditioning Circuits", "Wireless Sensor Networks", "Low Power VLSI Design", "IoT Gateways", "Edge Node Architectures", "RF Communications"],
-    careers: [
-      { title: "IoT Hardware Designer", desc: "Design energy-efficient circuit layouts for remote sensors." },
-      { title: "RF Engineer", desc: "Optimize wireless frequencies and packet delivery ranges." },
-      { title: "Systems Integration Developer", desc: "Connect sensory hardware nodes to corporate databases." }
-    ]
-  },
-
-  // Electrical Engineering
-  {
-    slug: "btech-eee",
-    title: "B.Tech. Electrical & Electronics Engineering",
-    desc: "Powering the world through power transmission, electrical machinery, and electronic control systems.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electrical & Electronics Engineering",
-    degreeType: "B.Tech",
-    overview: "Provides thorough knowledge in power systems, electrical machines, power electronics, control theory, and high voltage transmission.",
-    curriculum: ["Electrical Machines", "Power Electronics", "Power Systems Engineering", "Control Systems", "High Voltage Engineering", "Electrical Measurements"],
-    careers: [
-      { title: "Power Systems Engineer", desc: "Design and manage regional electrical grid distribution grids." },
-      { title: "Power Electronics Developer", desc: "Create converter systems for solar arrays and electric drives." },
-      { title: "Electrical Grid Manager", desc: "Monitor distribution load flows and ensure grid stability." }
-    ]
-  },
-  {
-    slug: "btech-eee-electric-vehicles",
-    title: "B.Tech. EEE (Electric Vehicles)",
-    desc: "Engineering electric powertrains, battery management systems, and smart charging infrastructures.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electrical & Electronics Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Covers battery chemistry, electric motor drives, regenerative braking systems, vehicle dynamics, and charging station infrastructures.",
-    curriculum: ["EV Powertrain Dynamics", "Battery Management Systems (BMS)", "Electric Motor Drives", "EV Charging Technologies", "Automotive Embedded Systems", "Power Electronic Converters"],
-    careers: [
-      { title: "EV Powertrain Engineer", desc: "Design electric motor controllers and traction drivetrains." },
-      { title: "Battery Systems Specialist", desc: "Develop thermal and voltage balancing algorithms for battery packs." },
-      { title: "Charging Infrastructure Developer", desc: "Establish high-speed DC charging grids and grid integration networks." }
-    ]
-  },
-  {
-    slug: "btech-eee-renewable-energy",
-    title: "B.Tech. EEE (Renewable Energy)",
-    desc: "Harnessing wind, solar, and green energy sources for micro-grids and eco-friendly distribution.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electrical & Electronics Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Focuses on photovoltaics, wind energy conversions, fuel cells, bio-energy, micro-grid architectures, and green energy management.",
-    curriculum: ["Solar Photovoltaics", "Wind Energy Conversion", "Fuel Cell Technologies", "Micro-Grid Design", "Energy Auditing & Management", "Grid Integration"],
-    careers: [
-      { title: "Renewable Energy Analyst", desc: "Evaluate feasibility and efficiency profiles of solar and wind installations." },
-      { title: "Micro-Grid Integrator", desc: "Synchronize local green energy generation with main grids." },
-      { title: "Energy Auditor", desc: "Consult businesses on lowering power footprints and carbon emissions." }
-    ]
-  },
-  {
-    slug: "btech-eee-smart-grid",
-    title: "B.Tech. EEE (Smart Grid)",
-    desc: "Integrating IoT and communication technologies for intelligent power distribution networks.",
-    duration: "4 Years (Undergraduate)",
-    department: "Electrical & Electronics Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Concentrates on smart metering, wide-area monitoring systems, cybersecurity in utility grids, and distributed generation.",
-    curriculum: ["Smart Metering Technologies", "Wide Area Monitoring Systems", "Grid Cybersecurity", "Distributed Generation", "SCADA for Smart Grids", "Demand Response Systems"],
-    careers: [
-      { title: "Smart Grid Analyst", desc: "Develop load prediction algorithms and peak-load shaving strategies." },
-      { title: "Substation Automation Engineer", desc: "Deploy digital relays and automated telemetry grids." },
-      { title: "Utility Security Consultant", desc: "Ensure grid control centers are immune to digital hacking attempts." }
-    ]
-  },
-
-  // Mechanical Engineering
-  {
-    slug: "btech-mechanical",
-    title: "B.Tech. Mechanical Engineering",
-    desc: "Designing thermal systems, manufacturing tools, and dynamic machine structures.",
-    duration: "4 Years (Undergraduate)",
-    department: "Mechanical Engineering",
-    degreeType: "B.Tech",
-    overview: "Offers foundational training in thermodynamics, solid mechanics, fluid machinery, machine design, and manufacturing technology.",
-    curriculum: ["Thermodynamics", "Strength of Materials", "Fluid Mechanics & Machinery", "Kinematics of Machinery", "Design of Machine Elements", "Computer Aided Design (CAD)"],
-    careers: [
-      { title: "Mechanical Design Engineer", desc: "Create structural CAD blueprints for machine parts." },
-      { title: "Thermal Engineer", desc: "Optimize heat exchanger coils and boiler layouts." },
-      { title: "Manufacturing Supervisor", desc: "Oversee heavy machinery shops and fabrication processes." }
-    ]
-  },
-  {
-    slug: "btech-mechanical-mechatronics",
-    title: "B.Tech. Mechanical (Mechatronics)",
-    desc: "Fusing mechanical components, electronic sensors, and digital control software.",
-    duration: "4 Years (Undergraduate)",
-    department: "Mechanical Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Highlights actuator controls, sensor integrations, automated instrumentation, and robotic system controls.",
-    curriculum: ["Sensors & Actuators", "Microprocessor Interfacing", "Control Systems", "Opto-electronics", "Industrial Robotics", "Digital Controls Lab"],
-    careers: [
-      { title: "Mechatronics Engineer", desc: "Integrate mechanical actuators with digital sensor control loops." },
-      { title: "Automation Systems Specialist", desc: "Program automated assembly tools and conveyor lines." },
-      { title: "Instrumentation Developer", desc: "Design calibration tools for medical or industrial systems." }
-    ]
-  },
-  {
-    slug: "btech-mechanical-robotics",
-    title: "B.Tech. Mechanical (Robotics)",
-    desc: "Engineering structural chassis, linkage kinematics, and servo controls for mechanical robots.",
-    duration: "4 Years (Undergraduate)",
-    department: "Mechanical Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Studies robotic arms, kinematic equations, path planning, drive gears, and hydraulic/pneumatic actuators.",
-    curriculum: ["Robotic Mechanism Design", "Forward & Inverse Kinematics", "Servo & Actuator Controls", "Hydraulic & Pneumatic Systems", "Path Planning & AI", "Robotic Material Science"],
-    careers: [
-      { title: "Robot Chassis Designer", desc: "Engineer physical robot links and lightweight stress configurations." },
-      { title: "Kinematics Programmer", desc: "Write equations determining trajectory angles and tool offsets." },
-      { title: "Maintenance Engineer", desc: "Calibrate and repair complex robotic arms in automotive lines." }
-    ]
-  },
-  {
-    slug: "btech-mechanical-automobile",
-    title: "B.Tech. Mechanical (Automobile)",
-    desc: "Designing combustion/electric engines, transmission gearing, and chassis aerodynamics.",
-    duration: "4 Years (Undergraduate)",
-    department: "Mechanical Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Examines internal combustion engines, gearbox transmissions, suspension systems, brake systems, and wind tunnel aerodynamic shapes.",
-    curriculum: ["Combustion Engines", "Transmission Systems", "Chassis & Suspension Design", "Vehicle Aerodynamics", "Automotive NVH (Noise & Vibration)", "Vehicle Safety & Testing"],
-    careers: [
-      { title: "Automotive Designer", desc: "Develop aerodynamically efficient car profiles and structural frames." },
-      { title: "Engine Calibration Engineer", desc: "Tune fuel injection systems and throttle profiles for power and efficiency." },
-      { title: "Vibration Test Analyst", desc: "Analyze noise and rattle elements on test tracks." }
-    ]
-  },
-  {
-    slug: "btech-mechanical-manufacturing",
-    title: "B.Tech. Mechanical (Manufacturing)",
-    desc: "Optimizing CNC machining, casting processes, 3D printing, and factory logistics.",
-    duration: "4 Years (Undergraduate)",
-    department: "Mechanical Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Focuses on computer-aided manufacturing (CAM), metallurgy, casting/molding technologies, subtractive machining, and rapid 3D additive manufacturing.",
-    curriculum: ["Computer Aided Manufacturing (CAM)", "Metal Casting & Joining", "CNC Programming", "Additive Manufacturing (3D Printing)", "Operations Research", "Metrology & Quality Control"],
-    careers: [
-      { title: "CAM Engineer", desc: "Write toolpaths for high-speed CNC mill machines." },
-      { title: "Additive Manufacturing Developer", desc: "Optimize structural support prints in metal 3D printers." },
-      { title: "Quality Control Manager", desc: "Deploy laser scanners and micrometers to verify physical tolerances." }
-    ]
-  },
-
   // Civil Engineering
   {
     slug: "btech-civil",
     title: "B.Tech. Civil Engineering",
-    desc: "Designing roads, bridges, dam barriers, and structural concrete buildings.",
-    duration: "4 Years (Undergraduate)",
+    desc: "Building the infrastructure of tomorrow.",
+    duration: "4 Years",
+    school: "school-of-engineering",
     department: "Civil Engineering",
     degreeType: "B.Tech",
-    overview: "Provides comprehensive knowledge in soil mechanics, structural analysis, water resource engineering, surveying, concrete technologies, and structural steel designs.",
-    curriculum: ["Strength of Materials", "Surveying & GIS", "Concrete Technology", "Structural Analysis", "Geotechnical Engineering", "Transportation Engineering"],
-    careers: [
-      { title: "Structural Design Engineer", desc: "Calculate load limits and reinforce concrete frames." },
-      { title: "Site Supervisor", desc: "Direct concrete pours and enforce construction site safety guidelines." },
-      { title: "Geotechnical Consultant", desc: "Analyze soil core samples to verify foundation stabilities." }
-    ]
+    overview: "Structural design and construction technology.",
+    curriculum: ["Structural Analysis", "Fluid Mechanics"],
+    careers: [{ title: "Civil Engineer", desc: "Design structures" }]
   },
   {
-    slug: "btech-civil-smart-infrastructure",
-    title: "B.Tech. Civil (Smart Infrastructure)",
-    desc: "Designing smart cities, sensor-embedded bridges, and sustainable concrete structures.",
-    duration: "4 Years (Undergraduate)",
+    slug: "mtech-structural",
+    title: "M.Tech. Structural Engineering",
+    desc: "Advanced structural design.",
+    duration: "2 Years",
+    school: "school-of-engineering",
     department: "Civil Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Fuses traditional structural design with IoT telemetry, structural health monitoring sensors, smart drainage grids, and green building certifications.",
-    curriculum: ["Structural Health Monitoring", "Smart Material Composites", "Urban Water Flow Telemetry", "Building Information Modeling (BIM)", "GIS & Remote Sensing", "Green Building Design"],
-    careers: [
-      { title: "BIM Manager", desc: "Model 3D virtual blueprints containing structural, electrical, and plumbing data." },
-      { title: "Smart City Infrastructure Analyst", desc: "Integrate flow sensors inside municipal water grids." },
-      { title: "Structural Telemetry Developer", desc: "Deploy strain gauges on suspension bridges to detect stress fractures." }
-    ]
+    degreeType: "M.Tech",
+    overview: "Advanced study of structural integrity and materials.",
+    curriculum: ["Advanced Structural Analysis"],
+    careers: [{ title: "Structural Engineer", desc: "Ensure safety of structures" }]
   },
   {
-    slug: "btech-civil-construction-technology",
-    title: "B.Tech. Civil (Construction Technology)",
-    desc: "Managing high-speed concrete construction, project scheduling, and equipment machinery.",
-    duration: "4 Years (Undergraduate)",
+    slug: "phd-structural",
+    title: "Ph.D. Structural Engineering",
+    desc: "Doctoral research in structures.",
+    duration: "3-5 Years",
+    school: "school-of-engineering",
     department: "Civil Engineering",
-    degreeType: "B.Tech Specialization",
-    overview: "Concentrates on advanced concrete mixes, heavy machinery logistics, cost estimation, project management software (Primavera/MS Project), and modular construction.",
-    curriculum: ["Advanced Concrete Mix Design", "Construction Machinery Logistics", "Cost Estimation & Tendering", "Primavera & MS Project", "Precast Concrete Systems", "Safety & Laws"],
-    careers: [
-      { title: "Project Planner", desc: "Map critical construction paths and resource milestones." },
-      { title: "Precast Design Architect", desc: "Model modular concrete slabs for quick off-site assembly." },
-      { title: "Estimating Engineer", desc: "Calculate material volumes and prepare bidding sheets." }
-    ]
+    degreeType: "Ph.D",
+    overview: "Novel research in construction and structural engineering.",
+    curriculum: ["Research Methodology"],
+    careers: [{ title: "Researcher", desc: "Conduct structural research" }]
   },
 
-  // Emerging Technologies
+  // ==========================================
+  // SCHOOL OF BUSINESS & MANAGEMENT
+  // ==========================================
+  // Business and Management
   {
-    slug: "btech-emerging-ai",
-    title: "B.Tech. Emerging Technologies (Artificial Intelligence)",
-    desc: "Dedicated computing program exploring automated cognitive logic and neural networks.",
-    duration: "4 Years (Undergraduate)",
-    department: "Emerging Technologies",
-    degreeType: "B.Tech",
-    overview: "An elite program looking beyond classic software engineering. Fuses logic programming, deep reinforcement learning, cognitive computing, and AI hardware accelerators.",
-    curriculum: ["Cognitive Computing", "Deep Reinforcement Learning", "AI Hardware Accelerators", "Neural Network Architecture", "Natural Language Generation", "Robotic AI Logic"],
-    careers: [
-      { title: "AI Researcher", desc: "Draft and test novel machine learning activation layers." },
-      { title: "Cognitive Scientist", desc: "Model automated reasoning systems for healthcare diagnosis." },
-      { title: "Neuromorphic Hardware Advisor", desc: "Deploy algorithms to custom AI processor chips." }
-    ]
-  },
-  {
-    slug: "btech-emerging-ds",
-    title: "B.Tech. Emerging Technologies (Data Science)",
-    desc: "Advanced data analytics, machine-to-machine telemetry, and high-frequency model loops.",
-    duration: "4 Years (Undergraduate)",
-    department: "Emerging Technologies",
-    degreeType: "B.Tech",
-    overview: "Provides skills in stream data processing, high-dimensional stats, predictive model automation, and real-time visualization dashboards.",
-    curriculum: ["Real-time Stream Processing", "High-Dimensional Statistics", "Data Warehousing & ETL Pipelines", "Data Monetization Frameworks", "ML Automation (AutoML)", "Data Security Laws"],
-    careers: [
-      { title: "Data Stream Architect", desc: "Construct Kafka pipelines for real-time sensor streams." },
-      { title: "AutoML Specialist", desc: "Deploy algorithms that automatically train and tune ML models." },
-      { title: "Privacy Compliance Analyst", desc: "Ensure database records comply with GDPR and local laws." }
-    ]
-  },
-  {
-    slug: "btech-emerging-robotics",
-    title: "B.Tech. Emerging Technologies (Robotics Engineering)",
-    desc: "Engineering autonomous mobile robots, aerial drones, and humanoid systems.",
-    duration: "4 Years (Undergraduate)",
-    department: "Emerging Technologies",
-    degreeType: "B.Tech",
-    overview: "Fuses computer vision, autonomous mapping (SLAM), drone flight dynamics, robotic manipulation, and micro-electromechanical sensors.",
-    curriculum: ["Simultaneous Localization & Mapping (SLAM)", "Drone Flight Dynamics", "Micro-Sensors (MEMS)", "Robotic Manipulation", "Autonomous Control Systems", "ROS (Robot Operating System)"],
-    careers: [
-      { title: "Autonomous Navigation Developer", desc: "Write SLAM logic for warehouse transport robots." },
-      { title: "Drone Control Programmer", desc: "Optimize flight stabilization loops on quadcopter boards." },
-      { title: "ROS Integrator", desc: "Synchronize sensory feeds with actuator controls inside ROS nodes." }
-    ]
-  },
-  {
-    slug: "btech-biomedical",
-    title: "B.Tech. Biomedical Engineering",
-    desc: "Fusing medical diagnostics, biosensors, and prosthetic limbs with modern engineering.",
-    duration: "4 Years (Undergraduate)",
-    department: "Emerging Technologies",
-    degreeType: "B.Tech",
-    overview: "Examines human anatomy, biosignal processing (ECG/EEG), medical imaging machines (MRI/X-Ray), wearable biosensors, and artificial heart valves.",
-    curriculum: ["Human Physiology for Engineers", "Bio-Signal Processing", "Medical Imaging Instrumentation", "Biomaterials & Prothesis", "Wearable Health Sensors", "Clinical Diagnostics Lab"],
-    careers: [
-      { title: "Biomedical Equipment Designer", desc: "Develop next-generation ECG monitors and ultrasound probes." },
-      { title: "Prosthetic Designer", desc: "Draft mechanical joints and motor control arrays for prosthetic limbs." },
-      { title: "Clinical Support Specialist", desc: "Calibrate and manage critical MRI scanners in major hospital networks." }
-    ]
-  },
-  {
-    slug: "btech-biotechnology",
-    title: "B.Tech. Biotechnology",
-    desc: "Synthesizing bio-fuels, genetic therapies, agricultural crops, and industrial enzymes.",
-    duration: "4 Years (Undergraduate)",
-    department: "Emerging Technologies",
-    degreeType: "B.Tech",
-    overview: "Prepares students in cell biology, genetic engineering, industrial microbiology, bioreactor design, bio-fuels, and plant tissue cultures.",
-    curriculum: ["Cell Biology & Genetics", "Recombinant DNA Technology", "Bioreactor Design & Scaleup", "Industrial Microbiology", "Bioinformatics & Sequence Analysis", "Plant & Animal Tissue Culture"],
-    careers: [
-      { title: "Genetic Engineer", desc: "Modify bacterial strains to produce insulin or industrial enzymes." },
-      { title: "Bioprocess Scientist", desc: "Scale up yeast fermentation runs inside large bioreactors." },
-      { title: "Bioinformatics Specialist", desc: "Analyze DNA sequence data using python processing libraries." }
-    ]
-  },
-  {
-    slug: "btech-agricultural",
-    title: "B.Tech. Agricultural Engineering",
-    desc: "Engineering automated irrigation, farm machinery, greenhouse soils, and food processing lines.",
-    duration: "4 Years (Undergraduate)",
-    department: "Emerging Technologies",
-    degreeType: "B.Tech",
-    overview: "Fuses soil mechanics, hydrology, automated drip irrigation, solar water pumps, combine harvesting tractors, and food preservation packaging.",
-    curriculum: ["Soil Mechanics & Hydrology", "Smart Irrigation & Drip Systems", "Tractor & Farm Machinery Design", "Post-Harvest Food Processing", "Greenhouse Technology", "Soil & Water Conservation"],
-    careers: [
-      { title: "Irrigation Design Engineer", desc: "Model high-efficiency drip networks and solar water systems." },
-      { title: "Farm Machinery Designer", desc: "Draft mechanical linkages and hydraulic systems for tractors." },
-      { title: "Food Processing Advisor", desc: "Optimize temperature control loops in food packaging and freeze-drying lines." }
-    ]
+    slug: "mba",
+    title: "MBA",
+    desc: "Master of Business Administration.",
+    duration: "2 Years",
+    school: "school-of-business-management",
+    department: "Business and Management",
+    degreeType: "PG",
+    overview: "Leadership and management training.",
+    curriculum: ["Marketing", "Finance", "HR"],
+    careers: [{ title: "Manager", desc: "Lead teams and business" }]
   }
 ];

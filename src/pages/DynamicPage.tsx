@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe, QrCode, Award, ChevronLeft } from "lucide-react";
-import { UNDERGRADUATE_GROUPS, MEGA_MENU_PROGRAMS } from "../components/layout/Header";
+import { MEGA_MENU_SCHOOLS } from "../components/layout/Header";
 import { useData } from "../context/DataContext";
 import GlobalCertifications from "../components/sections/GlobalCertifications";
 
@@ -414,29 +414,49 @@ const getPageContent = (path: string, programs: any[]) => {
               </div>
             </div>
 
-            <div>
-              <h3 className="text-base font-extrabold text-[#072A6C] mb-2">Course Overview</h3>
-              <p className="font-light">{matchedProgram.overview}</p>
+            {/* Course Overview */}
+            <div className="bg-gradient-to-br from-white to-gray-50 border border-gray-100 p-6 rounded-2xl shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#072A6C]/5 rounded-bl-full -z-10" />
+              <h3 className="text-lg font-extrabold text-[#072A6C] mb-3 flex items-center gap-2">
+                <Info size={18} className="text-[#D71920]" />
+                Course Overview
+              </h3>
+              <p className="font-light text-gray-600 leading-relaxed text-sm">
+                {matchedProgram.overview}
+              </p>
             </div>
 
+            {/* Core Focus Modules */}
             <div>
-              <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Core Focus Modules</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <h3 className="text-lg font-extrabold text-[#072A6C] mb-4 flex items-center gap-2">
+                <BookOpen size={18} className="text-[#D71920]" />
+                Core Focus Modules
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {matchedProgram.curriculum.map((item: string, idx: number) => (
-                  <div key={idx} className="bg-white border border-gray-200/80 rounded-xl p-3 text-center text-xs font-semibold text-gray-700 shadow-sm hover:border-[#D71920]/45 transition-colors">
-                    {item}
+                  <div key={idx} className="group bg-white border border-gray-200/60 rounded-xl p-4 flex items-start gap-3 hover:border-[#D71920]/40 hover:shadow-md transition-all">
+                    <div className="w-6 h-6 rounded-full bg-[#072A6C]/5 flex items-center justify-center shrink-0 group-hover:bg-[#D71920]/10 transition-colors">
+                      <span className="text-[#072A6C] group-hover:text-[#D71920] font-bold text-[10px]">{idx + 1}</span>
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700 mt-0.5 leading-snug group-hover:text-[#072A6C] transition-colors">
+                      {item}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
+            {/* Career Prospects */}
             <div>
-              <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Career Prospects</h3>
-              <div className="space-y-3">
+              <h3 className="text-lg font-extrabold text-[#072A6C] mb-4 flex items-center gap-2">
+                <Award size={18} className="text-[#D71920]" />
+                Career Prospects
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {matchedProgram.careers.map((career: { title: string; desc: string }, idx: number) => (
-                  <div key={idx} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
-                    <h4 className="font-bold text-[#D71920] text-xs">{career.title}</h4>
-                    <p className="text-[11px] text-gray-500 mt-1 leading-normal font-light">{career.desc}</p>
+                  <div key={idx} className="bg-white border-l-4 border-l-[#D71920] border border-gray-100 p-5 rounded-r-xl shadow-sm hover:shadow-md transition-all group">
+                    <h4 className="font-extrabold text-[#072A6C] text-sm group-hover:text-[#D71920] transition-colors">{career.title}</h4>
+                    <p className="text-xs text-gray-500 mt-2 leading-relaxed font-light">{career.desc}</p>
                   </div>
                 ))}
               </div>
@@ -568,57 +588,32 @@ const getPageContent = (path: string, programs: any[]) => {
             </p>
             
             <div className="space-y-6">
-              {/* Undergraduate (UG) Section */}
-              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                <h3 className="text-base font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
-                  Undergraduate (UG) Programs
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
-                    <div key={dept} className="space-y-2">
-                      <h4 className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">{dept}</h4>
-                      <div className="flex flex-col gap-1.5 pl-2">
-                        {courses.map((course) => (
-                          <Link
-                            key={course.slug}
-                            to={`/academics/${course.slug}`}
-                            className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                            {course.title}
-                          </Link>
-                        ))}
+              {Object.entries(MEGA_MENU_SCHOOLS).map(([schoolName, departments]) => (
+                <div key={schoolName} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+                  <h3 className="text-base font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
+                    {schoolName}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {Object.entries(departments).map(([dept, courses]) => (
+                      <div key={dept} className="space-y-2">
+                        <h4 className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">{dept}</h4>
+                        <div className="flex flex-col gap-1.5 pl-2">
+                          {courses.map((course) => (
+                            <Link
+                              key={course.slug}
+                              to={`/academics/${course.slug}`}
+                              className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                              {course.title}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Postgraduate (PG) & Other Sections */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {Object.entries(MEGA_MENU_PROGRAMS).map(([level, list]) => {
-                  if (level === "Undergraduate (UG)") return null;
-                  return (
-                    <div key={level} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                      <h3 className="text-sm font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
-                        {level}
-                      </h3>
-                      <div className="flex flex-col gap-2 pl-2">
-                        {list.map((course) => (
-                          <Link
-                            key={course.label}
-                            to={course.to}
-                            className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                            {course.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              ))}
             </div>
 
             {/* Global Certifications Section (Full Width Breakout) */}
@@ -1288,56 +1283,19 @@ function AcademicCalendar() {
 
   const years = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23"];
 
-  const universitysData: Record<string, Record<string, { label: string; key: string }[]>> = {
-    "2026-27": {
-      "University of Engineering": [
-        { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
-        { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
-        { label: "B.Tech. Lateral Entry (UG Engineering)", key: "btech-lateral" },
-        { label: "M.Tech. I & II Year Programs", key: "mtech" }
-      ],
-      "University of Management": [
-        { label: "MBA I & II Year Programs", key: "mba" },
-        { label: "MCA I & II Year Programs", key: "mca" },
-        { label: "BBA Undergraduate Programs", key: "bba" }
-      ],
-      "University of Pharmacy": [
-        { label: "B.Pharm I Year Coursework", key: "bpharm-1" },
-        { label: "B.Pharm II, III & IV Year", key: "bpharm-2-3-4" },
-        { label: "M.Pharm & Pharm.D Programs", key: "mpharm" }
-      ]
-    },
-    "2025-26": {
-      "University of Engineering": [
-        { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
-        { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
-        { label: "M.Tech. Programs", key: "mtech" }
-      ],
-      "University of Management": [
-        { label: "MBA & MCA Programs", key: "mgmt" }
-      ],
-      "University of Pharmacy": [
-        { label: "B.Pharm Programs", key: "bpharm" }
-      ]
-    }
-  };
+  const universitysData: Record<string, Record<string, { label: string; key: string }[]>> = {};
 
-  // Pre-fill previous years dynamically so we have 5 years covered
   years.forEach(y => {
-    if (!universitysData[y]) {
-      universitysData[y] = {
-        "University of Engineering": [
-          { label: `B.Tech. Programs (${y})`, key: `btech-${y}` },
-          { label: `M.Tech. Programs (${y})`, key: `mtech-${y}` }
-        ],
-        "University of Management": [
-          { label: `MBA & MCA Programs (${y})`, key: `mgmt-${y}` }
-        ],
-        "University of Pharmacy": [
-          { label: `B.Pharm & M.Pharm (${y})`, key: `pharm-${y}` }
-        ]
-      };
-    }
+    universitysData[y] = {};
+    Object.entries(MEGA_MENU_SCHOOLS).forEach(([school, depts]) => {
+      const courses: { label: string; key: string }[] = [];
+      Object.values(depts).forEach(deptCourses => {
+        deptCourses.forEach(c => {
+          courses.push({ label: `${c.title} (${y})`, key: `${c.slug}-${y}` });
+        });
+      });
+      universitysData[y][school] = courses;
+    });
   });
 
 function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKey: string }) {
@@ -1691,107 +1649,71 @@ function AcademicFlexibilities() {
 
 function AcademicGradingSystem() {
   const isAdmin = false;
-  const [activeTab, setActiveTab] = React.useState("btech");
+  const [activeTab, setActiveTab] = React.useState("School of Computing Sciences");
 
-  const defaultGradingData = {
-    btech: {
-      title: "B.Tech. Grading Schema",
-      absolute: [
-        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
-        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
-        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
-        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
-        { perf: "Above Average", grade: "B", gp: "6", range: "50 - 59" },
-        { perf: "Average", grade: "C", gp: "5", range: "46 - 49" },
-        { perf: "Pass", grade: "P", gp: "4", range: "40 - 45" },
-        { perf: "Fail", grade: "F", gp: "0", range: "0 - 39" },
-        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
-      ],
-      relative: [
-        { grade: "O", gp: "10", calc: "total marks >= 90% and total marks >= mean + 1.50σ" },
-        { grade: "A+", gp: "9", calc: "µ+0.50σ <= total marks < µ+1.50σ" },
-        { grade: "A", gp: "8", calc: "µ <= total marks < µ+0.50σ" },
-        { grade: "B+", gp: "7", calc: "µ-0.50σ <= total marks < µ" },
-        { grade: "B", gp: "6", calc: "µ-1.00σ <= total marks < µ-0.50σ" },
-        { grade: "C", gp: "5", calc: "µ-1.25σ <= total marks < µ-1.00σ" },
-        { grade: "P", gp: "4", calc: "µ-1.50σ <= total marks < µ-1.25σ or >= 40" },
-        { grade: "F", gp: "0", calc: "total marks < µ-1.50σ or total marks <= 39" },
-        { grade: "AB", gp: "0", calc: "Absent" }
+  const ugAbsolute = [
+    { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
+    { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
+    { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
+    { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
+    { perf: "Above Average", grade: "B", gp: "6", range: "50 - 59" },
+    { perf: "Average", grade: "C", gp: "5", range: "46 - 49" },
+    { perf: "Pass", grade: "P", gp: "4", range: "40 - 45" },
+    { perf: "Fail", grade: "F", gp: "0", range: "0 - 39" },
+    { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
+  ];
+
+  const pgAbsolute = [
+    { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
+    { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
+    { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
+    { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
+    { perf: "Above Average", grade: "B", gp: "6", range: "50 - 59" },
+    { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
+    { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
+  ];
+
+  const relative = [
+    { grade: "O", gp: "10", calc: "total marks >= 90% and total marks >= mean + 1.50σ" },
+    { grade: "A+", gp: "9", calc: "µ+0.50σ <= total marks < µ+1.50σ" },
+    { grade: "A", gp: "8", calc: "µ <= total marks < µ+0.50σ" },
+    { grade: "B+", gp: "7", calc: "µ-0.50σ <= total marks < µ" },
+    { grade: "B", gp: "6", calc: "µ-1.00σ <= total marks < µ-0.50σ" },
+    { grade: "F", gp: "0", calc: "total marks < µ-1.50σ" },
+    { grade: "AB", gp: "0", calc: "Absent" }
+  ];
+
+  const defaultGradingData: Record<string, { title: string; schemas: any[] }> = {
+    "School of Computing Sciences": {
+      title: "School of Computing Sciences",
+      schemas: [
+        { title: "B.Tech. Grading Schema", absolute: ugAbsolute, relative: relative },
+        { title: "M.Tech., MCA & Ph.D. Grading Schema", absolute: pgAbsolute, relative: relative }
       ]
     },
-    pg: {
-      title: "M.Tech, MSc, M.A, MCA, MBA Grading Schema",
-      absolute: [
-        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
-        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
-        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
-        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
-        { perf: "Above Average", grade: "B", gp: "6", range: "50 - 59" },
-        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
-        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
-      ],
-      relative: [
-        { grade: "O", gp: "10", calc: "total marks >= 90% and total marks >= mean + 1.50σ" },
-        { grade: "A+", gp: "9", calc: "µ+0.50σ <= total marks < µ+1.50σ" },
-        { grade: "A", gp: "8", calc: "µ <= total marks < µ+0.50σ" },
-        { grade: "B+", gp: "7", calc: "µ-0.50σ <= total marks < µ" },
-        { grade: "B", gp: "6", calc: "µ-1.00σ <= total marks < µ-0.50σ" },
-        { grade: "F", gp: "0", calc: "total marks < µ-1.50σ or total marks <= 49" },
-        { grade: "AB", gp: "0", calc: "Absent" }
+    "School of Engineering": {
+      title: "School of Engineering",
+      schemas: [
+        { title: "B.Tech. Grading Schema", absolute: ugAbsolute, relative: relative },
+        { title: "M.Tech. & Ph.D. Grading Schema", absolute: pgAbsolute, relative: relative }
       ]
     },
-    barch: {
-      title: "B.Arch. Grading Schema",
-      absolute: [
-        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
-        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
-        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
-        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
-        { perf: "Above Average", grade: "B", gp: "6", range: "56 - 59" },
-        { perf: "Pass", grade: "P", gp: "5", range: "50 - 55" },
-        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
-        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
-      ]
-    },
-    bpharm: {
-      title: "B.Pharmacy Grading Schema",
-      absolute: [
-        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
-        { perf: "Excellent", grade: "A", gp: "9", range: "80 - 89" },
-        { perf: "Good", grade: "B", gp: "8", range: "70 - 79" },
-        { perf: "Fair", grade: "C", gp: "7", range: "60 - 69" },
-        { perf: "Average", grade: "D", gp: "6", range: "50 - 59" },
-        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
-        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
-      ]
-    },
-    bballb: {
-      title: "BBA-LL.B. Grading Schema",
-      relative: [
-        { perf: "Excellent", grade: "X", gp: "10", calc: "Top Tier performance" },
-        { perf: "Very Good", grade: "A", gp: "9", calc: "Highly Commendable" },
-        { perf: "Good", grade: "B", gp: "8", calc: "Competent Standard" },
-        { perf: "Fair", grade: "C", gp: "7", calc: "Average standard" },
-        { perf: "Satisfactory", grade: "D", gp: "6", calc: "Satisfactory standard" },
-        { perf: "Pass", grade: "E", gp: "5", calc: "Passing threshold" },
-        { perf: "Fail", grade: "F", gp: "0", calc: "Failing standard" },
-        { perf: "Absent", grade: "AB", gp: "0", calc: "Absent" }
+    "School of Business & Management": {
+      title: "School of Business & Management",
+      schemas: [
+        { title: "MBA Grading Schema", absolute: pgAbsolute, relative: relative }
       ]
     }
   };
 
-  const [gradingData, setGradingData] = React.useState(() => {
-    const saved = localStorage.getItem("chalapathy_grading_config");
-    return saved ? JSON.parse(saved) : defaultGradingData;
-  });
-  const currentProgram = gradingData[activeTab];
+  const currentProgram = defaultGradingData[activeTab];
 
   return (
     <div className="space-y-6">
       {/* Top Header Controls */}
-      <div className="flex justify-start items-center bg-gray-50 border border-gray-100 p-4 rounded-2xl">
-        <div className="flex gap-2">
-          {Object.entries(gradingData).map(([key, data]: [string, any]) => (
+      <div className="flex justify-start items-center bg-gray-50 border border-gray-100 p-4 rounded-2xl overflow-x-auto">
+        <div className="flex gap-2 min-w-max">
+          {Object.entries(defaultGradingData).map(([key, data]) => (
             <button
               key={key}
               onClick={() => setActiveTab(key)}
@@ -1801,86 +1723,79 @@ function AcademicGradingSystem() {
                   : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
               }`}
             >
-              {key === "btech" && "B.Tech"}
-              {key === "pg" && "PG (M.Tech/MBA/MCA)"}
-              {key === "barch" && "B.Arch"}
-              {key === "bpharm" && "B.Pharmacy"}
-              {key === "bballb" && "BBA-LL.B."}
+              {data.title}
             </button>
           ))}
         </div>
       </div>
 
-      <div className="space-y-8">
-        <h3 className="text-lg font-extrabold text-[#072A6C]">{currentProgram.title}</h3>
-        
-        {/* Render Absolute Grading if it exists */}
-        {currentProgram.absolute && (
-          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-xs font-extrabold text-[#D71920] uppercase tracking-wider">Absolute Grading System</span>
-              {isAdmin && <span className="text-[10px] text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded border border-green-100">Click any field to edit</span>}
-            </div>
-            <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Performance</th>
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Percentage of Marks</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {currentProgram.absolute.map((row: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
-                      <td className="p-3.5 font-medium text-gray-800">{row.perf}</td>
-                      <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
-                      <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
-                      <td className="p-3.5 text-gray-500 font-light">{row.range}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+      <div className="space-y-12">
+        {currentProgram.schemas.map((schema: any, sIdx: number) => (
+          <div key={sIdx} className="space-y-8">
+            <h3 className="text-lg font-extrabold text-[#072A6C]">{schema.title}</h3>
+            
+            {schema.absolute && (
+              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-xs font-extrabold text-[#D71920] uppercase tracking-wider">Absolute Grading System</span>
+                </div>
+                <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
+                        <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Performance</th>
+                        <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
+                        <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
+                        <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Percentage of Marks</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {schema.absolute.map((row: any, idx: number) => (
+                        <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
+                          <td className="p-3.5 font-medium text-gray-800">{row.perf}</td>
+                          <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
+                          <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
+                          <td className="p-3.5 text-gray-500 font-light">{row.range}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
 
-        {/* Render Relative Grading if it exists */}
-        {currentProgram.relative && (
-          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">Relative Grading System</span>
-            </div>
-            <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
-                    {activeTab === "bballb" && <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Performance</th>}
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">{activeTab === "bballb" ? "Descriptor" : "Grade Calculation Formula"}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {currentProgram.relative.map((row: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
-                      {activeTab === "bballb" && (
-                        <td className="p-3.5 font-medium text-gray-800">{row.perf}</td>
-                      )}
-                      <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
-                      <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
-                      <td className="p-3.5 text-gray-600 font-mono text-[11px]">{row.calc}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {schema.relative && (
+              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">Relative Grading System</span>
+                </div>
+                <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
+                        <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
+                        <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
+                        <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Calculation Formula</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {schema.relative.map((row: any, idx: number) => (
+                        <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
+                          <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
+                          <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
+                          <td className="p-3.5 text-gray-600 font-mono text-[11px]">{row.calc}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        ))}
       </div>
 
-      <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-xl text-[11px] text-yellow-900 font-light leading-relaxed">
+      <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-xl text-[11px] text-yellow-900 font-light leading-relaxed mt-6">
         <strong>Definitions:</strong>
         <br />• <strong>Mean (µ):</strong> The average score of all passing students in the specific subject class.
         <br />• <strong>Standard Deviation (σ):</strong> Represents the variance / score distribution of the student cohort.
@@ -1891,76 +1806,58 @@ function AcademicGradingSystem() {
 }
 
 function AwardOfDegrees() {
-  const [activeCategory, setActiveCategory] = React.useState("btech");
+  const [activeCategory, setActiveCategory] = React.useState("computing");
   const [testCgpa, setTestCgpa] = React.useState<number>(7.5);
 
-  const categories = {
-    btech: {
-      title: "B.Tech., B.Sc., B.Com., BBA, BCA",
-      desc: "Degree classification requirements for undergraduate streams:",
-      grades: [
-        { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
-        { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
-        { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
-        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
-      ]
+  const defaultGrades = [
+    { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
+    { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
+    { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
+    { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
+  ];
+
+  const categories: Record<string, any> = {
+    "computing": {
+      title: "School of Computing Sciences",
+      desc: "Degree classification requirements for B.Tech, M.Tech, MCA, and Ph.D. streams:",
+      grades: defaultGrades
     },
-    barch: {
-      title: "B.Arch. (Bachelor of Architecture)",
-      desc: "Degree classification requirements for architectural courses:",
-      grades: [
-        { min: 5.75, max: 6.25, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
-        { min: 6.25, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
-        { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
-        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
-      ]
+    "engineering": {
+      title: "School of Engineering",
+      desc: "Degree classification requirements for B.Tech, M.Tech, and Ph.D. streams:",
+      grades: defaultGrades
     },
-    pg: {
-      title: "M.Tech., M.Sc., M.A., MCA, MBA",
-      desc: "Degree classification requirements for all postgraduate programs:",
-      grades: [
-        { min: 5.5, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
-        { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
-        { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
-        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
-      ]
+    "management": {
+      title: "School of Business & Management",
+      desc: "Degree classification requirements for MBA stream:",
+      grades: defaultGrades
     }
   };
 
-  const selectedData = categories[activeCategory as keyof typeof categories];
-
-  // Helper to determine active range based on slider CGPA value
-  const getActiveGradeIndex = () => {
-    return selectedData.grades.findIndex(
-      (g) => testCgpa >= g.min && testCgpa < g.max
-    );
-  };
-
-  const activeGradeIndex = getActiveGradeIndex();
+  const selectedData = categories[activeCategory];
+  const activeGradeIndex = selectedData.grades.findIndex((g: any) => testCgpa >= g.min && testCgpa < g.max);
 
   return (
     <div className="space-y-6">
-      {/* Category Tabs */}
-      <div className="flex gap-2 pb-2 border-b border-gray-100">
-        {Object.entries(categories).map(([key, value]) => (
+      {/* Category Selection Tabs */}
+      <div className="flex gap-2 flex-wrap">
+        {Object.entries(categories).map(([key, data]) => (
           <button
             key={key}
             onClick={() => setActiveCategory(key)}
-            className={`px-4 py-2 text-xs font-bold rounded-full transition-all cursor-pointer outline-none ${
+            className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer outline-none shadow-sm ${
               activeCategory === key
-                ? "bg-[#072A6C] text-white shadow-sm"
-                : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
+                ? "bg-[#072A6C] text-white border-2 border-[#072A6C]"
+                : "bg-white text-gray-500 border border-gray-200 hover:border-gray-300 hover:text-gray-800"
             }`}
           >
-            {key === "btech" && "UG (B.Tech, B.Sc, B.Com, BBA, BCA)"}
-            {key === "barch" && "B.Arch"}
-            {key === "pg" && "PG (M.Tech, MBA, MCA, M.Sc)"}
+            {data.title}
           </button>
         ))}
       </div>
 
-      <div className="space-y-4">
-        <h4 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">
+      <div className="pt-2">
+        <h4 className="text-sm font-extrabold text-[#D71920] uppercase tracking-widest mb-1">
           {selectedData.title}
         </h4>
         <p className="text-xs text-gray-500 font-light leading-relaxed">{selectedData.desc}</p>
@@ -1968,7 +1865,7 @@ function AwardOfDegrees() {
 
       {/* Degree Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {selectedData.grades.map((grade, index) => {
+        {selectedData.grades.map((grade: any, index: number) => {
           const isActive = index === activeGradeIndex;
           return (
             <div

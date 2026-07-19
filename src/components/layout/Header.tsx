@@ -3,76 +3,43 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Menu, X, ChevronDown, ArrowRight, Megaphone } from "lucide-react";
 import { useData } from "../../context/DataContext";
 
-export const UNDERGRADUATE_GROUPS = {
-  "Computer Science & Eng": [
-    { title: "B.Tech. Computer Science & Eng", slug: "btech-cse" },
-    { title: "B.Tech. CSE (AI & Machine Learning)", slug: "btech-cse-ai-ml" },
-    { title: "B.Tech. CSE (Data Science)", slug: "btech-cse-data-science" },
-    { title: "B.Tech. CSE (Cyber Security)", slug: "btech-cse-cyber-security" },
-    { title: "B.Tech. CSE (Internet of Things)", slug: "btech-cse-iot" },
-    { title: "B.Tech. CSE (Cloud Computing)", slug: "btech-cse-cloud-computing" },
-    { title: "B.Tech. CSE (Blockchain)", slug: "btech-cse-blockchain" },
-    { title: "B.Tech. CSE (Software Engineering)", slug: "btech-cse-software-engineering" }
-  ],
-  "Electronics & Communication": [
-    { title: "B.Tech. Electronics & Comm Eng", slug: "btech-ece" },
-    { title: "B.Tech. ECE (VLSI Design)", slug: "btech-ece-vlsi" },
-    { title: "B.Tech. ECE (Embedded Systems)", slug: "btech-ece-embedded-systems" },
-    { title: "B.Tech. ECE (Robotics & Automation)", slug: "btech-ece-robotics-automation" },
-    { title: "B.Tech. ECE (IoT Specialization)", slug: "btech-ece-iot" }
-  ],
-  "Electrical & Mechanical": [
-    { title: "B.Tech. Electrical & Electronics Eng", slug: "btech-eee" },
-    { title: "B.Tech. EEE (Electric Vehicles)", slug: "btech-eee-electric-vehicles" },
-    { title: "B.Tech. EEE (Renewable Energy)", slug: "btech-eee-renewable-energy" },
-    { title: "B.Tech. EEE (Smart Grid)", slug: "btech-eee-smart-grid" },
-    { title: "B.Tech. Mechanical Engineering", slug: "btech-mechanical" },
-    { title: "B.Tech. Mechanical (Mechatronics)", slug: "btech-mechanical-mechatronics" },
-    { title: "B.Tech. Mechanical (Robotics)", slug: "btech-mechanical-robotics" },
-    { title: "B.Tech. Mechanical (Automobile)", slug: "btech-mechanical-automobile" },
-    { title: "B.Tech. Mechanical (Manufacturing)", slug: "btech-mechanical-manufacturing" }
-  ],
-  "Civil & Emerging Tech": [
-    { title: "B.Tech. Civil Engineering", slug: "btech-civil" },
-    { title: "B.Tech. Civil (Smart Infrastructure)", slug: "btech-civil-smart-infrastructure" },
-    { title: "B.Tech. Civil (Construction Tech)", slug: "btech-civil-construction-technology" },
-    { title: "B.Tech. Emerging (AI)", slug: "btech-emerging-ai" },
-    { title: "B.Tech. Emerging (Data Science)", slug: "btech-emerging-ds" },
-    { title: "B.Tech. Emerging (Robotics)", slug: "btech-emerging-robotics" },
-    { title: "B.Tech. Biomedical Engineering", slug: "btech-biomedical" },
-    { title: "B.Tech. Biotechnology", slug: "btech-biotechnology" },
-    { title: "B.Tech. Agricultural Engineering", slug: "btech-agricultural" }
-  ]
-};
-
-export const MEGA_MENU_PROGRAMS: Record<string, { label: string; to: string }[]> = {
-  "Undergraduate (UG)": [], // Handled dynamically by UNDERGRADUATE_GROUPS
-  "Postgraduate (PG)": [
-    { label: "M.Tech. Computer Science", to: "/academics/mtech-cse" },
-    { label: "M.Tech. Power Systems", to: "/academics/mtech-power-systems" },
-    { label: "M.Tech. VLSI & Embedded Systems", to: "/academics/mtech-vlsi-embedded" },
-    { label: "MBA (Master of Business Administration)", to: "/academics/mba" },
-    { label: "MCA (Master of Computer Applications)", to: "/academics/mca" },
-    { label: "M.Pharm. (Master of Pharmacy)", to: "/academics/mpharm" }
-  ],
-  "Integrated Programs": [
-    { label: "Integrated B.Tech + M.Tech", to: "/academics/integrated-btech-mtech" },
-    { label: "Integrated BBA + MBA", to: "/academics/integrated-bba-mba" }
-  ],
-  "Diploma Programs": [
-    { label: "Diploma in Engineering (Polytechnic)", to: "/academics/diploma-engineering" },
-    { label: "Diploma in Pharmacy (D.Pharm)", to: "/academics/diploma-pharmacy" }
-  ],
-  "Doctoral (Ph.D.)": [
-    { label: "Ph.D. in Computer Science", to: "/academics/phd-cse" },
-    { label: "Ph.D. in Electronics", to: "/academics/phd-ece" },
-    { label: "Ph.D. in Management", to: "/academics/phd-management" },
-    { label: "Ph.D. in Pharmacy", to: "/academics/phd-pharmacy" }
-  ],
-  "Honors & Minors": [
-    { label: "Honors Degrees (Special Track)", to: "/academics/flexibilities" },
-    { label: "Minor Specialization Streams", to: "/academics/flexibilities" }
-  ]
+export const MEGA_MENU_SCHOOLS: Record<string, Record<string, { title: string; slug: string }[]>> = {
+  "School of Computing Sciences": {
+    "Computer Science & Engineering": [
+      { title: "B.Tech. Computer Science & Engineering", slug: "btech-cse" },
+      { title: "M.Tech. Computer Science & Engineering", slug: "mtech-cse" },
+      { title: "MCA", slug: "mca" },
+      { title: "Ph.D. Computer Science & Engineering", slug: "phd-cse" }
+    ],
+    "Data Science": [
+      { title: "B.Tech. CSE (Data Science)", slug: "btech-cse-data-science" }
+    ],
+    "Artificial Intelligence": [
+      { title: "B.Tech. CSE (Artificial Intelligence)", slug: "btech-cse-ai" },
+      { title: "B.Tech. Artificial Intelligence & Machine Learning", slug: "btech-aiml" },
+      { title: "M.Tech. CSE (AI & ML)", slug: "mtech-cse-aiml" }
+    ],
+    "Cyber Security": [
+      { title: "B.Tech. CSE (Cyber Security)", slug: "btech-cse-cyber" }
+    ]
+  },
+  "School of Engineering": {
+    "Electronics and Communication Engineering": [
+      { title: "B.Tech. Electronics and Communication Eng", slug: "btech-ece" },
+      { title: "M.Tech. VLSI and Embedded Systems", slug: "mtech-vlsi" },
+      { title: "Ph.D. Electronics and Communication Eng", slug: "phd-ece" }
+    ],
+    "Civil Engineering": [
+      { title: "B.Tech. Civil Engineering", slug: "btech-civil" },
+      { title: "M.Tech. Structural Engineering", slug: "mtech-structural" },
+      { title: "Ph.D. Structural Engineering", slug: "phd-structural" }
+    ]
+  },
+  "School of Business & Management": {
+    "Business and Management": [
+      { title: "MBA", slug: "mba" }
+    ]
+  }
 };
 
 const CATEGORY_INFO: Record<string, { desc: string; linkText: string; to: string; title: string }> = {
@@ -137,7 +104,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [mobileCampusLifeOpen, setMobileCampusLifeOpen] = useState(false);
   const [newsEventsOpen, setNewsEventsOpen] = useState(false);
   const [mobileNewsEventsOpen, setMobileNewsEventsOpen] = useState(false);
-  const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
+  const [activeLevel, setActiveLevel] = useState("School of Computing Sciences");
   const [hoveredCategory, setHoveredCategory] = useState("Programmes Offered");
   const location = useLocation();
   const navigate = useNavigate();
@@ -380,20 +347,20 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                         {hoveredCategory === "Programmes Offered" ? (
                           <>
                             <div className="w-[180px] border-r border-gray-100 pr-5 flex flex-col gap-1 shrink-0">
-                              <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Levels</span>
-                              {Object.keys(MEGA_MENU_PROGRAMS).map((level) => (
+                              <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Schools</span>
+                              {Object.keys(MEGA_MENU_SCHOOLS).map((schoolName) => (
                                 <button
-                                  key={level}
+                                  key={schoolName}
                                   type="button"
-                                  onMouseEnter={() => setActiveLevel(level)}
-                                  onClick={() => setActiveLevel(level)}
+                                  onMouseEnter={() => setActiveLevel(schoolName)}
+                                  onClick={() => setActiveLevel(schoolName)}
                                   className={`px-3 py-2 text-[12px] font-bold rounded-lg text-left transition-all cursor-pointer outline-none ${
-                                    activeLevel === level
+                                    activeLevel === schoolName
                                       ? "text-[#D71920] bg-[#D71920]/5"
                                       : "text-gray-600 hover:text-[#D71920] hover:bg-gray-50"
                                   }`}
                                 >
-                                  {level}
+                                  {schoolName}
                                 </button>
                               ))}
                             </div>
@@ -401,43 +368,28 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             {/* Column 3 & 4: Specific Programs List */}
                             <div className="flex-1 pl-2">
                               <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-3 block">
-                                Programs ({activeLevel})
+                                Departments & Programs
                               </span>
                               
-                              {activeLevel === "Undergraduate (UG)" ? (
-                                <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-h-[360px] overflow-y-auto pr-2">
-                                  {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
-                                    <div key={dept} className="space-y-1.5">
-                                      <h5 className="text-[11px] font-extrabold text-[#072A6C] tracking-wide border-b border-gray-100 pb-1">{dept}</h5>
-                                      <div className="flex flex-col gap-1">
-                                        {courses.map((course) => (
-                                          <Link
-                                            key={course.slug}
-                                            to={`/academics/${course.slug}`}
-                                            className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed"
-                                            onClick={() => setAcademicsOpen(false)}
-                                          >
-                                            • {course.title}
-                                          </Link>
-                                        ))}
-                                      </div>
+                              <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-h-[360px] overflow-y-auto pr-2">
+                                {Object.entries(MEGA_MENU_SCHOOLS[activeLevel] || {}).map(([dept, courses]) => (
+                                  <div key={dept} className="space-y-1.5">
+                                    <h5 className="text-[11px] font-extrabold text-[#072A6C] tracking-wide border-b border-gray-100 pb-1">{dept}</h5>
+                                    <div className="flex flex-col gap-1">
+                                      {courses.map((course) => (
+                                        <Link
+                                          key={course.slug}
+                                          to={`/academics/${course.slug}`}
+                                          className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed"
+                                          onClick={() => setAcademicsOpen(false)}
+                                        >
+                                          • {course.title}
+                                        </Link>
+                                      ))}
                                     </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                                  {MEGA_MENU_PROGRAMS[activeLevel].map((course) => (
-                                    <Link
-                                      key={course.label}
-                                      to={course.to}
-                                      className="px-3 py-1.5 text-[11.5px] font-medium text-gray-600 hover:text-[#D71920] hover:bg-gray-50 rounded-md transition-all flex items-center gap-1"
-                                      onClick={() => setAcademicsOpen(false)}
-                                    >
-                                      • {course.label}
-                                    </Link>
-                                  ))}
-                                </div>
-                              )}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </>
                         ) : (
@@ -723,47 +675,29 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                               </div>
                               {mobileProgrammesOpen && (
                                 <div className="pl-3 flex flex-col gap-3 mt-1.5 pb-2 border-l border-gray-100">
-                                  {Object.entries(MEGA_MENU_PROGRAMS).map(([level, list]) => (
-                                    <div key={level} className="flex flex-col gap-1">
-                                      <span className="text-[10px] font-extrabold text-[#072A6C] uppercase tracking-wider">{level}</span>
-                                      {level === "Undergraduate (UG)" ? (
-                                        <div className="flex flex-col gap-1.5 pl-1.5 mt-0.5 border-l border-gray-50">
-                                          {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
-                                            <div key={dept} className="flex flex-col gap-1">
-                                              <span className="text-[9px] font-extrabold text-[#D4AF37] uppercase tracking-wide">{dept}</span>
-                                              {courses.map((course) => (
-                                                <Link
-                                                  key={course.slug}
-                                                  to={`/academics/${course.slug}`}
-                                                  className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
-                                                  onClick={() => {
-                                                    setMobileOpen(false);
-                                                    setMobileAcademicsOpen(false);
-                                                  }}
-                                                >
-                                                  • {course.title}
-                                                </Link>
-                                              ))}
-                                            </div>
-                                          ))}
-                                        </div>
-                                      ) : (
-                                        <div className="flex flex-col gap-1 pl-1.5 mt-0.5 border-l border-gray-50">
-                                          {list.map((course) => (
-                                            <Link
-                                              key={course.label}
-                                              to={course.to}
-                                              className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
-                                              onClick={() => {
-                                                setMobileOpen(false);
-                                                setMobileAcademicsOpen(false);
-                                              }}
-                                            >
-                                              • {course.label}
-                                            </Link>
-                                          ))}
-                                        </div>
-                                      )}
+                                  {Object.entries(MEGA_MENU_SCHOOLS).map(([schoolName, departments]) => (
+                                    <div key={schoolName} className="flex flex-col gap-1">
+                                      <span className="text-[10px] font-extrabold text-[#072A6C] uppercase tracking-wider">{schoolName}</span>
+                                      <div className="flex flex-col gap-1.5 pl-1.5 mt-0.5 border-l border-gray-50">
+                                        {Object.entries(departments).map(([dept, courses]) => (
+                                          <div key={dept} className="flex flex-col gap-1">
+                                            <span className="text-[9px] font-extrabold text-[#D4AF37] uppercase tracking-wide">{dept}</span>
+                                            {courses.map((course) => (
+                                              <Link
+                                                key={course.slug}
+                                                to={`/academics/${course.slug}`}
+                                                className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
+                                                onClick={() => {
+                                                  setMobileOpen(false);
+                                                  setMobileAcademicsOpen(false);
+                                                }}
+                                              >
+                                                • {course.title}
+                                              </Link>
+                                            ))}
+                                          </div>
+                                        ))}
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
