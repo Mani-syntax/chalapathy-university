@@ -307,7 +307,7 @@ function AppContent() {
                 z-index: 1000000;
               }
               .intro-skip-text:hover {
-                color: #D71920;
+                color: #D4AF37;
                 transform: scale(1.05);
               }
               .intro-skip-text:active {
@@ -444,7 +444,7 @@ function AppContent() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer Header (Maroon) */}
-            <div className="bg-[#D71920] text-white p-5 flex items-center justify-between shadow-sm">
+            <div className="bg-[#072A6C] text-white p-5 flex items-center justify-between shadow-sm">
               <div className="flex items-center gap-2">
                 <Megaphone size={18} className="text-[#D4AF37]" />
                 <h3 className="font-extrabold text-sm tracking-wide">Chalapathi Announcements</h3>

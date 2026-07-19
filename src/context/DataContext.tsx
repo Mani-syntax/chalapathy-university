@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+﻿import React, { createContext, useContext, useState, useEffect } from "react";
 import { PROGRAMS_DATA, ProgramDetail } from "../data/programsData";
 
 export type { ProgramDetail };
@@ -201,7 +201,7 @@ const INITIAL_NEWS: NewsArticle[] = [
     location: "Main Science Block, Room 302",
     category: "Innovation",
     excerpt: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
-    bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects.",
+    bodyText: "Today marks a historic milestone for Chalapathi University as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects.",
     image: "/prog_computer.png",
     slug: "ai-research-lab",
     sourceUrl: "https://www.thehindu.com/sci-tech/technology/internet/artificial-intelligence-research-lab-inaugurated/article671829.ece"
@@ -253,7 +253,7 @@ const INITIAL_NEWS: NewsArticle[] = [
     location: "Placements Office",
     category: "Placements",
     excerpt: "Top recruiters from across the globe visited campus. Students secured roles in leading MNCs.",
-    bodyText: "City Chalapathi Institute of Technology registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates.",
+    bodyText: "Chalapathi University registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates.",
     image: "/prog_management.png",
     slug: "record-placements",
     sourceUrl: "https://www.abnandhrajyothy.com/chalapathi-university-record-placements-2025/article/1109"
@@ -322,7 +322,7 @@ const INITIAL_EVENTS: EventItem[] = [
     location: "Aeronautics Hangar & Airfield Complex", 
     category: "Aerospace", 
     image: "/prog_engineering.png", 
-    bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models." 
+    bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, Chalapathi University is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models." 
   },
   { 
     id: 2, 
@@ -436,7 +436,7 @@ const INITIAL_CALENDAR_DATA: MonthCalendarData[] = [
 const INITIAL_PLACEMENTS_CONTENT: PlacementsContent = {
   heroTitle: "A Step Towards Success!",
   heroSubtitle: "Building Careers. Creating Leaders.",
-  heroDescription: "At Chalapathi Institute of Technology, placements are more than securing a job—they are about preparing students for lifelong professional success. Our dedicated Training & Placement Cell bridges the gap between academic learning and industry expectations by equipping students with the knowledge, skills, and confidence to excel in today's competitive global workforce.",
+  heroDescription: "At Chalapathi University, placements are more than securing a job—they are about preparing students for lifelong professional success. Our dedicated Training & Placement Cell bridges the gap between academic learning and industry expectations by equipping students with the knowledge, skills, and confidence to excel in today's competitive global workforce.",
   highestPackage: "₹18 LPA",
   averagePackage: "₹5.5 LPA",
   placementPercent: "95%",
@@ -517,7 +517,7 @@ const INITIAL_SUCCESS_STORIES: SuccessStory[] = [
     companyName: "TCS",
     companyLogo: "/logos/tcs.svg",
     packageOffered: "12 LPA",
-    description: "The supportive faculty, career guidance, and hands-on learning experience at Chalapathi Institute played a crucial role in shaping my skills and confidence. I'm grateful for the opportunities and exposure that helped me secure my dream job at TCS.",
+    description: "The supportive faculty, career guidance, and hands-on learning experience at Chalapathi University played a crucial role in shaping my skills and confidence. I'm grateful for the opportunities and exposure that helped me secure my dream job at TCS.",
     skills: ["React", "Node.js", "Java", "SQL", "Cloud Computing"],
     internshipExp: "6 Months at TCS Innovation Lab",
     achievement: "Winner of National level Smart India Hackathon",

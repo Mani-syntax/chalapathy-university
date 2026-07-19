@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Link } from "react-router-dom";
 import {
   MapPin, Phone, Mail, Globe, Users, Briefcase, Play
@@ -55,7 +55,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-2 pt-2">
             {[Globe, Users, Briefcase, Play].map((Icon, i) => (
-              <a key={i} href="#" className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#D71920] flex items-center justify-center text-[#D1D5DB] hover:text-white transition-all">
+              <a key={i} href="#" className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#D4AF37] flex items-center justify-center text-[#D1D5DB] hover:text-white transition-all">
                 <Icon size={13} />
               </a>
             ))}
@@ -124,15 +124,15 @@ export default function Footer() {
           <div className="flex gap-4 items-start">
             <div className="space-y-3.5 text-[11px] text-[#D1D5DB] font-light flex-1">
               <div className="flex items-start gap-2">
-                <MapPin size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+                <MapPin size={13} className="text-[#D4AF37] mt-0.5 shrink-0" />
                 <span>A.R. Nagar, Mothadaka, Guntur, Andhra Pradesh - 522034</span>
               </div>
               <div className="flex items-start gap-2">
-                <Phone size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+                <Phone size={13} className="text-[#D4AF37] mt-0.5 shrink-0" />
                 <span>8886630355 | 8886630356 9905505566</span>
               </div>
               <div className="flex items-start gap-2">
-                <Mail size={13} className="text-[#D71920] mt-0.5 shrink-0" />
+                <Mail size={13} className="text-[#D4AF37] mt-0.5 shrink-0" />
                 <span>admissions@city.ac.in</span>
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="max-w-[1440px] mx-auto px-5 mt-14 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] text-[#D1D5DB] font-light gap-3">
-        <span>© 2025 City Chalapathi Institute of Technology. All Rights Reserved.</span>
+        <span>© 2025 Chalapathi University. All Rights Reserved.</span>
         <div className="flex items-center gap-3">
           <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           <span>|</span>

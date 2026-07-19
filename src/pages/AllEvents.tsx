@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Clock, MapPin } from "lucide-react";
 import { useData } from "../context/DataContext";
@@ -7,7 +7,7 @@ export default function AllEvents() {
   const { events } = useData();
 
   useEffect(() => {
-    document.title = "Explore All Events | City Chalapathi Institute of Technology";
+    document.title = "Explore All Events | Chalapathi University";
     window.scrollTo(0, 0);
   }, []);
 

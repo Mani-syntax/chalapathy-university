@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Header from "@/components/layout/Header";
@@ -185,42 +185,42 @@ export default function DigitalAdmissionJourney() {
                   <h3 className="font-extrabold text-base text-primary-blue border-b border-zinc-100 pb-2">Step 1: Personal Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Full Name (As in School Certificate) <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Full Name (As in School Certificate) <span className="text-[#D4AF37]">*</span></label>
                       <input 
                         type="text" required name="fullName" value={formData.fullName} onChange={handleInputChange}
                         placeholder="John Doe" className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Parent / Guardian Name <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Parent / Guardian Name <span className="text-[#D4AF37]">*</span></label>
                       <input 
                         type="text" required name="fatherName" value={formData.fatherName} onChange={handleInputChange}
                         placeholder="Robert Doe" className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Email Address <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Email Address <span className="text-[#D4AF37]">*</span></label>
                       <input 
                         type="email" required name="email" value={formData.email} onChange={handleInputChange}
                         placeholder="johndoe@gmail.com" className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Mobile Number <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Mobile Number <span className="text-[#D4AF37]">*</span></label>
                       <input 
                         type="tel" required name="phone" value={formData.phone} onChange={handleInputChange}
                         placeholder="+91 98765 43210" className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Date of Birth <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Date of Birth <span className="text-[#D4AF37]">*</span></label>
                       <input 
                         type="date" required name="dob" value={formData.dob} onChange={handleInputChange}
                         className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Gender <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Gender <span className="text-[#D4AF37]">*</span></label>
                       <select 
                         required name="gender" value={formData.gender} onChange={handleInputChange}
                         className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
@@ -241,14 +241,14 @@ export default function DigitalAdmissionJourney() {
                   <h3 className="font-extrabold text-base text-primary-blue border-b border-zinc-100 pb-2">Step 2: Academic Qualifications</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Class 10th (SSC) GPA / Percentage <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Class 10th (SSC) GPA / Percentage <span className="text-[#D4AF37]">*</span></label>
                       <input 
                         type="text" required name="sscMarks" value={formData.sscMarks} onChange={handleInputChange}
                         placeholder="e.g. 9.8 GPA or 95%" className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Class 12th (HSC/Inter) Percentage <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Class 12th (HSC/Inter) Percentage <span className="text-[#D4AF37]">*</span></label>
                       <input 
                         type="text" required name="hscMarks" value={formData.hscMarks} onChange={handleInputChange}
                         placeholder="e.g. 96.5%" className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
@@ -283,7 +283,7 @@ export default function DigitalAdmissionJourney() {
                   <h3 className="font-extrabold text-base text-primary-blue border-b border-zinc-100 pb-2">Step 3: School & Program Preference</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Select Academic School <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Select Academic School <span className="text-[#D4AF37]">*</span></label>
                       <select 
                         required name="selectedSchool" value={formData.selectedSchool} onChange={handleInputChange}
                         className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
@@ -295,7 +295,7 @@ export default function DigitalAdmissionJourney() {
                       </select>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-600 block">Select Specific Program <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-zinc-600 block">Select Specific Program <span className="text-[#D4AF37]">*</span></label>
                       <select 
                         required name="selectedProgram" value={formData.selectedProgram} onChange={handleInputChange}
                         disabled={!formData.selectedSchool}
@@ -324,7 +324,7 @@ export default function DigitalAdmissionJourney() {
                         <Upload size={16} className="text-zinc-500" />
                       </div>
                       <div>
-                        <span className="block text-xs font-bold text-zinc-700">Passport Size Photograph <span className="text-red-500">*</span></span>
+                        <span className="block text-xs font-bold text-zinc-700">Passport Size Photograph <span className="text-[#D4AF37]">*</span></span>
                         <span className="block text-[10px] text-zinc-400 mt-0.5">JPEG format only</span>
                       </div>
                       <button 
@@ -346,7 +346,7 @@ export default function DigitalAdmissionJourney() {
                         <Upload size={16} className="text-zinc-500" />
                       </div>
                       <div>
-                        <span className="block text-xs font-bold text-zinc-700">Class 12th / Inter Marks Memo <span className="text-red-500">*</span></span>
+                        <span className="block text-xs font-bold text-zinc-700">Class 12th / Inter Marks Memo <span className="text-[#D4AF37]">*</span></span>
                         <span className="block text-[10px] text-zinc-400 mt-0.5">PDF or Image format</span>
                       </div>
                       <button 

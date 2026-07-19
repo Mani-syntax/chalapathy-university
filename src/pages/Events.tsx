@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+﻿import React, { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Calendar, Clock, MapPin } from "lucide-react";
 import { useData } from "../context/DataContext";
@@ -18,7 +18,7 @@ export default function Events() {
   const animationFrameId = useRef<number | null>(null);
 
   useEffect(() => {
-    document.title = "Upcoming Events | City Chalapathi Institute of Technology";
+    document.title = "Upcoming Events | Chalapathi University";
     window.scrollTo(0, 0);
   }, []);
 
@@ -204,14 +204,14 @@ export default function Events() {
                             <span>{item.time}</span>
                           </div>
                         </div>
-                        <h4 className="text-base font-extrabold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                        <h4 className="text-base font-extrabold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D4AF37] transition-colors">
                           {item.title}
                         </h4>
                         <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed font-light font-[var(--font-inter)]">
                           {item.bodyText}
                         </p>
                       </div>
-                      <div className="pt-4 border-t border-gray-50 mt-5 flex justify-between items-center text-xs font-bold text-[#072A6C] group-hover:text-[#D71920] transition-colors">
+                      <div className="pt-4 border-t border-gray-50 mt-5 flex justify-between items-center text-xs font-bold text-[#072A6C] group-hover:text-[#D4AF37] transition-colors">
                         <span>{closed ? "View Details" : "Register Now"}</span>
                         <ArrowRight size={14} className={closed ? "text-gray-400" : "text-[#F97316] group-hover:translate-x-1 transition-transform"} />
                       </div>
@@ -227,7 +227,7 @@ export default function Events() {
         <div className="flex justify-center mt-12">
           <Link
             to="/news/events/all"
-            className="inline-flex items-center gap-1.5 px-6 py-3 bg-[#072A6C] hover:bg-[#D71920] text-white text-xs font-bold rounded-xl transition-all shadow-md hover:shadow-lg active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-6 py-3 bg-[#072A6C] hover:bg-[#D4AF37] text-white text-xs font-bold rounded-xl transition-all shadow-md hover:shadow-lg active:scale-95 cursor-pointer"
           >
             <span>Explore All Events Archive</span>
             <ArrowRight size={13} />

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -102,7 +102,7 @@ const getPageContent = (path: string, programs: any[]) => {
         title: "AI Research Lab Inaugurated on Campus",
         category: "Innovation",
         desc: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
-        bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects. Student cohorts will have access to real-time research fellowships, academic grants, and direct mentoring pipelines to build future computing technologies."
+        bodyText: "Today marks a historic milestone for Chalapathi University as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects. Student cohorts will have access to real-time research fellowships, academic grants, and direct mentoring pipelines to build future computing technologies."
       },
       {
         slug: "smart-hackathon",
@@ -130,7 +130,7 @@ const getPageContent = (path: string, programs: any[]) => {
         title: "Record Placements in 2025 Batch",
         category: "Placements",
         desc: "Top recruiters from across the globe visited campus. Students secured roles in leading MNCs.",
-        bodyText: "City Chalapathi Institute of Technology registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates."
+        bodyText: "Chalapathi University registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates."
       },
       {
         slug: "annual-convocation",
@@ -158,7 +158,7 @@ const getPageContent = (path: string, programs: any[]) => {
         title: "MoU Signed with Top Global Corporations for Placements",
         category: "Corporate Link",
         desc: "Enabling direct internship allocations, corporate-readiness workshops, and accelerated final semester student placements.",
-        bodyText: "City Chalapathi Institute of Technology has officially entered into a strategic Memorandum of Understanding (MoU) with leading multinational software and core engineering firms. This collaboration significantly strengthens our training and placement initiatives. Beginning this academic term, corporate mentors will conduct regular guest workshops on enterprise architectures and cloud DevOps technologies. The agreement also establishes a dedicated early-internship pipeline, allowing final-year engineering and management students to undertake structured industrial projects directly at corporate campuses, paving a fast-track pathway for high-compensation final placements."
+        bodyText: "Chalapathi University has officially entered into a strategic Memorandum of Understanding (MoU) with leading multinational software and core engineering firms. This collaboration significantly strengthens our training and placement initiatives. Beginning this academic term, corporate mentors will conduct regular guest workshops on enterprise architectures and cloud DevOps technologies. The agreement also establishes a dedicated early-internship pipeline, allowing final-year engineering and management students to undertake structured industrial projects directly at corporate campuses, paving a fast-track pathway for high-compensation final placements."
       },
       {
         slug: "pharmacy-formulations",
@@ -208,7 +208,7 @@ const getPageContent = (path: string, programs: any[]) => {
             <div className="bg-[#072A6C]/5 border-l-4 border-[#072A6C] p-4 rounded-r-[8px] text-[12px] text-gray-700 italic">
               "We congratulate all participants, sponsors, and faculty members involved in this milestone announcement. Stay tuned for further updates."
             </div>
-            <Link to="/news" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D71920] hover:text-[#072A6C] transition-colors mt-6">
+            <Link to="/news" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D4AF37] hover:text-[#072A6C] transition-colors mt-6">
               ← Back to News Center
             </Link>
           </div>
@@ -228,7 +228,7 @@ const getPageContent = (path: string, programs: any[]) => {
         time: "09:30 AM Onwards",
         venue: "Aeronautics Hangar & Airfield Complex",
         desc: "An exclusive exhibition showcasing autonomous vertical take-off and landing (eVTOL) systems and the future of urban air mobility.",
-        bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models. Attendees will engage with senior flight control engineers, software architects, and regulators discussing flight path safety, battery technology, and battery charging infrastructure. The afternoon panel sessions will cover career pathways in modern avionics, autonomous navigation algorithms, and smart city infrastructure integration."
+        bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, Chalapathi University is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models. Attendees will engage with senior flight control engineers, software architects, and regulators discussing flight path safety, battery technology, and battery charging infrastructure. The afternoon panel sessions will cover career pathways in modern avionics, autonomous navigation algorithms, and smart city infrastructure integration."
       },
       {
         slug: "innovation-summit",
@@ -319,7 +319,7 @@ const getPageContent = (path: string, programs: any[]) => {
       return {
         title: "Our Genesis & Heritage",
         category: "About Us",
-        desc: "Established with a vision to nurture innovators, City Chalapathi Institute of Technology has a rich heritage of educational brilliance dating back over 25 years.",
+        desc: "Established with a vision to nurture innovators, Chalapathi University has a rich heritage of educational brilliance dating back over 25 years.",
         hideHeader: true,
         body: <HistoryView />
       };
@@ -336,7 +336,7 @@ const getPageContent = (path: string, programs: any[]) => {
       return {
         title: "Leadership & Governing Body",
         category: "About Us",
-        desc: "Meet the visionary leaders directing the strategic progress of City Chalapathi Institute of Technology.",
+        desc: "Meet the visionary leaders directing the strategic progress of Chalapathi University.",
         body: <LeadershipView />
       };
     }
@@ -344,14 +344,14 @@ const getPageContent = (path: string, programs: any[]) => {
       return {
         title: "The Chalapathi Advantage",
         category: "About Us",
-        desc: "Discover why Chalapathi Institute of Technology stands out as a leading hub of educational excellence and innovation.",
+        desc: "Discover why Chalapathi University stands out as a leading hub of educational excellence and innovation.",
         body: <ChalapathiAdvantage />
       };
     }
     return {
       title: "About Our Institution",
       category: "About Us",
-      desc: "City Chalapathi Institute of Technology is a leading autonomous engineering university dedicated to empowering tomorrow's innovators.",
+      desc: "Chalapathi University is a leading autonomous engineering university dedicated to empowering tomorrow's innovators.",
       body: (
         <div className="space-y-6">
           <div className="space-y-6 text-gray-600 text-sm">
@@ -432,7 +432,7 @@ const getPageContent = (path: string, programs: any[]) => {
               <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Core Focus Modules</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {matchedProgram.curriculum.map((item: string, idx: number) => (
-                  <div key={idx} className="bg-white border border-gray-200/80 rounded-xl p-3 text-center text-xs font-semibold text-gray-700 shadow-sm hover:border-[#D71920]/45 transition-colors">
+                  <div key={idx} className="bg-white border border-gray-200/80 rounded-xl p-3 text-center text-xs font-semibold text-gray-700 shadow-sm hover:border-[#D4AF37]/45 transition-colors">
                     {item}
                   </div>
                 ))}
@@ -444,7 +444,7 @@ const getPageContent = (path: string, programs: any[]) => {
               <div className="space-y-3">
                 {matchedProgram.careers.map((career: { title: string; desc: string }, idx: number) => (
                   <div key={idx} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
-                    <h4 className="font-bold text-[#D71920] text-xs">{career.title}</h4>
+                    <h4 className="font-bold text-[#D4AF37] text-xs">{career.title}</h4>
                     <p className="text-[11px] text-gray-500 mt-1 leading-normal font-light">{career.desc}</p>
                   </div>
                 ))}
@@ -486,12 +486,12 @@ const getPageContent = (path: string, programs: any[]) => {
                 {flowchartData.map((step, idx) => (
                   <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
                     {/* Top red bar hover effect */}
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 group-hover:bg-[#D71920] transition-colors" />
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 group-hover:bg-[#D4AF37] transition-colors" />
                     
                     <div>
                       <div className="flex justify-between items-center mb-3">
                         <span className="text-sm font-extrabold text-[#072A6C]">{step.year}</span>
-                        <span className="text-[9px] text-[#D71920] font-extrabold uppercase bg-[#D71920]/5 px-2 py-0.5 rounded-full">{step.focus}</span>
+                        <span className="text-[9px] text-[#D4AF37] font-extrabold uppercase bg-[#D4AF37]/5 px-2 py-0.5 rounded-full">{step.focus}</span>
                       </div>
                       
                       {/* Badges */}
@@ -595,9 +595,9 @@ const getPageContent = (path: string, programs: any[]) => {
                             <Link
                               key={course.label}
                               to={course.to}
-                              className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5 group"
+                              className="text-xs font-medium text-gray-600 hover:text-[#D4AF37] transition-colors leading-relaxed flex items-center gap-1.5 group"
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#D71920] transition-colors" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#D4AF37] transition-colors" />
                               {course.label}
                             </Link>
                           ))}
@@ -759,7 +759,7 @@ const getPageContent = (path: string, programs: any[]) => {
               <h4 className="font-extrabold text-[#072A6C] mb-2">Eligibility Criteria</h4>
               <p className="text-xs text-gray-500 leading-relaxed">Candidates must have completed 10+2 with Physics, Chemistry, and Mathematics (or Biology for Pharmacy) with a minimum of 50% marks. Admissions are based on merit ranks in state-level or national engineering/pharmacy entrance exams.</p>
             </div>
-            <Link to="/admissions/apply" className="h-10 px-6 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-sm transition-all w-fit">Apply Online <ArrowRight size={14} /></Link>
+            <Link to="/admissions/apply" className="h-10 px-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-sm transition-all w-fit">Apply Online <ArrowRight size={14} /></Link>
           </div>
         )
       };
@@ -776,7 +776,7 @@ const getPageContent = (path: string, programs: any[]) => {
               <h4 className="font-extrabold text-[#072A6C] mb-2">Eligibility Criteria</h4>
               <p className="text-xs text-gray-500 leading-relaxed">A Bachelor's degree (B.Tech, BCA, B.Sc, B.Com, or B.A) in relevant streams with at least 50% marks is required. Admission is granted based on qualifying scores in national or university-level PG entrance tests.</p>
             </div>
-            <Link to="/admissions/apply" className="h-10 px-6 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-sm transition-all w-fit">Apply Online <ArrowRight size={14} /></Link>
+            <Link to="/admissions/apply" className="h-10 px-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-sm transition-all w-fit">Apply Online <ArrowRight size={14} /></Link>
           </div>
         )
       };
@@ -818,18 +818,18 @@ const getPageContent = (path: string, programs: any[]) => {
             </Link>
             <Link to="/admissions/fees" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
               <h4 className="font-bold text-[#072A6C] text-sm">Fee Structure</h4>
-              <span className="text-xs text-[#D71920] flex items-center gap-1">View Stream Details <ArrowRight size={12} /></span>
+              <span className="text-xs text-[#D4AF37] flex items-center gap-1">View Stream Details <ArrowRight size={12} /></span>
             </Link>
             <Link to="/admissions/scholarships" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
               <h4 className="font-bold text-[#072A6C] text-sm">Scholarships</h4>
-              <span className="text-xs text-[#D71920] flex items-center gap-1">Apply for Waivers <ArrowRight size={12} /></span>
+              <span className="text-xs text-[#D4AF37] flex items-center gap-1">Apply for Waivers <ArrowRight size={12} /></span>
             </Link>
           </div>
 
           {/* Steps to Follow timeline */}
           <div className="pt-8 border-t border-gray-100 space-y-8 text-center">
             <div className="inline-flex flex-col items-center">
-              <span className="px-5 py-2 bg-[#D71920] text-[#D4AF37] text-xs font-extrabold tracking-[2px] rounded-full uppercase shadow-sm border border-[#D4AF37]/20">
+              <span className="px-5 py-2 bg-[#D4AF37] text-[#D4AF37] text-xs font-extrabold tracking-[2px] rounded-full uppercase shadow-sm border border-[#D4AF37]/20">
                 Steps To Follow
               </span>
               <h3 className="text-xl md:text-2xl font-[900] text-[#072A6C] mt-4">
@@ -849,7 +849,7 @@ const getPageContent = (path: string, programs: any[]) => {
                 const StepIcon = step.icon;
                 return (
                   <div key={step.id} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between text-center min-h-[220px] relative group h-full">
-                    <div className="w-12 h-12 rounded-full bg-[#072A6C]/5 flex items-center justify-center text-[#D71920] mb-4 group-hover:bg-[#D71920] group-hover:text-white transition-colors duration-300">
+                    <div className="w-12 h-12 rounded-full bg-[#072A6C]/5 flex items-center justify-center text-[#D4AF37] mb-4 group-hover:bg-[#D4AF37] group-hover:text-white transition-colors duration-300">
                       <StepIcon size={20} />
                     </div>
                     <div className="space-y-2 flex-grow flex flex-col justify-center">
@@ -865,7 +865,7 @@ const getPageContent = (path: string, programs: any[]) => {
             <div className="pt-4">
               <Link
                 to="/admissions/apply"
-                className="h-11 px-8 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer uppercase tracking-wider"
+                className="h-11 px-8 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer uppercase tracking-wider"
               >
                 Apply Now <ArrowRight size={14} />
               </Link>
@@ -910,15 +910,15 @@ const getPageContent = (path: string, programs: any[]) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
           <Link to="/management/board-members" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
             <h4 className="font-bold text-[#072A6C] text-sm">Board Members</h4>
-            <span className="text-xs text-[#D71920] flex items-center gap-1">Governing council trustees <ArrowRight size={12} /></span>
+            <span className="text-xs text-[#D4AF37] flex items-center gap-1">Governing council trustees <ArrowRight size={12} /></span>
           </Link>
           <Link to="/management/faculty" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
             <h4 className="font-bold text-[#072A6C] text-sm">Faculty Members</h4>
-            <span className="text-xs text-[#D71920] flex items-center gap-1">Professors & researchers <ArrowRight size={12} /></span>
+            <span className="text-xs text-[#D4AF37] flex items-center gap-1">Professors & researchers <ArrowRight size={12} /></span>
           </Link>
           <Link to="/management/staff" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
             <h4 className="font-bold text-[#072A6C] text-sm">Administrative Staff</h4>
-            <span className="text-xs text-[#D71920] flex items-center gap-1">Technical & office support <ArrowRight size={12} /></span>
+            <span className="text-xs text-[#D4AF37] flex items-center gap-1">Technical & office support <ArrowRight size={12} /></span>
           </Link>
         </div>
       )
@@ -1232,28 +1232,28 @@ const getPageContent = (path: string, programs: any[]) => {
           <div className="space-y-2">
             <h4 className="font-extrabold text-[#072A6C] uppercase">About</h4>
             <ul className="space-y-1 text-gray-500 font-medium">
-              <li><Link to="/about" className="hover:text-[#D71920]">About Us</Link></li>
-              <li><Link to="/about/genesis" className="hover:text-[#D71920]">Genesis & Heritage</Link></li>
-              <li><Link to="/about/vision" className="hover:text-[#D71920]">Vision & Mission</Link></li>
-              <li><Link to="/about/leadership" className="hover:text-[#D71920]">University Leadership</Link></li>
+              <li><Link to="/about" className="hover:text-[#D4AF37]">About Us</Link></li>
+              <li><Link to="/about/genesis" className="hover:text-[#D4AF37]">Genesis & Heritage</Link></li>
+              <li><Link to="/about/vision" className="hover:text-[#D4AF37]">Vision & Mission</Link></li>
+              <li><Link to="/about/leadership" className="hover:text-[#D4AF37]">University Leadership</Link></li>
             </ul>
           </div>
           <div className="space-y-2">
             <h4 className="font-extrabold text-[#072A6C] uppercase">Academics</h4>
             <ul className="space-y-1 text-gray-500 font-medium">
-              <li><Link to="/academics" className="hover:text-[#D71920]">Programs Portal</Link></li>
-              <li><Link to="/academics/computer-science" className="hover:text-[#D71920]">Computer Science & Eng</Link></li>
-              <li><Link to="/academics/artificial-intelligence" className="hover:text-[#D71920]">AI & Machine Learning</Link></li>
-              <li><Link to="/academics/data-science" className="hover:text-[#D71920]">Data Science</Link></li>
+              <li><Link to="/academics" className="hover:text-[#D4AF37]">Programs Portal</Link></li>
+              <li><Link to="/academics/computer-science" className="hover:text-[#D4AF37]">Computer Science & Eng</Link></li>
+              <li><Link to="/academics/artificial-intelligence" className="hover:text-[#D4AF37]">AI & Machine Learning</Link></li>
+              <li><Link to="/academics/data-science" className="hover:text-[#D4AF37]">Data Science</Link></li>
             </ul>
           </div>
           <div className="space-y-2">
             <h4 className="font-extrabold text-[#072A6C] uppercase">Admissions</h4>
             <ul className="space-y-1 text-gray-500 font-medium">
-              <li><Link to="/admissions" className="hover:text-[#D71920]">Admissions Portal</Link></li>
-              <li><Link to="/admissions/fees" className="hover:text-[#D71920]">Academic Fee Structure</Link></li>
-              <li><Link to="/admissions/scholarships" className="hover:text-[#D71920]">Scholarships & Waivers</Link></li>
-              <li><Link to="/admissions/apply" className="hover:text-[#D71920]">Apply Registration Form</Link></li>
+              <li><Link to="/admissions" className="hover:text-[#D4AF37]">Admissions Portal</Link></li>
+              <li><Link to="/admissions/fees" className="hover:text-[#D4AF37]">Academic Fee Structure</Link></li>
+              <li><Link to="/admissions/scholarships" className="hover:text-[#D4AF37]">Scholarships & Waivers</Link></li>
+              <li><Link to="/admissions/apply" className="hover:text-[#D4AF37]">Apply Registration Form</Link></li>
             </ul>
           </div>
         </div>
@@ -1265,7 +1265,7 @@ const getPageContent = (path: string, programs: any[]) => {
   return {
     title: "University Information Page",
     category: "Information",
-    desc: "Discover details, academic programs, and announcements from City Chalapathi Institute of Technology.",
+    desc: "Discover details, academic programs, and announcements from Chalapathi University.",
     body: <p className="text-gray-600 text-sm">Please select a topic from the main navigation menu or search directory.</p>
   };
 };
@@ -1399,7 +1399,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
         <span className="text-[10px] font-bold text-[#072A6C] uppercase tracking-wider">Visual Academic Calendar ({year})</span>
         <button 
           onClick={() => alert(`Academic Calendar PDF for ${year} is queued for download.`)}
-          className="text-[10px] font-bold text-[#D71920] hover:text-[#072A6C] transition-colors"
+          className="text-[10px] font-bold text-[#D4AF37] hover:text-[#072A6C] transition-colors"
         >
           📥 Download Calendar PDF
         </button>
@@ -1411,11 +1411,11 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
         <div className="w-full md:w-3/5 bg-gray-50/80 p-6 flex flex-col justify-between min-h-[320px]">
           {/* Header Month/Year Selection */}
           <div className="flex justify-between items-center mb-6">
-            <span className="text-[10px] font-bold text-[#D71920] uppercase tracking-widest">{displayYear - 1}</span>
+            <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">{displayYear - 1}</span>
             <h5 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-widest">
               {currentMonth.name}, {displayYear}
             </h5>
-            <span className="text-[10px] font-bold text-[#D71920] uppercase tracking-widest">{displayYear + 1}</span>
+            <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">{displayYear + 1}</span>
           </div>
 
           {/* Weekday headers */}
@@ -1434,7 +1434,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
             {/* Left Month navigation arrow */}
             <button 
               onClick={prevMonth}
-              className="absolute left-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-gray-100 hover:bg-gray-50 flex items-center justify-center shadow-sm text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none"
+              className="absolute left-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-gray-100 hover:bg-gray-50 flex items-center justify-center shadow-sm text-[#072A6C] hover:text-[#D4AF37] transition-colors cursor-pointer outline-none"
             >
               ◀
             </button>
@@ -1451,14 +1451,14 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
                   onClick={() => setSelectedDay(day)}
                   className={`w-8 h-8 mx-auto rounded-full flex flex-col items-center justify-center text-xs font-bold transition-all relative cursor-pointer outline-none ${
                     isSelected 
-                      ? "bg-[#D71920] text-white shadow-sm scale-110" 
+                      ? "bg-[#D4AF37] text-white shadow-sm scale-110" 
                       : "text-[#072A6C] hover:bg-[#072A6C]/10"
                   }`}
                 >
                   <span>{day}</span>
                   {/* Underline matching reference screenshot */}
                   {hasEvent && (
-                    <span className={`w-3.5 h-[2px] rounded absolute bottom-1.5 ${isSelected ? "bg-white" : "bg-[#D71920]"}`} />
+                    <span className={`w-3.5 h-[2px] rounded absolute bottom-1.5 ${isSelected ? "bg-white" : "bg-[#D4AF37]"}`} />
                   )}
                 </button>
               );
@@ -1467,7 +1467,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
             {/* Right Month navigation arrow */}
             <button 
               onClick={nextMonth}
-              className="absolute right-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-gray-100 hover:bg-gray-50 flex items-center justify-center shadow-sm text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none"
+              className="absolute right-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-gray-100 hover:bg-gray-50 flex items-center justify-center shadow-sm text-[#072A6C] hover:text-[#D4AF37] transition-colors cursor-pointer outline-none"
             >
               ▶
             </button>
@@ -1483,7 +1483,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
             </button>
             <button 
               onClick={() => alert("Notification reminder has been registered successfully.")}
-              className="flex-1 py-2.5 bg-[#D71920] hover:bg-[#D71920]/95 text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
+              className="flex-1 py-2.5 bg-[#D4AF37] hover:bg-[#D4AF37]/95 text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
             >
               Set Reminder
             </button>
@@ -1493,7 +1493,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
         {/* Right Side: University Blue Events Panel */}
         <div className="w-full md:w-2/5 bg-[#072A6C] p-6 text-white flex flex-col justify-between min-h-[320px]">
           <div>
-            <span className="text-[10px] font-extrabold text-[#D71920] uppercase tracking-widest block mb-1">Schedule</span>
+            <span className="text-[10px] font-extrabold text-[#D4AF37] uppercase tracking-widest block mb-1">Schedule</span>
             <h5 className="text-xs font-extrabold uppercase tracking-widest pb-2 border-b border-white/10 mb-4">
               Events
             </h5>
@@ -1505,7 +1505,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
                   <div className="text-yellow-300 text-[11px] font-extrabold uppercase tracking-wider leading-snug">
                     {activeEvent}
                   </div>
-                  <div className="w-16 h-[2px] bg-[#D71920] rounded" />
+                  <div className="w-16 h-[2px] bg-[#D4AF37] rounded" />
                   <div className="text-[9.5px] text-gray-300 font-light">
                     Scheduled on {currentMonth.name} {selectedDay}, {displayYear}
                   </div>
@@ -1554,7 +1554,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
             }}
             className={`px-4 py-2 text-xs font-bold rounded-full transition-all cursor-pointer outline-none ${
               selectedYear === year
-                ? "bg-[#D71920] text-white shadow-sm"
+                ? "bg-[#D4AF37] text-white shadow-sm"
                 : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
             }`}
           >
@@ -1567,7 +1567,7 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
       <div className="space-y-6">
         {Object.entries(universitysData[selectedYear] || {}).map(([schoolName, departments]) => (
           <div key={schoolName} className="bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm">
-            <h4 className="text-sm font-extrabold text-[#072A6C] mb-6 border-l-4 border-[#D71920] pl-3 tracking-wide uppercase">
+            <h4 className="text-sm font-extrabold text-[#072A6C] mb-6 border-l-4 border-[#D4AF37] pl-3 tracking-wide uppercase">
               {schoolName}
             </h4>
             <div className="flex flex-col gap-6">
@@ -1582,10 +1582,10 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
                         <div key={course.key} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-blue-100 transition-all duration-300 col-span-1 md:col-span-full">
                           <button
                             onClick={() => setActiveCourse(isExpanded ? null : uniqueKey)}
-                            className="w-full px-4 py-3 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
+                            className="w-full px-4 py-3 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D4AF37] bg-white transition-colors text-left outline-none cursor-pointer"
                           >
                             <span>• {course.label}</span>
-                            <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
+                            <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D4AF37]" : "text-gray-400"}`} />
                           </button>
                           {isExpanded && <InteractiveCalendarWidget year={selectedYear} courseKey={course.key} />}
                         </div>
@@ -1671,20 +1671,20 @@ function AcademicFlexibilities() {
   return (
     <div className="space-y-6">
       <p className="text-gray-600 text-sm leading-relaxed">
-        City Chalapathi Institute of Technology offers several academic flexibilities for students at both Undergraduate and Postgraduate levels. Click on any of the flexibilities below to view full details:
+        Chalapathi University offers several academic flexibilities for students at both Undergraduate and Postgraduate levels. Click on any of the flexibilities below to view full details:
       </p>
 
       <div className="space-y-3">
         {flexibilities.map((item) => {
           const isExpanded = activeItem === item.key;
           return (
-            <div key={item.key} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-[#D71920]/20 transition-all duration-300">
+            <div key={item.key} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-[#D4AF37]/20 transition-all duration-300">
               <button
                 onClick={() => setActiveItem(isExpanded ? null : item.key)}
-                className="w-full px-5 py-4 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
+                className="w-full px-5 py-4 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D4AF37] bg-white transition-colors text-left outline-none cursor-pointer"
               >
                 <span>• {item.title}</span>
-                <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
+                <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D4AF37]" : "text-gray-400"}`} />
               </button>
               
               {isExpanded && (
@@ -1698,7 +1698,7 @@ function AcademicFlexibilities() {
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-1">
                       {item.highlights.map((h, idx) => (
                         <li key={idx} className="text-[11.5px] text-gray-500 font-medium flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#D71920]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
                           {h}
                         </li>
                       ))}
@@ -1828,13 +1828,13 @@ function AcademicGradingSystem() {
         {currentProgram.absolute && (
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-xs font-extrabold text-[#D71920] uppercase tracking-wider">Absolute Grading System</span>
+              <span className="text-xs font-extrabold text-[#D4AF37] uppercase tracking-wider">Absolute Grading System</span>
               {isAdmin && <span className="text-[10px] text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded border border-green-100">Click any field to edit</span>}
             </div>
             <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
+                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D4AF37]">
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Performance</th>
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
@@ -1843,9 +1843,9 @@ function AcademicGradingSystem() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {currentProgram.absolute.map((row: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
+                    <tr key={idx} className="hover:bg-[#D4AF37]/10 odd:bg-gray-50/40 transition-colors">
                       <td className="p-3.5 font-medium text-gray-800">{row.perf}</td>
-                      <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
+                      <td className="p-3.5 font-extrabold text-[#D4AF37] text-sm">{row.grade}</td>
                       <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
                       <td className="p-3.5 text-gray-500 font-light">{row.range}</td>
                     </tr>
@@ -1865,7 +1865,7 @@ function AcademicGradingSystem() {
             <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
+                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D4AF37]">
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Calculation Formula</th>
@@ -1873,8 +1873,8 @@ function AcademicGradingSystem() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {currentProgram.relative.map((row: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
-                      <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
+                    <tr key={idx} className="hover:bg-[#D4AF37]/10 odd:bg-gray-50/40 transition-colors">
+                      <td className="p-3.5 font-extrabold text-[#D4AF37] text-sm">{row.grade}</td>
                       <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
                       <td className="p-3.5 text-gray-600 font-mono text-[11px]">{row.calc}</td>
                     </tr>
@@ -1908,7 +1908,7 @@ function AwardOfDegrees() {
         { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
         { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
         { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
-        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
+        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D4AF37]", glow: "hover:bg-rose-50 hover:border-[#D4AF37]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
       ]
     },
     engineering: {
@@ -1918,7 +1918,7 @@ function AwardOfDegrees() {
         { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
         { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
         { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
-        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
+        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D4AF37]", glow: "hover:bg-rose-50 hover:border-[#D4AF37]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
       ]
     },
     business: {
@@ -1928,7 +1928,7 @@ function AwardOfDegrees() {
         { min: 5.5, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
         { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
         { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
-        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
+        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D4AF37]", glow: "hover:bg-rose-50 hover:border-[#D4AF37]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
       ]
     }
   };
@@ -1997,7 +1997,7 @@ function AwardOfDegrees() {
                 Awarded to students finishing all academic credits and clearing modules with a cumulative GPA of {grade.min} to {grade.max}.
               </p>
               {grade.note && (
-                <div className="mt-3 pt-3 border-t border-red-200/50 text-[10px] text-red-600 font-medium leading-relaxed">
+                <div className="mt-3 pt-3 border-t border-amber-200/50 text-[10px] text-[#C9A84C] font-medium leading-relaxed">
                   ⚠️ <strong>Note:</strong> {grade.note}
                 </div>
               )}
@@ -2036,7 +2036,7 @@ function AwardOfDegrees() {
           <div className="w-full md:w-2/5 bg-white border border-gray-100 rounded-xl p-4 text-center shadow-sm">
             <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-1">Target CGPA</span>
             <div className="text-[26px] font-[800] text-[#072A6C] leading-none mb-2">{testCgpa.toFixed(2)}</div>
-            <div className="inline-block px-3 py-1 bg-[#D71920]/10 text-[#D71920] text-[10.5px] font-extrabold rounded-full uppercase tracking-wider">
+            <div className="inline-block px-3 py-1 bg-[#D4AF37]/10 text-[#D4AF37] text-[10.5px] font-extrabold rounded-full uppercase tracking-wider">
               {activeGradeIndex !== -1 ? selectedData.grades[activeGradeIndex].class : "Does Not Qualify"}
             </div>
           </div>
@@ -2082,7 +2082,7 @@ function AcademicRulesRegulations() {
           5 Focal Points of Student Compliance
         </h3>
         <p className="text-xs text-gray-500 font-light leading-relaxed">
-          Standard academic rules and discipline parameters to be strictly adhered to by all scholars at City Chalapathi Institute.
+          Standard academic rules and discipline parameters to be strictly adhered to by all scholars at Chalapathi University.
         </p>
       </div>
 
@@ -2095,7 +2095,7 @@ function AcademicRulesRegulations() {
           return (
             <div
               key={item.title}
-              className={`flex flex-col items-center p-6 text-center border border-gray-100 rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:shadow-md hover:border-[#D71920]/30 group ${bgClass}`}
+              className={`flex flex-col items-center p-6 text-center border border-gray-100 rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:shadow-md hover:border-[#D4AF37]/30 group ${bgClass}`}
             >
               {/* Icon Container with subtle animation */}
               <div className="w-16 h-16 rounded-full bg-blue-50/80 text-[#072A6C] flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#072A6C]/10">
@@ -2103,7 +2103,7 @@ function AcademicRulesRegulations() {
               </div>
 
               {/* Bold Title */}
-              <h4 className="text-xs font-extrabold text-gray-800 mb-2.5 uppercase tracking-widest group-hover:text-[#D71920] transition-colors">
+              <h4 className="text-xs font-extrabold text-gray-800 mb-2.5 uppercase tracking-widest group-hover:text-[#D4AF37] transition-colors">
                 {item.title}
               </h4>
 
@@ -2143,7 +2143,7 @@ function TeachingEvaluation() {
       title: "Semester End Examinations",
       weight: "60%",
       desc: "Centralized final examinations testing comprehensive curriculum mastery at the end of each term.",
-      glow: "hover:border-red-200"
+      glow: "hover:border-amber-200"
     }
   ];
 
@@ -2163,7 +2163,7 @@ function TeachingEvaluation() {
           </div>
           <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden flex">
             <div className="h-full bg-[#072A6C]" style={{ width: "40%" }} />
-            <div className="h-full bg-[#D71920]" style={{ width: "60%" }} />
+            <div className="h-full bg-[#D4AF37]" style={{ width: "60%" }} />
           </div>
         </div>
       </div>
@@ -2177,7 +2177,7 @@ function TeachingEvaluation() {
             <div>
               <div className="flex justify-between items-center mb-3">
                 <span className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">{item.title}</span>
-                <span className="text-xs font-bold text-[#D71920] bg-red-50 px-2 py-0.5 rounded-full border border-red-100">{item.weight} Weight</span>
+                <span className="text-xs font-bold text-[#D4AF37] bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">{item.weight} Weight</span>
               </div>
               <p className="text-xs text-gray-500 font-light leading-relaxed">{item.desc}</p>
             </div>
@@ -2345,7 +2345,7 @@ function BOSMembers() {
             <Link 
               key={dept.name} 
               to={`/academics/bos/${slug}`}
-              className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md hover:border-[#D71920]/20 transition-all duration-300 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] cursor-pointer"
+              className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md hover:border-[#D4AF37]/20 transition-all duration-300 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D4AF37] cursor-pointer"
             >
               <span>• Department of {dept.name}</span>
               <ChevronRight size={14} className="text-gray-400" />
@@ -2366,7 +2366,7 @@ function DepartmentFacultyView({ slug }: { slug: string }) {
     return (
       <div className="text-center py-10 space-y-4">
         <p className="text-gray-600 text-sm">Department records not found.</p>
-        <Link to="/academics/bos" className="text-xs font-bold text-[#D71920] hover:underline">
+        <Link to="/academics/bos" className="text-xs font-bold text-[#D4AF37] hover:underline">
           Back to BOS Directory
         </Link>
       </div>
@@ -2376,7 +2376,7 @@ function DepartmentFacultyView({ slug }: { slug: string }) {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center pb-3 border-b border-gray-100">
-        <Link to="/academics/bos" className="text-xs font-bold text-[#072A6C] hover:text-[#D71920] transition-colors flex items-center gap-1">
+        <Link to="/academics/bos" className="text-xs font-bold text-[#072A6C] hover:text-[#D4AF37] transition-colors flex items-center gap-1">
           ◀ Back to BOS Directory
         </Link>
         <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
@@ -2397,11 +2397,11 @@ function DepartmentFacultyView({ slug }: { slug: string }) {
         {dept.faculty.map((member, idx) => (
           <div 
             key={idx} 
-            className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md hover:border-[#D71920]/25 transition-all duration-300 flex flex-col justify-between"
+            className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md hover:border-[#D4AF37]/25 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
               <div className="text-xs font-extrabold text-[#072A6C]">{member.name}</div>
-              <div className="text-[10px] text-[#D71920] font-bold uppercase tracking-wider mt-0.5">{member.role}</div>
+              <div className="text-[10px] text-[#D4AF37] font-bold uppercase tracking-wider mt-0.5">{member.role}</div>
               <p className="text-xs text-gray-500 font-light leading-relaxed mt-2.5 pt-2.5 border-t border-gray-50">
                 {member.desc}
               </p>
@@ -2428,11 +2428,11 @@ function LatestNewsView() {
           </div>
           <div className="p-5 flex-1 flex flex-col justify-between text-left">
             <div className="space-y-1.5">
-              <div className="text-[9px] text-[#D71920] font-black uppercase tracking-wider">{item.category} • {item.date}</div>
-              <h4 className="text-xs font-bold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">{item.title}</h4>
+              <div className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider">{item.category} • {item.date}</div>
+              <h4 className="text-xs font-bold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D4AF37] transition-colors">{item.title}</h4>
               <p className="text-[11px] text-gray-500 font-light leading-relaxed line-clamp-2">{item.excerpt}</p>
             </div>
-            <span className="text-[10px] font-bold text-[#D71920] hover:text-[#072A6C] transition-colors mt-3 inline-block">Read Full Story →</span>
+            <span className="text-[10px] font-bold text-[#D4AF37] hover:text-[#072A6C] transition-colors mt-3 inline-block">Read Full Story →</span>
           </div>
         </Link>
       ))}
@@ -2800,7 +2800,7 @@ export default function DynamicPage() {
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                  <button className="w-16 h-16 rounded-full bg-[#D71920] hover:bg-[#b71217] text-white flex items-center justify-center shadow-lg transition-transform duration-300 transform group-hover:scale-110 cursor-pointer">
+                  <button className="w-16 h-16 rounded-full bg-[#D4AF37] hover:bg-[#C9A84C] text-white flex items-center justify-center shadow-lg transition-transform duration-300 transform group-hover:scale-110 cursor-pointer">
                     <span className="ml-1 text-2xl">▶</span>
                   </button>
                 </div>
@@ -2817,8 +2817,8 @@ export default function DynamicPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {campusPage.highlights.map((h, i) => (
                 <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 w-2 h-full bg-[#D71920]" />
-                  <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D71920] transition-colors">{h.title}</h3>
+                  <div className="absolute top-0 left-0 w-2 h-full bg-[#D4AF37]" />
+                  <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D4AF37] transition-colors">{h.title}</h3>
                   <p className="text-xs text-black font-semibold leading-relaxed">{h.desc}</p>
                 </div>
               ))}
@@ -2906,7 +2906,7 @@ export default function DynamicPage() {
           >
             <button 
               onClick={() => setSelectedImage(null)}
-              className="absolute top-6 right-6 text-white bg-[#D71920] hover:bg-[#b71217] w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer z-10"
+              className="absolute top-6 right-6 text-white bg-[#D4AF37] hover:bg-[#C9A84C] w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer z-10"
             >
               ✕
             </button>
@@ -2932,7 +2932,7 @@ export default function DynamicPage() {
         
         {/* Breadcrumb Navigation */}
         <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-6 bg-white py-2.5 px-4 rounded-full border border-gray-100 shadow-sm w-fit">
-          <Link to="/" className="hover:text-[#D71920] flex items-center gap-1 transition-colors">
+          <Link to="/" className="hover:text-[#D4AF37] flex items-center gap-1 transition-colors">
             <Home size={12} /> Home
           </Link>
           {pathSegments.map((segment, index) => {
@@ -2946,7 +2946,7 @@ export default function DynamicPage() {
                 {isLast ? (
                   <span className="text-gray-600 font-semibold truncate max-w-[150px]">{cleanLabel}</span>
                 ) : (
-                  <Link to={url} className="hover:text-[#D71920] transition-colors shrink-0">
+                  <Link to={url} className="hover:text-[#D4AF37] transition-colors shrink-0">
                     {cleanLabel}
                   </Link>
                 )}
@@ -2966,7 +2966,7 @@ export default function DynamicPage() {
           >
             {!content.hideHeader && (
               <>
-                <span className="text-[11px] font-bold text-[#D71920] uppercase tracking-wider block mb-1">{content.category}</span>
+                <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-wider block mb-1">{content.category}</span>
                 <h1 className="text-[28px] md:text-[34px] font-[800] text-[#072A6C] leading-snug tracking-tight mb-4">
                   {content.title}
                 </h1>
@@ -3008,7 +3008,7 @@ export default function DynamicPage() {
                   <h3 className="font-extrabold text-sm text-[#072A6C] uppercase tracking-wider">Admission Helpdesk</h3>
                   <p className="text-xs text-gray-500 leading-relaxed font-light">Have questions about registration, courses, or hostels? Reach our advisors directly.</p>
                 </div>
-                <a href="tel:8886630355" className="h-11 px-6 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors shrink-0 outline-none border-none cursor-pointer">
+                <a href="tel:8886630355" className="h-11 px-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors shrink-0 outline-none border-none cursor-pointer">
                   <Phone size={14} /> Call Counselor
                 </a>
               </div>
@@ -3278,7 +3278,7 @@ function BoardDirectory() {
                   onClick={() => setSelectedDept(dept)}
                   className={`w-full text-left px-5 py-3.5 text-xs font-extrabold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 rounded-xl ${
                     isActive 
-                      ? "bg-[#D71920]/5 text-[#D71920] border-[#D4AF37] shadow-sm" 
+                      ? "bg-[#D4AF37]/5 text-[#D4AF37] border-[#D4AF37] shadow-sm" 
                       : "text-[#072A6C] hover:bg-gray-50 border-transparent"
                   }`}
                 >
@@ -3314,7 +3314,7 @@ function BoardDirectory() {
               <h5 className="font-extrabold text-[#072A6C] text-base md:text-lg leading-snug tracking-tight">
                 {activeDept.hod.name}
               </h5>
-              <span className="text-xs text-[#D71920] font-bold uppercase tracking-wider mt-1.5 block">
+              <span className="text-xs text-[#D4AF37] font-bold uppercase tracking-wider mt-1.5 block">
                 {activeDept.hod.title}
               </span>
 
@@ -3355,28 +3355,28 @@ function BoardDirectory() {
             <div className="p-6 space-y-4 text-xs text-gray-600">
               <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">University ID</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">University ID</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
                 </div>
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Department / Office</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Department / Office</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
                 </div>
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Years of Experience</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Years of Experience</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
                 </div>
               </div>
 
               <div className="space-y-1">
-                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Education</span>
+                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Education</span>
                 <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.edu}
                 </p>
               </div>
 
               <div className="space-y-1">
-                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Responsibilities</span>
+                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Responsibilities</span>
                 <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.interests}
                 </p>
@@ -3451,7 +3451,7 @@ function StaffDirectory() {
                   onClick={() => setSelectedDept(dept)}
                   className={`w-full text-left px-5 py-3 text-xs font-extrabold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 rounded-xl ${
                     isActive 
-                      ? "bg-[#D71920]/5 text-[#D71920] border-[#D4AF37] shadow-sm" 
+                      ? "bg-[#D4AF37]/5 text-[#D4AF37] border-[#D4AF37] shadow-sm" 
                       : "text-[#072A6C] hover:bg-gray-50 border-transparent"
                   }`}
                 >
@@ -3489,7 +3489,7 @@ function StaffDirectory() {
               <h5 className="font-extrabold text-[#072A6C] text-sm leading-snug tracking-tight">
                 {activeDept.hod.name}
               </h5>
-              <span className="text-[10px] text-[#D71920] font-bold uppercase tracking-wider mt-1 block">
+              <span className="text-[10px] text-[#D4AF37] font-bold uppercase tracking-wider mt-1 block">
                 {activeDept.hod.title}
               </span>
             </div>
@@ -3514,7 +3514,7 @@ function StaffDirectory() {
                   <h5 className="font-extrabold text-[#072A6C] text-xs leading-snug tracking-tight">
                     {faculty.name}
                   </h5>
-                  <span className="text-[9px] text-[#D71920] font-bold uppercase tracking-wider mt-1 block">
+                  <span className="text-[9px] text-[#D4AF37] font-bold uppercase tracking-wider mt-1 block">
                     {faculty.title}
                   </span>
                 </div>
@@ -3552,28 +3552,28 @@ function StaffDirectory() {
             <div className="p-6 space-y-4 text-xs text-gray-600">
               <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Employee ID</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Employee ID</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
                 </div>
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Office Department</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Office Department</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
                 </div>
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Experience</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Experience</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
                 </div>
               </div>
 
               <div className="space-y-1">
-                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Qualification</span>
+                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Qualification</span>
                 <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.edu}
                 </p>
               </div>
 
               <div className="space-y-1">
-                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Responsibilities</span>
+                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Responsibilities</span>
                 <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.interests}
                 </p>
@@ -3624,7 +3624,7 @@ function FacultyDirectory() {
                   onClick={() => setSelectedDept(dept)}
                   className={`w-full text-left px-5 py-6 text-xs font-extrabold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 rounded-xl ${
                     isActive 
-                      ? "bg-[#D71920]/5 text-[#D71920] border-[#D4AF37] shadow-sm" 
+                      ? "bg-[#D4AF37]/5 text-[#D4AF37] border-[#D4AF37] shadow-sm" 
                       : "text-[#072A6C] hover:bg-gray-50 border-transparent"
                   }`}
                 >
@@ -3647,7 +3647,7 @@ function FacultyDirectory() {
         {/* Head of Department Centered Layout */}
         {activeDept.hod && (
           <div className="space-y-4 flex flex-col items-center">
-            <h4 className="text-[13px] md:text-[15px] font-black text-[#D71920] bg-[#D71920]/8 px-5 py-1.5 rounded-full uppercase tracking-widest text-center w-fit mx-auto shadow-sm border border-[#D71920]/15">Head of Department</h4>
+            <h4 className="text-[13px] md:text-[15px] font-black text-[#D4AF37] bg-[#D4AF37]/8 px-5 py-1.5 rounded-full uppercase tracking-widest text-center w-fit mx-auto shadow-sm border border-[#D4AF37]/15">Head of Department</h4>
             <div 
               onClick={() => setSelectedFaculty(activeDept.hod)}
               className="bg-white border-2 border-[#D4AF37] rounded-[16px] p-6 shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[340px] min-h-[300px]"
@@ -3731,22 +3731,22 @@ function FacultyDirectory() {
               {/* Details Table Grid */}
               <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Department ID</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Department ID</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
                 </div>
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Department</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Department</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
                 </div>
                 <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Experience</span>
+                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Experience</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
                 </div>
               </div>
 
               {/* Education block */}
               <div className="space-y-1">
-                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Education Background</span>
+                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Education Background</span>
                 <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.edu}
                 </p>
@@ -3754,7 +3754,7 @@ function FacultyDirectory() {
 
               {/* Research/Interest block */}
               <div className="space-y-1">
-                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Areas of Interest</span>
+                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Areas of Interest</span>
                 <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.interests}
                 </p>
@@ -3794,7 +3794,7 @@ const LEADERS = [
     edu: "Renowned Educationist & Founder Sponsor Representative",
     avatar: "YVA",
     interests: "Strategic leadership, academic governance, public relations, and legal policies.",
-    bio: "Sri Y. V. Anjaneyulu, a visionary educationist and prominent leader, has been the guiding force behind the establishment and development of City Chalapathi Institute of Technology. With over 35 years of experience in administrative leadership, he has spearheaded numerous educational and social initiatives in the Guntur district. As Chancellor, he focuses on strategic growth, long-term policy formulation, infrastructure advancement, and cultivating partnerships with industries and global institutions to ensure academic quality and values-driven education.",
+    bio: "Sri Y. V. Anjaneyulu, a visionary educationist and prominent leader, has been the guiding force behind the establishment and development of Chalapathi University. With over 35 years of experience in administrative leadership, he has spearheaded numerous educational and social initiatives in the Guntur district. As Chancellor, he focuses on strategic growth, long-term policy formulation, infrastructure advancement, and cultivating partnerships with industries and global institutions to ensure academic quality and values-driven education.",
     phone: "+91 863 2345401",
     email: "chancellor@city.ac.in",
     address: "Chalapathi Nagar, Lam, Guntur, Andhra Pradesh - 522034"
@@ -3844,7 +3844,7 @@ function LeadershipView() {
         {/* Animated Mesh Gradients & Floating Blobs */}
         <div className="absolute inset-0 z-0 opacity-40">
           <div className="absolute top-10 left-10 w-[300px] h-[300px] rounded-full bg-[#D4AF37] blur-[150px] animate-pulse" />
-          <div className="absolute bottom-10 right-10 w-[400px] h-[400px] rounded-full bg-[#D71920] blur-[200px] animate-pulse" />
+          <div className="absolute bottom-10 right-10 w-[400px] h-[400px] rounded-full bg-[#D4AF37] blur-[200px] animate-pulse" />
           <div className="absolute top-1/2 left-1/3 w-[350px] h-[350px] rounded-full bg-[#2563EB] blur-[180px]" />
         </div>
 
@@ -3897,7 +3897,7 @@ function LeadershipView() {
       <section className="py-20 md:py-28 max-w-[1000px] mx-auto px-5 relative z-10">
         <div className="bg-white border border-gray-100 rounded-[32px] p-8 md:p-16 shadow-2xl relative overflow-hidden group">
           {/* Dynamic soft perimeter glow on hover */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/5 via-[#D71920]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/5 via-[#D4AF37]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           
           <span className="text-8xl font-serif text-[#D4AF37] opacity-25 absolute -top-4 -left-2 select-none">“</span>
           
@@ -3914,14 +3914,14 @@ function LeadershipView() {
         <div className="max-w-[1440px] mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-black text-[#072A6C] tracking-tight uppercase">OUR GOVERNING PHILOSOPHIES</h2>
-            <div className="h-1 w-16 bg-[#D71920] mx-auto mt-3 rounded-full" />
+            <div className="h-1 w-16 bg-[#D4AF37] mx-auto mt-3 rounded-full" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {leadership.philosophies.map((v, i) => (
               <div key={i} className="bg-white border border-gray-100 rounded-[24px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#D71920] to-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                <h3 className="font-extrabold text-[#072A6C] text-base mb-2 group-hover:text-[#D71920] transition-colors">{v.title}</h3>
+                <h3 className="font-extrabold text-[#072A6C] text-base mb-2 group-hover:text-[#D4AF37] transition-colors">{v.title}</h3>
                 <p className="text-xs text-black font-semibold leading-relaxed">{v.desc}</p>
               </div>
             ))}
@@ -4345,7 +4345,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
               <div 
                 className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
                   step >= s.num 
-                    ? "bg-[#D71920] text-white" 
+                    ? "bg-[#D4AF37] text-white" 
                     : "bg-gray-100 text-gray-400"
                 }`}
               >
@@ -4368,7 +4368,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
                 type="text" 
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]" 
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]" 
                 placeholder="Enter full name" 
               />
             </div>
@@ -4378,7 +4378,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
                 type="email" 
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]" 
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]" 
                 placeholder="name@domain.com" 
               />
             </div>
@@ -4388,7 +4388,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
                 type="tel" 
                 value={formData.mobile}
                 onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]" 
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]" 
                 placeholder="10-digit phone number" 
               />
             </div>
@@ -4397,7 +4397,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
               <select 
                 value={formData.state}
                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D71920]"
+                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]"
               >
                 <option>Andhra Pradesh</option>
                 <option>Telangana</option>
@@ -4410,7 +4410,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
           <button 
             type="button" 
             onClick={startOtpFlow} 
-            className="w-full py-3 mt-6 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            className="w-full py-3 mt-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
           >
             Register & Send Verification Code
           </button>
@@ -4421,11 +4421,11 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
         <div className="space-y-4 animate-fade-in">
           <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Verify Mobile / Email</h3>
           <div className="bg-amber-50 border-l-4 border-[#D4AF37] p-3.5 rounded-r-xl text-[11.5px] text-amber-900 font-semibold mb-2 flex items-center justify-between shadow-sm">
-            <span>📲 Demo Mode: Use OTP <strong className="text-base text-[#D71920] tracking-wider font-extrabold">123456</strong></span>
+            <span>📲 Demo Mode: Use OTP <strong className="text-base text-[#D4AF37] tracking-wider font-extrabold">123456</strong></span>
             <button 
               type="button"
               onClick={() => setFormData({ ...formData, otp: "123456" })}
-              className="px-3 py-1 bg-[#D71920] hover:bg-[#b71217] text-white text-[10px] font-bold rounded-lg cursor-pointer transition-colors border-none outline-none"
+              className="px-3 py-1 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-[10px] font-bold rounded-lg cursor-pointer transition-colors border-none outline-none"
             >
               Auto-Fill OTP
             </button>
@@ -4441,7 +4441,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
                 maxLength={6}
                 value={formData.otp}
                 onChange={(e) => setFormData({ ...formData, otp: e.target.value.replace(/\D/g, "") })}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-center text-lg font-bold tracking-[8px] outline-none focus:border-[#D71920]" 
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-center text-lg font-bold tracking-[8px] outline-none focus:border-[#D4AF37]" 
                 placeholder="******" 
               />
             </div>
@@ -4453,7 +4453,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
               {timer === 0 && (
                 <button 
                   onClick={() => { setOtpSent(true); setTimer(60); }} 
-                  className="text-[#D71920] font-bold hover:underline"
+                  className="text-[#D4AF37] font-bold hover:underline"
                 >
                   Resend OTP
                 </button>
@@ -4473,7 +4473,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
               type="button" 
               onClick={verifyOtp} 
               disabled={isVerifying}
-              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
             >
               {isVerifying ? "Verifying..." : "Verify & Continue"}
             </button>
@@ -4576,7 +4576,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
             <button 
               type="button" 
               onClick={handleNext} 
-              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
             >
               Save & Continue
             </button>
@@ -4630,7 +4630,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
                   <span>{uploadProgress}%</span>
                 </div>
                 <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#D71920] transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
+                  <div className="h-full bg-[#D4AF37] transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
                 </div>
               </div>
             )}
@@ -4649,7 +4649,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
               type="button" 
               onClick={startUpload} 
               disabled={isUploading}
-              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
             >
               {isUploading ? "Uploading..." : "Upload & Continue"}
             </button>
@@ -4731,7 +4731,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
 
             {isPaying && (
               <div className="flex items-center justify-center gap-2 py-2 text-xs font-bold text-gray-500">
-                <Clock size={14} className="animate-spin text-[#D71920]" /> Processing secure transaction...
+                <Clock size={14} className="animate-spin text-[#D4AF37]" /> Processing secure transaction...
               </div>
             )}
           </div>
@@ -4749,7 +4749,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
               type="button" 
               onClick={processPayment} 
               disabled={isPaying}
-              className="flex-2 py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
             >
               {isPaying ? "Paying..." : "Pay ₹1,000 & Submit"}
             </button>
@@ -4780,7 +4780,7 @@ Note: This is a system-generated receipt. Please preserve it for counseling and 
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Fee Status:</span>
-              <span className="font-bold text-[#D71920] uppercase tracking-wider">Paid (₹1,000)</span>
+              <span className="font-bold text-[#D4AF37] uppercase tracking-wider">Paid (₹1,000)</span>
             </div>
           </div>
 
@@ -4828,7 +4828,7 @@ function FeesView() {
                 
                 <div className="flex flex-wrap gap-2">
                   {feeRow.duration !== "Varies" && (
-                    <span className="px-3 py-1 bg-[#D71920]/5 text-[#D71920] font-bold text-[10px] uppercase tracking-wider rounded-md border border-[#D71920]/15">
+                    <span className="px-3 py-1 bg-[#D4AF37]/5 text-[#D4AF37] font-bold text-[10px] uppercase tracking-wider rounded-md border border-[#D4AF37]/15">
                       {feeRow.duration}
                     </span>
                   )}
@@ -4877,14 +4877,14 @@ function ScholarshipsView() {
       </div>
 
       <div className="space-y-6">
-        <div className="border-b-2 border-[#D71920]/80 pb-2 flex items-center gap-2">
-          <Award className="text-[#D71920] shrink-0" size={24} />
+        <div className="border-b-2 border-[#D4AF37]/80 pb-2 flex items-center gap-2">
+          <Award className="text-[#D4AF37] shrink-0" size={24} />
           <h2 className="text-xl md:text-2xl font-extrabold text-[#072A6C] uppercase tracking-tight">
             Merit Scholarships
           </h2>
         </div>
 
-        <div className="bg-white border border-gray-155 border-l-4 border-l-[#D71920] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-gray-155 border-l-4 border-l-[#D4AF37] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
           <div>
             <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">
               Chalapathi Merit Scholarship Test (CMST)
@@ -4897,20 +4897,20 @@ function ScholarshipsView() {
           <div className="pt-2">
             <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block mb-2">Scholarship Highlights</span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-600 font-light">
-              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
-                <span className="text-[#D71920] font-black text-sm">✓</span>
+              <div className="flex items-center gap-2 bg-[#D4AF37]/5 p-2 rounded-xl border border-[#D4AF37]/10">
+                <span className="text-[#D4AF37] font-black text-sm">✓</span>
                 <span>Tuition fee waiver of up to 100% for top-performing students.</span>
               </div>
-              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
-                <span className="text-[#D71920] font-black text-sm">✓</span>
+              <div className="flex items-center gap-2 bg-[#D4AF37]/5 p-2 rounded-xl border border-[#D4AF37]/10">
+                <span className="text-[#D4AF37] font-black text-sm">✓</span>
                 <span>Scholarships awarded based on merit and eligibility.</span>
               </div>
-              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
-                <span className="text-[#D71920] font-black text-sm">✓</span>
+              <div className="flex items-center gap-2 bg-[#D4AF37]/5 p-2 rounded-xl border border-[#D4AF37]/10">
+                <span className="text-[#D4AF37] font-black text-sm">✓</span>
                 <span>Recognition for exceptional academic talent.</span>
               </div>
-              <div className="flex items-center gap-2 bg-[#D71920]/5 p-2 rounded-xl border border-[#D71920]/10">
-                <span className="text-[#D71920] font-black text-sm">✓</span>
+              <div className="flex items-center gap-2 bg-[#D4AF37]/5 p-2 rounded-xl border border-[#D4AF37]/10">
+                <span className="text-[#D4AF37] font-black text-sm">✓</span>
                 <span>Encouragement for students to pursue excellence throughout their academic journey.</span>
               </div>
             </div>
@@ -4944,8 +4944,8 @@ function ScholarshipsView() {
       </div>
 
       <div className="space-y-6 pt-6">
-        <div className="border-b-2 border-[#D71920]/80 pb-2 flex items-center gap-2">
-          <ShieldCheck className="text-[#D71920] shrink-0" size={24} />
+        <div className="border-b-2 border-[#D4AF37]/80 pb-2 flex items-center gap-2">
+          <ShieldCheck className="text-[#D4AF37] shrink-0" size={24} />
           <h2 className="text-xl md:text-2xl font-extrabold text-[#072A6C] uppercase tracking-tight">
             Government Scholarship Support
           </h2>
@@ -4977,14 +4977,14 @@ function ScholarshipsView() {
       </div>
 
       <div className="space-y-6 pt-6">
-        <div className="border-b-2 border-[#D71920]/80 pb-2 flex items-center gap-2">
-          <BookOpen className="text-[#D71920] shrink-0" size={24} />
+        <div className="border-b-2 border-[#D4AF37]/80 pb-2 flex items-center gap-2">
+          <BookOpen className="text-[#D4AF37] shrink-0" size={24} />
           <h2 className="text-xl md:text-2xl font-extrabold text-[#072A6C] uppercase tracking-tight">
             Rewards for Academic Excellence
           </h2>
         </div>
 
-        <div className="bg-white border border-gray-155 border-l-4 border-l-[#D71920] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-gray-155 border-l-4 border-l-[#D4AF37] rounded-r-2xl rounded-l-md p-6 shadow-sm space-y-4">
           <p className="text-xs text-gray-500 font-light leading-relaxed">
             Academic excellence is celebrated and encouraged through various recognition programs.
           </p>
@@ -5004,7 +5004,7 @@ function ScholarshipsView() {
                 </div>
               ))}
             </div>
-            <p className="text-[11px] text-[#D71920] italic font-extrabold mt-4 text-center leading-normal uppercase tracking-wider">
+            <p className="text-[11px] text-[#D4AF37] italic font-extrabold mt-4 text-center leading-normal uppercase tracking-wider">
               ★ Special Recognition for Outstanding Achievements in a Unique Way! ★
             </p>
           </div>
@@ -5146,7 +5146,7 @@ function PlacementsView() {
       <div className="space-y-4">
         <div className="flex justify-between items-end">
           <div className="space-y-1">
-            <span className="text-[10px] text-[#D71920] font-extrabold uppercase tracking-widest">Our Placed Stars</span>
+            <span className="text-[10px] text-[#D4AF37] font-extrabold uppercase tracking-widest">Our Placed Stars</span>
             <h2 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-wide">Recent Placements</h2>
           </div>
           
@@ -5212,13 +5212,13 @@ function PlacementsView() {
               <div className="absolute inset-0 bg-[#0c111b]/95 z-25 p-4 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto text-left font-[var(--font-poppins)]">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-[9px] bg-[#D71920]/20 text-[#D71920] border border-[#D71920]/30 px-1.5 py-0.5 rounded font-black uppercase tracking-widest animate-pulse">Placed</span>
+                    <span className="text-[9px] bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-1.5 py-0.5 rounded font-black uppercase tracking-widest animate-pulse">Placed</span>
                     <span className="text-xs text-[#D4AF37] font-black">{student.ctc}</span>
                   </div>
                   
                   <h4 className="text-xs md:text-sm font-black text-white leading-tight uppercase pt-1">{student.name}</h4>
                   <p className="text-[10px] text-gray-300 font-light">{student.branch}</p>
-                  <p className="text-[9.5px] text-gray-400 font-light leading-relaxed italic border-l border-l-[#D71920] pl-2 pt-0.5">
+                  <p className="text-[9.5px] text-gray-400 font-light leading-relaxed italic border-l border-l-[#D4AF37] pl-2 pt-0.5">
                     "Secured placement with CIT Training Cell coordination."
                   </p>
                 </div>
@@ -5255,7 +5255,7 @@ function PlacementsView() {
 
         {/* Text Area */}
         <div className="flex-1 space-y-4 md:space-y-6 z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#D71920]/10 text-[#D71920] rounded-lg font-bold text-xs uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#D4AF37]/10 text-[#D4AF37] rounded-lg font-bold text-xs uppercase tracking-wider">
             Placements & Career Development
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-[#072A6C] tracking-tight leading-tight uppercase">
@@ -5298,13 +5298,13 @@ function PlacementsView() {
           <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Average Package</span>
         </div>
         <div className="bg-white border border-gray-150 p-6 rounded-2xl text-center shadow-sm">
-          <span className="block text-3xl font-black text-[#D71920]">{placementsContent.placementPercent}</span>
+          <span className="block text-3xl font-black text-[#D4AF37]">{placementsContent.placementPercent}</span>
           <span className="text-[10px] text-gray-400 font-extrabold uppercase mt-1.5 block tracking-wider">Placement Record</span>
         </div>
       </div>
 
       {/* Placement Philosophy */}
-      <div className="bg-white border border-gray-150 p-6 rounded-2xl shadow-sm border-l-4 border-l-[#D71920]">
+      <div className="bg-white border border-gray-150 p-6 rounded-2xl shadow-sm border-l-4 border-l-[#D4AF37]">
         <h3 className="font-extrabold text-[#072A6C] text-sm uppercase tracking-wider mb-2">Our Placement Philosophy</h3>
         <p className="text-xs text-gray-500 font-light leading-relaxed">
           {placementsContent.philosophyText}
@@ -5315,7 +5315,7 @@ function PlacementsView() {
       <div className="space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-2xl font-black text-[#072A6C] uppercase tracking-wide">Industries We Cater</h2>
-          <div className="w-16 h-1 bg-[#D71920] mx-auto rounded-full" />
+          <div className="w-16 h-1 bg-[#D4AF37] mx-auto rounded-full" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -5343,12 +5343,12 @@ function PlacementsView() {
         {/* Career Development Card */}
         <div className="bg-white border border-gray-150 rounded-2xl p-6 shadow-sm space-y-4">
           <h4 className="font-extrabold text-[#072A6C] text-sm uppercase tracking-wider border-b border-gray-100 pb-2 flex items-center gap-2">
-            <Award className="text-[#D71920]" size={18} /> Career Development Programs
+            <Award className="text-[#D4AF37]" size={18} /> Career Development Programs
           </h4>
           <ul className="space-y-2.5 text-xs text-gray-500 font-light">
             {placementsContent.careerPrograms.map((item, idx) => (
               <li key={idx} className="flex items-center gap-2">
-                <span className="text-[#D71920] font-bold">✓</span>
+                <span className="text-[#D4AF37] font-bold">✓</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -5483,7 +5483,7 @@ function PlacementsView() {
               </div>
               <button 
                 type="submit"
-                className="w-full py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider mt-4"
+                className="w-full py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider mt-4"
               >
                 Submit Request
               </button>
@@ -5583,7 +5583,7 @@ function ContactUsView() {
               <span className="font-extrabold text-[#072A6C] text-xs uppercase tracking-wide">Working Hours</span>
               <span className="text-[10px] text-gray-500 font-semibold">
                 Mon - Sat: 09:00 AM - 05:00 PM<br />
-                <span className="text-red-500 font-normal">Sunday: Closed</span>
+                <span className="text-[#D4AF37] font-normal">Sunday: Closed</span>
               </span>
             </div>
 
@@ -5684,7 +5684,7 @@ function ContactUsView() {
 
             <button 
               type="submit"
-              className="w-full py-3 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2 mt-4 cursor-pointer outline-none border-none"
+              className="w-full py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2 mt-4 cursor-pointer outline-none border-none"
             >
               Submit Request
             </button>
@@ -5708,7 +5708,7 @@ function ContactUsView() {
           </div>
           <div className="space-y-0.5 text-xs text-gray-500 font-light pt-2">
             <span className="block font-semibold text-gray-700">Email:</span>
-            <a href="mailto:admissions@city.ac.in" className="block text-[#D71920] font-semibold hover:underline truncate">admissions@city.ac.in</a>
+            <a href="mailto:admissions@city.ac.in" className="block text-[#D4AF37] font-semibold hover:underline truncate">admissions@city.ac.in</a>
           </div>
         </div>
 
@@ -5725,7 +5725,7 @@ function ContactUsView() {
           </div>
           <div className="space-y-0.5 text-xs text-gray-500 font-light pt-2">
             <span className="block font-semibold text-gray-700">Email:</span>
-            <a href="mailto:principal@city.ac.in" className="block text-[#D71920] font-semibold hover:underline truncate">principal@city.ac.in</a>
+            <a href="mailto:principal@city.ac.in" className="block text-[#D4AF37] font-semibold hover:underline truncate">principal@city.ac.in</a>
           </div>
         </div>
 
@@ -5740,9 +5740,9 @@ function ContactUsView() {
           </div>
           <div className="space-y-0.5 text-[11px] text-gray-500 font-light pt-2">
             <span className="block font-semibold text-xs text-gray-700">Recruitment Team:</span>
-            <a href="mailto:jayachandra@city.ac.in" className="block text-[#D71920] hover:underline truncate">jayachandra@city.ac.in</a>
-            <a href="mailto:saipraveen@city.ac.in" className="block text-[#D71920] hover:underline truncate">saipraveen@city.ac.in</a>
-            <a href="mailto:paulpraveenn@city.ac.in" className="block text-[#D71920] hover:underline truncate">paulpraveenn@city.ac.in</a>
+            <a href="mailto:jayachandra@city.ac.in" className="block text-[#D4AF37] hover:underline truncate">jayachandra@city.ac.in</a>
+            <a href="mailto:saipraveen@city.ac.in" className="block text-[#D4AF37] hover:underline truncate">saipraveen@city.ac.in</a>
+            <a href="mailto:paulpraveenn@city.ac.in" className="block text-[#D4AF37] hover:underline truncate">paulpraveenn@city.ac.in</a>
           </div>
         </div>
 
@@ -5753,7 +5753,7 @@ function ContactUsView() {
             <div className="space-y-1 text-xs text-gray-500 font-light">
               <span className="block font-semibold text-gray-700">Examination Cell:</span>
               <span className="block">08645-326372</span>
-              <a href="mailto:exams@city.ac.in" className="block text-[#D71920] hover:underline truncate">exams@city.ac.in</a>
+              <a href="mailto:exams@city.ac.in" className="block text-[#D4AF37] hover:underline truncate">exams@city.ac.in</a>
             </div>
           </div>
           <div className="space-y-0.5 text-xs text-gray-500 font-light pt-2 border-t border-gray-50 mt-1">
@@ -5773,7 +5773,7 @@ function ContactUsView() {
               Find Us on the Map
             </h3>
             <p className="text-xs text-gray-400 font-light leading-normal">
-              Chalapathi Institute of Technology (Autonomous), Abburi Raghavaiah Nagar, Mothadaka, Guntur, AP – 522016, India.
+              Chalapathi University (Autonomous), Abburi Raghavaiah Nagar, Mothadaka, Guntur, AP – 522016, India.
             </p>
           </div>
           <a 
@@ -5817,9 +5817,9 @@ function ChalapathiAdvantage() {
   return (
     <div className="space-y-8 py-8 font-[var(--font-poppins)] text-center border-t border-gray-100 mt-6">
       <div className="space-y-2">
-        <span className="text-[10px] text-[#D71920] font-extrabold uppercase tracking-widest">Why Choose Us</span>
+        <span className="text-[10px] text-[#D4AF37] font-extrabold uppercase tracking-widest">Why Choose Us</span>
         <h2 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-wide">The Chalapathi Advantage</h2>
-        <div className="w-16 h-1 bg-[#D71920] mx-auto rounded-full" />
+        <div className="w-16 h-1 bg-[#D4AF37] mx-auto rounded-full" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-10 relative">

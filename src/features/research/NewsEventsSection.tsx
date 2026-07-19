@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ export default function NewsEventsSection() {
             <h3 className="text-[16px] font-[var(--font-poppins)] font-extrabold text-[#081A36]">
               News & Events
             </h3>
-            <Link to="/news" className="text-[11px] font-bold text-[#D91E18] hover:underline">
+            <Link to="/news" className="text-[11px] font-bold text-[#D4AF37] hover:underline">
               View All News →
             </Link>
           </div>
@@ -24,7 +24,7 @@ export default function NewsEventsSection() {
                 key={i}
                 className="flex gap-4 items-start bg-white rounded-lg p-3 border border-[#E5E7EB] shadow-sm hover:shadow transition-shadow"
               >
-                <div className="w-12 shrink-0 rounded bg-[#D91E18] text-white text-center py-1.5 shadow-sm">
+                <div className="w-12 shrink-0 rounded bg-[#D4AF37] text-white text-center py-1.5 shadow-sm">
                   <span className="block text-[14px] font-extrabold leading-none">{n.day}</span>
                   <span className="block text-[8px] font-bold tracking-wider mt-0.5">{n.month}</span>
                 </div>
@@ -32,7 +32,7 @@ export default function NewsEventsSection() {
                   <h4 className="text-[13px] font-bold text-[#222] leading-snug">{n.title}</h4>
                   <Link
                     to="/news"
-                    className="text-[10px] font-bold text-[#D91E18] hover:underline mt-1 inline-block"
+                    className="text-[10px] font-bold text-[#D4AF37] hover:underline mt-1 inline-block"
                   >
                     Read More →
                   </Link>
@@ -73,7 +73,7 @@ export default function NewsEventsSection() {
             <h3 className="text-[16px] font-[var(--font-poppins)] font-extrabold text-[#081A36]">
               Upcoming Events
             </h3>
-            <Link to="#" className="text-[11px] font-bold text-[#D91E18] hover:underline">
+            <Link to="#" className="text-[11px] font-bold text-[#D4AF37] hover:underline">
               View Calendar →
             </Link>
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -72,7 +72,7 @@ export default function Home() {
               <br />
               TOMORROW'S
               <br />
-              <span className="text-[#D71920]">INNOVATORS</span>
+              <span className="text-[#D4AF37]">INNOVATORS</span>
             </motion.h1>
 
             <motion.p
@@ -116,7 +116,7 @@ export default function Home() {
                   href={item.href}
                   className="flex flex-col items-center justify-center w-24 h-24 bg-white border border-gray-100 hover:border-[#072A6C] rounded-[16px] shadow-sm transition-all text-center p-2 group hover:-translate-y-1 hover:shadow-md"
                 >
-                  <Icon size={20} className="text-[#072A6C] group-hover:text-[#D71920] transition-colors mb-2" strokeWidth={1.8} />
+                  <Icon size={20} className="text-[#072A6C] group-hover:text-[#D4AF37] transition-colors mb-2" strokeWidth={1.8} />
                   <span className="text-[10px] font-[700] text-[#072A6C] leading-tight">{item.label}</span>
                 </Link>
               );
@@ -165,7 +165,7 @@ export default function Home() {
       {/* ═══ WHY CHOOSE US SECTION ═══ */}
       <section className="max-w-[1440px] mx-auto w-full px-5 py-20 text-center">
         <motion.span
-          className="text-[12px] font-[700] tracking-wider text-[#D71920] block mb-2 uppercase"
+          className="text-[12px] font-[700] tracking-wider text-[#D4AF37] block mb-2 uppercase"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -178,7 +178,7 @@ export default function Home() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          CITY CHALAPATHI INSTITUTE OF TECHNOLOGY?
+          Chalapathi University?
         </motion.h2>
 
         <motion.div
@@ -193,7 +193,7 @@ export default function Home() {
               title: "Industry-Driven Curriculum",
               desc: "Programs designed with industry experts for future-ready skills.",
               icon: Trophy,
-              color: "#D71920"
+              color: "#D4AF37"
             },
             {
               title: "Experienced Faculty",
@@ -260,7 +260,7 @@ export default function Home() {
             </h2>
             <Link
               href="/#schools"
-              className="text-[13px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-1 transition-colors"
+              className="text-[13px] font-[700] text-[#072A6C] hover:text-[#D4AF37] flex items-center gap-1 transition-colors"
             >
               View All Programs <ArrowRight size={14} />
             </Link>
@@ -274,7 +274,7 @@ export default function Home() {
             variants={staggerContainer}
           >
             {[
-              { name: "Engineering", color: "#D71920", image: "/prog_engineering.png", to: "/academics/computer-science" },
+              { name: "Engineering", color: "#D4AF37", image: "/prog_engineering.png", to: "/academics/computer-science" },
               { name: "Management", color: "#F59E0B", image: "/prog_management.png", to: "/academics/programmes" },
               { name: "Computer Applications", color: "#2563EB", image: "/prog_computer.png", to: "/academics/programmes" },
               { name: "Pharmacy", color: "#10B981", image: "/prog_pharmacy.png", to: "/academics/programmes" },
@@ -303,7 +303,7 @@ export default function Home() {
                     >
                       <GraduationCap size={14} />
                     </div>
-                    <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
+                    <h3 className="font-[700] text-[13px] text-[#072A6C] group-hover:text-[#D4AF37] transition-colors leading-tight">
                       {p.name}
                     </h3>
                   </div>
@@ -320,7 +320,7 @@ export default function Home() {
         {/* Left Card: Journey */}
         <div className="lg:col-span-4 bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm hover:shadow transition-shadow">
           <div>
-            <span className="text-[12px] font-[700] text-[#D71920] tracking-wider uppercase block mb-1">THE CHALAPATHI JOURNEY</span>
+            <span className="text-[12px] font-[700] text-[#D4AF37] tracking-wider uppercase block mb-1">THE CHALAPATHI JOURNEY</span>
             <h2 className="text-[26px] font-[800] text-[#072A6C]">
               Your Path to Success
             </h2>
@@ -348,9 +348,9 @@ export default function Home() {
               return (
                 <motion.div key={j.step} className="flex gap-4 items-center relative z-10" variants={fadeUp}>
                   {/* Step Flag Pointer badge */}
-                  <div className="w-10 h-8 bg-[#D71920] text-white font-[700] text-[13px] flex items-center justify-center shrink-0 rounded-l shadow-sm relative mr-2">
+                  <div className="w-10 h-8 bg-[#D4AF37] text-white font-[700] text-[13px] flex items-center justify-center shrink-0 rounded-l shadow-sm relative mr-2">
                     {j.step}
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 border-[4px] border-transparent border-l-[#D71920]" />
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 border-[4px] border-transparent border-l-[#D4AF37]" />
                   </div>
 
                   {/* Circular Icon Container */}
@@ -401,7 +401,7 @@ export default function Home() {
           >
             <div className="text-center md:text-left min-w-[200px]">
               <h3 className="text-[15px] font-[700]">Find Your Way</h3>
-              <p className="text-[11px] text-white font-[300] mt-0.5">Get directions to City Chalapathi Institute of Technology</p>
+              <p className="text-[11px] text-white font-[300] mt-0.5">Get directions to Chalapathi University</p>
             </div>
 
             {/* Combined Input Bar */}
@@ -416,7 +416,7 @@ export default function Home() {
                   className="w-full text-black text-[12px] outline-none bg-transparent"
                 />
               </div>
-              <button type="submit" className="bg-[#D71920] hover:bg-[#b71217] text-white font-[700] px-5 py-2 rounded-full text-[12px] flex items-center gap-1 shrink-0 whitespace-nowrap active:scale-95 transition-transform">
+              <button type="submit" className="bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-[700] px-5 py-2 rounded-full text-[12px] flex items-center gap-1 shrink-0 whitespace-nowrap active:scale-95 transition-transform">
                 Get Directions <MapPin size={12} />
               </button>
             </form>
@@ -439,19 +439,19 @@ export default function Home() {
               <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
                 LATEST NEWS
               </h3>
-              <Link href="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
+              <Link href="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D4AF37] flex items-center gap-0.5">
                 View All <ArrowRight size={10} />
               </Link>
             </div>
 
             <div className="space-y-4">
               {[
-                { d: "12", m: "MAY", title: "City Chalapathi Institute of Technology Launches AI Research Center" },
+                { d: "12", m: "MAY", title: "Chalapathi University Launches AI Research Center" },
                 { d: "06", m: "MAY", title: "Students Win National Level Hackathon 2025" },
                 { d: "03", m: "MAY", title: "MoU Signed with Global Industry Leaders" }
               ].map((n, idx) => (
                 <motion.div key={idx} className="flex gap-4 items-start" variants={fadeUp}>
-                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm">
+                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D4AF37] text-white text-center flex flex-col items-center justify-center shadow-sm">
                     <span className="block text-[14px] font-[800] leading-none">{n.d}</span>
                     <span className="block text-[8px] font-[700] tracking-wider mt-0.5">{n.m}</span>
                   </div>
@@ -478,7 +478,7 @@ export default function Home() {
               <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
                 RANKINGS & ACCREDITATIONS
               </h3>
-              <Link href="/about" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
+              <Link href="/about" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D4AF37] flex items-center gap-0.5">
                 View All <ArrowRight size={10} />
               </Link>
             </div>
@@ -487,7 +487,7 @@ export default function Home() {
               {/* NAAC A+ */}
               <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
                 <div className="h-10 flex items-center justify-center mb-1">
-                  <span className="text-[20px] font-[900] text-[#D71920] tracking-tight">NAAC <span className="text-[22px]">A+</span></span>
+                  <span className="text-[20px] font-[900] text-[#D4AF37] tracking-tight">NAAC <span className="text-[22px]">A+</span></span>
                 </div>
                 <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Accredited</span>
               </motion.div>
@@ -496,9 +496,9 @@ export default function Home() {
               <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
                 <div className="h-10 flex flex-col items-center justify-center mb-1">
                   <span className="text-[20px] font-[900] text-[#072A6C] tracking-tight">
-                    n<span className="text-[#D71920]">i</span>rf
+                    n<span className="text-[#D4AF37]">i</span>rf
                   </span>
-                  <div className="w-8 h-0.5 bg-[#D71920] -mt-0.5" />
+                  <div className="w-8 h-0.5 bg-[#D4AF37] -mt-0.5" />
                 </div>
                 <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Ranked</span>
               </motion.div>
@@ -560,7 +560,7 @@ export default function Home() {
               <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
                 UPCOMING EVENTS
               </h3>
-              <Link href="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
+              <Link href="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D4AF37] flex items-center gap-0.5">
                 View Calendar <ArrowRight size={10} />
               </Link>
             </div>
@@ -572,7 +572,7 @@ export default function Home() {
                 { d: "05", m: "JUN", title: "Global Education Fair", time: "11:00 AM Onwards" }
               ].map((e, idx) => (
                 <motion.div key={idx} className="flex gap-4 items-start" variants={fadeUp}>
-                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm">
+                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D4AF37] text-white text-center flex flex-col items-center justify-center shadow-sm">
                     <span className="block text-[14px] font-[800] leading-none">{e.d}</span>
                     <span className="block text-[8px] font-[700] tracking-wider mt-0.5">{e.m}</span>
                   </div>
@@ -591,18 +591,18 @@ export default function Home() {
       <section className="bg-gray-50 py-12 border-t border-gray-100">
         <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left Red Card */}
-          <div className="lg:col-span-8 bg-[#D71920] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
+          <div className="lg:col-span-8 bg-[#D4AF37] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
             <div className="space-y-4 max-w-lg z-10">
               <h2 className="text-[26px] font-[800] tracking-wide">
                 ADMISSIONS OPEN 2026
               </h2>
-              <p className="text-[12px] text-red-100 leading-relaxed font-[300]">
-                Join a community of innovators and leaders. Shape your future with City Chalapathi Institute of Technology.
+              <p className="text-[12px] text-amber-100 leading-relaxed font-[300]">
+                Join a community of innovators and leaders. Shape your future with Chalapathi University.
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-2 font-[var(--font-poppins)]">
                 <Link
                   href="/admissions/apply"
-                  className="h-10 px-5 bg-white text-[#D71920] hover:bg-red-50 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 shadow active:scale-95 transition-transform"
+                  className="h-10 px-5 bg-white text-[#D4AF37] hover:bg-amber-50 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 shadow active:scale-95 transition-transform"
                 >
                   Apply Now <ArrowRight size={13} />
                 </Link>
@@ -663,7 +663,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="w-[130px] h-[130px] rounded-[12px] overflow-hidden bg-gray-100 shrink-0 border border-gray-200 relative block group"
-              title="Open Chalapathi Institute of Technology in Google Maps"
+              title="Open Chalapathi University in Google Maps"
             >
               <div className="absolute inset-0 bg-transparent z-10 cursor-pointer" />
               <iframe

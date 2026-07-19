@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { useData, Announcement, ProgramDetail, NewsArticle, EventItem, AboutUsContent, MonthCalendarData, PlacementsContent, PlacedStudent, Recruiter, SuccessStory } from "../context/DataContext";
 import { 
   Lock, LayoutDashboard, Megaphone, BookOpen, Calendar, FileText, 
@@ -578,7 +578,7 @@ export default function AdminPortal() {
                 className="w-full h-11 px-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-all text-center text-lg tracking-widest"
               />
             </div>
-            {authError && <p className="text-xs font-bold text-[#D71920] text-center">{authError}</p>}
+            {authError && <p className="text-xs font-bold text-[#D4AF37] text-center">{authError}</p>}
             <button
               type="submit"
               className="w-full h-11 bg-[#D4AF37] hover:bg-[#c29e28] text-gray-900 font-bold text-xs uppercase tracking-wider rounded-xl shadow transition-all cursor-pointer"
@@ -648,7 +648,7 @@ export default function AdminPortal() {
       <main className="flex-grow p-8 max-w-[1200px] overflow-y-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#D71920]">University Central Settings</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37]">University Central Settings</span>
             <h1 className="text-2xl font-black uppercase text-[#072A6C] tracking-tight">{activeTab} Workspace</h1>
           </div>
           {/* Quick info notification popups */}
@@ -677,7 +677,7 @@ export default function AdminPortal() {
                 {[
                   { label: "Active Programs", count: programs.length, color: "text-[#072A6C]" },
                   { label: "Announcements Drawer", count: announcements.length, color: "text-[#D4AF37]" },
-                  { label: "News Articles", count: news.length, color: "text-[#D71920]" },
+                  { label: "News Articles", count: news.length, color: "text-[#D4AF37]" },
                   { label: "Upcoming Events", count: events.length, color: "text-emerald-600" }
                 ].map((stat, i) => (
                   <div key={i} className="bg-gray-50 border border-gray-100 p-5 rounded-2xl flex flex-col justify-between">
@@ -725,7 +725,7 @@ export default function AdminPortal() {
                 <div>
                   <button
                     type="submit"
-                    className="w-full h-10 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer inline-flex items-center justify-center gap-1.5"
+                    className="w-full h-10 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer inline-flex items-center justify-center gap-1.5"
                   >
                     <Plus size={14} /> Add Announcement
                   </button>
@@ -1124,7 +1124,7 @@ export default function AdminPortal() {
                 <div className="md:col-span-4 flex justify-end">
                   <button
                     type="submit"
-                    className="h-10 px-8 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
+                    className="h-10 px-8 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
                   >
                     Set Calendar Milestone
                   </button>
@@ -1369,7 +1369,7 @@ export default function AdminPortal() {
                   <div className="flex justify-end">
                     <button
                       type="submit"
-                      className="h-10 px-8 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
+                      className="h-10 px-8 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
                     >
                       Publish Event
                     </button>
@@ -1528,7 +1528,7 @@ export default function AdminPortal() {
                       <button
                         type="button"
                         onClick={() => startEditMember("new")}
-                        className="h-8 px-3 rounded-lg bg-[#D71920] hover:bg-[#D71920]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"
+                        className="h-8 px-3 rounded-lg bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"
                       >
                         <Plus size={12} /> Add Member
                       </button>
@@ -1570,7 +1570,7 @@ export default function AdminPortal() {
                           const others = deptInfo.others || [];
                           if (others.length === 0) return <p className="text-xs text-gray-400 font-light italic">No other members listed</p>;
                           return others.map((member, idx) => (
-                            <div key={idx} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D71920]/20 transition-colors">
+                            <div key={idx} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D4AF37]/20 transition-colors">
                               <div>
                                 <span className="font-bold text-gray-700 block">{member.name}</span>
                                 <span className="text-[10px] text-gray-400 font-medium block">{member.title}</span>
@@ -1823,7 +1823,7 @@ export default function AdminPortal() {
                   <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-4">
                     <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                       <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider">Career Development Programs</span>
-                      <button type="button" onClick={() => setPlacementsForm({ ...placementsForm, careerPrograms: [...placementsForm.careerPrograms, ""] })} className="h-7 px-2 rounded-lg bg-[#D71920] text-white text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer"><Plus size={12} /> Add</button>
+                      <button type="button" onClick={() => setPlacementsForm({ ...placementsForm, careerPrograms: [...placementsForm.careerPrograms, ""] })} className="h-7 px-2 rounded-lg bg-[#D4AF37] text-white text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer"><Plus size={12} /> Add</button>
                     </div>
                     {placementsForm.careerPrograms.map((item, idx) => (
                       <div key={idx} className="flex gap-2 items-center">
@@ -1842,7 +1842,7 @@ export default function AdminPortal() {
                     </div>
                     <div className="flex justify-between items-center">
                       <label className="text-[10px] font-bold uppercase text-gray-500">Items</label>
-                      <button type="button" onClick={() => setPlacementsForm({ ...placementsForm, industryConnectItems: [...placementsForm.industryConnectItems, ""] })} className="h-7 px-2 rounded-lg bg-[#D71920] text-white text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer"><Plus size={12} /> Add</button>
+                      <button type="button" onClick={() => setPlacementsForm({ ...placementsForm, industryConnectItems: [...placementsForm.industryConnectItems, ""] })} className="h-7 px-2 rounded-lg bg-[#D4AF37] text-white text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer"><Plus size={12} /> Add</button>
                     </div>
                     {placementsForm.industryConnectItems.map((item, idx) => (
                       <div key={idx} className="flex gap-2 items-center">
@@ -1861,7 +1861,7 @@ export default function AdminPortal() {
                     </div>
                     <div className="flex justify-between items-center">
                       <label className="text-[10px] font-bold uppercase text-gray-500">Responsibility Cards</label>
-                      <button type="button" onClick={() => setPlacementsForm({ ...placementsForm, placementCellItems: [...placementsForm.placementCellItems, { t: "", d: "" }] })} className="h-7 px-2 rounded-lg bg-[#D71920] text-white text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer"><Plus size={12} /> Add</button>
+                      <button type="button" onClick={() => setPlacementsForm({ ...placementsForm, placementCellItems: [...placementsForm.placementCellItems, { t: "", d: "" }] })} className="h-7 px-2 rounded-lg bg-[#D4AF37] text-white text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer"><Plus size={12} /> Add</button>
                     </div>
                     {placementsForm.placementCellItems.map((item, idx) => (
                       <div key={idx} className="grid grid-cols-12 gap-2 items-center">
@@ -1893,11 +1893,11 @@ export default function AdminPortal() {
                     <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-4">
                       <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                         <span className="text-xs font-extrabold uppercase text-gray-500 tracking-wider">Placed Students ({placementsContent.placedStudents.length})</span>
-                        <button type="button" onClick={() => { setEditStudentIdx("new"); setStudentForm({ name: "", branch: "", company: "", ctc: "", img: "" }); }} className="h-8 px-3 rounded-lg bg-[#D71920] hover:bg-[#D71920]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"><Plus size={12} /> Add Student</button>
+                        <button type="button" onClick={() => { setEditStudentIdx("new"); setStudentForm({ name: "", branch: "", company: "", ctc: "", img: "" }); }} className="h-8 px-3 rounded-lg bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"><Plus size={12} /> Add Student</button>
                       </div>
                       <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
                         {placementsContent.placedStudents.map((s, idx) => (
-                          <div key={idx} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D71920]/20 transition-colors">
+                          <div key={idx} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D4AF37]/20 transition-colors">
                             <div>
                               <span className="font-bold text-gray-700 block">{s.name}</span>
                               <span className="text-[10px] text-gray-400 font-medium block">{s.company} — {s.ctc}</span>
@@ -1975,14 +1975,14 @@ export default function AdminPortal() {
                               } 
                             }); 
                           }} 
-                          className="h-8 px-3 rounded-lg bg-[#D71920] hover:bg-[#D71920]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"
+                          className="h-8 px-3 rounded-lg bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"
                         >
                           <Plus size={12} /> Add Story
                         </button>
                       </div>
                       <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
                         {successStories.map((story, idx) => (
-                          <div key={story.id} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D71920]/20 transition-colors">
+                          <div key={story.id} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D4AF37]/20 transition-colors">
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden">
                                 <img src={story.studentImage} alt={story.studentName} className="w-full h-full object-cover" />
@@ -2129,11 +2129,11 @@ export default function AdminPortal() {
                     <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-4">
                       <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                         <span className="text-xs font-extrabold uppercase text-gray-500 tracking-wider">Recruiters ({placementsContent.recruiters.length})</span>
-                        <button type="button" onClick={() => { setEditRecruiterIdx("new"); setRecruiterForm({ name: "", logo: "" }); }} className="h-8 px-3 rounded-lg bg-[#D71920] hover:bg-[#D71920]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"><Plus size={12} /> Add Recruiter</button>
+                        <button type="button" onClick={() => { setEditRecruiterIdx("new"); setRecruiterForm({ name: "", logo: "" }); }} className="h-8 px-3 rounded-lg bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"><Plus size={12} /> Add Recruiter</button>
                       </div>
                       <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
                         {placementsContent.recruiters.map((r, idx) => (
-                          <div key={idx} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D71920]/20 transition-colors">
+                          <div key={idx} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D4AF37]/20 transition-colors">
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden"><img src={r.logo} alt={r.name} className="w-6 h-6 object-contain" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${r.name}&background=072A6C&color=fff&size=32`; }} /></div>
                               <span className="font-bold text-gray-700">{r.name}</span>

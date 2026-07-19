@@ -1,11 +1,11 @@
-import { Cpu, Briefcase, Dna, Hammer, Microscope, Palette } from "lucide-react";
+﻿import { Cpu, Briefcase, Dna, Hammer, Microscope, Palette } from "lucide-react";
 import type { School } from "@/types";
 
 export const schools: School[] = [
   {
     name: "Engineering",
     icon: Cpu,
-    color: "#D91E18",
+    color: "#D4AF37",
     slug: "school-of-engineering",
     description: "Cutting-edge engineering programs across CSE, ECE, EEE, Mechanical, Civil and more.",
     programs: ["B.Tech", "M.Tech", "Ph.D"],

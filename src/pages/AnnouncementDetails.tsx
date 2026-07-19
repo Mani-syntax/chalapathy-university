@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { 
@@ -258,7 +258,7 @@ export default function AnnouncementDetails() {
       <div className="min-h-screen bg-[#F7F9FC] flex flex-col items-center justify-center p-6 text-center font-[var(--font-poppins)]">
         <h2 className="text-2xl font-black text-[#072A6C] mb-2">Announcement Not Found</h2>
         <p className="text-sm text-gray-500 mb-6 font-[var(--font-inter)]">The announcement you are looking for does not exist or has been removed.</p>
-        <Link to="/" className="px-5 py-2.5 bg-[#D71920] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
+        <Link to="/" className="px-5 py-2.5 bg-[#D4AF37] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
           Go to Home Page
         </Link>
       </div>
@@ -304,7 +304,7 @@ export default function AnnouncementDetails() {
         {/* Back Link */}
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#D71920] transition-colors mb-6 uppercase tracking-wider"
+          className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#D4AF37] transition-colors mb-6 uppercase tracking-wider"
         >
           <ArrowLeft size={14} /> Back to Home
         </Link>
@@ -315,7 +315,7 @@ export default function AnnouncementDetails() {
           {/* Header Info */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-5">
             <div className="flex items-center gap-2.5">
-              <span className="bg-[#D71920]/10 text-[#D71920] text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-full tracking-wider">
+              <span className="bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-full tracking-wider">
                 Official Announcement
               </span>
               <span className="text-xs text-gray-400 font-semibold font-[var(--font-inter)]">{article.date}</span>
@@ -367,7 +367,7 @@ export default function AnnouncementDetails() {
                       <ul className="space-y-1.5 text-xs text-gray-500 font-light list-none pl-0">
                         {sect.items.map((item, itemIdx) => (
                           <li key={itemIdx} className="leading-relaxed flex items-start gap-1.5">
-                            <span className="text-[#D71920] font-bold">▪</span>
+                            <span className="text-[#D4AF37] font-bold">▪</span>
                             <span>{item}</span>
                           </li>
                         ))}
@@ -380,7 +380,7 @@ export default function AnnouncementDetails() {
                   <div className="pt-4 flex">
                     <Link
                       to={extra.actions.link}
-                      className="px-5 py-2.5 bg-[#072A6C] hover:bg-[#D71920] text-white text-xs font-bold rounded-xl transition-colors shadow-sm inline-flex items-center gap-1.5"
+                      className="px-5 py-2.5 bg-[#072A6C] hover:bg-[#D4AF37] text-white text-xs font-bold rounded-xl transition-colors shadow-sm inline-flex items-center gap-1.5"
                     >
                       <span>{extra.actions.label}</span>
                       <ArrowRight size={12} />

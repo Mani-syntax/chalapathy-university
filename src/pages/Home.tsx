@@ -395,7 +395,7 @@ export default function Home() {
                   return (
                     <React.Fragment key={wordIndex}>
                       {wordIndex > 0 && <br />}
-                      <span className={isAccent ? "text-[#D71920]" : ""}>
+                      <span className={isAccent ? "text-[#D4AF37]" : ""}>
                         {word.split("").map((letter, letterIndex) => (
                           <span 
                             key={letterIndex}
@@ -467,7 +467,7 @@ export default function Home() {
                   to={item.to}
                   className="flex flex-col items-center justify-center w-24 h-24 bg-white border border-gray-100 hover:border-[#072A6C] rounded-[16px] shadow-sm transition-all text-center p-2 group hover:-translate-y-1 hover:shadow-md"
                 >
-                  <Icon size={20} className="text-[#072A6C] group-hover:text-[#D71920] transition-colors mb-2" strokeWidth={1.8} />
+                  <Icon size={20} className="text-[#072A6C] group-hover:text-[#D4AF37] transition-colors mb-2" strokeWidth={1.8} />
                   <span className="text-[10px] font-[700] text-[#072A6C] leading-tight">{item.label}</span>
                 </Link>
               );
@@ -666,7 +666,7 @@ export default function Home() {
                   onClick={() => setActiveSchoolTab(school)}
                   className={`text-[14px] md:text-[18px] font-[800] pb-2 relative transition-colors ${
                     activeSchoolTab === school 
-                      ? "text-[#D71920]" 
+                      ? "text-[#D4AF37]" 
                       : "text-gray-500 hover:text-gray-800"
                   }`}
                 >
@@ -674,7 +674,7 @@ export default function Home() {
                   {activeSchoolTab === school && (
                     <motion.div
                       layoutId="activeSchoolTab"
-                      className="absolute -bottom-4 left-0 right-0 h-[3px] bg-[#D71920]"
+                      className="absolute -bottom-4 left-0 right-0 h-[3px] bg-[#D4AF37]"
                     />
                   )}
                 </button>
@@ -725,11 +725,13 @@ export default function Home() {
                   let imgSrc = imgComputerScience;
                   
                   if (t.includes('machine learning') && t.includes('artificial intelligence')) imgSrc = imgAIMachineLearning;
-                  else if (t.includes('machine learning')) imgSrc = imgAIMachineLearning;
+                  else if (t.includes('machine learning') || t.includes('aiml')) imgSrc = imgAIMachineLearning;
                   else if (t.includes('artificial intelligence') || t.includes('ai')) imgSrc = imgArtificialIntelligence;
                   else if (t.includes('data science') || t.includes('data')) imgSrc = imgDataScience;
                   else if (t.includes('cyber security') || t.includes('security')) imgSrc = imgCyberSecurity;
-                  else if (t.includes('electronics') && t.includes('communication')) imgSrc = imgElectronicsCommunication;
+                  else if (t.includes('ph.d') && (t.includes('electronics') || t.includes('ece'))) imgSrc = imgPhdCSE; 
+                  else if (t.includes('ph.d') && (t.includes('structural') || t.includes('civil'))) imgSrc = imgPhdCSE;
+                  else if (t.includes('electronics') || t.includes('communication') || t.includes('ece')) imgSrc = imgElectronicsCommunication;
                   else if (t.includes('vlsi') || t.includes('embedded')) imgSrc = imgVLSIEmbedded;
                   else if (t.includes('structural')) imgSrc = imgStructuralEngineering;
                   else if (t.includes('civil')) imgSrc = imgCivilEngineering;
@@ -786,7 +788,7 @@ export default function Home() {
                       
                       <Link 
                         to={`/academics/${program.slug}`}
-                        className="mt-auto bg-[#072A6C] text-white px-6 py-2.5 rounded-full text-[13px] font-[700] flex items-center gap-2 hover:bg-[#D71920] transition-colors shadow-md"
+                        className="mt-auto bg-[#072A6C] text-white px-6 py-2.5 rounded-full text-[13px] font-[700] flex items-center gap-2 hover:bg-[#D4AF37] transition-colors shadow-md"
                       >
                         Read More <ArrowRight size={14} />
                       </Link>
@@ -804,7 +806,7 @@ export default function Home() {
           {/* Header */}
           <div className="text-left mb-16">
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-[950] text-[#072A6C] uppercase tracking-tight mb-4 leading-none">
-              News & <span className="text-[#D71920]">Events</span>
+              News & <span className="text-[#D4AF37]">Events</span>
             </h2>
             <p className="text-xs md:text-sm text-gray-500 max-w-2xl font-light leading-relaxed">
               Stay Informed. Stay Ahead. Discover the latest updates and exciting events happening at Chalapathi.
@@ -826,7 +828,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-black/10 pointer-events-none" />
                 
                 {/* Featured Badge */}
-                <span className="absolute top-4 left-4 bg-[#D71920] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md shadow-sm">
+                <span className="absolute top-4 left-4 bg-[#D4AF37] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md shadow-sm">
                   Featured News
                 </span>
 
@@ -857,7 +859,7 @@ export default function Home() {
               <div className="w-full md:w-1/2 p-8 flex flex-col justify-between text-left">
                 <div className="space-y-4">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#D71920]">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37]">
                       {news.find(item => item.id === 1)?.category || "Innovation"}
                     </span>
                     <span className="text-gray-300">•</span>
@@ -881,7 +883,7 @@ export default function Home() {
                     <button 
                       type="button"
                       onClick={() => navigate(`/news/${news.find(item => item.id === 1)?.slug}`)}
-                      className="h-10 px-6 bg-[#072A6C] hover:bg-[#D71920] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm border-none outline-none"
+                      className="h-10 px-6 bg-[#072A6C] hover:bg-[#D4AF37] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm border-none outline-none"
                     >
                       <span>Read Full Story</span>
                       <ArrowRight size={12} />
@@ -920,7 +922,7 @@ export default function Home() {
                         type="button"
                         onClick={() => setActiveNewsSlide(idx)}
                         className={`h-2.5 rounded-full transition-all duration-300 border-none outline-none cursor-pointer ${
-                          activeNewsSlide === idx ? "bg-[#D71920] w-6" : "bg-gray-300 w-2.5"
+                          activeNewsSlide === idx ? "bg-[#D4AF37] w-6" : "bg-gray-300 w-2.5"
                         }`}
                       />
                     ))}
@@ -937,7 +939,7 @@ export default function Home() {
                   <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
                     Latest News
                   </h3>
-                  <Link to="/news" className="text-[10px] font-bold text-[#D71920] hover:underline flex items-center gap-0.5">
+                  <Link to="/news" className="text-[10px] font-bold text-[#D4AF37] hover:underline flex items-center gap-0.5">
                     View All
                   </Link>
                 </div>
@@ -959,12 +961,12 @@ export default function Home() {
                         className="flex gap-3.5 items-start cursor-pointer group"
                       >
                         {/* Custom Date Badge */}
-                        <div className="w-10 h-10 rounded-xl bg-red-50 text-[#D71920] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                        <div className="w-10 h-10 rounded-xl bg-amber-50 text-[#D4AF37] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
                           <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
                           <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#D71920] transition-colors line-clamp-2">
+                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#D4AF37] transition-colors line-clamp-2">
                             {item.title}
                           </h4>
                           <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-relaxed line-clamp-1">{item.excerpt || item.bodyText}</span>
@@ -1044,7 +1046,7 @@ export default function Home() {
               {(() => {
                 const label = localStorage.getItem("chalapathi_campus_label") || "CAMPUS LIFE";
                 if (label.toLowerCase() === "campus life") {
-                  return <>Campus <span className="text-[#D71920]">Life</span></>;
+                  return <>Campus <span className="text-[#D4AF37]">Life</span></>;
                 }
                 return label;
               })()}
@@ -1205,7 +1207,7 @@ export default function Home() {
           <div className="mb-20">
             <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
               <h3 className="text-lg md:text-xl font-[900] text-left text-[#072A6C]">
-                Moments that make <span className="text-[#D71920]">Memories</span>
+                Moments that make <span className="text-[#D4AF37]">Memories</span>
               </h3>
             </div>
 
@@ -1273,7 +1275,7 @@ export default function Home() {
               </div>
               <button
                 type="button"
-                className="h-10 px-5 bg-white hover:bg-[#D71920] text-[#072A6C] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
+                className="h-10 px-5 bg-white hover:bg-[#D4AF37] text-[#072A6C] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
               >
                 Explore Campus Life →
               </button>
@@ -1296,7 +1298,7 @@ export default function Home() {
               </div>
               <button
                 type="button"
-                className="h-10 px-5 bg-white hover:bg-[#072A6C] text-[#D71920] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
+                className="h-10 px-5 bg-white hover:bg-[#072A6C] text-[#D4AF37] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
               >
                 View All Events →
               </button>
@@ -1316,11 +1318,11 @@ export default function Home() {
         <div className="max-w-[1440px] mx-auto px-5">
           {/* Header */}
           <div className="text-center mb-16">
-            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#D71920] bg-red-50 py-1.5 px-4 rounded-full inline-block mb-3">
+            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#D4AF37] bg-amber-50 py-1.5 px-4 rounded-full inline-block mb-3">
               {localStorage.getItem("chalapathi_chairman_label") || "FROM THE CHAIRMAN"}
             </span>
             <h2 className="text-2xl md:text-4xl font-[900] text-[#072A6C] mb-3">
-              A Vision. A <span className="text-[#072A6C] underline decoration-2 decoration-[#D4AF37]">Commitment.</span> A <span className="text-[#D71920]">Legacy.</span>
+              A Vision. A <span className="text-[#072A6C] underline decoration-2 decoration-[#D4AF37]">Commitment.</span> A <span className="text-[#D4AF37]">Legacy.</span>
             </h2>
             <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
               {localStorage.getItem("chalapathi_chairman_subtitle") || "Guiding generations through excellence, innovation, integrity, and student success."}
@@ -1453,7 +1455,7 @@ export default function Home() {
         {/* Left Card: Journey */}
         <div className="lg:col-span-4 bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm hover:shadow transition-shadow">
           <div>
-            <span className="text-[12px] font-[700] text-[#D71920] tracking-wider uppercase block mb-1">THE CHALAPATHI JOURNEY</span>
+            <span className="text-[12px] font-[700] text-[#D4AF37] tracking-wider uppercase block mb-1">THE CHALAPATHI JOURNEY</span>
             <h2 className="text-[26px] font-[800] text-[#072A6C]">
               Your Path to Success
             </h2>
@@ -1500,9 +1502,9 @@ export default function Home() {
               return (
                 <motion.div key={j.step} className="flex gap-4 items-center relative z-10" variants={fadeUp}>
                   {/* Step Flag Pointer badge */}
-                  <div className="w-10 h-8 bg-[#D71920] text-white font-[700] text-[13px] flex items-center justify-center shrink-0 rounded-l shadow-sm relative mr-2">
+                  <div className="w-10 h-8 bg-[#D4AF37] text-white font-[700] text-[13px] flex items-center justify-center shrink-0 rounded-l shadow-sm relative mr-2">
                     {j.step}
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 border-[4px] border-transparent border-l-[#D71920]" />
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 border-[4px] border-transparent border-l-[#D4AF37]" />
                   </div>
 
                   {/* Circular Icon Container */}
@@ -1513,7 +1515,7 @@ export default function Home() {
                   {/* Text Details */}
                   <div className="flex-1 min-w-0">
                     <Link to={j.to} className="block">
-                      <h4 className="text-[13px] font-[800] text-[#072A6C] tracking-wide hover:text-[#D71920] transition-colors">
+                      <h4 className="text-[13px] font-[800] text-[#072A6C] tracking-wide hover:text-[#D4AF37] transition-colors">
                         {j.title}
                       </h4>
                     </Link>
@@ -1555,7 +1557,7 @@ export default function Home() {
           >
             <div className="text-center md:text-left min-w-[200px]">
               <h3 className="text-[15px] font-[700]">Find Your Way</h3>
-              <p className="text-[11px] text-white font-[300] mt-0.5">Get directions to City Chalapathi Institute of Technology</p>
+              <p className="text-[11px] text-white font-[300] mt-0.5">Get directions to Chalapathi University</p>
             </div>
 
             {/* Combined Input Bar */}
@@ -1570,7 +1572,7 @@ export default function Home() {
                   className="w-full text-black text-[12px] outline-none bg-transparent"
                 />
               </div>
-              <button type="submit" className="bg-[#D71920] hover:bg-[#b71217] text-white font-[700] px-5 py-2 rounded-full text-[12px] flex items-center gap-1 shrink-0 whitespace-nowrap active:scale-95 transition-transform">
+              <button type="submit" className="bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-[700] px-5 py-2 rounded-full text-[12px] flex items-center gap-1 shrink-0 whitespace-nowrap active:scale-95 transition-transform">
                 Get Directions <MapPin size={12} />
               </button>
             </form>
@@ -1587,11 +1589,11 @@ export default function Home() {
         <div className="max-w-[1440px] mx-auto px-5">
           {/* Header */}
           <div className="text-center mb-8">
-            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#D71920] bg-red-50 py-1.5 px-4 rounded-full inline-block mb-3">
+            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#D4AF37] bg-amber-50 py-1.5 px-4 rounded-full inline-block mb-3">
               PLACEMENT SUCCESS STORIES
             </span>
             <h2 className="text-2xl md:text-3.5xl font-[900] text-[#072A6C] mb-2">
-              Our Students. Top Careers. <span className="text-[#D71920]">Bright Futures.</span>
+              Our Students. Top Careers. <span className="text-[#D4AF37]">Bright Futures.</span>
             </h2>
             <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
               Real stories from Chalapathi students who achieved successful careers through campus placements.
@@ -1632,7 +1634,7 @@ export default function Home() {
                   {/* Floating Package Offered badge */}
                   <div className="absolute right-6 bottom-6 bg-white/85 backdrop-blur-md border border-white/40 rounded-xl p-2.5 shadow-md min-w-[120px] text-left transition-transform duration-300 hover:scale-105">
                     <span className="text-[8px] text-gray-400 font-bold block uppercase tracking-wider">Package Offered</span>
-                    <span className="text-lg font-black text-[#D71920] block leading-none mt-0.5">{activeStudent.packageOffered}</span>
+                    <span className="text-lg font-black text-[#D4AF37] block leading-none mt-0.5">{activeStudent.packageOffered}</span>
                     <span className="text-[8px] text-gray-400 font-medium tracking-wide">PER ANNUM</span>
                   </div>
                 </div>
@@ -1641,7 +1643,7 @@ export default function Home() {
                 <div className="lg:col-span-7 space-y-6 text-left">
                   {/* Details Meta */}
                   <div className="space-y-0.5">
-                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#D71920]">Success Story</span>
+                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#D4AF37]">Success Story</span>
                     <h3 className="text-2xl font-[900] text-[#072A6C]">{activeStudent.studentName}</h3>
                     <p className="text-[11px] text-gray-500 font-medium">
                       {activeStudent.department} <span className="mx-1.5 text-gray-300">•</span> {activeStudent.batch}
@@ -1652,7 +1654,7 @@ export default function Home() {
                     {/* Left Sub-Column (md:col-span-7): Testimonial Quote & Timeline */}
                     <div className="md:col-span-7 space-y-4">
                       {/* Testimonial Quote */}
-                      <div className="relative pl-4 border-l-4 border-[#D71920]">
+                      <div className="relative pl-4 border-l-4 border-[#D4AF37]">
                         <p className="text-[11px] text-gray-600 font-light italic leading-relaxed">
                           "{activeStudent.description}"
                         </p>
@@ -1740,7 +1742,7 @@ export default function Home() {
                           type="button"
                           onClick={() => setActiveFeaturedStudent(i)}
                           className={`w-1.5 h-1.5 rounded-full transition-all duration-300 border-none outline-none cursor-pointer ${
-                            i === (activeFeaturedStudent % successStories.length) ? "bg-[#D71920] w-5" : "bg-gray-300 hover:bg-gray-400"
+                            i === (activeFeaturedStudent % successStories.length) ? "bg-[#D4AF37] w-5" : "bg-gray-300 hover:bg-gray-400"
                           }`}
                           aria-label={`Go to slide ${i + 1}`}
                         />
@@ -1820,7 +1822,7 @@ export default function Home() {
 
             {/* Stat Card 2 */}
             <div className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
-              <div className="w-10 h-10 rounded-full bg-red-50 text-[#D71920] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-amber-50 text-[#D4AF37] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <Trophy size={18} />
               </div>
               <AnimatedCounter value="30 LPA" />
@@ -1852,18 +1854,18 @@ export default function Home() {
       <section className="bg-gray-50 py-12 border-t border-gray-100">
         <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left Red Card */}
-          <div className="lg:col-span-8 bg-[#D71920] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
+          <div className="lg:col-span-8 bg-[#D4AF37] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
             <div className="space-y-4 max-w-lg z-10">
               <h2 className="text-[26px] font-[800] tracking-wide font-[var(--font-poppins)]">
                 ADMISSIONS OPEN 2026
               </h2>
-              <p className="text-[12px] text-red-100 leading-relaxed font-[300] font-[var(--font-poppins)]">
-                Join a community of innovators and leaders. Shape your future with City Chalapathi Institute of Technology.
+              <p className="text-[12px] text-amber-100 leading-relaxed font-[300] font-[var(--font-poppins)]">
+                Join a community of innovators and leaders. Shape your future with Chalapathi University.
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-2 font-[var(--font-poppins)]">
                 <Link
                   to="/admissions/apply"
-                  className="h-10 px-5 bg-white text-[#D71920] hover:bg-red-50 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 shadow active:scale-95 transition-transform"
+                  className="h-10 px-5 bg-white text-[#D4AF37] hover:bg-amber-50 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 shadow active:scale-95 transition-transform"
                 >
                   Apply Now <ArrowRight size={13} />
                 </Link>
@@ -1924,7 +1926,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="w-[130px] h-[130px] rounded-[12px] overflow-hidden bg-gray-100 shrink-0 border border-gray-200 relative block group"
-              title="Open Chalapathi Institute of Technology in Google Maps"
+              title="Open Chalapathi University in Google Maps"
             >
               <div className="absolute inset-0 bg-transparent z-10 cursor-pointer" />
               <iframe
@@ -1999,7 +2001,7 @@ export default function Home() {
                         )}
                         
                         {/* Title */}
-                        <h3 className="text-[13.5px] font-black text-[#D71920] leading-snug group-hover:underline">
+                        <h3 className="text-[13.5px] font-black text-[#D4AF37] leading-snug group-hover:underline">
                           {item.title}
                         </h3>
 

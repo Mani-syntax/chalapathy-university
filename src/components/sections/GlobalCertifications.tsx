@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+﻿import React, { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { Award, ChevronRight, ArrowLeft, CheckCircle2, ShieldCheck, Briefcase, Zap, Globe, ArrowRight, X } from "lucide-react";
@@ -31,7 +31,7 @@ export default function GlobalCertifications() {
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pt-12 pb-24 relative z-10">
         
         {/* Header Section inside a red outline box */}
-        <div className="border border-red-500 rounded-2xl p-8 md:p-12 mb-12 bg-white/40 shadow-sm flex flex-col md:flex-row gap-12 items-center">
+        <div className="border border-[#D4AF37] rounded-2xl p-8 md:p-12 mb-12 bg-white/40 shadow-sm flex flex-col md:flex-row gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ export default function SchoolsSection() {
         </h2>
         <Link
           to="/academics/schools"
-          className="text-[12px] font-bold text-[#D91E18] hover:underline flex items-center gap-0.5"
+          className="text-[12px] font-bold text-[#D4AF37] hover:underline flex items-center gap-0.5"
         >
           View All Schools <ArrowRight size={13} />
         </Link>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { Calendar, Clock, MapPin, Share2, ArrowLeft, CheckCircle, X, Link2, Check } from "lucide-react";
@@ -147,7 +147,7 @@ function ImageSlider({ images }: { images: string[] }) {
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? "bg-[#D71920] w-6" : "bg-white/60 hover:bg-white"
+                idx === currentIndex ? "bg-[#D4AF37] w-6" : "bg-white/60 hover:bg-white"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
@@ -240,7 +240,7 @@ export default function EventDetails() {
       <div className="min-h-screen bg-[#F7F9FC] flex flex-col items-center justify-center p-6 text-center font-[var(--font-poppins)]">
         <h2 className="text-2xl font-black text-[#072A6C] mb-2">Event Not Found</h2>
         <p className="text-sm text-gray-500 mb-6 font-[var(--font-inter)]">The event you are looking for does not exist or has been removed.</p>
-        <Link to="/news/events/all" className="px-5 py-2.5 bg-[#D71920] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
+        <Link to="/news/events/all" className="px-5 py-2.5 bg-[#D4AF37] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
           Back to Event Directory
         </Link>
       </div>
@@ -320,7 +320,7 @@ export default function EventDetails() {
         {/* Back Link */}
         <Link 
           to="/news" 
-          className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#D71920] transition-colors mb-6 uppercase tracking-wider"
+          className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#D4AF37] transition-colors mb-6 uppercase tracking-wider"
         >
           <ArrowLeft size={14} /> Back to News Center
         </Link>
@@ -419,7 +419,7 @@ export default function EventDetails() {
                   <p className="text-[11px] text-gray-500 font-medium">Secure your seat for this upcoming campus activity online today.</p>
                   <button 
                     onClick={() => setShowRegForm(true)}
-                    className="w-full py-2.5 bg-[#D71920] hover:bg-[#072A6C] text-white text-xs font-bold rounded-xl transition-all cursor-pointer hover:shadow-md"
+                    className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#072A6C] text-white text-xs font-bold rounded-xl transition-all cursor-pointer hover:shadow-md"
                   >
                     Register Online
                   </button>
@@ -572,7 +572,7 @@ export default function EventDetails() {
               <button 
                 type="button" 
                 onClick={() => setShowRegForm(false)}
-                className="absolute top-5 right-5 text-gray-400 hover:text-[#D71920] border-none bg-transparent cursor-pointer outline-none transition-colors"
+                className="absolute top-5 right-5 text-gray-400 hover:text-[#D4AF37] border-none bg-transparent cursor-pointer outline-none transition-colors"
                 aria-label="Close modal"
               >
                 <X size={16} />
@@ -627,7 +627,7 @@ export default function EventDetails() {
                   </button>
                   <button 
                     type="submit"
-                    className="flex-1 py-2 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                    className="flex-1 py-2 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
                   >
                     Confirm
                   </button>

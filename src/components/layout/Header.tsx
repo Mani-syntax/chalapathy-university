@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown, ArrowRight, Megaphone, Search } from "lucide-react";
 import { useData } from "../../context/DataContext";
@@ -269,7 +269,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -279,7 +279,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                           <Link
                             key={item.label}
                             to={item.to}
-                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all text-left"
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all text-left"
                             onClick={() => setAboutOpen(false)}
                           >
                             {item.label}
@@ -304,7 +304,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${academicsOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -332,8 +332,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                               to={item.to}
                               className={`px-3 py-2 text-[12px] font-bold rounded-lg transition-all ${
                                 location.pathname === item.to || (item.label === "Grading System" && location.pathname === "/academics/grading")
-                                  ? "text-[#D71920] bg-[#D71920]/5"
-                                  : "text-gray-700 hover:text-[#D71920] hover:bg-gray-50"
+                                  ? "text-[#D4AF37] bg-[#D4AF37]/5"
+                                  : "text-gray-700 hover:text-[#D4AF37] hover:bg-gray-50"
                               }`}
                               onMouseEnter={() => setHoveredCategory(item.label)}
                               onClick={() => setAcademicsOpen(false)}
@@ -356,8 +356,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                   onClick={() => setActiveSchool(school)}
                                   className={`px-3 py-3 text-[12px] font-bold rounded-lg text-left transition-all cursor-pointer outline-none ${
                                     activeSchool === school
-                                      ? "text-[#D71920] bg-red-50/50"
-                                      : "text-gray-600 hover:text-[#D71920] hover:bg-gray-50"
+                                      ? "text-[#D4AF37] bg-amber-50/50"
+                                      : "text-gray-600 hover:text-[#D4AF37] hover:bg-gray-50"
                                   }`}
                                 >
                                   {school}
@@ -380,10 +380,10 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                         <Link
                                           key={course.label}
                                           to={course.to}
-                                          className="text-[12px] font-medium text-gray-500 hover:text-[#D71920] transition-colors leading-snug flex items-center gap-1.5 py-0.5 group"
+                                          className="text-[12px] font-medium text-gray-500 hover:text-[#D4AF37] transition-colors leading-snug flex items-center gap-1.5 py-0.5 group"
                                           onClick={() => setAcademicsOpen(false)}
                                         >
-                                          <span className="w-1 h-1 rounded-full bg-gray-400 group-hover:bg-[#D71920] transition-colors shrink-0" />
+                                          <span className="w-1 h-1 rounded-full bg-gray-400 group-hover:bg-[#D4AF37] transition-colors shrink-0" />
                                           {course.label}
                                         </Link>
                                       ))}
@@ -408,7 +408,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                               <Link
                                 to={CATEGORY_INFO[hoveredCategory].to}
                                 onClick={() => setAcademicsOpen(false)}
-                                className="w-fit h-9 px-5 bg-[#D71920] hover:bg-[#b71217] text-white text-[11px] font-bold rounded-[8px] inline-flex items-center justify-center gap-1.5 transition-colors font-[var(--font-poppins)]"
+                                className="w-fit h-9 px-5 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-[11px] font-bold rounded-[8px] inline-flex items-center justify-center gap-1.5 transition-colors font-[var(--font-poppins)]"
                               >
                                 {CATEGORY_INFO[hoveredCategory].linkText} <ArrowRight size={12} />
                               </Link>
@@ -431,7 +431,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${managementOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -441,7 +441,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                           <Link
                             key={item.label}
                             to={item.to}
-                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all"
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all"
                             onClick={() => setManagementOpen(false)}
                           >
                             {item.label}
@@ -463,7 +463,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${campusLifeOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -480,8 +480,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             to={item.to}
                             className={`px-3 py-2 text-[12px] font-bold rounded-lg transition-all ${
                               location.pathname === item.to
-                                ? "text-[#D71920] bg-[#D71920]/5"
-                                : "text-gray-700 hover:text-[#D71920] hover:bg-gray-50"
+                                ? "text-[#D4AF37] bg-[#D4AF37]/5"
+                                : "text-gray-700 hover:text-[#D4AF37] hover:bg-gray-50"
                             }`}
                             onMouseEnter={(e) => {
                               e.currentTarget.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -507,7 +507,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${newsEventsOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -517,7 +517,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                           <Link
                             key={item.label}
                             to={item.to}
-                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all"
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all"
                             onClick={() => setNewsEventsOpen(false)}
                           >
                             {item.label}
@@ -533,7 +533,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 <Link
                   key={name}
                   to={navHrefs[name]}
-                  className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)]"
+                  className="px-1.5 py-2 text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)]"
                 >
                   {name}
                 </Link>
@@ -545,23 +545,23 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           <div className="hidden xl:flex items-center gap-3 shrink-0 ml-auto">
             <Link
               to="/admissions/apply"
-              className="h-10 px-3 text-[12px] min-[1420px]:px-6 min-[1420px]:text-[13px] bg-[#D71920] hover:bg-[#b71217] text-white font-bold rounded-[12px] inline-flex items-center justify-center transition-colors shadow-sm font-[var(--font-poppins)]"
+              className="h-10 px-3 text-[12px] min-[1420px]:px-6 min-[1420px]:text-[13px] bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold rounded-[12px] inline-flex items-center justify-center transition-colors shadow-sm font-[var(--font-poppins)]"
             >
               Apply Now
             </Link>
             <button
               onClick={() => setShowAnnouncementsDrawer(!showAnnouncementsDrawer)}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D71920] hover:border-[#D71920] transition-colors cursor-pointer relative"
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors cursor-pointer relative"
               title="View Announcements"
             >
               <Megaphone size={16} />
               {announcements.length > 0 && (
-                <span className="absolute top-1.5 right-1.5 bg-[#D71920] w-2.5 h-2.5 rounded-full border-2 border-white" />
+                <span className="absolute top-1.5 right-1.5 bg-[#D4AF37] w-2.5 h-2.5 rounded-full border-2 border-white" />
               )}
             </button>
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D71920] hover:border-[#D71920] transition-colors cursor-pointer"
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors cursor-pointer"
               title="Search"
             >
               <Search size={16} />
@@ -572,22 +572,22 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           <div className="flex xl:hidden items-center gap-1">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 text-[#222222] hover:text-[#D71920] transition-colors"
+              className="p-2 text-[#222222] hover:text-[#D4AF37] transition-colors"
               title="Search"
             >
               <Search size={18} />
             </button>
             <button 
               onClick={() => setShowAnnouncementsDrawer(!showAnnouncementsDrawer)} 
-              className="p-2 text-[#222222] relative hover:text-[#D71920] transition-colors"
+              className="p-2 text-[#222222] relative hover:text-[#D4AF37] transition-colors"
               title="View Announcements"
             >
               <Megaphone size={18} />
               {announcements.length > 0 && (
-                <span className="absolute top-1 right-1 bg-[#D71920] w-2 h-2 rounded-full border border-white" />
+                <span className="absolute top-1 right-1 bg-[#D4AF37] w-2 h-2 rounded-full border border-white" />
               )}
             </button>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-[#222222] hover:text-[#D71920] transition-colors">
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-[#222222] hover:text-[#D4AF37] transition-colors">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
@@ -602,11 +602,11 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
                 placeholder="Search programs, faculty, events..."
-                className="flex-1 bg-white/10 text-white border border-white/20 rounded-[12px] px-4 py-2.5 text-sm focus:outline-none focus:border-[#D71920] placeholder:text-white/50 font-[var(--font-poppins)]"
+                className="flex-1 bg-white/10 text-white border border-white/20 rounded-[12px] px-4 py-2.5 text-sm focus:outline-none focus:border-[#D4AF37] placeholder:text-white/50 font-[var(--font-poppins)]"
               />
               <button 
                 onClick={handleSearchSubmit}
-                className="bg-[#D71920] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#b71217] transition-colors font-[var(--font-poppins)]"
+                className="bg-[#D4AF37] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#C9A84C] transition-colors font-[var(--font-poppins)]"
               >
                 Search
               </button>
@@ -625,7 +625,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   <button
                     type="button"
                     onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
                   >
                     <span>{name}</span>
                     <ChevronDown size={16} className={`transition-transform duration-200 ${mobileAboutOpen ? "rotate-180" : ""}`} />
@@ -636,7 +636,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                         <Link
                           key={item.label}
                           to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
                           onClick={() => setMobileOpen(false)}
                         >
                           {item.label}
@@ -654,7 +654,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   <button
                     type="button"
                     onClick={() => setMobileAcademicsOpen(!mobileAcademicsOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
                   >
                     <span>{name}</span>
                     <ChevronDown size={16} className={`transition-transform duration-200 ${mobileAcademicsOpen ? "rotate-180" : ""}`} />
@@ -668,7 +668,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                               <div className="w-full flex items-center justify-between">
                                 <Link
                                   to={item.to}
-                                  className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                                  className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
                                   onClick={() => setMobileOpen(false)}
                                 >
                                   {item.label}
@@ -676,7 +676,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                 <button
                                   type="button"
                                   onClick={() => setMobileProgrammesOpen(!mobileProgrammesOpen)}
-                                  className="p-1.5 text-gray-500 hover:text-[#D71920] transition-colors cursor-pointer outline-none"
+                                  className="p-1.5 text-gray-500 hover:text-[#D4AF37] transition-colors cursor-pointer outline-none"
                                 >
                                   <ChevronDown size={14} className={`transition-transform duration-200 ${mobileProgrammesOpen ? "rotate-180" : ""}`} />
                                 </button>
@@ -695,7 +695,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                                 <Link
                                                   key={course.label}
                                                   to={course.to}
-                                                  className="text-[11px] font-medium text-gray-600 hover:text-[#D71920] py-0.5 transition-colors"
+                                                  className="text-[11px] font-medium text-gray-600 hover:text-[#D4AF37] py-0.5 transition-colors"
                                                   onClick={() => {
                                                     setMobileOpen(false);
                                                     setMobileAcademicsOpen(false);
@@ -719,7 +719,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                           <Link
                             key={item.label}
                             to={item.to}
-                            className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                            className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
                             onClick={() => setMobileOpen(false)}
                           >
                             {item.label}
@@ -738,7 +738,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   <button
                     type="button"
                     onClick={() => setMobileManagementOpen(!mobileManagementOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
                   >
                     <span>{name}</span>
                     <ChevronDown size={16} className={`transition-transform duration-200 ${mobileManagementOpen ? "rotate-180" : ""}`} />
@@ -749,7 +749,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                         <Link
                           key={item.label}
                           to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
                           onClick={() => setMobileOpen(false)}
                         >
                           {item.label}
@@ -767,7 +767,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   <button
                     type="button"
                     onClick={() => setMobileCampusLifeOpen(!mobileCampusLifeOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
                   >
                     <span>{name}</span>
                     <ChevronDown size={16} className={`transition-transform duration-200 ${mobileCampusLifeOpen ? "rotate-180" : ""}`} />
@@ -778,7 +778,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                         <Link
                           key={item.label}
                           to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
                           onClick={() => setMobileOpen(false)}
                         >
                           {item.label}
@@ -796,7 +796,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   <button
                     type="button"
                     onClick={() => setMobileNewsEventsOpen(!mobileNewsEventsOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
                   >
                     <span>{name}</span>
                     <ChevronDown size={16} className={`transition-transform duration-200 ${mobileNewsEventsOpen ? "rotate-180" : ""}`} />
@@ -807,7 +807,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                         <Link
                           key={item.label}
                           to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
                           onClick={() => setMobileOpen(false)}
                         >
                           {item.label}
@@ -823,14 +823,14 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
               <Link
                 key={name}
                 to={navHrefs[name]}
-                className="text-[15px] font-semibold text-[#222222] hover:text-[#D71920] py-3 border-b border-gray-100 transition-colors font-[var(--font-poppins)]"
+                className="text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] py-3 border-b border-gray-100 transition-colors font-[var(--font-poppins)]"
               >
                 {name}
               </Link>
             );
           })}
           <div className="flex flex-col gap-3 pt-8">
-            <Link to="/admissions/apply" className="w-full text-center py-3 bg-[#D71920] text-white font-bold text-sm rounded-[12px] font-[var(--font-poppins)]">Apply Now</Link>
+            <Link to="/admissions/apply" className="w-full text-center py-3 bg-[#D4AF37] text-white font-bold text-sm rounded-[12px] font-[var(--font-poppins)]">Apply Now</Link>
           </div>
         </div>
       )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { Calendar, Clock, MapPin, Share2, ArrowLeft, X, Link2, Check } from "lucide-react";
@@ -171,7 +171,7 @@ function ImageSlider({ images }: { images: string[] }) {
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? "bg-[#D71920] w-6" : "bg-white/60 hover:bg-white"
+                idx === currentIndex ? "bg-[#D4AF37] w-6" : "bg-white/60 hover:bg-white"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
@@ -244,7 +244,7 @@ export default function NewsDetails() {
       <div className="min-h-screen bg-[#F7F9FC] flex flex-col items-center justify-center p-6 text-center font-[var(--font-poppins)]">
         <h2 className="text-2xl font-black text-[#072A6C] mb-2">Article Not Found</h2>
         <p className="text-sm text-gray-500 mb-6 font-[var(--font-inter)]">The article you are looking for does not exist or has been removed.</p>
-        <Link to="/news" className="px-5 py-2.5 bg-[#D71920] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
+        <Link to="/news" className="px-5 py-2.5 bg-[#D4AF37] hover:bg-[#072A6C] text-white text-xs font-bold rounded-full transition-colors shadow-sm">
           Back to News Center
         </Link>
       </div>
@@ -292,7 +292,7 @@ export default function NewsDetails() {
         {/* Back Link */}
         <Link 
           to="/news" 
-          className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#D71920] transition-colors mb-6 uppercase tracking-wider"
+          className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#D4AF37] transition-colors mb-6 uppercase tracking-wider"
         >
           <ArrowLeft size={14} /> Back to News Center
         </Link>
@@ -303,7 +303,7 @@ export default function NewsDetails() {
           {/* Category & Date */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-5">
             <div className="flex items-center gap-2.5">
-              <span className="bg-[#D71920]/10 text-[#D71920] text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-full tracking-wider">
+              <span className="bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-full tracking-wider">
                 {article.category}
               </span>
               <div className="flex items-center gap-1.5 text-xs text-gray-400 font-semibold font-[var(--font-inter)]">
@@ -333,7 +333,7 @@ export default function NewsDetails() {
           {/* Location details */}
           {article.location && (
             <div className="flex items-center gap-1.5 text-xs text-gray-400 font-semibold font-[var(--font-inter)]">
-              <MapPin size={13} className="text-[#D71920]" />
+              <MapPin size={13} className="text-[#D4AF37]" />
               <span>{article.location}</span>
             </div>
           )}
@@ -358,7 +358,7 @@ export default function NewsDetails() {
                 href={article.sourceUrl} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#D71920] hover:text-[#072A6C] transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#D4AF37] hover:text-[#072A6C] transition-colors"
               >
                 View News Here ➔
               </a>

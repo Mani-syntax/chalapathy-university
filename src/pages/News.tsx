@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { 
   ArrowRight, 
@@ -231,7 +231,7 @@ export default function News() {
             <div className="absolute inset-0 bg-black/10" />
             
             {/* Featured Badge */}
-            <span className="absolute top-4 left-4 bg-[#D71920] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md shadow-sm">
+            <span className="absolute top-4 left-4 bg-[#D4AF37] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md shadow-sm">
               Featured News
             </span>
 
@@ -254,7 +254,7 @@ export default function News() {
           <div className="w-full md:w-1/2 p-8 flex flex-col justify-between">
             <div className="space-y-4">
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-black uppercase tracking-wider text-[#D71920]">
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37]">
                   {featuredArticle?.category || "Innovation"}
                 </span>
                 <span className="text-gray-300">•</span>
@@ -277,7 +277,7 @@ export default function News() {
               <div className="flex items-center gap-3">
                 <button 
                   onClick={() => navigate(`/news/${featuredArticle?.slug}`)}
-                  className="h-10 px-6 bg-[#072A6C] hover:bg-[#D71920] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                  className="h-10 px-6 bg-[#072A6C] hover:bg-[#D4AF37] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
                 >
                   <span>Read Full Story</span>
                   <ArrowRight size={12} />
@@ -298,7 +298,7 @@ export default function News() {
                     key={idx}
                     onClick={() => setActiveSlide(idx)}
                     className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                      activeSlide === idx ? "bg-[#D71920] w-6" : "bg-gray-300"
+                      activeSlide === idx ? "bg-[#D4AF37] w-6" : "bg-gray-300"
                     }`}
                   />
                 ))}
@@ -315,10 +315,10 @@ export default function News() {
           {/* Section Header */}
           <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-4">
             <div className="flex items-center gap-1.5 text-[#072A6C]">
-              <Flame size={16} className="text-red-500 fill-current animate-pulse" />
+              <Flame size={16} className="text-[#D4AF37] fill-current animate-pulse" />
               <h3 className="text-xs font-black uppercase tracking-wider">University Highlights</h3>
             </div>
-            <Link to="/news/latest" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+            <Link to="/news/latest" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D4AF37] transition-colors">
               View All
             </Link>
           </div>
@@ -345,7 +345,7 @@ export default function News() {
                   <span className={`tracking-wider pt-0.5 transition-all duration-300 ${
                     isActive 
                       ? "text-base font-black text-[#E31E24]" 
-                      : "text-sm font-bold text-[#D71920]"
+                      : "text-sm font-bold text-[#D4AF37]"
                   }`}>
                     {displayNum}
                   </span>
@@ -387,14 +387,14 @@ export default function News() {
           <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-6">
             <button 
               onClick={() => setShowEventsDrawer(true)}
-              className="flex items-center gap-2 text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none text-left"
+              className="flex items-center gap-2 text-[#072A6C] hover:text-[#D4AF37] transition-colors cursor-pointer outline-none text-left"
             >
-              <Calendar size={16} className="text-[#D71920]" />
+              <Calendar size={16} className="text-[#D4AF37]" />
               <h3 className="text-xs font-black uppercase tracking-wider">Upcoming Events</h3>
             </button>
             <button 
               onClick={() => setShowEventsDrawer(true)}
-              className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors cursor-pointer outline-none"
+              className="text-[10px] font-bold text-[#072A6C] hover:text-[#D4AF37] transition-colors cursor-pointer outline-none"
             >
               View All
             </button>
@@ -408,7 +408,7 @@ export default function News() {
               const month = (dateParts[1] || "MAY").toUpperCase();
               
               // alternate background colors for calendar badges
-              const badgeBg = idx % 2 === 0 ? "bg-[#D71920]" : "bg-[#072A6C]";
+              const badgeBg = idx % 2 === 0 ? "bg-[#D4AF37]" : "bg-[#072A6C]";
 
               return (
                 <button
@@ -430,11 +430,11 @@ export default function News() {
                     
                     <div className="flex flex-col gap-1 text-[9px] text-gray-400 font-semibold font-[var(--font-inter)]">
                       <div className="flex items-center gap-1.5">
-                        <Clock size={10} className="text-[#D71920]" />
+                        <Clock size={10} className="text-[#D4AF37]" />
                         <span>{item.time}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <MapPin size={10} className="text-[#D71920]" />
+                        <MapPin size={10} className="text-[#D4AF37]" />
                         <span className="truncate">{item.location}</span>
                       </div>
                     </div>
@@ -453,7 +453,7 @@ export default function News() {
         {/* Header */}
         <div className="flex justify-between items-center pb-4 border-b border-gray-200">
           <h3 className="text-sm font-black uppercase tracking-wider text-[#072A6C]">Latest News</h3>
-          <Link to="/news/latest" className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors inline-flex items-center gap-1">
+          <Link to="/news/latest" className="text-[11px] font-bold text-[#072A6C] hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1">
             <span>View All News</span>
             <ArrowRight size={11} />
           </Link>
@@ -476,12 +476,12 @@ export default function News() {
                 {/* Content */}
                 <div className="p-5 space-y-2">
                   <div className="flex items-center gap-1 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
-                    <span className="text-[#D71920]">{item.category}</span>
+                    <span className="text-[#D4AF37]">{item.category}</span>
                     <span>•</span>
                     <span>{item.date}</span>
                   </div>
                   
-                  <h4 className="text-xs font-bold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                  <h4 className="text-xs font-bold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D4AF37] transition-colors">
                     {item.title}
                   </h4>
                   
@@ -492,9 +492,9 @@ export default function News() {
               </div>
 
               {/* Read More Footer */}
-              <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10.5px] font-bold text-[#072A6C] group-hover:text-[#D71920] transition-colors">
+              <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10.5px] font-bold text-[#072A6C] group-hover:text-[#D4AF37] transition-colors">
                 <span>Read More</span>
-                <ArrowRight size={12} className="text-[#D71920] group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight size={12} className="text-[#D4AF37] group-hover:translate-x-0.5 transition-transform" />
               </div>
 
             </div>
@@ -677,22 +677,22 @@ export default function News() {
                       </div>
 
                       {/* Event Title */}
-                      <h4 className="text-xs font-bold text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-snug line-clamp-2">
+                      <h4 className="text-xs font-bold text-[#072A6C] group-hover:text-[#D4AF37] transition-colors leading-snug line-clamp-2">
                         {item.title}
                       </h4>
 
                       {/* Info fields */}
                       <div className="space-y-1.5 border-t border-gray-50 pt-3">
                         <div className="flex items-center gap-2 text-[9px] text-gray-500 font-semibold font-[var(--font-inter)]">
-                          <Calendar size={10} className="text-[#D71920] shrink-0" />
+                          <Calendar size={10} className="text-[#D4AF37] shrink-0" />
                           <span>{item.date}</span>
                         </div>
                         <div className="flex items-center gap-2 text-[9px] text-gray-500 font-semibold font-[var(--font-inter)]">
-                          <Clock size={10} className="text-[#D71920] shrink-0" />
+                          <Clock size={10} className="text-[#D4AF37] shrink-0" />
                           <span>{item.time}</span>
                         </div>
                         <div className="flex items-center gap-2 text-[9px] text-gray-500 font-semibold font-[var(--font-inter)]">
-                          <MapPin size={10} className="text-[#D71920] shrink-0" />
+                          <MapPin size={10} className="text-[#D4AF37] shrink-0" />
                           <span className="truncate">{item.location}</span>
                         </div>
                       </div>
