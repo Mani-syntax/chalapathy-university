@@ -246,7 +246,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
         } h-[100px]`}
         style={{ borderBottom: "1px solid #E8E8E8" }}
       >
-        <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between gap-6 relative">
+        <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center gap-4 relative overflow-hidden">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0 py-1">
             <img
@@ -257,7 +257,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </Link>
 
           {/* Center nav */}
-          <nav className="hidden xl:flex items-center gap-1 h-full">
+          <nav className="hidden xl:flex items-center gap-1 h-full flex-1 min-w-0 overflow-hidden">
             {navLinks.map((name) => {
               if (name === "About Us") {
                 return (
@@ -542,7 +542,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </nav>
 
           {/* Right CTA */}
-          <div className="hidden xl:flex items-center gap-3 shrink-0">
+          <div className="hidden xl:flex items-center gap-3 shrink-0 ml-auto">
             <Link
               to="/admissions/apply"
               className="h-10 px-3 text-[12px] min-[1420px]:px-6 min-[1420px]:text-[13px] bg-[#D71920] hover:bg-[#b71217] text-white font-bold rounded-[12px] inline-flex items-center justify-center transition-colors shadow-sm font-[var(--font-poppins)]"
