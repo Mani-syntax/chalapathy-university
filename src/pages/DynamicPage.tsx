@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe, QrCode, Award, ChevronLeft } from "lucide-react";
-import { UNDERGRADUATE_GROUPS, MEGA_MENU_PROGRAMS } from "../components/layout/Header";
+import { ACADEMIC_PROGRAMS_STRUCTURE } from "../components/layout/Header";
 import { useData } from "../context/DataContext";
 import GlobalCertifications from "../components/sections/GlobalCertifications";
 
@@ -568,57 +568,32 @@ const getPageContent = (path: string, programs: any[]) => {
             </p>
             
             <div className="space-y-6">
-              {/* Undergraduate (UG) Section */}
-              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                <h3 className="text-base font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
-                  Undergraduate (UG) Programs
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {Object.entries(UNDERGRADUATE_GROUPS).map(([dept, courses]) => (
-                    <div key={dept} className="space-y-2">
-                      <h4 className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">{dept}</h4>
-                      <div className="flex flex-col gap-1.5 pl-2">
-                        {courses.map((course) => (
-                          <Link
-                            key={course.slug}
-                            to={`/academics/${course.slug}`}
-                            className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                            {course.title}
-                          </Link>
-                        ))}
+              {Object.entries(ACADEMIC_PROGRAMS_STRUCTURE).map(([school, depts]) => (
+                <div key={school} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+                  <h3 className="text-base font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
+                    {school}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {Object.entries(depts).map(([dept, courses]) => (
+                      <div key={dept} className="space-y-2">
+                        <h4 className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">{dept}</h4>
+                        <div className="flex flex-col gap-1.5 pl-2">
+                          {courses.map((course) => (
+                            <Link
+                              key={course.label}
+                              to={course.to}
+                              className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                              {course.label}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Postgraduate (PG) & Other Sections */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {Object.entries(MEGA_MENU_PROGRAMS).map(([level, list]) => {
-                  if (level === "Undergraduate (UG)") return null;
-                  return (
-                    <div key={level} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                      <h3 className="text-sm font-extrabold text-[#072A6C] mb-4 pb-2 border-b border-gray-100 uppercase tracking-wider">
-                        {level}
-                      </h3>
-                      <div className="flex flex-col gap-2 pl-2">
-                        {list.map((course) => (
-                          <Link
-                            key={course.label}
-                            to={course.to}
-                            className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                            {course.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              ))}
             </div>
 
             {/* Global Certifications Section (Full Width Breakout) */}
