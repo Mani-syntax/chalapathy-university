@@ -742,19 +742,17 @@ export default function Home() {
                   else if (t.includes('cse') || t.includes('computer science') || t.includes('software')) imgSrc = imgComputerScience;
                   
                   return (
-                    <motion.div
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                      style={{ width: size, height: size * 0.72, overflow: 'hidden' }}
-                      className="flex justify-center items-start"
+                    <div
+                      style={{ width: size, height: size }}
+                      className="flex justify-center items-center overflow-hidden"
                     >
                       <img 
                         src={imgSrc} 
                         alt={title} 
-                        style={{ width: size, height: size, objectFit: 'contain' }}
-                        className="rounded-lg max-w-none"
+                        style={{ width: size, height: size, objectFit: 'contain', clipPath: t.includes('mba') || t.includes('management') ? 'none' : 'inset(0% 0% 23% 0%)' }}
+                        className="rounded-lg"
                       />
-                    </motion.div>
+                    </div>
                   );
                 };
 
@@ -767,30 +765,30 @@ export default function Home() {
                     initial="rest"
                   >
                     {/* Default State (Centered) */}
-                    <div className="absolute inset-0 flex flex-col justify-center items-center p-8 transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 text-center">
-                      <div className="flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-[1.06]">
-                        {getIllustrationForProgram(program.title, 140)}
+                    <div className="absolute inset-0 flex flex-col justify-center items-center p-5 transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 text-center">
+                      <div className="flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-[1.06]">
+                        {getIllustrationForProgram(program.title, 120)}
                       </div>
-                      <h3 className="font-[800] text-[#072A6C] text-[18px] leading-tight max-w-[250px]">
+                      <h3 className="font-[800] text-[#072A6C] text-[17px] leading-tight max-w-[250px]">
                         {program.title}
                       </h3>
                     </div>
                     
                     {/* Hover State (Sliding up) */}
-                    <div className="absolute inset-0 flex flex-col justify-start items-center p-8 opacity-0 translate-y-8 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-white text-center">
-                      <div className="flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-[1.06]">
-                        {getIllustrationForProgram(program.title, 90)}
+                    <div className="absolute inset-0 flex flex-col justify-start items-center p-5 opacity-0 translate-y-8 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-white text-center">
+                      <div className="flex items-center justify-center mb-2.5 transition-transform duration-500 group-hover:scale-[1.06]">
+                        {getIllustrationForProgram(program.title, 65)}
                       </div>
-                      <h3 className="font-[800] text-[#072A6C] text-[16px] mb-3 leading-tight max-w-[250px]">
+                      <h3 className="font-[800] text-[#072A6C] text-[15px] mb-2 leading-tight max-w-[250px]">
                         {program.title}
                       </h3>
-                      <p className="text-[12px] text-gray-500 line-clamp-3 leading-relaxed mb-6">
+                      <p className="text-[12px] text-gray-500 line-clamp-3 leading-relaxed mb-4">
                         {program.overview || program.desc}
                       </p>
                       
                       <Link 
                         to={`/academics/${program.slug}`}
-                        className="mt-auto bg-[#072A6C] text-white px-6 py-2.5 rounded-full text-[13px] font-[700] flex items-center gap-2 hover:bg-[#D4AF37] transition-colors shadow-md"
+                        className="mt-auto bg-[#072A6C] text-white px-6 py-2 rounded-full text-[13px] font-[700] flex items-center gap-2 hover:bg-[#D4AF37] transition-colors shadow-md"
                       >
                         Read More <ArrowRight size={14} />
                       </Link>
