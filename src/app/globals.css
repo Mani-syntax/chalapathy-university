@@ -185,3 +185,12 @@ svg {
 *:hover > svg {
   transform: scale(1.18) rotate(4deg);
 }
+
+/* 6. Infinite Loop Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}

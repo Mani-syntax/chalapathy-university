@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useData, Announcement, ProgramDetail, NewsArticle, EventItem, AboutUsContent, MonthCalendarData, PlacementsContent, PlacedStudent, Recruiter } from "../context/DataContext";
+import { useData, Announcement, ProgramDetail, NewsArticle, EventItem, AboutUsContent, MonthCalendarData, PlacementsContent, PlacedStudent, Recruiter, SuccessStory } from "../context/DataContext";
 import { 
   Lock, LayoutDashboard, Megaphone, BookOpen, Calendar, FileText, 
-  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase
+  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase, Globe
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -27,7 +27,9 @@ export default function AdminPortal() {
     updateBoardData,
     updateStaffData,
     updatePlacementsContent,
-    placementsContent
+    placementsContent,
+    successStories,
+    updateSuccessStories
   } = useData();
 
   // Authentication states
@@ -36,7 +38,13 @@ export default function AdminPortal() {
   const [authError, setAuthError] = useState("");
 
   // Tab navigation states
-  const [activeTab, setActiveTab] = useState<"dashboard" | "announcements" | "about" | "academics" | "calendar" | "news-events" | "directories" | "placements">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "announcements" | "about" | "academics" | "calendar" | "news-events" | "directories" | "placements" | "campus-life">("dashboard");
+  const [newsEventsSection, setNewsEventsSection] = useState<"news" | "events" | "video">("news");
+  
+  // Video States
+  const [campusVideoUrl, setCampusVideoUrl] = useState(() => localStorage.getItem("chalapathi_campus_video") || "/chalapathi_logo_intro.mp4");
+  const [campusVideoText, setCampusVideoText] = useState(() => localStorage.getItem("chalapathi_campus_video_text") || "Explore Chalapathi Campus");
+  const [campusVideoSubtext, setCampusVideoSubtext] = useState(() => localStorage.getItem("chalapathi_campus_video_subtext") || "Experience innovation, research, smart classrooms and vibrant student life.");
 
   // Notification helpers
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -54,6 +62,52 @@ export default function AdminPortal() {
   const [aboutChairmanName, setAboutChairmanName] = useState(aboutContent.leadership.chairmanName);
   const [aboutChairmanTitle, setAboutChairmanTitle] = useState(aboutContent.leadership.designation);
   const [aboutChairmanQuote, setAboutChairmanQuote] = useState(aboutContent.leadership.messageQuote);
+
+  // Homepage Chairman states
+  const [hChairmanHeading, setHChairmanHeading] = useState(() => localStorage.getItem("chalapathi_chairman_heading") || "A Vision. A Commitment. A Legacy.");
+  const [hChairmanSubtitle, setHChairmanSubtitle] = useState(() => localStorage.getItem("chalapathi_chairman_subtitle") || "Guiding generations through excellence, innovation, integrity, and student success.");
+  const [hChairmanName, setHChairmanName] = useState(() => localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu");
+  const [hChairmanDesignation, setHChairmanDesignation] = useState(() => localStorage.getItem("chalapathi_chairman_designation") || "Chairman");
+  const [hChairmanGroup, setHChairmanGroup] = useState(() => localStorage.getItem("chalapathi_chairman_group") || "Chalapathi Group of Institutions");
+  const [hChairmanMessage, setHChairmanMessage] = useState(() => localStorage.getItem("chalapathi_chairman_message") || `At Chalapathi, we believe education is the most powerful transformer of lives and the key to building a better society. Our mission is to empower young minds with knowledge, values, and innovation to help them lead with purpose and create a lasting impact on the world.\n\nWe are committed to providing a nurturing environment, world-class infrastructure, and industry-oriented education to shape future leaders and responsible citizens.`);
+  const [hChairmanVideoUrl, setHChairmanVideoUrl] = useState(() => localStorage.getItem("chalapathi_chairman_video") || "/chalapathi_logo_intro.mp4");
+  const [hChairmanImage, setHChairmanImage] = useState(() => localStorage.getItem("chalapathi_chairman_image") || "/chairman_portrait.png");
+  const [hChairmanBtnText, setHChairmanBtnText] = useState(() => localStorage.getItem("chalapathi_chairman_btn") || "Watch Chairman's Message");
+
+  // Homepage Campus Life states
+  const [campusLabel, setCampusLabel] = useState(() => localStorage.getItem("chalapathi_campus_label") || "CAMPUS LIFE");
+  const [campusSubtitle, setCampusSubtitle] = useState(() => localStorage.getItem("chalapathi_campus_subtitle") || "A vibrant campus where students learn, innovate, explore, compete, and create unforgettable memories.");
+  const [campusCardsRaw, setCampusCardsRaw] = useState(() => {
+    return localStorage.getItem("chalapathi_campus_cards") || JSON.stringify([
+      { title: "Vibrant Community", desc: "A diverse and inclusive campus with students from across India and the world.", icon: "Users" },
+      { title: "Clubs & Activities", desc: "50+ student clubs to explore passions and build leadership skills.", icon: "GraduationCap" },
+      { title: "Sports & Fitness", desc: "World-class sports facilities to keep you active, healthy and motivated.", icon: "Trophy" },
+      { title: "Arts & Culture", desc: "Celebrate creativity with events, fests, and cultural extravaganzas.", icon: "Sparkles" },
+      { title: "Smart Learning Spaces", desc: "Modern classrooms, advanced labs, and digital resources for future-ready learning.", icon: "Building2" },
+      { title: "Hostel Life", desc: "Safe, comfortable and modern hostels that feel like a second home.", icon: "Landmark" },
+      { title: "Food & Cafeteria", desc: "Hygienic, affordable and variety-rich meals for every taste.", icon: "Coffee" },
+      { title: "Transport Facility", desc: "Convenient and reliable transportation across city routes.", icon: "Bus" }
+    ], null, 2);
+  });
+  const [campusVideosRaw, setCampusVideosRaw] = useState(() => {
+    return localStorage.getItem("chalapathi_campus_videos") || JSON.stringify([
+      { url: "/chalapathi_logo_intro.mp4", title: "Campus Overview" },
+      { url: "https://assets.mixkit.co/videos/preview/mixkit-drones-eye-view-of-a-modern-university-campus-41555-large.mp4", title: "Smart Classrooms & Labs" },
+      { url: "https://assets.mixkit.co/videos/preview/mixkit-group-of-students-walking-on-college-campus-41553-large.mp4", title: "Student Life & Clubs" }
+    ], null, 2);
+  });
+  const [campusGalleryRaw, setCampusGalleryRaw] = useState(() => {
+    return localStorage.getItem("chalapathi_campus_gallery") || JSON.stringify([
+      { title: "Annual Fest", image: "/media__1783770842966.png" },
+      { title: "Sports Meet", image: "/media__1783771619196.png" },
+      { title: "Tech Events", image: "/media__1783772591375.png" },
+      { title: "NSS Activities", image: "/media__1783774201695.png" },
+      { title: "Cultural Events", image: "/media__1783775062821.png" },
+      { title: "Workshops", image: "/media__1783776081975.png" },
+      { title: "Student Clubs", image: "/media__1783776395046.png" },
+      { title: "Innovation Expo", image: "/media__1783777762350.png" }
+    ], null, 2);
+  });
 
   // Form states - Academics
   const [selectedProgSlug, setSelectedProgSlug] = useState(programs[0]?.slug || "");
@@ -142,7 +196,32 @@ export default function AdminPortal() {
   const [studentForm, setStudentForm] = useState<PlacedStudent>({ name: "", branch: "", company: "", ctc: "", img: "" });
   const [editRecruiterIdx, setEditRecruiterIdx] = useState<number | "new" | null>(null);
   const [recruiterForm, setRecruiterForm] = useState<Recruiter>({ name: "", logo: "" });
-  const [placementsSection, setPlacementsSection] = useState<"content" | "students" | "recruiters">("content");
+  const [placementsSection, setPlacementsSection] = useState<"content" | "students" | "recruiters" | "stories">("content");
+  const [editStoryIdx, setEditStoryIdx] = useState<number | "new" | null>(null);
+  const [storyForm, setStoryForm] = useState<SuccessStory>({
+    id: Date.now(),
+    studentName: "",
+    studentImage: "",
+    department: "",
+    batch: "",
+    companyName: "",
+    companyLogo: "",
+    packageOffered: "",
+    description: "",
+    skills: [],
+    internshipExp: "",
+    achievement: "",
+    milestones: {
+      learningTitle: "",
+      learningDesc: "",
+      internshipTitle: "",
+      internshipDesc: "",
+      placementTitle: "",
+      placementDesc: "",
+      careerTitle: "",
+      careerDesc: ""
+    }
+  });
 
   // Sync placements form when context changes
   React.useEffect(() => {
@@ -189,6 +268,25 @@ export default function AdminPortal() {
     showNotification();
   };
 
+  // Save Campus Life Settings
+  const handleSaveCampusLife = (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      JSON.parse(campusCardsRaw);
+      JSON.parse(campusVideosRaw);
+      JSON.parse(campusGalleryRaw);
+      
+      localStorage.setItem("chalapathi_campus_label", campusLabel);
+      localStorage.setItem("chalapathi_campus_subtitle", campusSubtitle);
+      localStorage.setItem("chalapathi_campus_cards", campusCardsRaw);
+      localStorage.setItem("chalapathi_campus_videos", campusVideosRaw);
+      localStorage.setItem("chalapathi_campus_gallery", campusGalleryRaw);
+      showNotification();
+    } catch (err) {
+      alert("Invalid JSON structure. Please verify details!");
+    }
+  };
+
   // Save About Us Changes
   const handleSaveAbout = (e: React.FormEvent) => {
     e.preventDefault();
@@ -211,6 +309,15 @@ export default function AdminPortal() {
       }
     };
     updateAboutContent(updated);
+    localStorage.setItem("chalapathi_chairman_heading", hChairmanHeading);
+    localStorage.setItem("chalapathi_chairman_subtitle", hChairmanSubtitle);
+    localStorage.setItem("chalapathi_chairman_name", hChairmanName);
+    localStorage.setItem("chalapathi_chairman_designation", hChairmanDesignation);
+    localStorage.setItem("chalapathi_chairman_group", hChairmanGroup);
+    localStorage.setItem("chalapathi_chairman_message", hChairmanMessage);
+    localStorage.setItem("chalapathi_chairman_video", hChairmanVideoUrl);
+    localStorage.setItem("chalapathi_chairman_image", hChairmanImage);
+    localStorage.setItem("chalapathi_chairman_btn", hChairmanBtnText);
     showNotification();
   };
 
@@ -504,7 +611,8 @@ export default function AdminPortal() {
               { id: "calendar", label: "Academic Calendar", icon: Calendar },
               { id: "news-events", label: "News & Events", icon: FileText },
               { id: "directories", label: "Faculty & Directories", icon: Users },
-              { id: "placements", label: "Placements Page", icon: Briefcase }
+              { id: "placements", label: "Placements Page", icon: Briefcase },
+              { id: "campus-life", label: "Campus Life Settings", icon: Globe }
             ].map(link => {
               const Icon = link.icon;
               return (
@@ -725,6 +833,107 @@ export default function AdminPortal() {
                     onChange={(e) => setAboutChairmanQuote(e.target.value)}
                     className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
                   />
+                </div>
+              </div>
+
+              {/* Homepage Chairman Section Settings */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-6 text-left">
+                <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">
+                  Homepage Chairman Section Settings
+                </span>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Section Label</label>
+                    <input
+                      type="text"
+                      value={localStorage.getItem("chalapathi_chairman_label") || "FROM THE CHAIRMAN"}
+                      onChange={(e) => {
+                        localStorage.setItem("chalapathi_chairman_label", e.target.value);
+                        setHChairmanHeading(e.target.value);
+                      }}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Section Subtitle</label>
+                    <input
+                      type="text"
+                      value={hChairmanSubtitle}
+                      onChange={(e) => setHChairmanSubtitle(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Chairman Name</label>
+                    <input
+                      type="text"
+                      value={hChairmanName}
+                      onChange={(e) => setHChairmanName(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Designation</label>
+                    <input
+                      type="text"
+                      value={hChairmanDesignation}
+                      onChange={(e) => setHChairmanDesignation(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Institution Group / Info</label>
+                    <input
+                      type="text"
+                      value={hChairmanGroup}
+                      onChange={(e) => setHChairmanGroup(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold uppercase text-gray-500">Chairman Message</label>
+                  <textarea
+                    rows={4}
+                    value={hChairmanMessage}
+                    onChange={(e) => setHChairmanMessage(e.target.value)}
+                    className="w-full p-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Chairman Photo URL</label>
+                    <input
+                      type="text"
+                      value={hChairmanImage}
+                      onChange={(e) => setHChairmanImage(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Watch Video URL</label>
+                    <input
+                      type="text"
+                      value={hChairmanVideoUrl}
+                      onChange={(e) => setHChairmanVideoUrl(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Watch Button Text</label>
+                    <input
+                      type="text"
+                      value={hChairmanBtnText}
+                      onChange={(e) => setHChairmanBtnText(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -952,12 +1161,39 @@ export default function AdminPortal() {
             </div>
           )}
 
-          {/* 🌟 Tab 6: News & Events */}
           {activeTab === "news-events" && (
-            <div className="space-y-12">
+            <div className="space-y-8">
+              <div>
+                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">News, Events & Video Editor</h1>
+                <p className="text-xs text-gray-500 font-light mt-0.5">Manage articles, campus video overlays, and upcoming events displayed on the homepage.</p>
+              </div>
+
+              {/* Sub-section toggles */}
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { id: "news", label: "News Articles" },
+                  { id: "events", label: "Upcoming Events" },
+                  { id: "video", label: "Campus Video" }
+                ].map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => setNewsEventsSection(s.id as any)}
+                    className={`h-9 rounded-xl border text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                      newsEventsSection === s.id
+                        ? "bg-[#072A6C] border-[#072A6C] text-white shadow-sm"
+                        : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+
               {/* Section A: News Articles */}
-              <div className="space-y-6">
-                <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Post New News Article</h3>
+              {newsEventsSection === "news" && (
+                <div className="space-y-6">
+                  <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Post New News Article</h3>
                 <form onSubmit={handleAddNews} className="space-y-4 bg-gray-50/60 border border-gray-100 p-5 rounded-2xl">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1 md:col-span-2">
@@ -1054,10 +1290,12 @@ export default function AdminPortal() {
                   </div>
                 </div>
               </div>
+              )}
 
               {/* Section B: Events */}
-              <div className="space-y-6 pt-6 border-t border-gray-100">
-                <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Create New Event</h3>
+              {newsEventsSection === "events" && (
+                <div className="space-y-6">
+                  <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Create New Event</h3>
                 <form onSubmit={handleAddEvent} className="space-y-4 bg-gray-50/60 border border-gray-100 p-5 rounded-2xl">
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="space-y-1 md:col-span-2">
@@ -1159,6 +1397,66 @@ export default function AdminPortal() {
                   </div>
                 </div>
               </div>
+              )}
+
+              {/* Section C: Campus Video Settings */}
+              {newsEventsSection === "video" && (
+                <div className="space-y-6 text-left">
+                  <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
+                    <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">Campus Video Player Settings</span>
+                    
+                    <div className="space-y-4">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-gray-500">Video File URL / Path</label>
+                        <input 
+                          type="text" 
+                          value={campusVideoUrl} 
+                          onChange={(e) => setCampusVideoUrl(e.target.value)} 
+                          className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
+                          placeholder="/chalapathi_logo_intro.mp4"
+                        />
+                        <p className="text-[10px] text-gray-400 font-light">Provide the URL or relative path to the MP4 campus tour video. Default is `/chalapathi_logo_intro.mp4`.</p>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold uppercase text-gray-500">Overlay Card Header Text</label>
+                          <input 
+                            type="text" 
+                            value={campusVideoText} 
+                            onChange={(e) => setCampusVideoText(e.target.value)} 
+                            className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
+                            placeholder="Explore Chalapathi Campus"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold uppercase text-gray-500">Overlay Card Subtext</label>
+                          <input 
+                            type="text" 
+                            value={campusVideoSubtext} 
+                            onChange={(e) => setCampusVideoSubtext(e.target.value)} 
+                            className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
+                            placeholder="Experience innovation, research, smart classrooms and vibrant student life."
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        localStorage.setItem("chalapathi_campus_video", campusVideoUrl);
+                        localStorage.setItem("chalapathi_campus_video_text", campusVideoText);
+                        localStorage.setItem("chalapathi_campus_video_subtext", campusVideoSubtext);
+                        showNotification();
+                      }}
+                      className="w-full h-11 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow transition-colors cursor-pointer mt-4"
+                    >
+                      Save Video Settings
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -1452,10 +1750,11 @@ export default function AdminPortal() {
               </div>
 
               {/* Sub-section toggles */}
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 {[
                   { id: "content", label: "Content & Stats" },
                   { id: "students", label: "Placed Students" },
+                  { id: "stories", label: "Success Stories" },
                   { id: "recruiters", label: "Top Recruiters" }
                 ].map((s) => (
                   <button
@@ -1640,6 +1939,189 @@ export default function AdminPortal() {
                 </div>
               )}
 
+              {/* Success Stories Sub-section */}
+              {placementsSection === "stories" && (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start text-left">
+                  <div className="lg:col-span-6 space-y-4">
+                    <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-4">
+                      <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span className="text-xs font-extrabold uppercase text-gray-500 tracking-wider">Success Stories ({successStories.length})</span>
+                        <button 
+                          type="button" 
+                          onClick={() => { 
+                            setEditStoryIdx("new"); 
+                            setStoryForm({ 
+                              id: Date.now(), 
+                              studentName: "", 
+                              studentImage: "", 
+                              department: "", 
+                              batch: "", 
+                              companyName: "", 
+                              companyLogo: "", 
+                              packageOffered: "", 
+                              description: "", 
+                              skills: [],
+                              internshipExp: "",
+                              achievement: "",
+                              milestones: { 
+                                learningTitle: "", 
+                                learningDesc: "", 
+                                internshipTitle: "", 
+                                internshipDesc: "", 
+                                placementTitle: "", 
+                                placementDesc: "", 
+                                careerTitle: "", 
+                                careerDesc: "" 
+                              } 
+                            }); 
+                          }} 
+                          className="h-8 px-3 rounded-lg bg-[#D71920] hover:bg-[#D71920]/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"
+                        >
+                          <Plus size={12} /> Add Story
+                        </button>
+                      </div>
+                      <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+                        {successStories.map((story, idx) => (
+                          <div key={story.id} className="p-3.5 rounded-xl bg-white border border-gray-100 flex justify-between items-center text-xs shadow-sm hover:border-[#D71920]/20 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden">
+                                <img src={story.studentImage} alt={story.studentName} className="w-full h-full object-cover" />
+                              </div>
+                              <div className="text-left">
+                                <span className="font-bold text-gray-700 block">{story.studentName}</span>
+                                <span className="text-[10px] text-gray-400 block">{story.companyName} • {story.packageOffered}</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-3">
+                              <button type="button" onClick={() => { setEditStoryIdx(idx); setStoryForm({ ...story }); }} className="text-blue-600 hover:text-blue-800 font-bold uppercase text-[10px] cursor-pointer">Edit</button>
+                              <button type="button" onClick={() => { const arr = successStories.filter((_, i) => i !== idx); updateSuccessStories(arr); showNotification(); }} className="text-rose-500 hover:text-rose-700 font-bold uppercase text-[10px] cursor-pointer">Delete</button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-6">
+                    {editStoryIdx !== null ? (
+                      <form onSubmit={(e) => { 
+                        e.preventDefault(); 
+                        const arr = [...successStories]; 
+                        if (editStoryIdx === "new") { 
+                          arr.push({ ...storyForm, id: Date.now() }); 
+                        } else { 
+                          arr[editStoryIdx] = storyForm; 
+                        } 
+                        updateSuccessStories(arr); 
+                        setEditStoryIdx(null); 
+                        showNotification(); 
+                      }} className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                        <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+                          <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider">{editStoryIdx === "new" ? "Add Success Story" : "Edit Story"}</span>
+                          <button type="button" onClick={() => setEditStoryIdx(null)} className="text-gray-400 hover:text-gray-600 text-xs font-bold uppercase tracking-wider cursor-pointer">Cancel</button>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Student Name</label>
+                            <input type="text" required value={storyForm.studentName} onChange={(e) => setStoryForm({ ...storyForm, studentName: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Department</label>
+                            <input type="text" required value={storyForm.department} onChange={(e) => setStoryForm({ ...storyForm, department: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Batch</label>
+                            <input type="text" required value={storyForm.batch} onChange={(e) => setStoryForm({ ...storyForm, batch: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Company Name</label>
+                            <input type="text" required value={storyForm.companyName} onChange={(e) => setStoryForm({ ...storyForm, companyName: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Company Logo URL</label>
+                            <input type="text" required value={storyForm.companyLogo} onChange={(e) => setStoryForm({ ...storyForm, companyLogo: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Package Offered</label>
+                            <input type="text" required value={storyForm.packageOffered} onChange={(e) => setStoryForm({ ...storyForm, packageOffered: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold uppercase text-gray-500">Student Photo URL</label>
+                          <input type="text" required value={storyForm.studentImage} onChange={(e) => setStoryForm({ ...storyForm, studentImage: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold uppercase text-gray-500">Testimonial Description</label>
+                          <textarea required rows={3} value={storyForm.description} onChange={(e) => setStoryForm({ ...storyForm, description: e.target.value })} className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium resize-none" />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Skills Acquired (comma separated)</label>
+                            <input type="text" value={storyForm.skills?.join(", ") || ""} onChange={(e) => setStoryForm({ ...storyForm, skills: e.target.value.split(",").map(s => s.trim()).filter(Boolean) })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold uppercase text-gray-500">Internship Term / Experience</label>
+                            <input type="text" value={storyForm.internshipExp || ""} onChange={(e) => setStoryForm({ ...storyForm, internshipExp: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold uppercase text-gray-500">Top Career Achievement</label>
+                          <input type="text" value={storyForm.achievement || ""} onChange={(e) => setStoryForm({ ...storyForm, achievement: e.target.value })} className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                        </div>
+
+                        {/* Milestones Edit */}
+                        <div className="border-t border-gray-100 pt-4 space-y-4">
+                          <span className="text-[10px] font-black uppercase text-gray-400 tracking-wider block">Milestones Setup</span>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 1 Title</label>
+                              <input type="text" required value={storyForm.milestones.learningTitle} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, learningTitle: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 1 Details</label>
+                              <input type="text" required value={storyForm.milestones.learningDesc} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, learningDesc: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 2 Title</label>
+                              <input type="text" required value={storyForm.milestones.internshipTitle} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, internshipTitle: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 2 Details</label>
+                              <input type="text" required value={storyForm.milestones.internshipDesc} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, internshipDesc: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 3 Title</label>
+                              <input type="text" required value={storyForm.milestones.placementTitle} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, placementTitle: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 3 Details</label>
+                              <input type="text" required value={storyForm.milestones.placementDesc} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, placementDesc: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 4 Title</label>
+                              <input type="text" required value={storyForm.milestones.careerTitle} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, careerTitle: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold uppercase text-gray-500">Step 4 Details</label>
+                              <input type="text" required value={storyForm.milestones.careerDesc} onChange={(e) => setStoryForm({ ...storyForm, milestones: { ...storyForm.milestones, careerDesc: e.target.value } })} className="w-full h-9 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <button type="submit" className="w-full h-11 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow transition-colors cursor-pointer mt-4">Save Story</button>
+                      </form>
+                    ) : (
+                      <div className="bg-gray-50 border border-dashed border-gray-200 p-8 rounded-2xl flex flex-col items-center justify-center text-center min-h-[300px]">
+                        <Users className="text-gray-300 mb-3" size={40} />
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">No Story Selected</span>
+                        <p className="text-[11px] text-gray-400 font-light mt-1 max-w-[280px]">Select a success story from the list to edit, or click Add Story to add a new student achievement.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Recruiters Sub-section */}
               {placementsSection === "recruiters" && (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -1690,6 +2172,91 @@ export default function AdminPortal() {
                 </div>
               )}
             </div>
+          )}
+          {activeTab === "campus-life" && (
+            <form onSubmit={handleSaveCampusLife} className="space-y-6">
+              <div>
+                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">Campus Life Editor</h1>
+                <p className="text-xs text-gray-500 font-light mt-0.5">Modify headers, interactive feature cards grid, HTML5 campus tour videos, and carousel gallery content.</p>
+              </div>
+
+              {/* Title & Headers */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">Headers & Subtitles</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Section Label</label>
+                    <input
+                      type="text"
+                      value={campusLabel}
+                      onChange={(e) => setCampusLabel(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">Section Subtitle</label>
+                    <input
+                      type="text"
+                      value={campusSubtitle}
+                      onChange={(e) => setCampusSubtitle(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Feature Cards Raw Config JSON */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                  <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider">Interactive Feature Cards (2x4 Grid JSON)</span>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase">Must be a valid JSON array</span>
+                </div>
+                <textarea
+                  rows={8}
+                  value={campusCardsRaw}
+                  onChange={(e) => setCampusCardsRaw(e.target.value)}
+                  className="w-full p-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-mono"
+                />
+              </div>
+
+              {/* Campus Videos List JSON */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                  <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider">Campus Tour Sliding Videos JSON</span>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase">Must be a valid JSON array</span>
+                </div>
+                <textarea
+                  rows={6}
+                  value={campusVideosRaw}
+                  onChange={(e) => setCampusVideosRaw(e.target.value)}
+                  className="w-full p-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-mono"
+                />
+              </div>
+
+              {/* Gallery Images List JSON */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                  <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider">Campus Gallery Carousel Items (Memories) JSON</span>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase">Must be a valid JSON array</span>
+                </div>
+                <textarea
+                  rows={8}
+                  value={campusGalleryRaw}
+                  onChange={(e) => setCampusGalleryRaw(e.target.value)}
+                  className="w-full p-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-mono"
+                />
+              </div>
+
+              {/* Save Button */}
+              <div className="pt-4 border-t border-gray-100">
+                <button
+                  type="submit"
+                  className="h-11 px-8 bg-[#072A6C] hover:bg-[#051c4a] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer shadow-md transition-colors"
+                >
+                  Save Campus Life Changes
+                </button>
+              </div>
+            </form>
           )}
         </div>
       </main>

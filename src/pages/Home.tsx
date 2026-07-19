@@ -6,9 +6,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   GraduationCap, Users, ArrowRight, Play, Trophy, Handshake, Landmark,
   Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe,
-  UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom, X
+  UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom, X, Calendar, Clock, Coffee, Bus
 } from "lucide-react";
 import SEO from "../components/SEO";
+import { useData } from "../context/DataContext";
 
 /* ── animation helpers ────────────────────────── */
 const fadeUp = {
@@ -89,6 +90,7 @@ function AnimatedCounter({ value, duration = 2500 }: { value: string; duration?:
 }
 
 export default function Home() {
+  const { successStories, placementsContent, news, events } = useData();
   const navigate = useNavigate();
   const [directionsFrom, setDirectionsFrom] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -106,6 +108,108 @@ export default function Home() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Bridge Section Slider & Student Rotation States
+  const [activeBridgeSlide, setActiveBridgeSlide] = useState(0);
+  const [activeFeaturedStudent, setActiveFeaturedStudent] = useState(0);
+
+  // Video playback states
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [videoDuration, setVideoDuration] = useState(0);
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isEventsDrawerOpen, setIsEventsDrawerOpen] = useState(false);
+  const [showChairmanVideo, setShowChairmanVideo] = useState(false);
+
+  // Campus Life States
+  const [activeCampusVideoIdx, setActiveCampusVideoIdx] = useState(0);
+  const [isCampusTourMuted, setIsCampusTourMuted] = useState(true);
+
+  // Load campus videos list
+  const getCampusVideos = () => {
+    try {
+      const saved = localStorage.getItem("chalapathi_campus_videos");
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return [
+      { url: "/chalapathi_logo_intro.mp4", title: "Campus Overview" },
+      { url: "https://assets.mixkit.co/videos/preview/mixkit-drones-eye-view-of-a-modern-university-campus-41555-large.mp4", title: "Smart Classrooms & Labs" },
+      { url: "https://assets.mixkit.co/videos/preview/mixkit-group-of-students-walking-on-college-campus-41553-large.mp4", title: "Student Life & Clubs" }
+    ];
+  };
+  const campusVideos = getCampusVideos();
+
+  // Autoplay sliding campus tour videos every 8 seconds
+  useEffect(() => {
+    if (campusVideos.length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveCampusVideoIdx((prev) => (prev + 1) % campusVideos.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [campusVideos.length]);
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setVideoProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setVideoDuration(videoRef.current.duration);
+    }
+  };
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(e => console.log(e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleFullscreen = () => {
+    if (videoRef.current) {
+      if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen();
+      }
+    }
+  };
+
+  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (videoRef.current) {
+      const newTime = (parseFloat(e.target.value) / 100) * videoRef.current.duration;
+      videoRef.current.currentTime = newTime;
+      setVideoProgress(parseFloat(e.target.value));
+    }
+  };
+
+  // Auto-scroll for Left Side Hero Slider (5 seconds)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveBridgeSlide((prev) => (prev + 1) % 6);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Auto-rotate for Student Success Testimonials (6 seconds)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveFeaturedStudent((prev) => (prev + 1) % 3);
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -668,6 +772,146 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ═══ FROM THE CHAIRMAN SECTION ═══ */}
+      <section className="bg-gray-50/50 py-20 relative overflow-hidden font-[var(--font-poppins)] border-t border-gray-100">
+        {/* Soft Background Blobs */}
+        <div className="absolute top-20 right-10 w-80 h-80 rounded-full bg-blue-50/30 blur-3xl -z-10" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 rounded-full bg-yellow-50/20 blur-3xl -z-10" />
+
+        <div className="max-w-[1440px] mx-auto px-5">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#D71920] bg-red-50 py-1.5 px-4 rounded-full inline-block mb-3">
+              {localStorage.getItem("chalapathi_chairman_label") || "FROM THE CHAIRMAN"}
+            </span>
+            <h2 className="text-2xl md:text-4xl font-[900] text-[#072A6C] mb-3">
+              A Vision. A <span className="text-[#072A6C] underline decoration-2 decoration-[#D4AF37]">Commitment.</span> A <span className="text-[#D71920]">Legacy.</span>
+            </h2>
+            <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
+              {localStorage.getItem("chalapathi_chairman_subtitle") || "Guiding generations through excellence, innovation, integrity, and student success."}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* LEFT COLUMN (45% / lg:col-span-5) */}
+            <div className="lg:col-span-5 flex justify-center relative select-none">
+              {/* Background abstract decorations */}
+              <div className="absolute -top-6 -left-6 w-16 h-16 bg-blue-500/10 rounded-full blur-lg animate-pulse" />
+              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-yellow-500/10 rounded-full blur-xl" />
+              
+              <div className="relative w-full max-w-[380px] rounded-[32px] overflow-hidden shadow-2xl group border-4 border-white bg-white transition-all duration-500 hover:shadow-3xl hover:-translate-y-1">
+                {/* Chairman Portrait */}
+                <img 
+                  src={localStorage.getItem("chalapathi_chairman_image") || "/chairman_portrait.png"} 
+                  alt="Chairman Sri G. Anjaneyulu" 
+                  className="w-full h-auto object-cover aspect-[4/5] transition-transform duration-700 group-hover:scale-103"
+                />
+                
+                {/* Light reflection animation overlay */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                
+                {/* Image tint overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent pointer-events-none" />
+
+                {/* Floating Glass Information Card */}
+                <div className="absolute bottom-5 left-5 right-5 bg-[#072A6C]/75 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-white text-left transition-transform duration-300 group-hover:scale-102">
+                  <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider block mb-0.5">Chairman</span>
+                  <h4 className="text-base font-extrabold mb-0.5">{localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu"}</h4>
+                  <p className="text-[10px] text-gray-200 font-light leading-snug">
+                    {localStorage.getItem("chalapathi_chairman_group") || "Chalapathi Group of Institutions"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN (55% / lg:col-span-7) */}
+            <div className="lg:col-span-7">
+              <div className="bg-white/90 border border-gray-150 rounded-[32px] p-8 md:p-10 shadow-sm relative overflow-hidden text-left flex flex-col justify-between min-h-[420px] transition-all duration-300 hover:shadow-md">
+                
+                {/* Campus Building outline in background */}
+                <div className="absolute right-0 bottom-0 w-80 h-80 opacity-[0.03] pointer-events-none select-none">
+                  <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[#072A6C] w-full h-full">
+                    {/* Clock tower sketch */}
+                    <path d="M70 180 V100 H130 V180 M90 100 V60 H110 V100 M95 60 L100 40 L105 60 M85 180 h30 M60 180 h80 M95 80 h10 M100 70 A 5 5 0 1 0 100 80 A 5 5 0 1 0 100 70" />
+                    <rect x="75" y="110" width="12" height="20" rx="2" />
+                    <rect x="113" y="110" width="12" height="20" rx="2" />
+                    <rect x="75" y="140" width="12" height="25" rx="2" />
+                    <rect x="113" y="140" width="12" height="25" rx="2" />
+                  </svg>
+                </div>
+
+                {/* Quotation Mark */}
+                <span className="text-7xl font-serif text-[#072A6C]/10 absolute top-4 left-4 select-none pointer-events-none">“</span>
+
+                {/* Message Content */}
+                <div className="space-y-5 z-10 relative">
+                  <p className="text-xs md:text-sm text-gray-700 font-light leading-relaxed whitespace-pre-line">
+                    {localStorage.getItem("chalapathi_chairman_message") || `At Chalapathi, we believe education is the most powerful transformer of lives and the key to building a better society. Our mission is to empower young minds with knowledge, values, and innovation to help them lead with purpose and create a lasting impact on the world.\n\nWe are committed to providing a nurturing environment, world-class infrastructure, and industry-oriented education to shape future leaders and responsible citizens.`}
+                  </p>
+                </div>
+
+                {/* Signature, Name, Designation & Action Button */}
+                <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 z-10">
+                  <div className="space-y-2">
+                    {/* Cursive Signature */}
+                    <div className="h-10 flex items-center select-none">
+                      <svg className="h-9 text-[#072A6C]" viewBox="0 0 160 50" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <path d="M15 28c12-6 22-14 26-1s-8 12-4 4 12-16 16-4-4 12 0 4 10-14 12-2-4 10 4 2 10-12 12 0-4 10 4 2 10-12 12 4-4 8 4 2c10 2 15-4 18-9" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h5 className="text-xs font-extrabold text-[#072A6C]">{localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu"}</h5>
+                      <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{localStorage.getItem("chalapathi_chairman_designation") || "Chairman"}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Chairman Video Player Fullscreen Modal */}
+      <AnimatePresence>
+        {showChairmanVideo && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center font-[var(--font-poppins)]">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowChairmanVideo(false)}
+              className="absolute inset-0 bg-black/85 backdrop-blur-sm"
+            />
+            
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="relative w-full max-w-[800px] aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10 z-10 m-5"
+            >
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setShowChairmanVideo(false)}
+                className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white border-none cursor-pointer outline-none transition-colors"
+              >
+                <X size={18} />
+              </button>
+
+              <video
+                src={localStorage.getItem("chalapathi_chairman_video") || "/chalapathi_logo_intro.mp4"}
+                className="w-full h-full object-contain"
+                controls
+                autoPlay
+                playsInline
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* ═══ CHALAPATHI JOURNEY & CAMPUS SECTION (Grouping into White Card containers) ═══ */}
       <section className="max-w-[1440px] mx-auto w-full px-5 py-20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
@@ -799,193 +1043,753 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ PLACEMENT SUCCESS STORIES STRIP ═══ */}
-      <section className="bg-white py-10">
+      {/* ═══ DYNAMIC PLACEMENT SUCCESS STORIES SHOWCASE ═══ */}
+      <section className="bg-white py-10 relative overflow-hidden font-[var(--font-poppins)]">
+        {/* Soft Background Blobs */}
+        <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-blue-50/40 blur-3xl -z-10" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-yellow-50/30 blur-3xl -z-10" />
+
         <div className="max-w-[1440px] mx-auto px-5">
-          <div className="w-full rounded-[16px] overflow-hidden shadow-md border border-gray-100">
-            <img 
-              src="/placement_success.jpg" 
-              alt="Placement Success Stories" 
-              className="w-full h-auto object-cover"
-            />
+          {/* Header */}
+          <div className="text-center mb-8">
+            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#D71920] bg-red-50 py-1.5 px-4 rounded-full inline-block mb-3">
+              PLACEMENT SUCCESS STORIES
+            </span>
+            <h2 className="text-2xl md:text-3.5xl font-[900] text-[#072A6C] mb-2">
+              Our Students. Top Careers. <span className="text-[#D71920]">Bright Futures.</span>
+            </h2>
+            <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
+              Real stories from Chalapathi students who achieved successful careers through campus placements.
+            </p>
+          </div>
+
+          {successStories && successStories.length > 0 && (() => {
+            const activeStudent = successStories[activeFeaturedStudent % successStories.length];
+            return (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                {/* LEFT COLUMN: Student Image + Floating Badges (38-40% Width) */}
+                <div className="lg:col-span-5 flex justify-center relative">
+                  <div className="relative w-full max-w-[340px] h-[370px] rounded-[24px] overflow-hidden shadow-2xl group border border-gray-100 bg-gray-50">
+                    <img 
+                      src={activeStudent.studentImage} 
+                      alt={activeStudent.studentName} 
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                    />
+                    {/* Image Tint Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+                  </div>
+
+                  {/* Floating Placed At badge */}
+                  <div className="absolute left-6 top-6 bg-white/85 backdrop-blur-md border border-white/40 rounded-xl p-2.5 flex items-center gap-2.5 shadow-md max-w-[160px] transition-transform duration-300 hover:scale-105">
+                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
+                      <img 
+                        src={activeStudent.companyLogo} 
+                        alt={activeStudent.companyName} 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="text-left min-w-0">
+                      <span className="text-[8px] text-gray-400 font-bold block uppercase tracking-wider">Placed at</span>
+                      <span className="text-[10.5px] font-black text-[#072A6C] block truncate">{activeStudent.companyName}</span>
+                    </div>
+                  </div>
+
+                  {/* Floating Package Offered badge */}
+                  <div className="absolute right-6 bottom-6 bg-white/85 backdrop-blur-md border border-white/40 rounded-xl p-2.5 shadow-md min-w-[120px] text-left transition-transform duration-300 hover:scale-105">
+                    <span className="text-[8px] text-gray-400 font-bold block uppercase tracking-wider">Package Offered</span>
+                    <span className="text-lg font-black text-[#D71920] block leading-none mt-0.5">{activeStudent.packageOffered}</span>
+                    <span className="text-[8px] text-gray-400 font-medium tracking-wide">PER ANNUM</span>
+                  </div>
+                </div>
+
+                {/* RIGHT COLUMN: Testimonial, Timeline, Skills & Achievements (60% Width) */}
+                <div className="lg:col-span-7 space-y-6 text-left">
+                  {/* Details Meta */}
+                  <div className="space-y-0.5">
+                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#D71920]">Success Story</span>
+                    <h3 className="text-2xl font-[900] text-[#072A6C]">{activeStudent.studentName}</h3>
+                    <p className="text-[11px] text-gray-500 font-medium">
+                      {activeStudent.department} <span className="mx-1.5 text-gray-300">•</span> {activeStudent.batch}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    {/* Left Sub-Column (md:col-span-7): Testimonial Quote & Timeline */}
+                    <div className="md:col-span-7 space-y-4">
+                      {/* Testimonial Quote */}
+                      <div className="relative pl-4 border-l-4 border-[#D71920]">
+                        <p className="text-[11px] text-gray-600 font-light italic leading-relaxed">
+                          "{activeStudent.description}"
+                        </p>
+                      </div>
+
+                      {/* SUCCESS TIMELINE */}
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block">Journey Timeline</span>
+                        
+                        <div className="space-y-2">
+                          {/* Milestone 1 */}
+                          <div className="flex gap-2.5 bg-gray-50/40 p-2 rounded-xl border border-gray-100 hover:border-[#072A6C]/20 hover:shadow-sm transition-all duration-300">
+                            <div className="w-[18px] h-[18px] rounded-full bg-blue-50 text-[#072A6C] flex items-center justify-center text-[8.5px] font-bold shrink-0">1</div>
+                            <div>
+                              <span className="text-[10.5px] font-bold text-[#072A6C] block leading-tight">{activeStudent.milestones.learningTitle}</span>
+                              <span className="text-[9px] text-gray-500 font-light leading-normal block">{activeStudent.milestones.learningDesc}</span>
+                            </div>
+                          </div>
+
+                          {/* Milestone 2 */}
+                          <div className="flex gap-2.5 bg-gray-50/40 p-2 rounded-xl border border-gray-100 hover:border-[#072A6C]/20 hover:shadow-sm transition-all duration-300">
+                            <div className="w-[18px] h-[18px] rounded-full bg-blue-50 text-[#072A6C] flex items-center justify-center text-[8.5px] font-bold shrink-0">2</div>
+                            <div>
+                              <span className="text-[10.5px] font-bold text-[#072A6C] block leading-tight">{activeStudent.milestones.internshipTitle}</span>
+                              <span className="text-[9px] text-gray-500 font-light leading-normal block">{activeStudent.milestones.internshipDesc}</span>
+                            </div>
+                          </div>
+
+                          {/* Milestone 3 */}
+                          <div className="flex gap-2.5 bg-gray-50/40 p-2 rounded-xl border border-gray-100 hover:border-[#072A6C]/20 hover:shadow-sm transition-all duration-300">
+                            <div className="w-[18px] h-[18px] rounded-full bg-blue-50 text-[#072A6C] flex items-center justify-center text-[8.5px] font-bold shrink-0">3</div>
+                            <div>
+                              <span className="text-[10.5px] font-bold text-[#072A6C] block leading-tight">{activeStudent.milestones.placementTitle}</span>
+                              <span className="text-[9px] text-gray-500 font-light leading-normal block">{activeStudent.milestones.placementDesc}</span>
+                            </div>
+                          </div>
+
+                          {/* Milestone 4 */}
+                          <div className="flex gap-2.5 bg-gray-50/40 p-2 rounded-xl border border-gray-100 hover:border-[#072A6C]/20 hover:shadow-sm transition-all duration-300">
+                            <div className="w-[18px] h-[18px] rounded-full bg-blue-50 text-[#072A6C] flex items-center justify-center text-[8.5px] font-bold shrink-0">4</div>
+                            <div>
+                              <span className="text-[10.5px] font-bold text-[#072A6C] block leading-tight">{activeStudent.milestones.careerTitle}</span>
+                              <span className="text-[9px] text-gray-500 font-light leading-normal block">{activeStudent.milestones.careerDesc}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Sub-Column (md:col-span-5): Skills, Internship & Achievements */}
+                    <div className="md:col-span-5 space-y-4 bg-gray-50/50 border border-gray-100/85 rounded-[20px] p-4 shadow-sm h-fit">
+                      {/* Skills Learned */}
+                      <div className="space-y-1.5">
+                        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block font-sans">Skills Acquired</span>
+                        <div className="flex flex-wrap gap-1">
+                          {activeStudent.skills?.map((skill, sIdx) => (
+                            <span key={sIdx} className="text-[8.5px] font-semibold bg-white text-[#072A6C] px-2 py-0.5 border border-gray-150 rounded-md shadow-sm">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Internship Experience */}
+                      <div className="space-y-0.5 pt-2 border-t border-gray-200/60">
+                        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block font-sans">Internship Term</span>
+                        <span className="text-[11px] font-bold text-[#072A6C] block leading-tight">{activeStudent.internshipExp}</span>
+                      </div>
+
+                      {/* Career Achievement */}
+                      <div className="space-y-0.5 pt-2 border-t border-gray-200/60">
+                        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block font-sans">Top Achievement</span>
+                        <span className="text-[11px] font-bold text-emerald-600 block leading-tight">{activeStudent.achievement}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Slider Controls */}
+                  <div className="flex items-center justify-between pt-2">
+                    {/* Dots */}
+                    <div className="flex gap-1">
+                      {successStories.map((_, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setActiveFeaturedStudent(i)}
+                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 border-none outline-none cursor-pointer ${
+                            i === (activeFeaturedStudent % successStories.length) ? "bg-[#D71920] w-5" : "bg-gray-300 hover:bg-gray-400"
+                          }`}
+                          aria-label={`Go to slide ${i + 1}`}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Navigation Arrows */}
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setActiveFeaturedStudent((prev) => (prev - 1 + successStories.length) % successStories.length)}
+                        className="w-7 h-7 rounded-full border border-gray-200 hover:border-[#072A6C] flex items-center justify-center text-gray-400 hover:text-[#072A6C] transition-all bg-white cursor-pointer outline-none"
+                        aria-label="Previous story"
+                      >
+                        <ArrowRight size={12} className="rotate-180" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setActiveFeaturedStudent((prev) => (prev + 1) % successStories.length)}
+                        className="w-7 h-7 rounded-full border border-gray-200 hover:border-[#072A6C] flex items-center justify-center text-gray-400 hover:text-[#072A6C] transition-all bg-white cursor-pointer outline-none"
+                        aria-label="Next story"
+                      >
+                        <ArrowRight size={12} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* INFINITE LOGO MARQUEE */}
+          {placementsContent.recruiters && placementsContent.recruiters.length > 0 && (
+            <div className="mt-20 pt-10 border-t border-gray-100/60 relative">
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center block mb-6">
+                Our Top Corporate Partners
+              </span>
+              
+              {/* Marquee Wrapper */}
+              <div className="relative overflow-hidden w-full select-none py-1 group/marquee">
+                <div className="flex gap-8 w-max animate-marquee group-hover/marquee:[animation-play-state:paused]">
+                  {/* First iteration */}
+                  {placementsContent.recruiters.map((r, i) => (
+                    <div 
+                      key={i} 
+                      onClick={() => navigate("/placements")}
+                      className="h-10 px-6 bg-white border border-gray-100 rounded-xl flex items-center justify-center shadow-sm cursor-pointer hover:-translate-y-0.5 hover:shadow-md hover:border-[#072A6C]/20 transition-all duration-300"
+                    >
+                      <img src={r.logo} alt={r.name} className="h-6 w-auto object-contain max-w-[85px]" />
+                    </div>
+                  ))}
+                  {/* Duplicate iteration for seamless loop */}
+                  {placementsContent.recruiters.map((r, i) => (
+                    <div 
+                      key={`dup-${i}`} 
+                      onClick={() => navigate("/placements")}
+                      className="h-10 px-6 bg-white border border-gray-100 rounded-xl flex items-center justify-center shadow-sm cursor-pointer hover:-translate-y-0.5 hover:shadow-md hover:border-[#072A6C]/20 transition-all duration-300"
+                    >
+                      <img src={r.logo} alt={r.name} className="h-6 w-auto object-contain max-w-[85px]" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* BOTTOM STATISTICS */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16 pt-10 border-t border-gray-100/60">
+            {/* Stat Card 1 */}
+            <div className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+              <div className="w-10 h-10 rounded-full bg-blue-50 text-[#072A6C] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Users size={18} />
+              </div>
+              <AnimatedCounter value="92%" />
+              <span className="text-[10.5px] text-gray-500 font-medium block mt-1.5">Students Placed</span>
+            </div>
+
+            {/* Stat Card 2 */}
+            <div className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+              <div className="w-10 h-10 rounded-full bg-red-50 text-[#D71920] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Trophy size={18} />
+              </div>
+              <AnimatedCounter value="30 LPA" />
+              <span className="text-[10.5px] text-gray-500 font-medium block mt-1.5">Highest Package</span>
+            </div>
+
+            {/* Stat Card 3 */}
+            <div className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+              <div className="w-10 h-10 rounded-full bg-yellow-50 text-[#EAB308] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Handshake size={18} />
+              </div>
+              <AnimatedCounter value="116+" />
+              <span className="text-[10.5px] text-gray-500 font-medium block mt-1.5">Corporate Partners</span>
+            </div>
+
+            {/* Stat Card 4 */}
+            <div className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+              <div className="w-10 h-10 rounded-full bg-green-50 text-[#10B981] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <GraduationCap size={18} />
+              </div>
+              <AnimatedCounter value="100%" />
+              <span className="text-[10.5px] text-gray-500 font-medium block mt-1.5">Placement Assistance</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ NEWS, RANKINGS & EVENTS ═══ */}
-      <section className="bg-gray-50 border-y border-gray-100 py-16">
-        <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Latest News */}
-          <motion.div
-            className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm flex flex-col justify-between"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
-              <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
-                LATEST NEWS
-              </h3>
-              <Link to="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
-                View All <ArrowRight size={10} />
-              </Link>
+      {/* ═══ CAMPUS LIFE SECTION ═══ */}
+      <section className="bg-white py-20 relative overflow-hidden font-[var(--font-poppins)] border-t border-gray-100">
+        {/* Soft Radial Gradients & floating elements */}
+        <div className="absolute top-40 left-0 w-96 h-96 rounded-full bg-blue-50/20 blur-3xl -z-10" />
+        <div className="absolute bottom-20 right-0 w-80 h-80 rounded-full bg-yellow-50/10 blur-3xl -z-10" />
+
+        <div className="max-w-[1440px] mx-auto px-5">
+          
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#D71920] bg-red-50 py-1.5 px-4 rounded-full inline-block mb-3">
+              {localStorage.getItem("chalapathi_campus_label") || "CAMPUS LIFE"}
+            </span>
+            <h2 className="text-2xl md:text-4xl font-[900] text-[#072A6C] mb-3">
+              Beyond Classrooms. <span className="text-[#D71920]">Beyond Limits.</span>
+            </h2>
+            <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
+              {localStorage.getItem("chalapathi_campus_subtitle") || "A vibrant campus where students learn, innovate, explore, compete, and create unforgettable memories."}
+            </p>
+          </div>
+
+          {/* Main Layout Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-20">
+            
+            {/* LEFT SIDE: 2x4 Feature Cards Grid (55% / lg:col-span-7) */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5 select-none">
+              {((): any[] => {
+                try {
+                  const saved = localStorage.getItem("chalapathi_campus_cards");
+                  if (saved) return JSON.parse(saved);
+                } catch (e) {}
+                return [
+                  { title: "Vibrant Community", desc: "A diverse and inclusive campus with students from across India and the world.", icon: "Users", border: "border-blue-500" },
+                  { title: "Clubs & Activities", desc: "50+ student clubs to explore passions and build leadership skills.", icon: "GraduationCap", border: "border-[#D4AF37]" },
+                  { title: "Sports & Fitness", desc: "World-class sports facilities to keep you active, healthy and motivated.", icon: "Trophy", border: "border-green-500" },
+                  { title: "Arts & Culture", desc: "Celebrate creativity with events, fests, and cultural extravaganzas.", icon: "Sparkles", border: "border-pink-500" },
+                  { title: "Smart Learning Spaces", desc: "Modern classrooms, advanced labs, and digital resources for future-ready learning.", icon: "Building2", border: "border-purple-500" },
+                  { title: "Hostel Life", desc: "Safe, comfortable and modern hostels that feel like a second home.", icon: "Landmark", border: "border-orange-500" },
+                  { title: "Food & Cafeteria", desc: "Hygienic, affordable and variety-rich meals for every taste.", icon: "Coffee", border: "border-teal-500" },
+                  { title: "Transport Facility", desc: "Convenient and reliable transportation across city routes.", icon: "Bus", border: "border-indigo-500" }
+                ];
+              })().map((card, idx) => {
+                const getIcon = (iconName: string) => {
+                  switch (iconName) {
+                    case "Users": return <Users size={18} className="text-[#072A6C]" />;
+                    case "GraduationCap": return <GraduationCap size={18} className="text-[#072A6C]" />;
+                    case "Trophy": return <Trophy size={18} className="text-[#072A6C]" />;
+                    case "Sparkles": return <Sparkles size={18} className="text-[#072A6C]" />;
+                    case "Building2": return <Building2 size={18} className="text-[#072A6C]" />;
+                    case "Landmark": return <Landmark size={18} className="text-[#072A6C]" />;
+                    case "Coffee": return <Coffee size={18} className="text-[#072A6C]" />;
+                    case "Bus": return <Bus size={18} className="text-[#072A6C]" />;
+                    default: return <Sparkles size={18} className="text-[#072A6C]" />;
+                  }
+                };
+                const getCardPath = (titleStr: string) => {
+                    switch (titleStr) {
+                      case "Clubs & Activities": return "/campus-life/clubs";
+                      case "Sports & Fitness": return "/campus-life/sports";
+                      case "Hostel Life": return "/campus-life/hostels";
+                      case "Smart Learning Spaces": return "/campus-life/library";
+                      default: return "/campus-life";
+                    }
+                  };
+                return (
+                  <div 
+                    key={idx}
+                    onClick={() => navigate(getCardPath(card.title))}
+                    className="bg-white border border-gray-150 rounded-[20px] p-5 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 text-left flex flex-col justify-between group relative overflow-hidden cursor-pointer"
+                  >
+                    <div>
+                      {/* Icon */}
+                      <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
+                        {getIcon(card.icon)}
+                      </div>
+                      {/* Title */}
+                      <h4 className="text-xs font-black text-gray-800 mb-1.5 uppercase tracking-wide group-hover:text-[#072A6C] transition-colors">
+                        {card.title}
+                      </h4>
+                      {/* Description */}
+                      <p className="text-[10px] text-gray-400 font-light leading-relaxed">
+                        {card.desc}
+                      </p>
+                    </div>
+                    {/* Color accent line at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#072A6C] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="space-y-3">
-              {[
-                { d: "12", m: "MAY", title: "AI Research Lab Inaugurated on Campus", slug: "ai-research-lab" },
-                { d: "06", m: "MAY", title: "Engineering Students Win Smart Hackathon 2025", slug: "smart-hackathon" },
-                { d: "15", m: "MAY", title: "New Study on Renewable Energy Published in Scopus Journal", slug: "renewable-energy" }
-              ].map((n, idx) => (
-                <motion.div 
-                  key={idx} 
-                  onClick={() => navigate(`/news/${n.slug}`)}
-                  className="flex gap-4 items-start p-2.5 rounded-xl border border-transparent hover:border-[#D71920]/20 hover:shadow-[0_4px_18px_rgba(215,25,32,0.12)] transition-all duration-300 cursor-pointer group"
-                  variants={fadeUp}
+            {/* RIGHT SIDE: Campus Tour Video Card (45% / lg:col-span-5) */}
+            <div className="lg:col-span-5 flex flex-col justify-between bg-[#072A6C] text-white rounded-[32px] overflow-hidden shadow-2xl relative min-h-[480px]">
+              
+              {/* HTML5 Video Player */}
+              <div className="relative w-full h-[300px] bg-black">
+                <video
+                  src={campusVideos[activeCampusVideoIdx]?.url}
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  muted={isCampusTourMuted}
+                  loop
+                  playsInline
+                  key={activeCampusVideoIdx}
+                />
+                
+                {/* Watch Campus Tour top-left badge */}
+                <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-white/10">
+                  <Play size={10} fill="currentColor" className="text-[#D4AF37]" />
+                  <span className="text-[9px] font-black uppercase tracking-wider">Watch Campus Tour</span>
+                </div>
+
+                {/* Mute/Unmute top-right control */}
+                <button
+                  type="button"
+                  onClick={() => setIsCampusTourMuted(!isCampusTourMuted)}
+                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/60 cursor-pointer outline-none"
                 >
-                  <div className="w-11 h-11 shrink-0 rounded-lg bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm transition-transform group-hover:scale-105">
-                    <span className="block text-[13px] font-[800] leading-none">{n.d}</span>
-                    <span className="block text-[7.5px] font-[700] tracking-wider mt-0.5">{n.m}</span>
+                  <span className="text-[10px] font-bold">
+                    {isCampusTourMuted ? "🔇" : "🔊"}
+                  </span>
+                </button>
+
+                {/* Center overlay play button */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-12 h-12 rounded-full bg-[#072A6C]/80 backdrop-blur-md flex items-center justify-center text-white border border-white/20 shadow-md">
+                    <Play size={16} fill="currentColor" className="ml-0.5 text-[#D4AF37]" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-[11.5px] font-[700] text-gray-800 leading-snug group-hover:text-[#D71920] transition-colors line-clamp-2">
-                      {n.title}
-                    </h4>
-                    <span className="text-[9.5px] font-[700] text-[#072A6C] flex items-center gap-0.5 mt-1">
-                      Read More <ArrowRight size={10} className="transition-transform group-hover:translate-x-0.5" />
+                </div>
+              </div>
+
+              {/* Quote details block at bottom */}
+              <div className="p-6 md:p-8 flex-1 flex flex-col justify-between text-left relative z-10">
+                <span className="text-4xl font-serif text-white/10 absolute top-4 left-4 select-none pointer-events-none">“</span>
+                <p className="text-xs md:text-sm font-light leading-relaxed max-w-md relative pl-2">
+                  "Life at Chalapathi is about learning, growing and celebrating every moment together."
+                </p>
+
+                {/* Slider controls & slide counter */}
+                <div className="flex items-center justify-between border-t border-white/10 pt-5 mt-6">
+                  {/* Slider counter label */}
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#D4AF37]">
+                    {String(activeCampusVideoIdx + 1).padStart(2, "0")} / {String(campusVideos.length).padStart(2, "0")}
+                  </span>
+                  
+                  {/* Previous / Next buttons */}
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setActiveCampusVideoIdx((prev) => (prev - 1 + campusVideos.length) % campusVideos.length)}
+                      className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border-none text-white flex items-center justify-center cursor-pointer transition-colors"
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveCampusVideoIdx((prev) => (prev + 1) % campusVideos.length)}
+                      className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border-none text-white flex items-center justify-center cursor-pointer transition-colors"
+                    >
+                      →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* CAMPUS GALLERY CAROUSEL */}
+          <div className="mb-20">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
+              <h3 className="text-lg md:text-xl font-[900] text-left text-[#072A6C]">
+                Moments that make <span className="text-[#D71920]">Memories</span>
+              </h3>
+            </div>
+
+            {/* Horizontal infinite gallery grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 select-none">
+              {((): any[] => {
+                try {
+                  const saved = localStorage.getItem("chalapathi_campus_gallery");
+                  if (saved) return JSON.parse(saved);
+                } catch (e) {}
+                return [
+                  { title: "Annual Fest", image: "/media__1783770842966.png" },
+                  { title: "Sports Meet", image: "/media__1783771619196.png" },
+                  { title: "Tech Events", image: "/media__1783772591375.png" },
+                  { title: "NSS Activities", image: "/media__1783774201695.png" },
+                  { title: "Cultural Events", image: "/media__1783775062821.png" },
+                  { title: "Workshops", image: "/media__1783776081975.png" },
+                  { title: "Student Clubs", image: "/media__1783776395046.png" },
+                  { title: "Innovation Expo", image: "/media__1783777762350.png" }
+                ];
+              })().map((item, idx) => (
+                <div 
+                  key={idx}
+                  className="bg-white border border-gray-150 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group cursor-pointer"
+                >
+                  <div className="relative aspect-square overflow-hidden bg-gray-50">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=300&auto=format&fit=crop";
+                      }}
+                    />
+                    {/* Shine gradient reflection */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+                  </div>
+                  <div className="p-2.5 text-center">
+                    <span className="text-[9.5px] font-black text-gray-700 block truncate tracking-wide uppercase">
+                      {item.title}
                     </span>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Rankings */}
-          <motion.div
-            className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-6">
-              <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
-                RANKINGS & ACCREDITATIONS
-              </h3>
-              <Link to="/about" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
-                View All <ArrowRight size={10} />
-              </Link>
+          {/* BOTTOM CTA: Two Equal Premium Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 select-none">
+            
+            {/* LEFT CARD: Blue Gradient */}
+            <div 
+              onClick={() => navigate("/campus-life")}
+              className="bg-gradient-to-br from-[#072A6C] to-indigo-950 text-white rounded-[24px] p-8 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-left relative overflow-hidden group cursor-pointer"
+            >
+              <div className="absolute right-0 top-0 w-24 h-24 bg-white/5 rounded-full blur-xl pointer-events-none" />
+              <div className="space-y-2.5 max-w-[340px]">
+                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Users size={16} className="text-[#D4AF37]" />
+                </div>
+                <h4 className="text-sm font-black uppercase tracking-wider">Be a Part of Our Community</h4>
+                <p className="text-[10px] text-white/80 font-light leading-relaxed">
+                  Experience life beyond academics and build a brighter future.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="h-10 px-5 bg-white hover:bg-[#D71920] text-[#072A6C] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
+              >
+                Explore Campus Life →
+              </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-y-6 gap-x-4">
-              {/* NAAC A+ */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <span className="text-[20px] font-[900] text-[#D71920] tracking-tight">NAAC <span className="text-[22px]">A+</span></span>
+            {/* RIGHT CARD: Red Gradient */}
+            <div 
+              onClick={() => setIsEventsDrawerOpen(true)}
+              className="bg-gradient-to-br from-[#D71920] to-red-950 text-white rounded-[24px] p-8 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-left relative overflow-hidden group cursor-pointer"
+            >
+              <div className="absolute right-0 top-0 w-24 h-24 bg-white/5 rounded-full blur-xl pointer-events-none" />
+              <div className="space-y-2.5 max-w-[340px]">
+                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Calendar size={16} className="text-[#D4AF37]" />
                 </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Accredited</span>
-              </motion.div>
-
-              {/* NIRF */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex flex-col items-center justify-center mb-1">
-                  <span className="text-[20px] font-[900] text-[#072A6C] tracking-tight">
-                    n<span className="text-[#D71920]">i</span>rf
-                  </span>
-                  <div className="w-8 h-0.5 bg-[#D71920] -mt-0.5" />
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Ranked</span>
-              </motion.div>
-
-              {/* NBA */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <span className="text-[20px] font-[900] text-transparent tracking-widest uppercase" style={{ WebkitTextStroke: "1.2px #0284C7" }}>
-                    NBA
-                  </span>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Accredited</span>
-              </motion.div>
-
-              {/* ARIIA */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center gap-0.5 mb-1">
-                  <svg className="w-5 h-5 text-[#B45309]" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L2 22h20L12 2zm0 4l6.5 13h-13L12 6z" />
-                  </svg>
-                  <span className="text-[13px] font-[900] text-[#78350F] tracking-wide">ARIIA</span>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Top Performer</span>
-              </motion.div>
-
-              {/* ISO */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <div className="w-8 h-8 rounded-full bg-[#072A6C] flex items-center justify-center">
-                    <span className="text-white text-[9px] font-[900] tracking-wider">ISO</span>
-                  </div>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Certified</span>
-              </motion.div>
-
-              {/* Approved */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <div className="w-8 h-8 rounded-full border-2 border-[#D4AF37] bg-[#F59E0B]/10 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-[#D4AF37]" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                  </div>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Approved</span>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Upcoming Events */}
-          <motion.div
-            className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm flex flex-col justify-between"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
-              <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
-                UPCOMING EVENTS
-              </h3>
-              <Link to="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
-                View Calendar <ArrowRight size={10} />
-              </Link>
+                <h4 className="text-sm font-black uppercase tracking-wider">Upcoming Campus Events</h4>
+                <p className="text-[10px] text-white/80 font-light leading-relaxed">
+                  There's always something exciting happening.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="h-10 px-5 bg-white hover:bg-[#072A6C] text-[#D71920] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
+              >
+                View All Events →
+              </button>
             </div>
 
-            <div className="space-y-3">
-              {[
-                { d: "17", m: "JUL", title: "Air Taxi Demonstration & Aviation Forum", slug: "air-taxi-demonstration-aviation-forum", time: "09:30 AM Onwards" },
-                { d: "24", m: "AUG", title: "Smart India Hackathon 2026 Campus Edition", slug: "smart-india-hackathon-2026", time: "09:00 AM Onwards" },
-                { d: "15", m: "SEP", title: "International Conference on Green Chemistry", slug: "green-chemistry-conference-2026", time: "10:00 AM Onwards" }
-              ].map((e, idx) => (
-                <motion.div 
-                  key={idx} 
-                  onClick={() => navigate(`/news/events/${e.slug}`)}
-                  className="flex gap-4 items-start p-2.5 rounded-xl border border-transparent hover:border-[#072A6C]/20 hover:shadow-[0_4px_18px_rgba(7,42,108,0.12)] transition-all duration-300 cursor-pointer group"
-                  variants={fadeUp}
-                >
-                  <div className="w-11 h-11 shrink-0 rounded-lg bg-[#072A6C] text-white text-center flex flex-col items-center justify-center shadow-sm transition-transform group-hover:scale-105">
-                    <span className="block text-[13px] font-[800] leading-none">{e.d}</span>
-                    <span className="block text-[7.5px] font-[700] tracking-wider mt-0.5">{e.m}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-[11.5px] font-[700] text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors line-clamp-2">
-                      {e.title}
-                    </h4>
-                    <span className="block text-[9.5px] text-gray-400 font-[500] mt-1">{e.time}</span>
-                  </div>
-                </motion.div>
-              ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ═══ DYNAMIC CAMPUS VIDEO, LATEST NEWS & UPCOMING EVENTS ═══ */}
+      <section className="bg-gray-50 border-y border-gray-100 py-20 relative font-[var(--font-poppins)]">
+        <div className="max-w-[1440px] mx-auto px-5">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#072A6C] bg-blue-50 py-1.5 px-4 rounded-full inline-block mb-3">
+              News & Events
+            </span>
+            <h2 className="text-2xl md:text-4xl font-[900] text-[#072A6C] mb-3">
+              Stay <span className="text-[#D71920]">Informed.</span> Stay <span className="text-[#D71920]">Ahead.</span>
+            </h2>
+            <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
+              Discover the latest updates and exciting events happening at Chalapathi.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            {/* LEFT COLUMN: Campus Video Player (50% / lg:col-span-6) */}
+            <div className="lg:col-span-6 flex flex-col justify-between">
+              <div className="relative aspect-[16/9] w-full rounded-[24px] overflow-hidden shadow-xl border border-gray-200 bg-black group select-none flex-1 flex items-center justify-center">
+                <video
+                  ref={videoRef}
+                  src={localStorage.getItem("chalapathi_campus_video") || "/chalapathi_logo_intro.mp4"}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
+                  autoPlay
+                  muted={isMuted}
+                  loop
+                  playsInline
+                  onTimeUpdate={handleTimeUpdate}
+                  onLoadedMetadata={handleLoadedMetadata}
+                  onClick={togglePlay}
+                />
+                
+                {/* Blue Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                {/* Floating Glass Card */}
+                <div className="absolute inset-x-6 top-6 bottom-16 bg-[#072A6C]/30 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-white flex flex-col justify-end text-left transition-all duration-500 opacity-100 group-hover:opacity-0 pointer-events-none">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#D4AF37] mb-1">Campus Event</span>
+                  <h4 className="text-lg md:text-xl font-black mb-1">{localStorage.getItem("chalapathi_campus_video_text") || "Explore Chalapathi Campus"}</h4>
+                  <p className="text-[10.5px] font-light leading-relaxed text-gray-200">
+                    {localStorage.getItem("chalapathi_campus_video_subtext") || "Experience innovation, research, smart classrooms and vibrant student life."}
+                  </p>
+                  
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFullscreen();
+                    }}
+                    className="mt-4 self-start flex items-center gap-2 h-9 px-4 rounded-xl bg-white text-[#072A6C] text-[10.5px] font-extrabold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-gray-900 transition-all pointer-events-auto"
+                  >
+                    <Play size={12} fill="currentColor" /> Watch Campus Tour
+                  </button>
+                </div>
+
+                {/* Play Button Overlay (shown when paused) */}
+                {!isPlaying && (
+                  <button
+                    type="button"
+                    onClick={togglePlay}
+                    className="absolute w-14 h-14 rounded-full bg-white/90 text-[#072A6C] hover:bg-[#D71920] hover:text-white flex items-center justify-center shadow-lg transition-all transform hover:scale-105"
+                  >
+                    <Play size={20} className="ml-1" fill="currentColor" />
+                  </button>
+                )}
+
+                {/* Custom Video Controls */}
+                <div className="absolute bottom-4 inset-x-6 flex items-center justify-between text-white gap-3 z-10">
+                  {/* Play/Pause Button */}
+                  <button type="button" onClick={togglePlay} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
+                    {isPlaying ? (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    ) : (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    )}
+                  </button>
+
+                  {/* Progress Slider */}
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={videoProgress}
+                    onChange={handleProgressChange}
+                    className="flex-1 accent-[#D4AF37] h-1 rounded-lg bg-white/30 outline-none cursor-pointer appearance-none"
+                  />
+
+                  {/* Volume Button */}
+                  <button type="button" onClick={toggleMute} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
+                    {isMuted ? (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM12 4L9.91 6.09 12 8.18V4zm-6.12.88L3.22 7.56l2.12 2.12 1.33-1.33V18h4.67l4.09 4.09V14.83l3.09 3.09c-.58.44-1.22.8-1.92 1.04v2.09c1.26-.31 2.4-.95 3.34-1.82l2.09 2.09 1.41-1.41L7.29 7.29 5.88 5.88zm3.03 5.03L12 13.04v3.13l-2.18-2.18H8V12h.91z"/></svg>
+                    ) : (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    )}
+                  </button>
+
+                  {/* Fullscreen Button */}
+                  <button type="button" onClick={handleFullscreen} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                  </button>
+                </div>
+              </div>
             </div>
-          </motion.div>
+
+            {/* CENTER COLUMN: Latest News (25% / lg:col-span-3) */}
+            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
+              <div className="w-full text-left">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
+                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
+                    Latest News
+                  </h3>
+                  <Link to="/news" className="text-[10px] font-bold text-[#D71920] hover:underline flex items-center gap-0.5">
+                    View All
+                  </Link>
+                </div>
+
+                <div className="space-y-4">
+                  {[...news].reverse().slice(0, 4).map((item, idx) => {
+                    const dateParts = (() => {
+                      if (!item.date) return { day: "12", month: "MAY" };
+                      const parts = item.date.trim().split(" ");
+                      return {
+                        day: parts[0] || "12",
+                        month: (parts[1] || "MAY").toUpperCase().substring(0, 3)
+                      };
+                    })();
+                    return (
+                      <div 
+                        key={item.id || idx}
+                        onClick={() => navigate(`/news/${item.slug}`)}
+                        className="flex gap-3.5 items-start cursor-pointer group"
+                      >
+                        {/* Custom Date Badge */}
+                        <div className="w-10 h-10 rounded-xl bg-red-50 text-[#D71920] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                          <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
+                          <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#D71920] transition-colors line-clamp-2">
+                            {item.title}
+                          </h4>
+                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-relaxed line-clamp-1">{item.excerpt || item.bodyText}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: Upcoming Events (25% / lg:col-span-3) */}
+            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
+              <div className="w-full text-left">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
+                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
+                    Upcoming Events
+                  </h3>
+                  <button 
+                    type="button"
+                    onClick={() => setIsEventsDrawerOpen(true)}
+                    className="text-[10px] font-bold text-[#072A6C] hover:underline flex items-center gap-0.5 bg-transparent border-none cursor-pointer outline-none"
+                  >
+                    Calendar
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  {[...events].reverse().slice(0, 4).map((item, idx) => {
+                    const dateParts = (() => {
+                      if (!item.date) return { day: "12", month: "MAY" };
+                      const parts = item.date.trim().split(" ");
+                      return {
+                        day: parts[0] || "12",
+                        month: (parts[1] || "MAY").toUpperCase().substring(0, 3)
+                      };
+                    })();
+                    return (
+                      <div 
+                        key={item.id || idx}
+                        onClick={() => navigate(`/news/events/${item.slug}`)}
+                        className="flex gap-3.5 items-start cursor-pointer group"
+                      >
+                        {/* Custom Date Badge */}
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#072A6C] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                          <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
+                          <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors line-clamp-2">
+                            {item.title}
+                          </h4>
+                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-none">{item.time}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
@@ -1202,6 +2006,116 @@ export default function Home() {
                 >
                   Apply Now
                 </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Upcoming Events Drawer Overlay */}
+        {isEventsDrawerOpen && (
+          <div className="fixed inset-0 z-50 flex justify-end font-[var(--font-poppins)]">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsEventsDrawerOpen(false)}
+              className="fixed inset-0 bg-black/40 backdrop-blur-xs"
+            />
+
+            {/* Drawer Sheet */}
+            <motion.div
+              initial={{ translateX: "100%" }}
+              animate={{ translateX: 0 }}
+              exit={{ translateX: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="relative w-full max-w-[480px] bg-gray-50/95 backdrop-blur-md h-full shadow-2xl flex flex-col z-10 text-left"
+            >
+              {/* Header */}
+              <div className="bg-[#072A6C] text-white px-6 py-5 flex items-center justify-between shadow-sm shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <Calendar size={20} className="text-[#D4AF37]" />
+                  <h2 className="text-base font-extrabold uppercase tracking-wider">Upcoming Events</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsEventsDrawerOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white border-none cursor-pointer outline-none transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Scrollable Events List */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                {events && events.length > 0 ? (
+                  [...events].reverse().map((item, idx) => (
+                    <div
+                      key={item.id || idx}
+                      onClick={() => {
+                        navigate(`/news/events/${item.slug}`);
+                        setIsEventsDrawerOpen(false);
+                      }}
+                      className="bg-white border border-gray-150 rounded-[20px] p-5 shadow-sm hover:shadow-md hover:border-[#072A6C]/20 transition-all duration-300 relative flex justify-between items-start gap-4 cursor-pointer text-left group"
+                    >
+                      <div className="flex-1 space-y-3">
+                        {/* Category Tag */}
+                        {item.category && (
+                          <span className="inline-block text-[9px] font-black uppercase tracking-widest text-[#EAB308] bg-yellow-50 px-2.5 py-1 rounded-md border border-yellow-100">
+                            {item.category}
+                          </span>
+                        )}
+                        
+                        {/* Title */}
+                        <h3 className="text-[13.5px] font-black text-[#D71920] leading-snug group-hover:underline">
+                          {item.title}
+                        </h3>
+
+                        {/* Date, Time, Venue Info Rows */}
+                        <div className="space-y-1.5 text-[10px] text-gray-500 font-medium">
+                          <div className="flex items-center gap-2">
+                            <Calendar size={11} className="text-gray-400" />
+                            <span>{item.date}</span>
+                          </div>
+                          {item.time && (
+                            <div className="flex items-center gap-2">
+                              <Clock size={11} className="text-gray-400" />
+                              <span>{item.time}</span>
+                            </div>
+                          )}
+                          {item.location && (
+                            <div className="flex items-center gap-2">
+                              <MapPin size={11} className="text-gray-400" />
+                              <span className="line-clamp-1">{item.location}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Snippet Description */}
+                        {item.bodyText && (
+                          <p className="text-[10px] text-gray-400 font-light leading-relaxed line-clamp-3">
+                            {item.bodyText}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Thumbnail Image (Right aligned) */}
+                      {item.image && (
+                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 shrink-0">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-12 text-gray-400 text-xs">
+                    No upcoming events found.
+                  </div>
+                )}
               </div>
             </motion.div>
           </div>

@@ -39,6 +39,31 @@ export interface EventItem {
   bodyText: string;
 }
 
+export interface SuccessStory {
+  id: number;
+  studentName: string;
+  studentImage: string;
+  department: string;
+  batch: string;
+  companyName: string;
+  companyLogo: string;
+  packageOffered: string;
+  description: string;
+  skills: string[];
+  internshipExp: string;
+  achievement: string;
+  milestones: {
+    learningTitle: string;
+    learningDesc: string;
+    internshipTitle: string;
+    internshipDesc: string;
+    placementTitle: string;
+    placementDesc: string;
+    careerTitle: string;
+    careerDesc: string;
+  };
+}
+
 // Calendar Event interface
 export interface CalendarEvent {
   day: number;
@@ -138,6 +163,7 @@ interface DataContextType {
   boardData: Record<string, DirectoryData>;
   staffData: Record<string, DirectoryData>;
   placementsContent: PlacementsContent;
+  successStories: SuccessStory[];
   
   // Update functions
   updateAnnouncements: (list: Announcement[]) => void;
@@ -150,6 +176,7 @@ interface DataContextType {
   updateBoardData: (data: Record<string, DirectoryData>) => void;
   updateStaffData: (data: Record<string, DirectoryData>) => void;
   updatePlacementsContent: (data: PlacementsContent) => void;
+  updateSuccessStories: (list: SuccessStory[]) => void;
   showAnnouncementsDrawer: boolean;
   setShowAnnouncementsDrawer: (show: boolean) => void;
 }
@@ -480,6 +507,82 @@ const INITIAL_PLACEMENTS_CONTENT: PlacementsContent = {
   ]
 };
 
+const INITIAL_SUCCESS_STORIES: SuccessStory[] = [
+  {
+    id: 1,
+    studentName: "Hitaishi Reddy",
+    studentImage: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&h=600&fit=crop&crop=face",
+    department: "B.Tech - Computer Science & Engineering",
+    batch: "2024 Batch",
+    companyName: "TCS",
+    companyLogo: "/logos/tcs.svg",
+    packageOffered: "12 LPA",
+    description: "The supportive faculty, career guidance, and hands-on learning experience at Chalapathi Institute played a crucial role in shaping my skills and confidence. I'm grateful for the opportunities and exposure that helped me secure my dream job at TCS.",
+    skills: ["React", "Node.js", "Java", "SQL", "Cloud Computing"],
+    internshipExp: "6 Months at TCS Innovation Lab",
+    achievement: "Winner of National level Smart India Hackathon",
+    milestones: {
+      learningTitle: "Strong Academic Foundation",
+      learningDesc: "Conceptual clarity through innovative teaching",
+      internshipTitle: "Skill Development",
+      internshipDesc: "Live projects and industry-relevant skills",
+      placementTitle: "Internship",
+      placementDesc: "Internship experience boosted my practical knowledge",
+      careerTitle: "Dream Career",
+      careerDesc: "Campus placement opportunity at TCS"
+    }
+  },
+  {
+    id: 2,
+    studentName: "Rajesh Kumar",
+    studentImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop&crop=face",
+    department: "B.Tech - Electronics & Communication Engineering",
+    batch: "2024 Batch",
+    companyName: "Wipro",
+    companyLogo: "/logos/wipro.svg",
+    packageOffered: "8.5 LPA",
+    description: "The placement bootcamp prepares you for exactly what employers look for. The mock HR rounds gave me the confidence to present my projects and crack the final interview with ease.",
+    skills: ["IoT Systems", "Embedded C", "Microcontrollers", "Python"],
+    internshipExp: "4 Months at Wipro Partner IoT Center",
+    achievement: "Best Technical Prototype Project Award",
+    milestones: {
+      learningTitle: "Core Labs Work",
+      learningDesc: "Hands-on chip design and circuit basics",
+      internshipTitle: "IoT Prototype",
+      internshipDesc: "IoT prototype design & microcontroller coding",
+      placementTitle: "Internship Term",
+      placementDesc: "Practical training at Wipro partner tech facility",
+      careerTitle: "Career Growth",
+      careerDesc: "Onboarding as Project Systems Engineer at Wipro"
+    }
+  },
+  {
+    id: 3,
+    studentName: "S. Niharika",
+    studentImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=600&fit=crop&crop=face",
+    department: "B.Tech - Civil Engineering",
+    batch: "2024 Batch",
+    companyName: "Deloitte",
+    companyLogo: "/logos/deloitte.svg",
+    packageOffered: "7.5 LPA",
+    description: "Transitioning from core civil to analytical roles was smooth thanks to the comprehensive programming and logic training provided during the campus placement training weeks.",
+    skills: ["SQL Data Analysis", "Tableau", "Project Lifecycle", "AutoCAD"],
+    internshipExp: "6 Months Structural Analysis Analyst",
+    achievement: "Ranked Top 5% in University Analytics Contest",
+    milestones: {
+      learningTitle: "Quantitative Logic",
+      learningDesc: "Advanced algorithms & quantitative analytics",
+      internshipTitle: "SQL & Lifecycle",
+      internshipDesc: "SQL databases and project lifecycle tools",
+      placementTitle: "Consulting Project",
+      placementDesc: "Enterprise Resource Planning analytics project",
+      careerTitle: "Analytical Analyst",
+      careerDesc: "Consulting role in Deloitte Advisory wing"
+    }
+  }
+];
+
+
 const INITIAL_FACULTY_DATA: Record<string, DirectoryData> = {
   "Computer Science & Engineering": {
     hod: { name: "Prof. P. V. Ramana", title: "HOD & Professor", edu: "Ph.D - Indian Institute of Technology Madras, India", interests: "Algorithms, Distributed Networks, Database Optimization", phone: "0863 2345432", email: "hod.cse@city.ac.in", avatar: "PVR", age: "52 Years", experience: "24 Years of Teaching & Research", idNo: "CCIT-CSE-001", department: "Computer Science & Engineering" },
@@ -720,6 +823,16 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return local ? JSON.parse(local) : INITIAL_PLACEMENTS_CONTENT;
   });
 
+  const [successStories, setSuccessStories] = useState<SuccessStory[]>(() => {
+    const local = localStorage.getItem("chalapathi_success_stories");
+    const parsed = local ? JSON.parse(local) : INITIAL_SUCCESS_STORIES;
+    if (parsed && parsed.length > 0 && !parsed[0].skills) {
+      localStorage.setItem("chalapathi_success_stories", JSON.stringify(INITIAL_SUCCESS_STORIES));
+      return INITIAL_SUCCESS_STORIES;
+    }
+    return parsed;
+  });
+
   const updateAnnouncements = (list: Announcement[]) => {
     setAnnouncements(list);
     localStorage.setItem("chalapathi_announcements", JSON.stringify(list));
@@ -770,6 +883,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem("chalapathi_placements", JSON.stringify(data));
   };
 
+  const updateSuccessStories = (list: SuccessStory[]) => {
+    setSuccessStories(list);
+    localStorage.setItem("chalapathi_success_stories", JSON.stringify(list));
+  };
+
   return (
     <DataContext.Provider value={{
       announcements,
@@ -782,6 +900,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       boardData,
       staffData,
       placementsContent,
+      successStories,
       updateAnnouncements,
       updatePrograms,
       updateNews,
@@ -792,6 +911,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updateBoardData,
       updateStaffData,
       updatePlacementsContent,
+      updateSuccessStories,
       showAnnouncementsDrawer,
       setShowAnnouncementsDrawer
     }}>
