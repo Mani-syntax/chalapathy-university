@@ -724,7 +724,7 @@ export default function Home() {
                   const t = title.toLowerCase();
                   let imgSrc = imgComputerScience;
                   
-                  if (t.includes('machine learning') && t.includes('artificial intelligence')) imgSrc = imgAIMachineLearning;
+                  if (t.includes('cse') && t.includes('ai') && t.includes('learning')) imgSrc = imgArtificialIntelligence;
                   else if (t.includes('machine learning') || t.includes('aiml')) imgSrc = imgAIMachineLearning;
                   else if (t.includes('artificial intelligence') || t.includes('ai')) imgSrc = imgArtificialIntelligence;
                   else if (t.includes('data science') || t.includes('data')) imgSrc = imgDataScience;
@@ -736,48 +736,42 @@ export default function Home() {
                   else if (t.includes('structural')) imgSrc = imgStructuralEngineering;
                   else if (t.includes('civil')) imgSrc = imgCivilEngineering;
                   else if (t.includes('management') || t.includes('mba')) imgSrc = imgMBA;
-                  else if (t.includes('ph.d') && t.includes('computer science')) imgSrc = imgPhdCSE;
                   else if (t.includes('m.tech') && t.includes('computer science')) imgSrc = imgMtechCSE;
                   else if (t.includes('master of computer') || t.includes('mca')) imgSrc = imgMCA;
                   else if (t.includes('cse') || t.includes('computer science') || t.includes('software')) imgSrc = imgComputerScience;
                   
                   return (
-                    <div
-                      style={{ width: size, height: size }}
-                      className="flex justify-center items-center overflow-hidden"
-                    >
-                      <img 
-                        src={imgSrc} 
-                        alt={title} 
-                        style={{ width: size, height: size, objectFit: 'contain', clipPath: t.includes('mba') || t.includes('management') ? 'none' : 'inset(0% 0% 23% 0%)' }}
-                        className="rounded-lg"
-                      />
-                    </div>
+                    <img 
+                      src={imgSrc} 
+                      alt={title} 
+                      style={{ width: size, height: size, objectFit: 'contain', clipPath: t.includes('mba') || t.includes('management') ? 'inset(18% 0% 0% 0%)' : 'none' }}
+                      className="rounded-lg"
+                    />
                   );
                 };
 
-                return (
+                 return (
                   <motion.div
                     key={idx}
-                    className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-[300px]"
+                    className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-[340px]"
                     variants={scaleIn}
                     whileHover="hover"
                     initial="rest"
                   >
                     {/* Default State (Centered) */}
                     <div className="absolute inset-0 flex flex-col justify-center items-center p-5 transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 text-center">
-                      <div className="flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-[1.06]">
-                        {getIllustrationForProgram(program.title, 120)}
+                      <div className="flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-[1.06]">
+                        {getIllustrationForProgram(program.title, 110)}
                       </div>
-                      <h3 className="font-[800] text-[#072A6C] text-[17px] leading-tight max-w-[250px]">
+                      <h3 className="font-[800] text-[#072A6C] text-[16px] leading-tight max-w-[250px]">
                         {program.title}
                       </h3>
                     </div>
                     
                     {/* Hover State (Sliding up) */}
                     <div className="absolute inset-0 flex flex-col justify-start items-center p-5 opacity-0 translate-y-8 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-white text-center">
-                      <div className="flex items-center justify-center mb-2.5 transition-transform duration-500 group-hover:scale-[1.06]">
-                        {getIllustrationForProgram(program.title, 65)}
+                      <div className="flex items-center justify-center mb-3 transition-transform duration-500 group-hover:scale-[1.06]">
+                        {getIllustrationForProgram(program.title, 80)}
                       </div>
                       <h3 className="font-[800] text-[#072A6C] text-[15px] mb-2 leading-tight max-w-[250px]">
                         {program.title}
