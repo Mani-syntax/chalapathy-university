@@ -128,7 +128,7 @@ h4, h5, h6 {
 /* ── PREMIUM INTERACTIVE ANIMATIONS ── */
 
 /* 1. Hardware accelerated cinematic transition on major containers */
-section, main {
+section {
   will-change: transform, opacity;
   animation: pageEntrance 800ms cubic-bezier(0.25, 1, 0.5, 1) both;
 }

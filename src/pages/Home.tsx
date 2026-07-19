@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -142,6 +142,34 @@ export default function Home() {
   // Video playback states (Chairman video only)
   const [isEventsDrawerOpen, setIsEventsDrawerOpen] = useState(false);
   const [showChairmanVideo, setShowChairmanVideo] = useState(false);
+  const drawerScrollRef = useRef<HTMLDivElement>(null);
+
+  // Lock body scroll, handle escape key, and scroll to top when Events Drawer opens
+  useEffect(() => {
+    if (isEventsDrawerOpen) {
+      document.body.style.overflow = "hidden";
+      if (drawerScrollRef.current) {
+        drawerScrollRef.current.scrollTop = 0;
+      }
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsEventsDrawerOpen(false);
+      }
+    };
+
+    if (isEventsDrawerOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isEventsDrawerOpen]);
 
   // Featured News States
   const [activeNewsSlide, setActiveNewsSlide] = useState(0);
@@ -1951,7 +1979,7 @@ export default function Home() {
               </div>
 
               {/* Scrollable Events List */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-4">
+              <div ref={drawerScrollRef} className="flex-1 overflow-y-auto p-5 space-y-4">
                 {events && events.length > 0 ? (
                   [...events].reverse().map((item, idx) => (
                     <div

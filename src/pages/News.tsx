@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { 
   ArrowRight, 
@@ -85,18 +85,31 @@ export default function News() {
 
   // Upcoming Events drawer state
   const [showEventsDrawer, setShowEventsDrawer] = useState(false);
+  const newsDrawerScrollRef = useRef<HTMLDivElement>(null);
 
-  // Close drawer on escape key press
+  // Lock body scroll, handle escape key, and scroll to top when Events Drawer opens
   useEffect(() => {
+    if (showEventsDrawer) {
+      document.body.style.overflow = "hidden";
+      if (newsDrawerScrollRef.current) {
+        newsDrawerScrollRef.current.scrollTop = 0;
+      }
+    } else {
+      document.body.style.overflow = "";
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowEventsDrawer(false);
       }
     };
+
     if (showEventsDrawer) {
       window.addEventListener("keydown", handleKeyDown);
     }
+
     return () => {
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [showEventsDrawer]);
@@ -641,7 +654,7 @@ export default function News() {
               </div>
 
               {/* Scrollable list of events */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+              <div ref={newsDrawerScrollRef} className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
                 {events.map((item, idx) => {
                   return (
                     <div 
