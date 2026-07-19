@@ -3950,59 +3950,58 @@ function HistoryView() {
   const history = aboutContent.history;
 
   return (
-    <div className="space-y-8 text-gray-600 text-sm leading-relaxed text-left font-[var(--font-poppins)]">
-      <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm">
-        <div className="text-left font-[var(--font-poppins)]">
-          {history.introText.split('\n\n').map((paragraph, i) => {
-            if (paragraph.startsWith("A LEGACY OF EXCELLENCE")) {
-              return (
-                <h2 key={i} className="text-2xl md:text-3xl font-black text-[#072A6C] flex flex-col md:flex-row md:items-center gap-4 mb-8">
-                  <span>A LEGACY OF EXCELLENCE</span>
-                  <span className="bg-gradient-to-r from-[#D71920] to-[#b71217] text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-[0_4px_12px_rgba(215,25,32,0.3)] tracking-widest uppercase">
-                    30+ YEARS IN EDUCATION
-                  </span>
-                </h2>
-              );
-            }
-            if (paragraph.startsWith("ABOUT US")) {
-              return (
-                <div key={i} className="mt-12 mb-6">
-                  <span className="bg-[#072A6C]/10 text-[#072A6C] px-4 py-1.5 rounded-md text-xs font-black tracking-[2px] uppercase">
-                    ABOUT US
-                  </span>
-                </div>
-              );
-            }
-            if (paragraph.startsWith("A Strong Society")) {
-              const [strong, ...rest] = paragraph.split('\n');
-              return (
-                <div key={i} className="mb-6">
-                  <h3 className="text-lg font-bold text-[#D71920] mb-3">{strong}</h3>
-                  <p className="text-gray-600 leading-[1.8] font-light text-[15px]">{rest.join('\n')}</p>
-                </div>
-              );
-            }
+    <div className="space-y-10 text-gray-600 text-[15px] leading-relaxed text-left font-[var(--font-poppins)]">
+      <div className="text-left font-[var(--font-poppins)]">
+        {history.introText.split('\n\n').map((paragraph, i) => {
+          if (paragraph.startsWith("A LEGACY OF EXCELLENCE")) {
             return (
-              <p key={i} className="text-gray-600 leading-[1.8] font-light text-[15px] mb-6">
-                {paragraph}
-              </p>
+              <h2 key={i} className="text-2xl md:text-3xl font-black text-[#072A6C] flex flex-col md:flex-row md:items-center gap-4 mb-8">
+                <span>A LEGACY OF EXCELLENCE</span>
+                <span className="bg-gradient-to-r from-[#072A6C] to-[#1F4FA8] text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-[0_4px_12px_rgba(7,42,108,0.15)] tracking-widest uppercase">
+                  30+ YEARS IN EDUCATION
+                </span>
+              </h2>
             );
-          })}
-        </div>
-        <div className="border-l-4 border-[#D71920] pl-4 my-6 italic text-gray-700 font-medium bg-gray-50 py-3 pr-3 rounded-r-xl">
-          "{history.quoteText}"
-        </div>
+          }
+          if (paragraph.startsWith("ABOUT US")) {
+            return (
+              <div key={i} className="mt-12 mb-6">
+                <span className="bg-[#072A6C]/10 text-[#072A6C] px-4 py-1.5 rounded-md text-xs font-black tracking-[2px] uppercase">
+                  ABOUT US
+                </span>
+              </div>
+            );
+          }
+          if (paragraph.startsWith("A Strong Society")) {
+            const [strong, ...rest] = paragraph.split('\n');
+            return (
+              <div key={i} className="mb-6">
+                <h3 className="text-lg font-bold text-[#072A6C] mb-3">{strong}</h3>
+                <p className="text-gray-600 leading-[1.8] font-light text-[15px]">{rest.join('\n')}</p>
+              </div>
+            );
+          }
+          return (
+            <p key={i} className="text-gray-600 leading-[1.8] font-light text-[15px] mb-6">
+              {paragraph}
+            </p>
+          );
+        })}
+      </div>
+      
+      <div className="border-l-4 border-[#072A6C] pl-4 my-6 italic text-gray-700 font-medium bg-gray-50 py-3.5 pr-3 rounded-r-xl">
+        "{history.quoteText}"
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 pt-4 border-t border-gray-100">
         <h3 className="text-lg font-extrabold text-[#072A6C]">Milestones Journey</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {history.milestones.map((milestone, i) => (
-            <div key={i} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 group-hover:bg-[#D71920] transition-colors" />
-              <span className="text-[#D71920] text-xl font-black block mb-2">{milestone.year}</span>
+            <div key={i} className="bg-slate-50/50 border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group hover:bg-white hover:border-[#072A6C]/20 hover:shadow-md transition-all duration-300">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 group-hover:bg-[#072A6C] transition-colors" />
+              <span className="text-[#072A6C] text-xl font-black block mb-2">{milestone.year}</span>
               <h4 className="font-bold text-[#072A6C] text-sm mb-1.5">{milestone.title}</h4>
-              <p className="text-xs text-black font-semibold leading-normal">{milestone.desc}</p>
+              <p className="text-xs text-gray-500 font-normal leading-normal">{milestone.desc}</p>
             </div>
           ))}
         </div>
@@ -4018,24 +4017,24 @@ function VisionView() {
   return (
     <div className="space-y-8 text-left font-[var(--font-poppins)]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white border-4 border-[#D71920] rounded-[20px] p-8 shadow-md flex flex-col justify-between">
+        <div className="bg-[#072A6C]/5 border border-[#072A6C]/15 rounded-[20px] p-8 shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#072A6C]/30 hover:shadow-md transition-all duration-300 group">
           <div>
-            <div className="w-10 h-10 rounded-xl bg-[#D71920]/5 flex items-center justify-center mb-4">
-              <Info className="text-[#D71920]" size={20} />
+            <div className="w-10 h-10 rounded-xl bg-[#072A6C]/10 flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-105">
+              <Info className="text-[#072A6C]" size={20} />
             </div>
             <h3 className="text-lg font-extrabold text-[#072A6C] mb-3">OUR VISION</h3>
-            <p className="text-gray-500 text-xs leading-relaxed font-light">
+            <p className="text-gray-600 text-[14px] leading-relaxed font-light">
               {vision.visionText}
             </p>
           </div>
         </div>
-        <div className="bg-white border-4 border-[#072A6C] rounded-[20px] p-8 shadow-md flex flex-col justify-between">
+        <div className="bg-[#1F4FA8]/5 border border-[#1F4FA8]/15 rounded-[20px] p-8 shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#1F4FA8]/30 hover:shadow-md transition-all duration-300 group">
           <div>
-            <div className="w-10 h-10 rounded-xl bg-[#072A6C]/5 flex items-center justify-center mb-4">
-              <ShieldCheck className="text-[#072A6C]" size={20} />
+            <div className="w-10 h-10 rounded-xl bg-[#1F4FA8]/10 flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-105">
+              <ShieldCheck className="text-[#1F4FA8]" size={20} />
             </div>
             <h3 className="text-lg font-extrabold text-[#072A6C] mb-3">OUR MISSION</h3>
-            <ul className="space-y-2.5 text-gray-500 text-xs font-light list-disc pl-4 leading-relaxed">
+            <ul className="space-y-2.5 text-gray-600 text-[14px] font-light list-disc pl-4 leading-relaxed">
               {vision.missionList.map((item, idx) => (
                 <li key={idx}>{item}</li>
               ))}
