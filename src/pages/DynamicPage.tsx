@@ -3976,7 +3976,7 @@ function HistoryView() {
             const [strong, ...rest] = paragraph.split('\n');
             return (
               <div key={i} className="mb-6">
-                <h3 className="text-lg font-bold text-[#072A6C] mb-3">{strong}</h3>
+                <h3 className="text-lg font-[800] text-[#D4AF37] mb-3">{strong}</h3>
                 <p className="text-gray-600 leading-[1.8] font-light text-[15px]">{rest.join('\n')}</p>
               </div>
             );

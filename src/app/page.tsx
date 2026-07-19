@@ -593,7 +593,7 @@ export default function Home() {
           {/* Left Red Card */}
           <div className="lg:col-span-8 bg-[#072A6C] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
             <div className="space-y-4 max-w-lg z-10">
-              <h2 className="text-[26px] font-[800] tracking-wide">
+              <h2 className="text-[26px] font-[800] tracking-wide text-[#D4AF37]">
                 ADMISSIONS OPEN 2026
               </h2>
               <p className="text-[12px] text-blue-100 leading-relaxed font-[300]">

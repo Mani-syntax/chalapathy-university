@@ -1465,14 +1465,14 @@ export default function Home() {
           >
             {/* Vertical timeline connector */}
             <div className="absolute left-[70px] top-6 bottom-6 w-0.5 bg-gray-100 z-0">
-              {/* Yellow animated line overlay */}
+              {/* Green animated line overlay */}
               <div 
-                className="absolute top-0 left-0 w-full bg-[#F4B400] shadow-[0_0_8px_#F4B400]" 
+                className="absolute top-0 left-0 w-full bg-[#10B981] shadow-[0_0_8px_#10B981]" 
                 style={{
                   height: '100%',
                   transformOrigin: 'top',
                   animation: 'drawTimelineLine 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-                  background: 'linear-gradient(to bottom, #F4B400, #F4B400 80%, rgba(244, 180, 0, 0.2))'
+                  background: 'linear-gradient(to bottom, #10B981, #10B981 80%, rgba(16, 185, 129, 0.2))'
                 }} 
               />
               <style>{`
@@ -1771,7 +1771,7 @@ export default function Home() {
           {/* INFINITE LOGO MARQUEE */}
           {placementsContent.recruiters && placementsContent.recruiters.length > 0 && (
             <div className="mt-20 pt-10 border-t border-gray-100/60 relative">
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center block mb-6">
+              <span className="text-[10px] font-bold text-[#072A6C] uppercase tracking-widest text-center block mb-6">
                 Our Top Corporate Partners
               </span>
               
@@ -1850,7 +1850,7 @@ export default function Home() {
           {/* Left Red Card */}
           <div className="lg:col-span-8 bg-[#072A6C] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
             <div className="space-y-4 max-w-lg z-10">
-              <h2 className="text-[26px] font-[800] tracking-wide font-[var(--font-poppins)]">
+              <h2 className="text-[26px] font-[800] tracking-wide font-[var(--font-poppins)] text-[#D4AF37]">
                 ADMISSIONS OPEN 2026
               </h2>
               <p className="text-[12px] text-blue-100 leading-relaxed font-[300] font-[var(--font-poppins)]">
