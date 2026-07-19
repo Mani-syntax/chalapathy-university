@@ -1877,6 +1877,7 @@ function AcademicGradingSystem() {
 
 function AwardOfDegrees() {
   const [activeCategory, setActiveCategory] = React.useState("computing");
+  const [testCgpa, setTestCgpa] = React.useState<number>(7.5);
 
   const categories = {
     computing: {
