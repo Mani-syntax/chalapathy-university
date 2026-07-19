@@ -1217,14 +1217,14 @@ export default function Home() {
                   if (saved) return JSON.parse(saved);
                 } catch (e) {}
                 return [
-                  { title: "Annual Fest", image: "/media__1783770842966.png" },
-                  { title: "Sports Meet", image: "/media__1783771619196.png" },
-                  { title: "Tech Events", image: "/media__1783772591375.png" },
-                  { title: "NSS Activities", image: "/media__1783774201695.png" },
-                  { title: "Cultural Events", image: "/media__1783775062821.png" },
-                  { title: "Workshops", image: "/media__1783776081975.png" },
-                  { title: "Student Clubs", image: "/media__1783776395046.png" },
-                  { title: "Innovation Expo", image: "/media__1783777762350.png" }
+                  { title: "Annual Fest", image: "/gallery_annual_fest.png" },
+                  { title: "Sports Meet", image: "/gallery_sports_meet.png" },
+                  { title: "Tech Events", image: "/gallery_tech_events.png" },
+                  { title: "NSS Activities", image: "/gallery_nss_activities.png" },
+                  { title: "Cultural Events", image: "/gallery_cultural_events.png" },
+                  { title: "Workshops", image: "/gallery_workshops.png" },
+                  { title: "Student Clubs", image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop" },
+                  { title: "Innovation Expo", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600&auto=format&fit=crop" }
                 ];
               })().map((item, idx) => (
                 <div 
