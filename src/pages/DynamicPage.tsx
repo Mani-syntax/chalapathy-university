@@ -1291,38 +1291,38 @@ function AcademicCalendar() {
   const universitysData: Record<string, Record<string, { label: string; key: string }[]>> = {
     "2026-27": {
       "School of Computing Sciences": [
-        { label: "B.Tech in CSE", key: "cse" },
-        { label: "B.Tech in CSE (AI & ML)", key: "aiml" },
-        { label: "B.Tech in CSE (Data Science)", key: "ds" },
-        { label: "B.Tech in IT", key: "it" },
-        { label: "M.Tech in CSE", key: "mcse" },
-        { label: "MCA", key: "mca" }
+        { label: "B.Tech – Computer Science and Engineering", key: "cse" },
+        { label: "M.Tech – Computer Science and Engineering", key: "mcse" },
+        { label: "MCA", key: "mca" },
+        { label: "Ph.D – Computer Science and Engineering", key: "phd-cse" },
+        { label: "B.Tech – CSE (Data Science)", key: "cse-ds" },
+        { label: "B.Tech – CSE (Artificial Intelligence)", key: "cse-ai" },
+        { label: "B.Tech – Artificial Intelligence & Machine Learning", key: "aiml" },
+        { label: "M.Tech – CSE (AI & ML)", key: "maiml" },
+        { label: "B.Tech – CSE (Cyber Security)", key: "cse-cyber" }
       ],
       "School of Engineering": [
-        { label: "B.Tech in ECE", key: "ece" },
-        { label: "B.Tech in EEE", key: "eee" },
-        { label: "B.Tech in Mechanical Engineering", key: "mech" },
-        { label: "B.Tech in Civil Engineering", key: "civil" },
-        { label: "M.Tech in VLSI Design", key: "mvlsi" },
-        { label: "M.Tech in Structural Engineering", key: "mstructural" }
+        { label: "B.Tech – Electronics and Communication Engineering", key: "ece" },
+        { label: "M.Tech – VLSI and Embedded Systems Design", key: "mvlsi" },
+        { label: "Ph.D – Electronics and Communication Engineering", key: "phd-ece" },
+        { label: "B.Tech – Civil Engineering", key: "civil" },
+        { label: "M.Tech – Structural Engineering", key: "mstructural" },
+        { label: "Ph.D – Structural Engineering", key: "phd-structural" }
       ],
       "School of Business & Management": [
-        { label: "MBA", key: "mba" },
-        { label: "BBA", key: "bba" },
-        { label: "B.Com", key: "bcom" }
+        { label: "MBA", key: "mba" }
       ]
     },
     "2025-26": {
       "School of Computing Sciences": [
-        { label: "B.Tech in CSE", key: "cse" },
-        { label: "B.Tech in IT", key: "it" },
+        { label: "B.Tech – Computer Science and Engineering", key: "cse" },
         { label: "MCA", key: "mca" }
       ],
       "School of Engineering": [
-        { label: "B.Tech in Core Engineering", key: "core" }
+        { label: "B.Tech – Electronics and Communication Engineering", key: "ece" }
       ],
       "School of Business & Management": [
-        { label: "MBA & BBA", key: "mgmt" }
+        { label: "MBA", key: "mba" }
       ]
     }
   };
@@ -1332,13 +1332,13 @@ function AcademicCalendar() {
     if (!universitysData[y]) {
       universitysData[y] = {
         "School of Computing Sciences": [
-          { label: `B.Tech & PG Programs (${y})`, key: `computing-${y}` }
+          { label: `B.Tech, M.Tech, MCA, Ph.D Programs (${y})`, key: `computing-${y}` }
         ],
         "School of Engineering": [
-          { label: `B.Tech & M.Tech Programs (${y})`, key: `engineering-${y}` }
+          { label: `B.Tech, M.Tech, Ph.D Programs (${y})`, key: `engineering-${y}` }
         ],
         "School of Business & Management": [
-          { label: `MBA & BBA Programs (${y})`, key: `business-${y}` }
+          { label: `MBA Programs (${y})`, key: `business-${y}` }
         ]
       };
     }
@@ -1881,7 +1881,7 @@ function AwardOfDegrees() {
 
   const categories = {
     computing: {
-      title: "School of Computing Sciences (B.Tech, M.Tech, MCA)",
+      title: "School of Computing Sciences (B.Tech, M.Tech, MCA, Ph.D)",
       desc: "Degree classification requirements for Computing Sciences programs:",
       grades: [
         { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
@@ -1891,7 +1891,7 @@ function AwardOfDegrees() {
       ]
     },
     engineering: {
-      title: "School of Engineering (B.Tech, M.Tech)",
+      title: "School of Engineering (B.Tech, M.Tech, Ph.D)",
       desc: "Degree classification requirements for Engineering programs:",
       grades: [
         { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
@@ -1901,7 +1901,7 @@ function AwardOfDegrees() {
       ]
     },
     business: {
-      title: "School of Business & Management (BBA, MBA, B.Com)",
+      title: "School of Business & Management (MBA)",
       desc: "Degree classification requirements for Business & Management programs:",
       grades: [
         { min: 5.5, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
