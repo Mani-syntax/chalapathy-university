@@ -36,7 +36,7 @@ export default function Genesis() {
     <div ref={containerRef} className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-[var(--font-poppins)] overflow-hidden">
       
       {/* NEW CINEMATIC 3D TIMELINE HERO */}
-      <section className="relative w-full min-h-[140vh] md:min-h-[160vh] bg-gradient-to-b from-[#ffffff] via-[#f0f9ff] to-[#e0f2fe] overflow-hidden pt-20 md:pt-24 pb-40 px-5 flex flex-col justify-start">
+      <section className="relative w-full min-h-[140vh] md:min-h-[160vh] bg-gradient-to-b from-[#ffffff] via-[#f0f9ff] to-[#e0f2fe] overflow-hidden pt-32 pb-40 px-5 flex flex-col justify-start">
         
         {/* Soft Global Illumination & Rays */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-400/10 rounded-full blur-[150px] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
@@ -78,7 +78,7 @@ export default function Genesis() {
         </motion.div>
 
         {/* TOP LEFT: TITLE BLOCK */}
-        <div className="max-w-[1400px] mx-auto w-full relative z-30">
+        <div className="max-w-[1400px] mx-auto w-full relative z-30 pt-10">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -479,9 +479,9 @@ export default function Genesis() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "School of Computing Sciences", color: "from-[#1E3A8A] to-[#3B82F6]", icon: Code, tags: ["Computer Science & Engineering", "Artificial Intelligence", "Data Science", "Cyber Security"] },
-              { title: "School of Engineering", color: "from-[#0F172A] to-[#334155]", icon: Cpu, tags: ["Electronics and Communication Engineering", "Civil Engineering"] },
-              { title: "School of Business & Management", color: "from-[#B45309] to-[#F59E0B]", icon: Briefcase, tags: ["Business and Management"] }
+              { title: "School of Computing", color: "from-[#1E3A8A] to-[#3B82F6]", icon: Code, tags: ["AI", "Cloud", "Programming"] },
+              { title: "School of Engineering", color: "from-[#0F172A] to-[#334155]", icon: Cpu, tags: ["Robotics", "Civil", "Electronics"] },
+              { title: "School of Business", color: "from-[#B45309] to-[#F59E0B]", icon: Briefcase, tags: ["Leadership", "Finance", "Management"] }
             ].map((school, i) => (
               <motion.div
                 key={i}
