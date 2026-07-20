@@ -3505,14 +3505,14 @@ function StaffDirectory() {
 
               <div className="space-y-1">
                 <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Qualification</span>
-                <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
+                <p className="font-medium leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.edu}
                 </p>
               </div>
 
               <div className="space-y-1">
                 <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Responsibilities</span>
-                <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
+                <p className="font-light leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.interests}
                 </p>
               </div>
@@ -3669,7 +3669,7 @@ function FacultyDirectory() {
               {/* Education block */}
               <div className="space-y-1">
                 <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Education Background</span>
-                <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
+                <p className="font-medium leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.edu}
                 </p>
               </div>
@@ -3677,7 +3677,7 @@ function FacultyDirectory() {
               {/* Research/Interest block */}
               <div className="space-y-1">
                 <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Areas of Interest</span>
-                <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
+                <p className="font-light leading-relaxed text-[11px] text-gray-700">
                   {selectedFaculty.interests}
                 </p>
               </div>
