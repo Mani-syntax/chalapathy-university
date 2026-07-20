@@ -245,45 +245,23 @@ export default function Home() {
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
 
   const slides = [
     {
       heading: ["SHAPING", "TOMORROW'S", "INNOVATORS"],
-      accentIndex: 2,
-      tagline: "Empowering ambitious minds through world-class education, cutting-edge research, industry collaboration, and transformative learning experiences that prepare future leaders.",
-      image: "/campus_hero.png"
+      tagline: "Empowering ambitious minds through world-class education, cutting-edge research, industry collaboration, and transformative learning experiences that prepare future leaders."
     },
     {
       heading: ["LEARN", "TODAY.", "LEAD TOMORROW."],
-      accentIndex: 2,
-      tagline: "Discover an interactive ecosystem where innovation meets opportunity, guided by expert faculty, modern classrooms, and global standards.",
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&h=900&fit=crop"
+      tagline: "Discover an ecosystem where innovation meets opportunity, guided by expert faculty, modern infrastructure, global exposure, and career-focused education."
     },
     {
       heading: ["CREATE", "YOUR", "FUTURE"],
-      accentIndex: 2,
-      tagline: "Transform your ideas into reality through advanced laboratories, startup incubation, interdisciplinary learning, and hands-on research.",
-      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&h=900&fit=crop"
+      tagline: "Transform your ideas into reality through advanced laboratories, startup incubation, interdisciplinary learning, and hands-on industry experience."
     },
     {
       heading: ["YOUR", "SUCCESS", "STARTS HERE"],
-      accentIndex: 1,
-      tagline: "Join thousands of successful graduates who built remarkable careers through elite placements and strong corporate mentorship.",
-      image: "https://images.unsplash.com/photo-1521791136364-728647525314?w=1600&h=900&fit=crop"
-    },
-    {
-      heading: ["VIBRANT", "CAMPUS", "LIFE"],
-      accentIndex: 0,
-      tagline: "Experience a diverse campus community full of cultural fests, athletic events, and opportunities for comprehensive personal development.",
-      image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1600&h=900&fit=crop"
-    },
-    {
-      heading: ["GLOBAL", "ALLIANCES &", "COLLABORATIONS"],
-      accentIndex: 1,
-      tagline: "Expand your academic horizon through foreign exchange opportunities, dual-degree pathways, and international research initiatives.",
-      image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=1600&h=900&fit=crop"
+      tagline: "Join thousands of successful graduates who built remarkable careers through excellence in academics, innovation, leadership, and professional development."
     }
   ];
 
@@ -298,42 +276,18 @@ export default function Home() {
     document.title = "Chalapathi University | Best University in Andhra Pradesh";
   }, []);
 
-  // Autoplay effect (6 seconds)
   useEffect(() => {
-    if (isHovered) return;
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           setCurrentSlide((slide) => (slide + 1) % slides.length);
           return 0;
         }
-        return prev + 1; // 1% every 60ms = 6 seconds total
+        return prev + 2;
       });
-    }, 60);
+    }, 100);
     return () => clearInterval(interval);
-  }, [isHovered, slides.length]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-        setProgress(0);
-      } else if (e.key === "ArrowRight") {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-        setProgress(0);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [slides.length]);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const x = (clientX - window.innerWidth / 2) / 40;
-    const y = (clientY - window.innerHeight / 2) / 40;
-    setMousePos({ x, y });
-  };
 
   const handleDotClick = (index: number) => {
     setCurrentSlide(index);
@@ -360,6 +314,7 @@ export default function Home() {
     setTouchStart(null);
     setTouchEnd(null);
   };
+
   return (
     <div className="flex flex-col min-h-screen bg-[#F7F8FC] text-[#222222] overflow-x-hidden font-[var(--font-poppins)]">
       <SEO 
@@ -368,192 +323,166 @@ export default function Home() {
       />
       {/* ═══ HERO SECTION (720px height) ═══ */}
       <section 
-        className="relative w-full overflow-hidden bg-gradient-to-br from-[#072A6C] via-[#051c4a] to-[#030d22] select-none flex items-center justify-between" 
+        className="relative w-full overflow-hidden bg-white select-none" 
         style={{ height: "720px" }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => {
-          setIsHovered(false);
-          setMousePos({ x: 0, y: 0 });
-        }}
       >
-        {/* Animated Particles & Glow Effects */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-[#D4AF37]/5 blur-[120px] animate-pulse" />
-          <div className="absolute top-1/2 left-1/3 w-80 h-80 rounded-full bg-blue-500/10 blur-[100px] animate-pulse" style={{ animationDuration: '8s' }} />
-          <div className="absolute -bottom-20 right-10 w-96 h-96 rounded-full bg-[#D4AF37]/5 blur-[120px]" />
-          
-          <svg className="absolute bottom-0 left-0 w-full h-40 opacity-10" viewBox="0 0 1440 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,96 C240,160 480,40 720,112 C960,184 1200,96 1440,128 L1440,200 L0,200 Z" fill="url(#wave-gradient)" />
-            <defs>
-              <linearGradient id="wave-gradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.2"/>
-                <stop offset="100%" stopColor="#D4AF37" stopOpacity="0"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes slideEntrance {
+            0% {
+              opacity: 0;
+              transform: translateY(40px);
+              filter: blur(8px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+              filter: blur(0);
+            }
+          }
+          @keyframes letter-fade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          .animate-letter-fade {
+            opacity: 0;
+            animation: letter-fade 300ms ease-out forwards;
+          }
+          @keyframes tagline-fade {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+          .animate-tagline-fade {
+            opacity: 0;
+            animation: tagline-fade 500ms ease-out forwards;
+          }
+          @keyframes scale-width {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+          }
+          .animate-scale-width {
+            transform: scaleX(0);
+            animation: scale-width 600ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          }
+        `}} />
+
+        {/* Background image covering right side, fading to white/gray on the left */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/campus_hero.png')" }}
+        />
+        {/* White gradient overlay restricted to the left side (approx 40% width) for text readability */}
+        <div className="absolute inset-y-0 left-0 w-full md:w-[50%] lg:w-[40%] bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none" />
 
         {/* Content (1440px Container) */}
-        <div className="relative z-10 max-w-[1440px] mx-auto w-full h-full px-8 md:px-16 flex flex-col md:flex-row items-center justify-between gap-8 pt-10 md:pt-0">
-          
-          {/* Left Text Column */}
-          <div className="w-full md:w-[50%] lg:w-[45%] text-left space-y-6">
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={currentSlide}
-                initial={{ opacity: 0, x: -60 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 60 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+        <div className="relative z-10 max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between">
+          <div className="w-full md:w-[60%] lg:w-[48%] space-y-6">
+            <div 
+              key={currentSlide}
+              style={{
+                animation: 'slideEntrance 900ms cubic-bezier(0.25, 1, 0.5, 1) forwards'
+              }}
+            >
+              {/* Heading */}
+              <h1 className="font-[var(--font-poppins)] text-[44px] md:text-[54px] lg:text-[62px] font-[800] leading-[1.1] tracking-tight text-[#072A6C] relative">
+                {slides[currentSlide].heading.map((word, wordIndex) => {
+                  const isAccent = (currentSlide === 0 && wordIndex === 2) || 
+                                   (currentSlide === 1 && wordIndex === 2) ||
+                                   (currentSlide === 2 && wordIndex === 2) ||
+                                   (currentSlide === 3 && wordIndex >= 1);
+                  return (
+                    <React.Fragment key={wordIndex}>
+                      {wordIndex > 0 && <br />}
+                      <span className={isAccent ? "text-[#D4AF37]" : ""}>
+                        {word.split("").map((letter, letterIndex) => (
+                          <span 
+                            key={letterIndex}
+                            className="inline-block animate-letter-fade"
+                            style={{
+                              animationDelay: `${wordIndex * 150 + letterIndex * 35}ms`
+                            }}
+                          >
+                            {letter === " " ? "\u00A0" : letter}
+                          </span>
+                        ))}
+                      </span>
+                    </React.Fragment>
+                  );
+                })}
+                {/* Underline */}
+                <div 
+                  className="h-1 bg-[#D4AF37] w-24 rounded-full mt-4 animate-scale-width" 
+                  style={{
+                    transformOrigin: 'left',
+                    animationDelay: '800ms'
+                  }}
+                />
+              </h1>
+
+              {/* Tagline */}
+              <p 
+                className="text-[15px] md:text-[16px] text-[#111111] leading-relaxed max-w-md font-[700] mt-5 animate-tagline-fade"
+                style={{
+                  animationDelay: '950ms'
+                }}
               >
-                {/* Heading */}
-                <h1 className="font-[var(--font-poppins)] text-[36px] md:text-[48px] lg:text-[58px] font-[800] leading-[1.1] tracking-tight text-white relative">
-                  {slides[currentSlide].heading.map((word, wordIndex) => {
-                    const isAccent = wordIndex === slides[currentSlide].accentIndex;
-                    return (
-                      <React.Fragment key={wordIndex}>
-                        {wordIndex > 0 && <br />}
-                        <span className={isAccent ? "text-[#D4AF37] drop-shadow-md" : "text-white"}>
-                          {word}
-                        </span>
-                      </React.Fragment>
-                    );
-                  })}
-                  {/* Underline */}
-                  <div className="h-1 bg-[#D4AF37] w-24 rounded-full mt-4" style={{ transformOrigin: 'left' }} />
-                </h1>
+                {slides[currentSlide].tagline}
+              </p>
+            </div>
 
-                {/* Tagline */}
-                <p className="text-[14px] md:text-[16px] text-gray-200 leading-relaxed max-w-md font-light mt-5">
-                  {slides[currentSlide].tagline}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Static Action Buttons */}
+            {/* Buttons remain static/visible throughout */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 to="/admissions"
-                className="h-11 px-7 bg-[#D4AF37] hover:bg-[#c49f2c] text-[#072A6C] text-[13px] font-[800] rounded-[12px] inline-flex items-center gap-2 transition-all shadow-md active:scale-95"
+                className="h-11 px-7 bg-[#072A6C] hover:bg-[#051c4a] text-white text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all shadow-sm active:scale-95"
               >
                 Explore Campus <ArrowRight size={15} />
               </Link>
               <Link
                 to="/campus-life"
-                className="h-11 px-7 bg-white/10 border border-white/20 text-white hover:bg-white/20 text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all active:scale-95 backdrop-blur-sm"
+                className="h-11 px-7 bg-white border border-[#072A6C] text-[#072A6C] hover:bg-slate-50 text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all active:scale-95"
               >
                 Virtual Tour
-                <div className="w-5 h-5 rounded-full border border-white flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full border border-[#072A6C] flex items-center justify-center">
                   <Play size={8} className="fill-current ml-0.5" />
                 </div>
               </Link>
             </div>
           </div>
 
-          {/* Right Image Column (with floating, parallax, and zoom) */}
-          <div className="w-full md:w-[50%] lg:w-[45%] h-[280px] md:h-[450px] flex items-center justify-center relative overflow-hidden rounded-[24px] border border-white/10 shadow-2xl bg-[#030d22]/40 backdrop-blur-md">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="w-full h-full absolute inset-0 overflow-hidden"
-              >
-                <motion.div
-                  className="w-full h-full"
-                  animate={{
-                    y: [-4, 4, -4],
-                    scale: [1, 1.06]
-                  }}
-                  transition={{
-                    y: {
-                      repeat: Infinity,
-                      duration: 5,
-                      ease: "easeInOut"
-                    },
-                    scale: {
-                      duration: 6,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "linear"
-                    }
-                  }}
-                  style={{
-                    transform: `translate3d(${mousePos.x}px, ${mousePos.y}px, 0)`,
-                    transition: 'transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)'
-                  }}
+          {/* Right Floating Card Stack (16px border-radius) */}
+          <div className="hidden lg:flex flex-col gap-2.5 z-20">
+            {[
+              { label: "Enquire Now", icon: HelpCircle, to: "/contact" },
+              { label: "Brochure", icon: FileText, to: "/admissions" },
+              { label: "Scholarships", icon: GraduationCap, to: "/admissions/scholarships" },
+              { label: "Visit Campus", icon: MapPin, to: "/contact" },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  className="flex flex-col items-center justify-center w-24 h-24 bg-white border border-gray-100 hover:border-[#072A6C] rounded-[16px] shadow-sm transition-all text-center p-2 group hover:-translate-y-1 hover:shadow-md"
                 >
-                  <img
-                    src={slides[currentSlide].image}
-                    alt={slides[currentSlide].heading.join(" ")}
-                    className="w-full h-full object-cover select-none pointer-events-none"
-                    loading="lazy"
-                  />
-                </motion.div>
-              </motion.div>
-            </AnimatePresence>
+                  <Icon size={20} className="text-[#072A6C] group-hover:text-[#D4AF37] transition-colors mb-2" strokeWidth={1.8} />
+                  <span className="text-[10px] font-[700] text-[#072A6C] leading-tight">{item.label}</span>
+                </Link>
+              );
+            })}
           </div>
-
         </div>
 
-        {/* Right Floating Card Stack (Absolutely positioned on Right Side) */}
-        <div className="hidden xl:flex flex-col gap-2.5 absolute right-6 top-1/2 -translate-y-1/2 z-40">
-          {[
-            { label: "Enquire Now", icon: HelpCircle, to: "/contact" },
-            { label: "Brochure", icon: FileText, to: "/admissions" },
-            { label: "Scholarships", icon: GraduationCap, to: "/admissions/scholarships" },
-            { label: "Visit Campus", icon: MapPin, to: "/contact" },
-          ].map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.label}
-                to={item.to}
-                className="flex flex-col items-center justify-center w-20 h-20 bg-white/10 hover:bg-white/20 border border-white/15 hover:border-[#D4AF37] rounded-[16px] shadow-lg transition-all text-center p-2 group hover:-translate-y-1 backdrop-blur-md text-white"
-              >
-                <Icon size={18} className="text-white group-hover:text-[#D4AF37] transition-colors mb-1.5" strokeWidth={1.8} />
-                <span className="text-[9px] font-[700] leading-tight">{item.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={() => {
-            setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-            setProgress(0);
-          }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-white flex items-center justify-center backdrop-blur-md transition-all active:scale-90"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <button
-          onClick={() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length);
-            setProgress(0);
-          }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-white flex items-center justify-center backdrop-blur-md transition-all active:scale-90"
-          aria-label="Next slide"
-        >
-          <ChevronRight size={20} />
-        </button>
-
-        {/* Navigation dots in the lower center/right corner */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        {/* Navigation dots in the lower right corner */}
+        <div className="absolute bottom-8 left-5 lg:left-auto lg:right-8 flex gap-2 z-20">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => handleDotClick(index)}
               className={`h-2.5 rounded-full transition-all duration-300 border-none cursor-pointer ${
-                currentSlide === index ? "w-8 bg-[#D4AF37]" : "w-2.5 bg-white/30 hover:bg-white/50"
+                currentSlide === index ? "w-8 bg-[#072A6C]" : "w-2.5 bg-gray-300 hover:bg-gray-400"
               }`}
               title={`Go to slide ${index + 1}`}
             />
@@ -561,7 +490,7 @@ export default function Home() {
         </div>
 
         {/* Progress bar at the bottom */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-white/10 z-20">
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-100/30 z-20">
           <div 
             className="h-full bg-[#D4AF37] transition-all duration-100 ease-linear"
             style={{ width: `${progress}%` }}
