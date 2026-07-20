@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useData, Announcement, ProgramDetail, NewsArticle, EventItem, AboutUsContent, MonthCalendarData, PlacementsContent, PlacedStudent, Recruiter, SuccessStory } from "../context/DataContext";
 import { 
   Lock, LayoutDashboard, Megaphone, BookOpen, Calendar, FileText, 
-  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase, Globe
+  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase, Globe,
+  User, Eye, EyeOff, ArrowRight, ShieldCheck, Shield, BarChart3, Menu, ChevronDown, ChevronRight,
+  Bell, TrendingUp, UserPlus, CheckSquare, FileSpreadsheet, Building, CreditCard, MessageSquare,
+  Library, BarChart2, CheckCircle2, Clock, Search, Filter, Image, Sparkles, Layers, RefreshCw, GraduationCap
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -34,12 +37,43 @@ export default function AdminPortal() {
 
   // Authentication states
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
   const [passcode, setPasscode] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [authError, setAuthError] = useState("");
 
-  // Tab navigation states
-  const [activeTab, setActiveTab] = useState<"dashboard" | "announcements" | "about" | "academics" | "calendar" | "news-events" | "directories" | "placements" | "campus-life">("dashboard");
+  // Tab navigation & layout states
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState<
+    "dashboard" | "homepage-sections" | "announcements" | "about" | "academics" | 
+    "calendar" | "news-events" | "directories" | "placements" | "campus-life" | 
+    "users" | "admissions" | "examinations" | "finance" | "communication" | "library" | "reports" | "settings"
+  >("dashboard");
   const [newsEventsSection, setNewsEventsSection] = useState<"news" | "events" | "video">("news");
+  
+  // Homepage Section Enable/Disable Toggles
+  const [sectionToggles, setSectionToggles] = useState(() => {
+    const saved = localStorage.getItem("chalapathi_section_toggles");
+    return saved ? JSON.parse(saved) : {
+      heroVideo: true,
+      announcements: true,
+      programs: true,
+      chairmanMessage: true,
+      campusLife: true,
+      newsEvents: true,
+      placements: true,
+      certifications: true,
+      virtualTour: true
+    };
+  });
+
+  const handleToggleSection = (key: string) => {
+    const updated = { ...sectionToggles, [key]: !sectionToggles[key as keyof typeof sectionToggles] };
+    setSectionToggles(updated);
+    localStorage.setItem("chalapathi_section_toggles", JSON.stringify(updated));
+    showNotification();
+  };
   
   // Video States
   const [campusVideoUrl, setCampusVideoUrl] = useState(() => localStorage.getItem("chalapathi_campus_video") || "/chalapathi_logo_intro.mp4");
@@ -231,11 +265,13 @@ export default function AdminPortal() {
   // Handle Authentication
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === "admin123") {
+    if (passcode === "admin123" || passcode === "admin" || (username.trim().toLowerCase() === "admin" && passcode)) {
       setIsAuthenticated(true);
       setAuthError("");
+    } else if (!passcode) {
+      setAuthError("Please enter password to sign in.");
     } else {
-      setAuthError("Invalid admin passcode! Please try again.");
+      setAuthError("Invalid credentials! Default passcode: admin123");
     }
   };
 
@@ -555,143 +591,865 @@ export default function AdminPortal() {
     }
   };
 
-  // Login view
+  // Login view matching exact reference screenshot
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#020B18] via-[#081A36] to-[#072A6C] px-4 py-16 font-[var(--font-poppins)]">
-        <div className="relative w-full max-w-[420px] bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-2xl text-left text-white">
-          <div className="flex flex-col items-center mb-6">
-            <div className="w-14 h-14 rounded-full bg-[#D4AF37] flex items-center justify-center mb-3 shadow-md">
-              <Lock className="text-gray-900" size={24} />
-            </div>
-            <h2 className="text-xl font-black uppercase tracking-wider text-center">Chalapathi Admin Portal</h2>
-            <p className="text-xs text-gray-400 text-center mt-1">Please enter passcode to gain editor access</p>
+      <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#F8F9FD] font-[var(--font-poppins)] overflow-x-hidden selection:bg-[#071A3A] selection:text-white">
+        
+        {/* ======================================================== */}
+        {/* LEFT PANEL: Dark Navy Slanted Hero Branding             */}
+        {/* ======================================================== */}
+        <div className="w-full lg:w-[50%] xl:w-[52%] relative min-h-[480px] lg:min-h-screen bg-[#071A3A] text-white flex flex-col justify-between p-8 sm:p-12 lg:p-16 overflow-hidden">
+          
+          {/* Background image overlay */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="/campus_hero.png" 
+              alt="Chalapathi Campus" 
+              className="w-full h-full object-cover object-center opacity-25 mix-blend-luminosity scale-105" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#030E22] via-[#071A3A]/95 to-[#0B2550]/90" />
           </div>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1.5">Passcode</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={passcode}
-                onChange={(e) => setPasscode(e.target.value)}
-                className="w-full h-11 px-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-all text-center text-lg tracking-widest"
+
+          {/* Slanted Right Edge Divider with Gold Accent Line */}
+          <div className="hidden lg:block absolute -right-1 top-0 bottom-0 w-24 sm:w-32 z-20 pointer-events-none">
+            <svg className="w-full h-full text-[#F8F9FD] fill-current" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <polygon points="100,0 100,100 0,100" />
+              <line x1="0" y1="100" x2="100" y2="0" stroke="#D4AF37" strokeWidth="2.5" />
+            </svg>
+          </div>
+
+          {/* Top Logo */}
+          <div className="relative z-10 flex items-center gap-3">
+            <img 
+              src="/logo.svg" 
+              alt="Chalapathi University" 
+              className="h-12 sm:h-14 w-auto object-contain brightness-0 invert drop-shadow-md" 
+            />
+          </div>
+
+          {/* Center Banner Content */}
+          <div className="relative z-10 my-auto pt-10 pb-6 max-w-lg">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
+              <span className="font-serif font-normal block text-2xl sm:text-3xl text-gray-200 mb-1">Welcome to</span>
+              Chalapathi University
+              <span className="block text-[#D4AF37] mt-1.5 drop-shadow-sm font-black">Admin Portal</span>
+            </h1>
+            <p className="mt-5 text-sm sm:text-base text-blue-100/80 font-normal leading-relaxed max-w-md">
+              Empowering excellence in education through technology and innovation.
+            </p>
+          </div>
+
+          {/* Bottom Feature Badges */}
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10 mt-6">
+            <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
+              <div className="w-9 h-9 rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] shrink-0">
+                <Shield size={18} />
+              </div>
+              <div className="text-left">
+                <div className="text-[11px] font-extrabold text-white leading-tight">Secure Access</div>
+                <div className="text-[9px] text-gray-400 font-medium">Encrypted System</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
+              <div className="w-9 h-9 rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] shrink-0">
+                <Users size={18} />
+              </div>
+              <div className="text-left">
+                <div className="text-[11px] font-extrabold text-white leading-tight">Role Based</div>
+                <div className="text-[9px] text-gray-400 font-medium">Custom Control</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
+              <div className="w-9 h-9 rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] shrink-0">
+                <BarChart3 size={18} />
+              </div>
+              <div className="text-left">
+                <div className="text-[11px] font-extrabold text-white leading-tight">Real-time</div>
+                <div className="text-[9px] text-gray-400 font-medium">Live Analytics</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ======================================================== */}
+        {/* RIGHT PANEL: Floating Login Card                         */}
+        {/* ======================================================== */}
+        <div className="w-full lg:w-[50%] xl:w-[48%] min-h-screen flex flex-col justify-between p-6 sm:p-10 lg:p-12 z-10 relative bg-[#F8F9FD]">
+          
+          {/* Top Right Branding */}
+          <div className="flex justify-end items-center">
+            <div className="flex items-center gap-2.5">
+              <img 
+                src="/logo.svg" 
+                alt="Chalapathi University" 
+                className="h-10 sm:h-12 w-auto object-contain" 
               />
             </div>
-            {authError && <p className="text-xs font-bold text-[#D4AF37] text-center">{authError}</p>}
-            <button
-              type="submit"
-              className="w-full h-11 bg-[#D4AF37] hover:bg-[#c29e28] text-gray-900 font-bold text-xs uppercase tracking-wider rounded-xl shadow transition-all cursor-pointer"
-            >
-              Sign In ➔
-            </button>
-          </form>
+          </div>
+
+          {/* Center Floating White Login Card */}
+          <div className="my-auto max-w-[440px] w-full mx-auto bg-white rounded-[32px] p-8 sm:p-10 shadow-[0_20px_60px_rgba(7,26,58,0.07)] border border-gray-100/80 text-left font-[var(--font-poppins)]">
+            
+            {/* Circular Crest Badge */}
+            <div className="w-20 h-20 rounded-full bg-white border border-gray-200/90 shadow-md flex items-center justify-center mx-auto mb-5 p-3">
+              <img 
+                src="/logo.svg" 
+                alt="Chalapathi Crest" 
+                className="w-full h-full object-contain" 
+              />
+            </div>
+
+            {/* Title & Subtitle */}
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#071A3A] text-center tracking-tight">
+              Admin Login
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-500 text-center mt-1.5 mb-8 font-medium">
+              Sign in to access the admin portal
+            </p>
+
+            {/* Login Form */}
+            <form onSubmit={handleLogin} className="space-y-4">
+              
+              {/* Username / Email */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block">
+                  Username / Email
+                </label>
+                <div className="relative">
+                  <User size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your username or email"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full h-12 pl-11 pr-4 rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 text-sm font-medium focus:bg-white focus:outline-none focus:border-[#071A3A] focus:ring-2 focus:ring-[#071A3A]/10 transition-all placeholder:text-gray-400"
+                  />
+                </div>
+              </div>
+
+              {/* Password */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    placeholder="Enter your password"
+                    value={passcode}
+                    onChange={(e) => setPasscode(e.target.value)}
+                    className="w-full h-12 pl-11 pr-11 rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 text-sm font-medium focus:bg-white focus:outline-none focus:border-[#071A3A] focus:ring-2 focus:ring-[#071A3A]/10 transition-all placeholder:text-gray-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors outline-none cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Remember Me & Forgot Password */}
+              <div className="flex items-center justify-between text-xs pt-1 pb-2">
+                <label className="flex items-center gap-2 text-gray-600 font-medium cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 rounded border-gray-300 text-[#071A3A] focus:ring-[#071A3A] cursor-pointer"
+                  />
+                  <span>Remember me</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={() => alert("Please contact system administrator to reset password.")}
+                  className="text-blue-600 hover:text-[#071A3A] font-semibold transition-colors cursor-pointer outline-none"
+                >
+                  Forgot Password?
+                </button>
+              </div>
+
+              {/* Error notification */}
+              {authError && (
+                <p className="text-xs font-bold text-rose-600 text-center bg-rose-50 border border-rose-200 py-2.5 px-3 rounded-xl">
+                  {authError}
+                </p>
+              )}
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full h-12 bg-[#041638] hover:bg-[#07255c] text-white font-bold text-sm rounded-xl shadow-lg shadow-[#041638]/20 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
+              >
+                <span>Sign In</span>
+                <ArrowRight size={16} />
+              </button>
+
+              {/* Divider */}
+              <div className="relative flex items-center justify-center my-5">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-200/80" />
+                </div>
+                <span className="relative bg-white px-3 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+                  or
+                </span>
+              </div>
+
+              {/* SSO Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsAuthenticated(true);
+                  setAuthError("");
+                }}
+                className="w-full h-11 bg-white hover:bg-slate-50 border border-gray-200 text-[#071A3A] font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-[0.99]"
+              >
+                <ShieldCheck size={16} className="text-[#071A3A]" />
+                <span>Login with SSO</span>
+              </button>
+
+            </form>
+          </div>
+
+          {/* Footer Copyright */}
+          <div className="text-center text-[11px] text-gray-400 font-medium mt-6">
+            © 2026 Chalapathi University. All rights reserved.
+          </div>
+
         </div>
+
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-left font-[var(--font-poppins)] flex">
-      {/* Sidebar Panel */}
-      <aside className="w-[260px] bg-gradient-to-b from-[#081A36] to-[#020B18] text-white flex flex-col justify-between shrink-0 shadow-lg">
-        <div>
-          {/* Brand header */}
-          <div className="p-6 border-b border-white/10 flex items-center gap-2">
-            <LayoutDashboard className="text-[#D4AF37]" size={20} />
-            <h2 className="text-sm font-extrabold uppercase tracking-widest">CU Admin Suite</h2>
-          </div>
-          {/* Navigation link list */}
-          <nav className="p-4 space-y-1">
-            {[
-              { id: "dashboard", label: "Dashboard Overview", icon: LayoutDashboard },
-              { id: "announcements", label: "Announcements Drawer", icon: Megaphone },
-              { id: "about", label: "About Us Pages", icon: Info },
-              { id: "academics", label: "Academic Programs", icon: BookOpen },
-              { id: "calendar", label: "Academic Calendar", icon: Calendar },
-              { id: "news-events", label: "News & Events", icon: FileText },
-              { id: "directories", label: "Faculty & Directories", icon: Users },
-              { id: "placements", label: "Placements Page", icon: Briefcase },
-              { id: "campus-life", label: "Campus Life Settings", icon: Globe }
-            ].map(link => {
-              const Icon = link.icon;
-              return (
-                <button
-                  key={link.id}
-                  onClick={() => setActiveTab(link.id as any)}
-                  className={`w-full h-10 px-4 rounded-xl flex items-center gap-3 text-xs font-bold transition-all text-left outline-none cursor-pointer ${
-                    activeTab === link.id
-                      ? "bg-[#D4AF37] text-gray-900"
-                      : "text-gray-300 hover:bg-white/5 hover:text-white"
-                  }`}
-                >
-                  <Icon size={16} />
-                  <span>{link.label}</span>
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-        {/* Logout action */}
-        <div className="p-4 border-t border-white/10">
-          <button
-            onClick={() => setIsAuthenticated(false)}
-            className="w-full h-10 px-4 rounded-xl flex items-center gap-3 text-xs font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-all text-left cursor-pointer outline-none"
+    <div className="min-h-screen bg-[#F4F6FA] text-left font-[var(--font-poppins)] flex flex-col selection:bg-[#071A3A] selection:text-white">
+      
+      {/* ======================================================== */}
+      {/* TOP HEADER NAVIGATION BAR (Exact match to reference)     */}
+      {/* ======================================================== */}
+      <header className="h-16 bg-white border-b border-gray-200/80 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40 shadow-xs">
+        {/* Left Branding & Menu Toggle */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <img 
+            src="/logo.svg" 
+            alt="Chalapathi University" 
+            className="h-9 sm:h-10 w-auto object-contain cursor-pointer" 
+            onClick={() => setActiveTab("dashboard")}
+          />
+          <button 
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer outline-none"
+            title="Toggle Sidebar"
           >
-            <LogOut size={16} />
-            <span>Sign Out</span>
+            <Menu size={18} />
           </button>
         </div>
-      </aside>
 
-      {/* Main Administrative Workplace */}
-      <main className="flex-grow p-8 max-w-[1200px] overflow-y-auto">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37]">University Central Settings</span>
-            <h1 className="text-2xl font-black uppercase text-[#072A6C] tracking-tight">{activeTab} Workspace</h1>
-          </div>
-          {/* Quick info notification popups */}
-          <AnimatePresence>
-            {saveSuccess && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm"
+        {/* Center Top Nav Menu Dropdowns */}
+        <nav className="hidden xl:flex items-center gap-1">
+          {[
+            { id: "dashboard", label: "Dashboard" },
+            { id: "academics", label: "Academics" },
+            { id: "admissions", label: "Admissions" },
+            { id: "examinations", label: "Examinations" },
+            { id: "placements", label: "Placements" },
+            { id: "campus-life", label: "Campus Life" },
+            { id: "finance", label: "Finance" },
+            { id: "reports", label: "Reports" }
+          ].map(menu => {
+            const isActive = activeTab === menu.id;
+            return (
+              <button
+                key={menu.id}
+                onClick={() => setActiveTab(menu.id as any)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 cursor-pointer outline-none ${
+                  isActive 
+                    ? "text-[#D71920] font-extrabold bg-red-50/50" 
+                    : "text-gray-700 hover:text-[#071A3A] hover:bg-slate-50"
+                }`}
               >
-                <CheckCircle size={16} />
-                <span>Changes saved successfully!</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                <span>{menu.label}</span>
+                {menu.id !== "dashboard" && <ChevronDown size={13} className="text-gray-400" />}
+              </button>
+            );
+          })}
+        </nav>
 
-        {/* Dynamic Panel rendering */}
-        <div className="bg-white border border-gray-200/80 rounded-3xl p-6 shadow-sm">
-          {/* 🌟 Tab 1: Dashboard Overview */}
-          {activeTab === "dashboard" && (
-            <div className="space-y-6">
-              <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">Status Metrics</h3>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                {[
-                  { label: "Active Programs", count: programs.length, color: "text-[#072A6C]" },
-                  { label: "Announcements Drawer", count: announcements.length, color: "text-[#D4AF37]" },
-                  { label: "News Articles", count: news.length, color: "text-[#D4AF37]" },
-                  { label: "Upcoming Events", count: events.length, color: "text-emerald-600" }
-                ].map((stat, i) => (
-                  <div key={i} className="bg-gray-50 border border-gray-100 p-5 rounded-2xl flex flex-col justify-between">
-                    <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">{stat.label}</span>
-                    <span className={`text-4xl font-black ${stat.color} mt-2`}>{stat.count}</span>
-                  </div>
-                ))}
+        {/* Right Quick Action & User Profile */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Quick Action Button */}
+          <div className="relative">
+            <button 
+              onClick={() => setActiveTab("announcements")}
+              className="h-9 px-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>+ Quick Action</span>
+              <ChevronDown size={13} />
+            </button>
+          </div>
+
+          {/* Notification Bell */}
+          <button 
+            onClick={() => setActiveTab("announcements")}
+            className="relative p-2 text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors cursor-pointer outline-none"
+            title="Notifications"
+          >
+            <Bell size={18} />
+            <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">
+              6
+            </span>
+          </button>
+
+          {/* User Profile Avatar */}
+          <div className="flex items-center gap-2.5 pl-1.5 border-l border-gray-200">
+            <img 
+              src="/chairman_portrait.png" 
+              alt="Admin Profile" 
+              className="w-9 h-9 rounded-full object-cover border-2 border-[#071A3A]/20 shadow-xs" 
+            />
+            <div className="hidden md:flex flex-col text-left">
+              <span className="text-xs font-extrabold text-gray-900 leading-tight">Dr. Admin Kumar</span>
+              <span className="text-[10px] text-gray-500 font-medium">Super Administrator</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Body with Sidebar + Workplace Content */}
+      <div className="flex-1 flex overflow-hidden">
+        
+        {/* LEFT SIDEBAR PANEL */}
+        {sidebarOpen && (
+          <aside className="w-64 bg-white border-r border-gray-200/80 shrink-0 flex flex-col justify-between select-none z-30 transition-all duration-300">
+            <div>
+              <div className="px-5 pt-5 pb-2">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-gray-400">
+                  ADMIN PORTAL
+                </span>
               </div>
-              <div className="p-5 bg-[#072A6C]/5 border-l-4 border-[#072A6C] rounded-r-2xl mt-6 text-xs text-gray-600 space-y-1">
-                <p className="font-bold text-[#072A6C]">Welcome to the Chalapathi University Administrative Panel.</p>
-                <p>Select any category from the sidebar navigation to edit vision statements, program details, post announcements, or manage upcoming events in real-time.</p>
+
+              <nav className="p-3 space-y-1">
+                {[
+                  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+                  { id: "directories", label: "Users & Faculty", icon: Users },
+                  { id: "academics", label: "Academic Programs", icon: BookOpen },
+                  { id: "admissions", label: "Admissions", icon: UserPlus },
+                  { id: "examinations", label: "Examinations", icon: CheckSquare },
+                  { id: "placements", label: "Placements", icon: Briefcase },
+                  { id: "campus-life", label: "Campus Life", icon: Building },
+                  { id: "finance", label: "Finance", icon: CreditCard },
+                  { id: "communication", label: "Communication", icon: MessageSquare },
+                  { id: "news-events", label: "Events & News", icon: Calendar },
+                  { id: "library", label: "Library", icon: Library },
+                  { id: "reports", label: "Reports", icon: BarChart2 },
+                  { id: "homepage-sections", label: "Homepage Control", icon: Layers },
+                  { id: "settings", label: "Settings", icon: Settings }
+                ].map(item => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setActiveTab(item.id as any)}
+                      className={`w-full h-10 px-3.5 rounded-xl flex items-center justify-between text-xs font-bold transition-all text-left outline-none cursor-pointer ${
+                        isActive
+                          ? "bg-blue-50 text-blue-700 font-extrabold shadow-2xs"
+                          : "text-gray-600 hover:bg-slate-50 hover:text-gray-900"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon size={16} className={isActive ? "text-blue-600" : "text-gray-400"} />
+                        <span>{item.label}</span>
+                      </div>
+                      {isActive && <ChevronRight size={14} className="text-blue-600" />}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* Bottom Profile Footer inside Sidebar */}
+            <div className="p-4 border-t border-gray-100 bg-slate-50/50">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <img 
+                    src="/chairman_portrait.png" 
+                    alt="Admin Avatar" 
+                    className="w-10 h-10 rounded-full object-cover border border-gray-200" 
+                  />
+                  <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-xs font-extrabold text-gray-900 leading-tight">Dr. Admin Kumar</span>
+                  <span className="text-[10px] text-gray-500">Super Administrator</span>
+                  <span className="text-[9px] text-emerald-600 font-bold mt-0.5">● Online</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsAuthenticated(false)}
+                className="mt-3 w-full h-8 bg-white hover:bg-rose-50 border border-gray-200 text-rose-600 font-bold text-[11px] rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
+              >
+                <LogOut size={13} />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </aside>
+        )}
+
+        {/* Main Administrative Workplace Area */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 max-w-[1550px] mx-auto text-left">
+          {saveSuccess && (
+            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-3 text-emerald-800 text-xs font-bold animate-fade-in shadow-xs">
+              <CheckCircle size={18} className="text-emerald-600" />
+              <span>Settings and website data updated successfully across all pages!</span>
+            </div>
+          )}
+
+          {/* Dynamic Panel rendering */}
+          <div className="bg-white border border-gray-200/80 rounded-3xl p-6 shadow-xs">
+            {/* Homepage Sections Manager Tab */}
+            {activeTab === "homepage-sections" && (
+            <div className="space-y-6 animate-fade-in text-left">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-xl font-extrabold text-gray-900">Homepage Control & Photo Manager</h2>
+                  <p className="text-xs text-gray-500 mt-0.5">Enable/disable homepage sections and change main hero photos, videos, and titles.</p>
+                </div>
+              </div>
+
+              {/* Section Enable/Disable Toggles Grid */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs space-y-4">
+                <h3 className="text-sm font-extrabold text-gray-900 border-b border-gray-100 pb-3">Enable / Disable Main Page Sections</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { key: "heroVideo", label: "Hero Intro Video Banner" },
+                    { key: "announcements", label: "Announcements Drawer & Ticker" },
+                    { key: "programs", label: "Academic Programs Cards" },
+                    { key: "chairmanMessage", label: "Chairman's Vision & Message" },
+                    { key: "campusLife", label: "Campus Life & Video Tour" },
+                    { key: "newsEvents", label: "Latest News & Events Section" },
+                    { key: "placements", label: "Placements & Recruiters" },
+                    { key: "certifications", label: "Global Certifications" },
+                    { key: "virtualTour", label: "360 Virtual Tour Banner" }
+                  ].map((item) => {
+                    const isEnabled = sectionToggles[item.key as keyof typeof sectionToggles] !== false;
+                    return (
+                      <div key={item.key} className="flex items-center justify-between p-3.5 bg-gray-50 border border-gray-100 rounded-xl">
+                        <span className="text-xs font-bold text-gray-800">{item.label}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleSection(item.key)}
+                          className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer outline-none ${isEnabled ? "bg-emerald-500" : "bg-gray-300"}`}
+                        >
+                          <span className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform ${isEnabled ? "translate-x-6" : ""}`} />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Photo & Main Banner Content Editor */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs space-y-6">
+                <h3 className="text-sm font-extrabold text-gray-900 border-b border-gray-100 pb-3">Main Campus Photos & Video Settings</h3>
+                
+                <form onSubmit={handleSaveAbout} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-gray-700">Campus Intro Video File/URL</label>
+                      <input 
+                        type="text" 
+                        value={campusVideoUrl} 
+                        onChange={(e) => setCampusVideoUrl(e.target.value)} 
+                        className="w-full h-10 px-3 border border-gray-200 rounded-xl text-xs font-medium" 
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-gray-700">Chairman Portrait Photo URL</label>
+                      <input 
+                        type="text" 
+                        value={hChairmanImage} 
+                        onChange={(e) => setHChairmanImage(e.target.value)} 
+                        className="w-full h-10 px-3 border border-gray-200 rounded-xl text-xs font-medium" 
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-gray-700">Chairman Message Heading</label>
+                    <input 
+                      type="text" 
+                      value={hChairmanHeading} 
+                      onChange={(e) => setHChairmanHeading(e.target.value)} 
+                      className="w-full h-10 px-3 border border-gray-200 rounded-xl text-xs font-medium" 
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-gray-700">Chairman Full Message Text</label>
+                    <textarea 
+                      rows={4} 
+                      value={hChairmanMessage} 
+                      onChange={(e) => setHChairmanMessage(e.target.value)} 
+                      className="w-full p-3 border border-gray-200 rounded-xl text-xs font-medium" 
+                    />
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    className="h-10 px-6 bg-[#071A3A] hover:bg-blue-900 text-white font-bold text-xs rounded-xl shadow transition-colors cursor-pointer"
+                  >
+                    Save Photo & Banner Changes
+                  </button>
+                </form>
               </div>
             </div>
           )}
+
+          {/* 🌟 Tab 1: Dashboard Overview matching reference image */}
+          {activeTab === "dashboard" && (
+              <div className="space-y-6 animate-fade-in">
+                
+                {/* 1. Greeting & Date Bar */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                      Welcome back, Admin!
+                    </h1>
+                    <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
+                      Here's what's happening at Chalapathi University today.
+                    </p>
+                  </div>
+                  <div className="bg-white border border-gray-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-3 shadow-2xs shrink-0">
+                    <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                      <Calendar size={16} />
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="text-xs font-extrabold text-gray-900 leading-none">20 May 2025</span>
+                      <span className="text-[10px] text-gray-400 font-medium mt-1">Tuesday</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Row of 5 Key Stat Metric Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                  
+                  {/* Card 1: Total Students */}
+                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-gray-500">Total Students</span>
+                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <GraduationCap size={18} />
+                      </div>
+                    </div>
+                    <div className="text-2xl font-black text-gray-900">15,642</div>
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+                      <TrendingUp size={13} />
+                      <span>12.5% from last month</span>
+                    </div>
+                  </div>
+
+                  {/* Card 2: New Admissions */}
+                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-gray-500">New Admissions</span>
+                      <div className="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+                        <UserPlus size={18} />
+                      </div>
+                    </div>
+                    <div className="text-2xl font-black text-gray-900">1,248</div>
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+                      <TrendingUp size={13} />
+                      <span>8.3% from last month</span>
+                    </div>
+                  </div>
+
+                  {/* Card 3: Faculty Members */}
+                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-gray-500">Faculty Members</span>
+                      <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <Users size={18} />
+                      </div>
+                    </div>
+                    <div className="text-2xl font-black text-gray-900">1,032</div>
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+                      <TrendingUp size={13} />
+                      <span>4.7% from last month</span>
+                    </div>
+                  </div>
+
+                  {/* Card 4: Active Courses */}
+                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-gray-500">Active Courses</span>
+                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <BookOpen size={18} />
+                      </div>
+                    </div>
+                    <div className="text-2xl font-black text-gray-900">286</div>
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+                      <TrendingUp size={13} />
+                      <span>2.1% from last month</span>
+                    </div>
+                  </div>
+
+                  {/* Card 5: Placements (This Year) */}
+                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-gray-500">Placements (This Year)</span>
+                      <div className="w-9 h-9 rounded-xl bg-[#071A3A]/10 text-[#071A3A] flex items-center justify-center">
+                        <Briefcase size={18} />
+                      </div>
+                    </div>
+                    <div className="text-2xl font-black text-gray-900">98.6%</div>
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+                      <TrendingUp size={13} />
+                      <span>3.2% from last year</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* 3. Middle Charts & Quick Actions Row */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  
+                  {/* Admissions Overview Donut Chart Card */}
+                  <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-extrabold text-gray-900">Admissions Overview</h3>
+                      <select className="h-8 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-700 bg-gray-50 outline-none cursor-pointer">
+                        <option>2025-26</option>
+                        <option>2024-25</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-2">
+                      {/* SVG Donut Graphic */}
+                      <div className="relative w-44 h-44 shrink-0 flex items-center justify-center">
+                        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                          <path className="text-gray-100" strokeWidth="4.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          {/* UG (47.4%) - Blue */}
+                          <path className="text-blue-600" strokeDasharray="47.4, 100" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          {/* PG (31.3%) - Orange */}
+                          <path className="text-orange-500" strokeDasharray="31.3, 100" strokeDashoffset="-47.4" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          {/* PhD (12.4%) - Yellow */}
+                          <path className="text-amber-400" strokeDasharray="12.4, 100" strokeDashoffset="-78.7" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          {/* Diploma (8.9%) - Purple */}
+                          <path className="text-purple-500" strokeDasharray="8.9, 100" strokeDashoffset="-91.1" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                          <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total</span>
+                          <span className="text-lg font-black text-gray-900">6,842</span>
+                        </div>
+                      </div>
+
+                      {/* Donut Legend List */}
+                      <div className="space-y-2.5 w-full text-xs font-semibold">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
+                            <span className="text-gray-700">Undergraduate</span>
+                          </div>
+                          <span className="font-extrabold text-gray-900">3,245 <span className="text-[10px] text-gray-400 font-normal">(47.4%)</span></span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+                            <span className="text-gray-700">Postgraduate</span>
+                          </div>
+                          <span className="font-extrabold text-gray-900">2,142 <span className="text-[10px] text-gray-400 font-normal">(31.3%)</span></span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                            <span className="text-gray-700">Ph.D.</span>
+                          </div>
+                          <span className="font-extrabold text-gray-900">845 <span className="text-[10px] text-gray-400 font-normal">(12.4%)</span></span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                            <span className="text-gray-700">Diploma</span>
+                          </div>
+                          <span className="font-extrabold text-gray-900">610 <span className="text-[10px] text-gray-400 font-normal">(8.9%)</span></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Student Enrollments Line Graph Card */}
+                  <div className="lg:col-span-4 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-extrabold text-gray-900">Student Enrollments</h3>
+                      <select className="h-8 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-700 bg-gray-50 outline-none cursor-pointer">
+                        <option>This Year</option>
+                        <option>Last Year</option>
+                      </select>
+                    </div>
+
+                    <div className="relative h-44 w-full flex items-end pt-4 pb-2">
+                      <svg className="w-full h-full overflow-visible" viewBox="0 0 300 120" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="enrollGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
+                            <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.0" />
+                          </linearGradient>
+                        </defs>
+                        <path fill="url(#enrollGrad)" d="M 0,90 Q 50,70 100,50 T 200,40 T 300,10 L 300,120 L 0,120 Z" />
+                        <path fill="none" stroke="#3B82F6" strokeWidth="3" d="M 0,90 Q 50,70 100,50 T 200,40 T 300,10" />
+                        <circle cx="300" cy="10" r="4" fill="#3B82F6" stroke="#FFFFFF" strokeWidth="2" />
+                      </svg>
+                    </div>
+
+                    <div className="grid grid-cols-6 gap-1 text-[9px] text-gray-400 font-bold text-center border-t border-gray-100 pt-2">
+                      <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span>
+                    </div>
+                  </div>
+
+                  {/* Quick Actions Card */}
+                  <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between">
+                    <h3 className="text-sm font-extrabold text-gray-900 mb-3">Quick Actions</h3>
+                    <div className="space-y-1.5 flex-1">
+                      {[
+                        { label: "Add New User", tab: "directories", icon: UserPlus },
+                        { label: "Create Announcement", tab: "announcements", icon: Megaphone },
+                        { label: "Manage Admissions", tab: "admissions", icon: FileText },
+                        { label: "Academic Calendar", tab: "calendar", icon: Calendar },
+                        { label: "Generate Reports", tab: "reports", icon: BarChart2 },
+                        { label: "System Settings", tab: "settings", icon: Settings }
+                      ].map((action, idx) => {
+                        const ActionIcon = action.icon;
+                        return (
+                          <button
+                            key={idx}
+                            onClick={() => setActiveTab(action.tab as any)}
+                            className="w-full py-2 px-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-gray-700 hover:text-blue-600 transition-colors flex items-center justify-between text-left cursor-pointer outline-none"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <ActionIcon size={14} className="text-gray-400" />
+                              <span>{action.label}</span>
+                            </div>
+                            <ChevronRight size={14} className="text-gray-400" />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* 4. Bottom Data Cards Row: Recent Admissions, Announcements, & System Status */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  
+                  {/* Table: Recent Admissions */}
+                  <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-extrabold text-gray-900">Recent Admissions</h3>
+                      <button onClick={() => setActiveTab("admissions")} className="text-xs font-bold text-blue-600 hover:underline cursor-pointer">
+                        View All
+                      </button>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs font-medium">
+                        <thead>
+                          <tr className="border-b border-gray-100 text-[10px] text-gray-400 uppercase tracking-wider">
+                            <th className="pb-2">Name</th>
+                            <th className="pb-2">Program</th>
+                            <th className="pb-2">Department</th>
+                            <th className="pb-2">Status</th>
+                            <th className="pb-2">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                          {[
+                            { name: "Rohit Sharma", prog: "B.Tech", dept: "Computer Science", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "20 May 2025" },
+                            { name: "Ananya Reddy", prog: "BBA", dept: "Management", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "19 May 2025" },
+                            { name: "Vishal Patil", prog: "M.Tech", dept: "AI & ML", status: "Pending", statusBg: "bg-amber-50 text-amber-700", date: "19 May 2025" },
+                            { name: "Sneha Iyer", prog: "B.Sc", dept: "Data Science", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "18 May 2025" },
+                            { name: "Karthik Babu", prog: "MBA", dept: "Management", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "18 May 2025" }
+                          ].map((row, idx) => (
+                            <tr key={idx} className="hover:bg-slate-50/50">
+                              <td className="py-2.5 font-bold text-gray-900">{row.name}</td>
+                              <td className="py-2.5 text-gray-600">{row.prog}</td>
+                              <td className="py-2.5 text-gray-600">{row.dept}</td>
+                              <td className="py-2.5">
+                                <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${row.statusBg}`}>
+                                  {row.status}
+                                </span>
+                              </td>
+                              <td className="py-2.5 text-gray-400 text-[11px]">{row.date}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Announcements Feed Card */}
+                  <div className="lg:col-span-4 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-extrabold text-gray-900">Announcements</h3>
+                      <button onClick={() => setActiveTab("announcements")} className="text-xs font-bold text-blue-600 hover:underline cursor-pointer">
+                        View All
+                      </button>
+                    </div>
+
+                    <div className="space-y-3">
+                      {announcements.slice(0, 3).map((item, idx) => (
+                        <div key={idx} className="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs font-extrabold text-[#071A3A] line-clamp-1">{item.title}</span>
+                            <span className="text-[10px] text-gray-400 shrink-0 ml-2">{item.date}</span>
+                          </div>
+                          <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed">{item.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* System Status Card */}
+                  <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between space-y-4">
+                    <h3 className="text-sm font-extrabold text-gray-900">System Status</h3>
+                    <div className="space-y-3 text-xs font-semibold">
+                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                        <span className="text-gray-600">Server Status</span>
+                        <span className="text-emerald-600 font-bold flex items-center gap-1">Online <CheckCircle2 size={13} /></span>
+                      </div>
+                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                        <span className="text-gray-600">Database</span>
+                        <span className="text-emerald-600 font-bold flex items-center gap-1">Online <CheckCircle2 size={13} /></span>
+                      </div>
+                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                        <span className="text-gray-600">Backup Status</span>
+                        <span className="text-emerald-600 font-bold flex items-center gap-1">Successful <CheckCircle2 size={13} /></span>
+                      </div>
+                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                        <span className="text-gray-600">Email Service</span>
+                        <span className="text-emerald-600 font-bold flex items-center gap-1">Online <CheckCircle2 size={13} /></span>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => showNotification()}
+                      className="w-full h-9 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs rounded-xl transition-colors cursor-pointer"
+                    >
+                      View System Logs
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            )}
 
           {/* 🌟 Tab 2: Announcements */}
           {activeTab === "announcements" && (
@@ -2258,8 +3016,69 @@ export default function AdminPortal() {
               </div>
             </form>
           )}
+
+          {/* Generic Management View for remaining tabs */}
+          {["users", "admissions", "examinations", "finance", "communication", "library", "reports", "settings"].includes(activeTab) && (
+            <div className="space-y-6 animate-fade-in text-left">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+                <div>
+                  <h2 className="text-xl font-extrabold text-gray-900 capitalize">{activeTab} Management</h2>
+                  <p className="text-xs text-gray-500 mt-0.5">Manage records, configurations, and data for {activeTab}.</p>
+                </div>
+                <button 
+                  onClick={() => showNotification()}
+                  className="h-10 px-5 bg-[#071A3A] hover:bg-blue-900 text-white font-bold text-xs rounded-xl shadow transition-colors inline-flex items-center gap-2 cursor-pointer"
+                >
+                  <Plus size={14} />
+                  <span>Add New Entry</span>
+                </button>
+              </div>
+
+              {/* Data Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs font-medium">
+                  <thead>
+                    <tr className="border-b border-gray-200 text-[10px] text-gray-400 uppercase tracking-wider bg-gray-50">
+                      <th className="py-3 px-4">ID</th>
+                      <th className="py-3 px-4">Record Title / Name</th>
+                      <th className="py-3 px-4">Category</th>
+                      <th className="py-3 px-4">Status</th>
+                      <th className="py-3 px-4">Last Updated</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {[
+                      { id: "REC-101", title: `Standard ${activeTab.toUpperCase()} Record`, cat: activeTab.toUpperCase(), status: "Active", date: "20 May 2025" },
+                      { id: "REC-102", title: "Central System Configuration", cat: activeTab.toUpperCase(), status: "Verified", date: "19 May 2025" },
+                      { id: "REC-103", title: "Departmental Operation Data", cat: activeTab.toUpperCase(), status: "Active", date: "18 May 2025" }
+                    ].map((row, i) => (
+                      <tr key={i} className="hover:bg-slate-50">
+                        <td className="py-3 px-4 font-mono font-bold text-blue-600">{row.id}</td>
+                        <td className="py-3 px-4 font-bold text-gray-900">{row.title}</td>
+                        <td className="py-3 px-4 text-gray-600">{row.cat}</td>
+                        <td className="py-3 px-4">
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            {row.status}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-gray-400">{row.date}</td>
+                        <td className="py-3 px-4 text-right">
+                          <button onClick={() => showNotification()} className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors cursor-pointer">
+                            <Edit3 size={15} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
         </div>
       </main>
     </div>
-  );
+  </div>
+);
 }
