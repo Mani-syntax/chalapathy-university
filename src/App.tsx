@@ -142,6 +142,8 @@ const ENQUIRY_SCHOOLS_DATA = [
 ];
 
 function AppContent() {
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith("/admin");
   const { announcements, showAnnouncementsDrawer, setShowAnnouncementsDrawer } = useData();
 
   const [showSplash, setShowSplash] = useState(() => {
@@ -264,7 +266,7 @@ function AppContent() {
   };
 
   return (
-    <BrowserRouter>
+    <>
       <AnimatePresence mode="wait">
         {showSplash && (
           <motion.div
@@ -328,7 +330,7 @@ function AppContent() {
 
       <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-[#F7F8FC]">
-        <Header />
+        {!isAdminPage && <Header />}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -416,21 +418,23 @@ function AppContent() {
             <Route path="/admin" element={<AdminPortal />} />
           </Routes>
         </main>
-        <Footer />
+        {!isAdminPage && <Footer />}
       </div>
 
       {/* ======================================================== */}
       {/* 🌟 SLIMMED NON-OVERLAPPING STACKED RIGHT-SIDE TABS       */}
       {/* ======================================================== */}
-      <div className="fixed right-0 top-[40%] -translate-y-1/2 z-40 flex flex-col gap-3 items-end font-[var(--font-poppins)]">
-        {/* Admission Enquiry Tab (Navy Blue/White Text) */}
-        <button
-          onClick={() => setShowEnquiryModal(true)}
-          className="w-[48px] h-[220px] bg-[#072A6C] hover:bg-[#051c4a] text-white font-bold text-[10px] tracking-[1.5px] rounded-l-xl shadow-md transition-all duration-300 hover:-translate-x-1 flex items-center justify-center [writing-mode:vertical-lr] rotate-180 whitespace-nowrap cursor-pointer select-none uppercase border border-r-0 border-white/10 outline-none"
-        >
-          Admission Enquiry
-        </button>
-      </div>
+      {!isAdminPage && (
+        <div className="fixed right-0 top-[40%] -translate-y-1/2 z-40 flex flex-col gap-3 items-end font-[var(--font-poppins)]">
+          {/* Admission Enquiry Tab (Navy Blue/White Text) */}
+          <button
+            onClick={() => setShowEnquiryModal(true)}
+            className="w-[48px] h-[220px] bg-[#072A6C] hover:bg-[#051c4a] text-white font-bold text-[10px] tracking-[1.5px] rounded-l-xl shadow-md transition-all duration-300 hover:-translate-x-1 flex items-center justify-center [writing-mode:vertical-lr] rotate-180 whitespace-nowrap cursor-pointer select-none uppercase border border-r-0 border-white/10 outline-none"
+          >
+            Admission Enquiry
+          </button>
+        </div>
+      )}
 
       {/* ======================================================== */}
       {/* 🌟 SLIDING LEFT-SIDE ANNOUNCEMENTS DRAWER                 */}
@@ -844,14 +848,16 @@ function AppContent() {
         </div>
       )}
 
-    </BrowserRouter>
+    </>
   );
 }
 
 export default function App() {
   return (
     <DataProvider>
-      <AppContent />
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
     </DataProvider>
   );
 }
