@@ -146,7 +146,10 @@ function AppContent() {
   const isAdminPage = location.pathname.startsWith("/admin");
   const { announcements, showAnnouncementsDrawer, setShowAnnouncementsDrawer } = useData();
 
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(() => {
+    const visited = sessionStorage.getItem("chalapathy_visited");
+    return !visited;
+  });
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const fallbackTimerRef = React.useRef<NodeJS.Timeout | null>(null);
