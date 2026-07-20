@@ -48,81 +48,14 @@ export default function Home() {
 
       {/* ═══ HERO SECTION (720px height) ═══ */}
       <section className="relative w-full overflow-hidden bg-white" style={{ height: "720px" }}>
-        {/* Background image covering right side, fading to white/gray on the left */}
+        {/* Clean full banner image aligned top so the entire logo is visible */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/campus_hero.png')" }}
+          className="absolute inset-0 bg-cover bg-top"
+          style={{
+            backgroundImage: "url('/Chalapathimain.png')",
+            backgroundPosition: "center top"
+          }}
         />
-        {/* White gradient overlay restricted to the left side (approx 40% width) for text readability */}
-        <div className="absolute inset-y-0 left-0 w-full md:w-[50%] lg:w-[40%] bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none" />
-
-        {/* Content (1440px Container) */}
-        <div className="relative z-10 max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between">
-          <motion.div
-            className="w-full md:w-[60%] lg:w-[48%] space-y-6"
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-          >
-            <motion.h1
-              className="font-[var(--font-poppins)] text-[44px] md:text-[54px] lg:text-[62px] font-[800] leading-[1.1] tracking-tight text-[#072A6C]"
-              variants={fadeUp}
-            >
-              SHAPING
-              <br />
-              TOMORROW'S
-              <br />
-              <span className="text-[#D4AF37]">INNOVATORS</span>
-            </motion.h1>
-
-            <motion.p
-              className="text-[15px] md:text-[16px] text-[#666666] leading-relaxed max-w-md font-[400]"
-              variants={fadeUp}
-            >
-              Empowering minds through quality education, advanced learning and real-world experience. Your future begins here.
-            </motion.p>
-
-            <motion.div className="flex flex-wrap items-center gap-4" variants={fadeUp}>
-              <Link
-                href="/admissions"
-                className="h-11 px-7 bg-[#072A6C] hover:bg-[#051c4a] text-white text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all shadow-sm active:scale-95"
-              >
-                Explore Campus <ArrowRight size={15} />
-              </Link>
-              <Link
-                href="/campus-life"
-                className="h-11 px-7 bg-white border border-[#072A6C] text-[#072A6C] hover:bg-slate-50 text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all active:scale-95"
-              >
-                Virtual Tour
-                <div className="w-5 h-5 rounded-full border border-[#072A6C] flex items-center justify-center">
-                  <Play size={8} className="fill-current ml-0.5" />
-                </div>
-              </Link>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Floating Card Stack (16px border-radius) */}
-          <div className="hidden lg:flex flex-col gap-2.5 z-20">
-            {[
-              { label: "Enquire Now", icon: HelpCircle, href: "/contact" },
-              { label: "Brochure", icon: FileText, href: "/admissions" },
-              { label: "Scholarships", icon: GraduationCap, href: "/admissions" },
-              { label: "Visit Campus", icon: MapPin, href: "/contact" },
-            ].map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="flex flex-col items-center justify-center w-24 h-24 bg-white border border-gray-100 hover:border-[#072A6C] rounded-[16px] shadow-sm transition-all text-center p-2 group hover:-translate-y-1 hover:shadow-md"
-                >
-                  <Icon size={20} className="text-[#072A6C] group-hover:text-[#D4AF37] transition-colors mb-2" strokeWidth={1.8} />
-                  <span className="text-[10px] font-[700] text-[#072A6C] leading-tight">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
       </section>
 
       {/* ═══ STATISTICS BAR (Dark Blue - 14px border-radius container) ═══ */}

@@ -209,17 +209,13 @@ function AppContent() {
     setActiveAccordion(activeAccordion === id ? null : id);
   };
 
-  // Automatic popup trigger only once per browser session after loading
+  // Automatic popup trigger on every page load/reload
   useEffect(() => {
     if (!showSplash) {
-      const shown = sessionStorage.getItem("enquiry_popup_shown");
-      if (!shown) {
-        const timer = setTimeout(() => {
-          setShowEnquiryModal(true);
-          sessionStorage.setItem("enquiry_popup_shown", "true");
-        }, 500);
-        return () => clearTimeout(timer);
-      }
+      const timer = setTimeout(() => {
+        setShowEnquiryModal(true);
+      }, 500);
+      return () => clearTimeout(timer);
     }
   }, [showSplash]);
 
@@ -435,9 +431,6 @@ function AppContent() {
           </button>
         </div>
       )}
-
-      {/* ======================================================== */}
-      {/* 🌟 SLIDING LEFT-SIDE ANNOUNCEMENTS DRAWER                 */}
       {/* ======================================================== */}
       {showAnnouncementsDrawer && (
         <div 

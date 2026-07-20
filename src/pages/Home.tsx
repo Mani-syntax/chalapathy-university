@@ -368,133 +368,36 @@ export default function Home() {
           }
         `}} />
 
-        {/* Background image covering right side, fading to white/gray on the left */}
+        {/* Clean full banner image aligned top so the entire logo is visible */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/campus_hero.png')" }}
+          className="absolute inset-0 bg-cover bg-top"
+          style={{
+            backgroundImage: "url('/Chalapathimain.png')",
+            backgroundPosition: "center top"
+          }}
         />
-        {/* White gradient overlay restricted to the left side (approx 40% width) for text readability */}
-        <div className="absolute inset-y-0 left-0 w-full md:w-[50%] lg:w-[40%] bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none" />
+      </section>
 
-        {/* Content (1440px Container) */}
-        <div className="relative z-10 max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between">
-          <div className="w-full md:w-[60%] lg:w-[48%] space-y-6">
-            <div 
-              key={currentSlide}
-              style={{
-                animation: 'slideEntrance 900ms cubic-bezier(0.25, 1, 0.5, 1) forwards'
-              }}
-            >
-              {/* Heading */}
-              <h1 className="font-[var(--font-poppins)] text-[44px] md:text-[54px] lg:text-[62px] font-[800] leading-[1.1] tracking-tight text-[#072A6C] relative">
-                {slides[currentSlide].heading.map((word, wordIndex) => {
-                  const isAccent = (currentSlide === 0 && wordIndex === 2) || 
-                                   (currentSlide === 1 && wordIndex === 2) ||
-                                   (currentSlide === 2 && wordIndex === 2) ||
-                                   (currentSlide === 3 && wordIndex >= 1);
-                  return (
-                    <React.Fragment key={wordIndex}>
-                      {wordIndex > 0 && <br />}
-                      <span className={isAccent ? "text-[#D4AF37]" : ""}>
-                        {word.split("").map((letter, letterIndex) => (
-                          <span 
-                            key={letterIndex}
-                            className="inline-block animate-letter-fade"
-                            style={{
-                              animationDelay: `${wordIndex * 150 + letterIndex * 35}ms`
-                            }}
-                          >
-                            {letter === " " ? "\u00A0" : letter}
-                          </span>
-                        ))}
-                      </span>
-                    </React.Fragment>
-                  );
-                })}
-                {/* Underline */}
-                <div 
-                  className="h-1 bg-[#D4AF37] w-24 rounded-full mt-4 animate-scale-width" 
-                  style={{
-                    transformOrigin: 'left',
-                    animationDelay: '800ms'
-                  }}
-                />
-              </h1>
-
-              {/* Tagline */}
-              <p 
-                className="text-[15px] md:text-[16px] text-[#111111] leading-relaxed max-w-md font-[700] mt-5 animate-tagline-fade"
-                style={{
-                  animationDelay: '950ms'
-                }}
-              >
-                {slides[currentSlide].tagline}
-              </p>
-            </div>
-
-            {/* Buttons remain static/visible throughout */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                to="/campus-life"
-                className="h-11 px-7 bg-[#072A6C] hover:bg-[#051c4a] text-white text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all shadow-sm active:scale-95"
-              >
-                Explore Campus <ArrowRight size={15} />
-              </Link>
-              <Link
-                to="/campus-life"
-                className="h-11 px-7 bg-white border border-[#072A6C] text-[#072A6C] hover:bg-slate-50 text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all active:scale-95"
-              >
-                Virtual Tour
-                <div className="w-5 h-5 rounded-full border border-[#072A6C] flex items-center justify-center">
-                  <Play size={8} className="fill-current ml-0.5" />
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Floating Card Stack (16px border-radius) */}
-          <div className="hidden lg:flex flex-col gap-2.5 z-20">
-            {[
-              { label: "Enquire Now", icon: HelpCircle, to: "/contact" },
-              { label: "Brochure", icon: FileText, to: "/admissions" },
-              { label: "Scholarships", icon: GraduationCap, to: "/admissions/scholarships" },
-              { label: "Visit Campus", icon: MapPin, to: "/contact" },
-            ].map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.label}
-                  to={item.to}
-                  className="flex flex-col items-center justify-center w-24 h-24 bg-white border border-gray-100 hover:border-[#072A6C] rounded-[16px] shadow-sm transition-all text-center p-2 group hover:-translate-y-1 hover:shadow-md"
-                >
-                  <Icon size={20} className="text-[#072A6C] group-hover:text-[#D4AF37] transition-colors mb-2" strokeWidth={1.8} />
-                  <span className="text-[10px] font-[700] text-[#072A6C] leading-tight">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Navigation dots in the lower right corner */}
-        <div className="absolute bottom-8 left-5 lg:left-auto lg:right-8 flex gap-2 z-20">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handleDotClick(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 border-none cursor-pointer ${
-                currentSlide === index ? "w-8 bg-[#072A6C]" : "w-2.5 bg-gray-300 hover:bg-gray-400"
-              }`}
-              title={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Progress bar at the bottom */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-100/30 z-20">
-          <div 
-            className="h-full bg-[#D4AF37] transition-all duration-100 ease-linear"
-            style={{ width: `${progress}%` }}
-          />
+      {/* ═══ ADMISSION ALERT TICKER ═══ */}
+      <section className="relative z-10 w-full h-[50px] bg-[#F4B400] text-[#0A2D6D] flex items-center overflow-hidden select-none font-[var(--font-poppins)] font-[700] text-[18px] shadow-[inset_0_4px_6px_rgba(0,0,0,0.08),0_2px_4px_rgba(0,0,0,0.05)] border-none">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .marquee-inner {
+            display: flex;
+            width: max-content;
+            animation: marquee 20s linear infinite;
+            will-change: transform;
+          }
+          .marquee-inner:hover {
+            animation-play-state: paused;
+          }
+        `}} />
+        <div className="marquee-inner">
+          <span className="px-4 whitespace-nowrap">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
+          <span className="px-4 whitespace-nowrap" aria-hidden="true">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
         </div>
       </section>
 
@@ -534,35 +437,12 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ═══ ADMISSION ALERT TICKER ═══ */}
-      <section className="relative z-10 w-full h-[50px] bg-[#F4B400] text-[#0A2D6D] flex items-center overflow-hidden select-none font-[var(--font-poppins)] font-[700] text-[18px] shadow-[inset_0_4px_6px_rgba(0,0,0,0.08),0_2px_4px_rgba(0,0,0,0.05)] border-none">
-        <style dangerouslySetInnerHTML={{__html: `
-          @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-          }
-          .marquee-inner {
-            display: flex;
-            width: max-content;
-            animation: marquee 20s linear infinite;
-            will-change: transform;
-          }
-          .marquee-inner:hover {
-            animation-play-state: paused;
-          }
-        `}} />
-        <div className="marquee-inner">
-          <span className="px-4 whitespace-nowrap">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
-          <span className="px-4 whitespace-nowrap" aria-hidden="true">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
-        </div>
-      </section>
-
       {/* ═══ WHY CHOOSE US SECTION ═══ */}
-      <section className="bg-[#F8FAFC] w-full py-20 border-y border-gray-100">
+      <section className="bg-[#F8FAFC] w-full py-10 md:py-12 border-y border-gray-100">
         <div className="max-w-[1440px] mx-auto w-full px-5 text-center">
 
           <motion.h2
-            className="text-[32px] md:text-[40px] font-[800] text-[#0F172A] mb-6"
+            className="text-[32px] md:text-[40px] font-[800] text-[#0F172A] mb-4"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -570,7 +450,7 @@ export default function Home() {
             Why Choose Chalapathi University?
           </motion.h2>
           <motion.p
-            className="text-[#64748B] max-w-3xl mx-auto text-[15px] md:text-[17px] leading-relaxed mb-16 font-[500]"
+            className="text-[#64748B] max-w-3xl mx-auto text-[15px] md:text-[17px] leading-relaxed mb-8 font-[500]"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -651,10 +531,10 @@ export default function Home() {
       </section>
 
       {/* ═══ OUR PROGRAMS SECTION (Tabbed Layout) ═══ */}
-      <section className="bg-[#f8f9fa] border-t border-gray-100 py-24">
+      <section className="bg-[#f8f9fa] border-t border-gray-100 py-10 md:py-12">
         <div className="max-w-[1280px] mx-auto w-full px-5">
-          <div className="flex flex-col items-center justify-center mb-12">
-            <h2 className="text-[32px] md:text-[38px] font-[800] text-[#072A6C] tracking-tight mb-8">
+          <div className="flex flex-col items-center justify-center mb-6">
+            <h2 className="text-[32px] md:text-[38px] font-[800] text-[#072A6C] tracking-tight mb-4">
               Explore Our Schools & Programs
             </h2>
             
