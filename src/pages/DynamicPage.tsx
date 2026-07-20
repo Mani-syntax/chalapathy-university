@@ -399,44 +399,56 @@ const getPageContent = (path: string, programs: any[]) => {
         desc: matchedProgram.desc,
         body: (
           <div className="space-y-6 text-gray-600 text-sm leading-relaxed">
-            <div className="bg-[#072A6C]/5 border border-gray-100 p-5 rounded-r-[16px] grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-bold text-[#072A6C] mb-6">
+            <div className="bg-[#072A6C] border-l-4 border-[#D4AF37] shadow-lg p-5 rounded-r-[16px] grid grid-cols-1 md:grid-cols-3 gap-5 text-xs font-bold text-white mb-8">
               <div>
-                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Duration</span>
-                <span>{matchedProgram.duration}</span>
+                <span className="block text-[#D4AF37] font-black tracking-widest uppercase text-[10px] mb-1">Duration</span>
+                <span className="text-[13px]">{matchedProgram.duration}</span>
               </div>
               <div>
-                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Department</span>
-                <span>{matchedProgram.department}</span>
+                <span className="block text-[#D4AF37] font-black tracking-widest uppercase text-[10px] mb-1">Department</span>
+                <span className="text-[13px]">{matchedProgram.department}</span>
               </div>
               <div>
-                <span className="block text-gray-400 font-semibold uppercase text-[9px] mb-0.5">Degree Type</span>
-                <span>{matchedProgram.degreeType}</span>
+                <span className="block text-[#D4AF37] font-black tracking-widest uppercase text-[10px] mb-1">Degree Type</span>
+                <span className="text-[13px]">{matchedProgram.degreeType}</span>
               </div>
             </div>
 
-            <div>
-              <h3 className="text-base font-extrabold text-[#072A6C] mb-2">Course Overview</h3>
-              <p className="font-light">{matchedProgram.overview}</p>
+            <div className="bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
+              <h3 className="text-lg font-black text-[#072A6C] mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+                Course Overview
+              </h3>
+              <p className="font-medium text-gray-600 text-[13px] leading-relaxed">{matchedProgram.overview}</p>
             </div>
 
-            <div>
-              <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Core Focus Modules</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {matchedProgram.curriculum.map((item: string, idx: number) => (
-                  <div key={idx} className="bg-white border border-gray-200/80 rounded-xl p-3 text-center text-xs font-semibold text-gray-700 shadow-sm hover:border-[#D4AF37]/45 transition-colors">
-                    {item}
-                  </div>
-                ))}
+            <div className="pt-2">
+              <h3 className="text-lg font-black text-[#072A6C] mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+                Core Focus Modules
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {matchedProgram.curriculum.map((item: string, idx: number) => {
+                  return (
+                    <div key={idx} className="bg-gradient-to-br from-[#072A6C] to-[#124299] shadow-blue-900/20 rounded-xl p-4 text-center text-[13px] font-bold text-white shadow-md hover:-translate-y-1 hover:shadow-xl transition-all cursor-pointer border border-white/10 relative overflow-hidden group">
+                      <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors"></div>
+                      <span className="relative z-10 drop-shadow-sm">{item}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
-            <div>
-              <h3 className="text-base font-extrabold text-[#072A6C] mb-3">Career Prospects</h3>
-              <div className="space-y-3">
+            <div className="pt-2">
+              <h3 className="text-lg font-black text-[#072A6C] mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+                Career Prospects
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {matchedProgram.careers.map((career: { title: string; desc: string }, idx: number) => (
-                  <div key={idx} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
-                    <h4 className="font-bold text-[#D4AF37] text-xs">{career.title}</h4>
-                    <p className="text-[11px] text-gray-500 mt-1 leading-normal font-light">{career.desc}</p>
+                  <div key={idx} className="bg-[#D4AF37]/10 border-l-4 border-[#D4AF37] p-5 rounded-r-xl shadow-sm hover:-translate-y-1 hover:shadow-md transition-all">
+                    <h4 className="font-black text-[#072A6C] text-[14px] mb-1">{career.title}</h4>
+                    <p className="text-[12px] text-gray-700 leading-relaxed font-medium">{career.desc}</p>
                   </div>
                 ))}
               </div>
@@ -3249,148 +3261,83 @@ const BOARD_MODAL_DETAILS: Record<string, {
 
 function BoardDirectory() {
   const { boardData } = useData();
-  const [selectedDept, setSelectedDept] = React.useState("Governing Council");
   const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
-  
-  const activeDept = boardData[selectedDept] || boardData["Governing Council"] || { hod: {} as FacultyMember, others: [] };
+
+  // Extract all board members from BOARD_DEPARTMENTS
+  const allMembers = BOARD_DEPARTMENTS.map(dept => boardData[dept]?.hod).filter(Boolean);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
-      {/* Left Sidebar */}
-      <div className="lg:col-span-4 flex flex-col border border-gray-200 bg-white rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-100 p-2 min-h-[580px] justify-between">
-        <div>
-          <h4 className="text-xs font-black text-[#072A6C] tracking-widest uppercase p-4 border-b border-gray-100">UNIVERSITY BOARD</h4>
-          <div className="flex flex-col gap-1 mt-2">
-            {BOARD_DEPARTMENTS.map((dept) => {
-              const isActive = dept === selectedDept;
-              return (
-                <button
-                  key={dept}
-                  onClick={() => setSelectedDept(dept)}
-                  className={`w-full text-left px-5 py-3.5 text-xs font-extrabold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 rounded-xl ${
-                    isActive 
-                      ? "bg-[#D4AF37]/5 text-[#D4AF37] border-[#D4AF37] shadow-sm" 
-                      : "text-[#072A6C] hover:bg-gray-50 border-transparent"
-                  }`}
-                >
-                  <span>{dept}</span>
-                  <ChevronRight size={14} className={isActive ? "text-[#D4AF37]" : "text-gray-300"} />
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        <div className="p-4 bg-gray-50/50 rounded-xl text-[10px] text-gray-400 font-bold uppercase tracking-wider text-center border-t border-gray-100">
-          Board of Governors Directory
-        </div>
-      </div>
+    <div className="font-[var(--font-poppins)] text-center w-full mt-8">
+      {/* Grid Content */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {allMembers.map((member, index) => (
+          <div 
+            key={index}
+            onClick={() => setSelectedFaculty(member)}
+            className="flex flex-col bg-[#f8f9fa] shadow-sm hover:shadow-lg transition-shadow cursor-pointer group"
+          >
+            {/* Avatar / Photo */}
+            <div className="w-full aspect-[4/5] bg-gray-200 overflow-hidden relative">
+              <img 
+                src={getAvatarUrl(member.avatar)} 
+                alt={member.name} 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" 
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+            </div>
 
-      {/* Right Content */}
-      <div className="lg:col-span-8 flex flex-col items-center justify-start min-h-[500px]">
-        {activeDept.hod && (
-          <div className="space-y-4 flex flex-col items-center w-full">
-            <h4 className="text-xs font-extrabold text-[#D4AF37] uppercase tracking-wider text-center">Board Profile</h4>
-            <div 
-              onClick={() => setSelectedFaculty(activeDept.hod)}
-              className="bg-white border-2 border-[#D4AF37] rounded-[20px] p-8 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[480px] min-h-[480px]"
-            >
-              <div className="absolute top-4 right-4 bg-[#D4AF37] text-gray-900 font-extrabold text-[9px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
-                Board Member
-              </div>
-
-              <div className="w-72 h-72 rounded-xl border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-5xl text-[#072A6C] shadow-inner mb-6 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
-                <img src={getAvatarUrl(activeDept.hod.avatar)} alt={activeDept.hod.name} className="w-full h-full object-cover" />
-              </div>
-
-              <h5 className="font-extrabold text-[#072A6C] text-base md:text-lg leading-snug tracking-tight">
-                {activeDept.hod.name}
+            {/* Details */}
+            <div className="py-5 px-3">
+              <h5 className="font-extrabold text-gray-900 text-[16px] leading-tight group-hover:text-[#8B0000] transition-colors">
+                {member.name}
               </h5>
-              <span className="text-xs text-[#D4AF37] font-bold uppercase tracking-wider mt-1.5 block">
-                {activeDept.hod.title}
+              <span className="text-[13px] text-gray-500 mt-1 block">
+                {member.title}
               </span>
-
-              {/* Yellow shade description box */}
-              <div className="mt-4 bg-amber-50/70 border border-amber-200/60 p-4.5 rounded-xl text-[12px] text-gray-700 font-medium leading-relaxed text-left w-full shadow-inner">
-                {activeDept.hod.interests}
-              </div>
             </div>
           </div>
-        )}
+        ))}
       </div>
 
       {/* Profile Details Modal */}
-      {selectedFaculty && (
+      {selectedFaculty && createPortal(
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in"
           onClick={() => setSelectedFaculty(null)}
         >
           <div 
-            className="bg-white w-full max-w-[500px] rounded-[24px] overflow-hidden shadow-2xl relative flex flex-col text-left border border-gray-100"
+            className="bg-white w-full max-w-[550px] overflow-hidden shadow-2xl relative flex flex-col text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
               onClick={() => setSelectedFaculty(null)}
-              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-colors cursor-pointer outline-none border-none"
+              className="absolute top-3 right-3 z-10 text-gray-300 hover:text-gray-500 transition-colors"
             >
-              <X size={18} />
+              <X size={24} />
             </button>
 
-            <div className="bg-[#072A6C] text-white py-8 px-6 text-center relative border-b-4 border-[#D4AF37]">
-              <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none overflow-hidden">
-                <img src={getAvatarUrl(selectedFaculty.avatar)} alt={selectedFaculty.name} className="w-full h-full object-cover" />
-              </div>
-              <h3 className="text-lg md:text-xl font-black tracking-tight">{selectedFaculty.name}</h3>
-              <p className="text-[10px] text-[#D4AF37] mt-1 font-black uppercase tracking-widest">{selectedFaculty.title}</p>
+            <div className="pt-8 pb-5 px-8 bg-[#fafafa] border-b border-gray-100">
+              <h3 className="text-xl md:text-2xl font-normal text-[#8B0000] leading-tight">
+                {selectedFaculty.name}, {selectedFaculty.title}
+              </h3>
             </div>
 
-            <div className="p-6 space-y-4 text-xs text-gray-600">
-              <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
-                <div>
-                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">University ID</span>
-                  <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
-                </div>
-                <div>
-                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Department / Office</span>
-                  <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
-                </div>
-                <div>
-                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Years of Experience</span>
-                  <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
-                </div>
+            <div className="p-8 relative bg-white bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+              <div className="w-56 h-auto md:w-64 mx-auto shadow-md border-4 border-white">
+                <img 
+                  src={getAvatarUrl(selectedFaculty.avatar)} 
+                  alt={selectedFaculty.name} 
+                  className="w-full h-auto object-cover"
+                />
               </div>
-
-              <div className="space-y-1">
-                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Education</span>
-                <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
-                  {selectedFaculty.edu}
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Responsibilities</span>
-                <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
-                  {selectedFaculty.interests}
-                </p>
-              </div>
-
-              <div className="pt-2 border-t border-gray-100 flex justify-start items-center text-[11px] text-gray-500 font-semibold">
-                <div className="flex items-center gap-2 truncate">
-                  <Mail size={13} className="text-[#D4AF37] shrink-0" />
-                  <span className="truncate" title={selectedFaculty.email}>{selectedFaculty.email}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
-              <button 
-                onClick={() => setSelectedFaculty(null)}
-                className="h-9 px-6 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
-              >
-                Close Profile
-              </button>
+              
+              <p className="text-[14px] md:text-[15px] text-gray-600 mt-8 leading-loose text-justify">
+                {selectedFaculty.name}, {selectedFaculty.edu}, is renowned for their focus on {selectedFaculty.interests.toLowerCase()} and educational excellence. With {selectedFaculty.experience} in educational management and leadership, they continue to drive forward the institution's core mission and global footprint.
+              </p>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -3516,9 +3463,9 @@ function StaffDirectory() {
       </div>
 
       {/* Staff Details Modal */}
-      {selectedFaculty && (
+      {selectedFaculty && createPortal(
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
           onClick={() => setSelectedFaculty(null)}
         >
           <div 
@@ -3587,7 +3534,8 @@ function StaffDirectory() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -3595,102 +3543,88 @@ function StaffDirectory() {
 
 function FacultyDirectory() {
   const { facultyData } = useData();
-  const [selectedDept, setSelectedDept] = React.useState("Computer Science & Engineering");
   const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
   
-  const activeDept = facultyData[selectedDept] || facultyData["Computer Science & Engineering"] || { hod: {} as FacultyMember, others: [] };
+  const location = useLocation();
+  const path = location.pathname.toLowerCase();
+  
+  let schoolName = "School of Computing Sciences";
+  let departmentsToShow: string[] = [];
+
+  if (path.includes("computing")) {
+    schoolName = "School of Computing Sciences";
+    departmentsToShow = ["Computer Science & Engineering", "Artificial Intelligence & ML", "Data Science"];
+  } else if (path.includes("engineering")) {
+    schoolName = "School of Engineering";
+    departmentsToShow = ["Electronics & Communication Engineering"]; 
+  } else if (path.includes("business")) {
+    schoolName = "School of Business & Management";
+    departmentsToShow = ["School of Management"];
+  } else {
+    schoolName = "Our Esteemed Faculty";
+    departmentsToShow = ["Computer Science & Engineering", "Artificial Intelligence & ML", "Data Science", "School of Pharmacy", "School of Management"];
+  }
+
+  // Flatten the faculty lists for the selected departments
+  const allFacultyMembers: FacultyMember[] = [];
+  departmentsToShow.forEach(dept => {
+    if (facultyData[dept]) {
+      if (facultyData[dept].hod) allFacultyMembers.push(facultyData[dept].hod);
+      if (facultyData[dept].others) allFacultyMembers.push(...facultyData[dept].others);
+    }
+  });
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
-      {/* Left Sidebar (Wide, Taller Card Layout to fill vertical space) */}
-      <div className="lg:col-span-4 flex flex-col border border-gray-200 bg-white rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-100 p-2 min-h-[580px] justify-between">
-        <div>
-          <h4 className="text-xs font-black text-[#072A6C] tracking-widest uppercase p-4 border-b border-gray-100">Departments</h4>
-          <div className="flex flex-col gap-1 mt-2">
-            {DEPARTMENTS.map((dept) => {
-              const isActive = dept === selectedDept;
-              return (
-                <button
-                  key={dept}
-                  onClick={() => setSelectedDept(dept)}
-                  className={`w-full text-left px-5 py-6 text-xs font-extrabold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 rounded-xl ${
-                    isActive 
-                      ? "bg-[#D4AF37]/5 text-[#D4AF37] border-[#D4AF37] shadow-sm" 
-                      : "text-[#072A6C] hover:bg-gray-50 border-transparent"
-                  }`}
-                >
-                  <span>{dept}</span>
-                  <ChevronRight size={14} className={isActive ? "text-[#D4AF37]" : "text-gray-300"} />
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        {/* Placeholder bottom element to help elongate layout */}
-        <div className="p-4 bg-gray-50/50 rounded-xl text-[10px] text-gray-400 font-bold uppercase tracking-wider text-center border-t border-gray-100">
-          City Chalapathi Directory
-        </div>
+    <div className="font-[var(--font-poppins)] text-left w-full mt-8">
+      {/* Title */}
+      <div className="mb-6 border-b border-gray-100 pb-4">
+        <h3 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">{schoolName}</h3>
       </div>
 
-      {/* Right Content (Faculty Cards Grid) */}
-      <div className="lg:col-span-8 space-y-8">
-        
-        {/* Head of Department Centered Layout */}
-        {activeDept.hod && (
-          <div className="space-y-4 flex flex-col items-center">
-            <h4 className="text-[13px] md:text-[15px] font-black text-[#D4AF37] bg-[#D4AF37]/8 px-5 py-1.5 rounded-full uppercase tracking-widest text-center w-fit mx-auto shadow-sm border border-[#D4AF37]/15">Head of Department</h4>
+      {allFacultyMembers.length === 0 ? (
+        <div className="text-center py-12 text-gray-500 font-medium bg-gray-50 rounded-xl">
+          Faculty records are currently being updated for this school.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {allFacultyMembers.map((faculty, fIdx) => (
             <div 
-              onClick={() => setSelectedFaculty(activeDept.hod)}
-              className="bg-white border-2 border-[#D4AF37] rounded-[16px] p-6 shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[340px] min-h-[300px]"
+              key={fIdx}
+              onClick={() => setSelectedFaculty(faculty)}
+              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-lg transition-all duration-300 flex items-center gap-5 cursor-pointer group hover:border-red-800/30 min-h-[140px]"
             >
-              {/* HOD Gold Tag */}
-              <div className="absolute top-3 right-3 bg-[#D4AF37] text-gray-900 font-extrabold text-[8px] uppercase tracking-widest px-2.5 py-0.5 rounded-full shadow-sm">
-                HOD
+              {/* Photo */}
+              <div className="w-[100px] h-[110px] shrink-0 rounded-lg overflow-hidden bg-[#072A6C]/5 border border-gray-100 shadow-inner flex items-center justify-center">
+                <img 
+                  src={getAvatarUrl(faculty.avatar)} 
+                  alt={faculty.name} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
               </div>
-
-              {/* Square Avatar Photo Box (3x Bigger) */}
-              <div className="w-48 h-48 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-4xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
-                <img src={getAvatarUrl(activeDept.hod.avatar)} alt={activeDept.hod.name} className="w-full h-full object-cover" />
-              </div>
-
-              <h5 className="font-extrabold text-[#072A6C] text-sm leading-snug tracking-tight">
-                {activeDept.hod.name}
-              </h5>
-            </div>
-          </div>
-        )}
-
-        {/* Other Faculty Members Grid (3-column layout) */}
-        <div className="space-y-4">
-          <h4 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">Department Faculty</h4>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            {activeDept.others.map((faculty, fIdx) => (
-              <div 
-                key={fIdx}
-                onClick={() => setSelectedFaculty(faculty)}
-                className="bg-white border border-gray-200/80 rounded-[16px] p-6 shadow-sm hover:border-[#D4AF37] hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer group min-h-[260px]"
-              >
-                {/* Square Avatar Photo Box (3x Bigger) */}
-                <div className="w-40 h-40 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-3xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
-                  <img src={getAvatarUrl(faculty.avatar)} alt={faculty.name} className="w-full h-full object-cover" />
-                </div>
-
-                <h5 className="font-extrabold text-[#072A6C] text-xs leading-snug tracking-tight">
+              
+              {/* Info */}
+              <div className="flex flex-col flex-1 justify-center">
+                <h4 className="text-[14px] font-black text-[#072A6C] uppercase leading-snug mb-1 group-hover:text-red-800 transition-colors">
                   {faculty.name}
-                </h5>
+                </h4>
+                <p className="text-[12px] font-bold text-red-700/90 uppercase tracking-wider mb-1">
+                  {faculty.title.replace("HOD & ", "").replace("Principal & ", "")}
+                </p>
+                <p className="text-[11px] font-semibold text-red-600/70">
+                  {faculty.edu.split('-')[0].trim()}
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-
-      </div>
+      )}
 
       {/* ======================================================== */}
       {/* 🌟 FACULTY DETAILS MODAL POPUP (CENTERED LAYOUT)          */}
       {/* ======================================================== */}
-      {selectedFaculty && (
+      {selectedFaculty && createPortal(
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
           onClick={() => setSelectedFaculty(null)}
         >
           <div 
@@ -3708,7 +3642,6 @@ function FacultyDirectory() {
 
             {/* Header Banner (Navy & Gold Accents) */}
             <div className="bg-[#072A6C] text-white py-8 px-6 text-center relative border-b-4 border-[#D4AF37]">
-              {/* Square Avatar Photo */}
               <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none overflow-hidden">
                 <img src={getAvatarUrl(selectedFaculty.avatar)} alt={selectedFaculty.name} className="w-full h-full object-cover" />
               </div>
@@ -3718,8 +3651,6 @@ function FacultyDirectory() {
 
             {/* Details Content */}
             <div className="p-6 space-y-4 text-xs text-gray-600">
-              
-              {/* Details Table Grid */}
               <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
                 <div>
                   <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Department ID</span>
@@ -3769,11 +3700,10 @@ function FacultyDirectory() {
                 Close Profile
               </button>
             </div>
-
           </div>
-        </div>
+        </div>,
+        document.body
       )}
-
     </div>
   );
 }

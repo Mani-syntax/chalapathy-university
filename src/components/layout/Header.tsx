@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
-  Menu, X, ChevronDown, ArrowRight, Megaphone, Search,
+  Menu, X, ChevronDown, ChevronRight, ArrowRight, Megaphone, Search,
   GraduationCap, Code, Laptop, Cpu, Brain, Database, ShieldAlert, Radio, 
   CircuitBoard, Building, Hammer, Briefcase, Pill, UserPlus, FileSignature, 
   CreditCard, Award, Compass, Home as HomeIcon, BookOpen, Trophy, Bus, 
@@ -290,8 +290,15 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
   const managementItems = [
     { label: "Board Members", to: "/management/board-members" },
-    { label: "Faculty", to: "/management/faculty" },
-    { label: "Staff", to: "/management/staff" }
+    { 
+      label: "Faculty", 
+      to: "#",
+      submenu: [
+        { label: "School of Computing Sciences", to: "/management/faculty/computing" },
+        { label: "School of Engineering", to: "/management/faculty/engineering" },
+        { label: "School of Business & Management", to: "/management/faculty/business" }
+      ]
+    }
   ];
 
   const campusLifeItems = [
@@ -512,16 +519,40 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                     </button>
                     {managementOpen && (
                       <div className="absolute top-full left-0 mt-0 w-[180px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
-                        {managementItems.map((item) => (
-                          <Link
-                            key={item.label}
-                            to={item.to}
-                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all"
-                            onClick={() => setManagementOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {managementItems.map((item) => {
+                          if (item.submenu) {
+                            return (
+                              <div key={item.label} className="relative group/sub">
+                                <div className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all cursor-default flex justify-between items-center">
+                                  {item.label}
+                                  <ChevronRight size={13} className="text-gray-400 group-hover/sub:text-[#D4AF37]" />
+                                </div>
+                                <div className="absolute left-full top-0 hidden group-hover/sub:flex flex-col w-[240px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 animate-fade-in -ml-1">
+                                  {item.submenu.map(subItem => (
+                                    <Link
+                                      key={subItem.label}
+                                      to={subItem.to}
+                                      className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all block"
+                                      onClick={() => setManagementOpen(false)}
+                                    >
+                                      {subItem.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          }
+                          return (
+                            <Link
+                              key={item.label}
+                              to={item.to}
+                              className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all block"
+                              onClick={() => setManagementOpen(false)}
+                            >
+                              {item.label}
+                            </Link>
+                          );
+                        })}
                       </div>
                     )}
                   </div>

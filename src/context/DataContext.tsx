@@ -605,6 +605,12 @@ const INITIAL_FACULTY_DATA: Record<string, DirectoryData> = {
       { name: "Smt. T. Kavitha", title: "Assistant Professor", edu: "M.Tech - JNTU Kakinada", interests: "Statistical Analytics, R programming, data warehousing", phone: "0863 2345451", email: "kavitha.ds@city.ac.in", avatar: "TK", age: "35 Years", experience: "9 Years", idNo: "CCIT-DS-002", department: "Data Science" }
     ]
   },
+  "Electronics & Communication Engineering": {
+    hod: { name: "Dr. V. Radha Krishna", title: "HOD & Professor", edu: "Ph.D - JNTU Hyderabad", interests: "VLSI Design, Embedded Systems, IoT", phone: "0863 2345460", email: "hod.ece@city.ac.in", avatar: "VRK", age: "48 Years", experience: "20 Years", idNo: "CCIT-ECE-001", department: "Electronics & Communication Engineering" },
+    others: [
+      { name: "Mr. B. Naveen", title: "Assistant Professor", edu: "M.Tech - NIT Trichy", interests: "Signal Processing, Wireless Communications", phone: "0863 2345461", email: "naveen.ece@city.ac.in", avatar: "BN", age: "35 Years", experience: "10 Years", idNo: "CCIT-ECE-002", department: "Electronics & Communication Engineering" }
+    ]
+  },
   "School of Pharmacy": {
     hod: { name: "Prof. Dr. A. Narendra", title: "Principal & Professor", edu: "Ph.D - Indian Institute of Chemical Technology (IICT), Hyderabad", interests: "Pharmaceutics, Target-oriented Drug Delivery Systems, Nano-carriers", phone: "0863 2345470", email: "principal.pharmacy@city.ac.in", avatar: "AN", age: "55 Years", experience: "26 Years of Research", idNo: "CCIT-PH-001", department: "School of Pharmacy" },
     others: [
@@ -811,7 +817,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   const [facultyData, setFacultyData] = useState<Record<string, DirectoryData>>(() => {
-    const local = localStorage.getItem("chalapathi_faculty_data");
+    const local = localStorage.getItem("chalapathi_faculty_data_v2");
     return local ? JSON.parse(local) : INITIAL_FACULTY_DATA;
   });
 
@@ -872,7 +878,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateFacultyData = (data: Record<string, DirectoryData>) => {
     setFacultyData(data);
-    localStorage.setItem("chalapathi_faculty_data", JSON.stringify(data));
+    localStorage.setItem("chalapathi_faculty_data_v2", JSON.stringify(data));
   };
 
   const updateBoardData = (data: Record<string, DirectoryData>) => {

@@ -376,7 +376,7 @@ function AppContent() {
             {/* Management Routes */}
             <Route path="/management" element={<DynamicPage />} />
             <Route path="/management/board-members" element={<DynamicPage />} />
-            <Route path="/management/faculty" element={<DynamicPage />} />
+            <Route path="/management/faculty/*" element={<DynamicPage />} />
             <Route path="/management/staff" element={<DynamicPage />} />
 
             {/* Campus Life Routes */}
