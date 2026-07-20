@@ -588,7 +588,7 @@ export default function Home() {
         >
           {[
             {
-              title: "Industry-Integrated Education",
+              title: "Education Curriculum",
               desc: "Curriculum designed with practical learning and industry collaboration to ensure graduates are career-ready.",
               icon: Trophy,
               color: "#123A7A"
@@ -1850,7 +1850,7 @@ export default function Home() {
         <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left Red Card */}
           <div className="lg:col-span-8 bg-[#072A6C] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
-            <div className="space-y-4 max-w-lg z-10">
+            <div className="space-y-4 relative z-10 w-full md:max-w-[55%]">
               <h2 className="text-[26px] font-[800] tracking-wide font-[var(--font-poppins)] text-[#D4AF37]">
                 ADMISSIONS OPEN 2026
               </h2>
