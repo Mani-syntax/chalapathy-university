@@ -1348,9 +1348,10 @@ export default function Home() {
               <div className="relative w-full max-w-[380px] rounded-[32px] overflow-hidden shadow-2xl group border-4 border-white bg-white transition-all duration-500 hover:shadow-3xl hover:-translate-y-1">
                 {/* Chairman Portrait */}
                 <img 
-                  src={localStorage.getItem("chalapathi_chairman_image") || "/chairman_portrait.png"} 
+                  src={localStorage.getItem("chalapathi_chairman_image") || "/chairman_v4.png"} 
                   alt="Chairman Dr. Y. V Anjaneyulu" 
                   className="w-full h-auto object-cover aspect-[4/5] transition-transform duration-700 group-hover:scale-103"
+                  style={{ objectPosition: "50% 0%" }}
                 />
                 
                 {/* Light reflection animation overlay */}
