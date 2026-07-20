@@ -926,13 +926,13 @@ export default function Home() {
             </div>
 
             {/* CENTER COLUMN: Latest News (25% / lg:col-span-3) */}
-            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
+            <div className="lg:col-span-3 flex flex-col justify-between bg-[#072A6C] text-white border border-[#072A6C]/20 rounded-[24px] p-6 shadow-sm shadow-[#072A6C]/10">
               <div className="w-full text-left">
-                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
-                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
+                <div className="flex justify-between items-center border-b border-white/10 pb-3 mb-5">
+                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#D4AF37]">
                     Latest News
                   </h3>
-                  <Link to="/news" className="text-[10px] font-bold text-[#D4AF37] hover:underline flex items-center gap-0.5">
+                  <Link to="/news" className="text-[10px] font-bold text-white/80 hover:text-[#D4AF37] hover:underline flex items-center gap-0.5">
                     View All
                   </Link>
                 </div>
@@ -954,15 +954,15 @@ export default function Home() {
                         className="flex gap-3.5 items-start cursor-pointer group"
                       >
                         {/* Custom Date Badge */}
-                        <div className="w-10 h-10 rounded-xl bg-amber-50 text-[#D4AF37] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                        <div className="w-10 h-10 rounded-xl bg-white/10 text-white text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105 border border-white/5">
                           <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
                           <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#D4AF37] transition-colors line-clamp-2">
+                          <h4 className="text-[11px] font-bold text-white leading-snug group-hover:text-[#D4AF37] transition-colors line-clamp-2">
                             {item.title}
                           </h4>
-                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-relaxed line-clamp-1">{item.excerpt || item.bodyText}</span>
+                          <span className="text-[9.5px] text-white/60 font-medium block mt-0.5 leading-relaxed line-clamp-1">{item.excerpt || item.bodyText}</span>
                         </div>
                       </div>
                     );
@@ -972,16 +972,16 @@ export default function Home() {
             </div>
 
             {/* RIGHT COLUMN: Upcoming Events (25% / lg:col-span-3) */}
-            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
+            <div className="lg:col-span-3 flex flex-col justify-between bg-[#072A6C] text-white border border-[#072A6C]/20 rounded-[24px] p-6 shadow-sm shadow-[#072A6C]/10">
               <div className="w-full text-left">
-                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
-                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
+                <div className="flex justify-between items-center border-b border-white/10 pb-3 mb-5">
+                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#D4AF37]">
                     Upcoming Events
                   </h3>
                   <button 
                     type="button"
                     onClick={() => setIsEventsDrawerOpen(true)}
-                    className="text-[10px] font-bold text-[#072A6C] hover:underline flex items-center gap-0.5 bg-transparent border-none cursor-pointer outline-none"
+                    className="text-[10px] font-bold text-white/80 hover:text-[#D4AF37] hover:underline flex items-center gap-0.5 bg-transparent border-none cursor-pointer outline-none font-[var(--font-poppins)]"
                   >
                     Calendar
                   </button>
@@ -1004,15 +1004,15 @@ export default function Home() {
                         className="flex gap-3.5 items-start cursor-pointer group"
                       >
                         {/* Custom Date Badge */}
-                        <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#072A6C] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                        <div className="w-10 h-10 rounded-xl bg-white/10 text-white text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105 border border-white/5">
                           <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
                           <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors line-clamp-2">
+                          <h4 className="text-[11px] font-bold text-white leading-snug group-hover:text-[#D4AF37] transition-colors line-clamp-2">
                             {item.title}
                           </h4>
-                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-none">{item.time}</span>
+                          <span className="text-[9.5px] text-white/60 font-medium block mt-0.5 leading-none">{item.time}</span>
                         </div>
                       </div>
                     );
