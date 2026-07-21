@@ -276,7 +276,18 @@ function AppContent() {
               playsInline
               preload="auto"
               onPlay={handleVideoPlay}
-              onError={() => setShowSplash(false)}
+              onCanPlay={(e) => {
+                const vid = e.target as HTMLVideoElement;
+                vid.play().catch((err) => console.log("Autoplay retry caught:", err));
+              }}
+              onLoadedData={(e) => {
+                const vid = e.target as HTMLVideoElement;
+                vid.play().catch((err) => console.log("Autoplay onLoadedData caught:", err));
+              }}
+              onError={(e) => {
+                console.log("Video error detected, keeping intro fallback visible briefly:", e);
+                setTimeout(() => setShowSplash(false), 3000);
+              }}
               onEnded={() => {
                 setTimeout(() => {
                   setShowSplash(false);

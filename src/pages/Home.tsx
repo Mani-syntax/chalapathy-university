@@ -139,9 +139,10 @@ export default function Home() {
   const [activeBridgeSlide, setActiveBridgeSlide] = useState(0);
   const [activeFeaturedStudent, setActiveFeaturedStudent] = useState(0);
 
-  // Video playback states (Chairman video only)
+  // Video playback states
   const [isEventsDrawerOpen, setIsEventsDrawerOpen] = useState(false);
   const [showChairmanVideo, setShowChairmanVideo] = useState(false);
+  const [showHeroIntroModal, setShowHeroIntroModal] = useState(false);
   const drawerScrollRef = useRef<HTMLDivElement>(null);
 
   // Lock body scroll, handle escape key, and scroll to top when Events Drawer opens
@@ -376,6 +377,48 @@ export default function Home() {
             backgroundPosition: "center top"
           }}
         />
+
+        {/* Floating Watch Logo Intro Button */}
+        <div className="absolute bottom-6 right-6 z-20">
+          <button
+            type="button"
+            onClick={() => setShowHeroIntroModal(true)}
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#072A6C]/90 hover:bg-[#072A6C] text-white text-xs font-bold rounded-full shadow-lg backdrop-blur-md border border-white/20 transition-all hover:scale-105 cursor-pointer"
+          >
+            <Play size={14} className="fill-white" />
+            <span>Watch Logo Intro</span>
+          </button>
+        </div>
+
+        {/* Hero Logo Intro Video Modal */}
+        <AnimatePresence>
+          {showHeroIntroModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[999999] bg-black/95 flex items-center justify-center p-4"
+              onClick={() => setShowHeroIntroModal(false)}
+            >
+              <div className="relative w-full max-w-4xl bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10" onClick={(e) => e.stopPropagation()}>
+                <button
+                  type="button"
+                  onClick={() => setShowHeroIntroModal(false)}
+                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/40 backdrop-blur-md transition-all cursor-pointer border-none text-base font-bold"
+                >
+                  ✕
+                </button>
+                <video
+                  src="/chalapathi_logo_intro.mp4"
+                  controls
+                  autoPlay
+                  playsInline
+                  className="w-full h-auto max-h-[85vh] rounded-2xl"
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       {/* ═══ ADMISSION ALERT TICKER ═══ */}
