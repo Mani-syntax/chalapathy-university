@@ -176,7 +176,10 @@ function AppContent() {
     }
   }, [showSplash]);
 
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
   const handleVideoPlay = () => {
+    setIsVideoPlaying(true);
     // Clear safety loading timer once playback starts to avoid cutting video mid-play
     if (fallbackTimerRef.current) {
       clearTimeout(fallbackTimerRef.current);
@@ -264,10 +267,30 @@ function AppContent() {
         {showSplash && (
           <motion.div
             key="splash"
-            className="fixed inset-0 z-[999999] bg-black flex items-center justify-center select-none"
+            className="fixed inset-0 z-[999999] bg-[#072A6C] flex items-center justify-center select-none"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
           >
+            {/* Brand Logo Loading / Fallback Overlay (visible while video buffers) */}
+            {!isVideoPlaying && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#072A6C] z-10 text-white p-6">
+                <motion.div 
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="flex flex-col items-center text-center space-y-4"
+                >
+                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white/10 backdrop-blur-md border border-[#D4AF37]/40 flex items-center justify-center p-3 shadow-2xl">
+                    <img src="/chalapathi_logo.png" alt="Chalapathi" className="w-full h-full object-contain filter drop-shadow" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                  </div>
+                  <div className="space-y-1">
+                    <h1 className="text-xl md:text-2xl font-black tracking-widest text-white uppercase">CHALAPATHI UNIVERSITY</h1>
+                    <p className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-[0.2em]">A Vision. A Commitment. A Legacy.</p>
+                  </div>
+                  <div className="w-8 h-8 border-2 border-[#D4AF37] border-t-transparent rounded-full animate-spin mt-2" />
+                </motion.div>
+              </div>
+            )}
+
             <video
               ref={videoRef}
               src="/chalapathi_logo_intro.mp4"
@@ -276,6 +299,7 @@ function AppContent() {
               playsInline
               preload="auto"
               onPlay={handleVideoPlay}
+              onPlaying={() => setIsVideoPlaying(true)}
               onCanPlay={(e) => {
                 const vid = e.target as HTMLVideoElement;
                 vid.play().catch((err) => console.log("Autoplay retry caught:", err));
@@ -286,12 +310,12 @@ function AppContent() {
               }}
               onError={(e) => {
                 console.log("Video error detected, keeping intro fallback visible briefly:", e);
-                setTimeout(() => setShowSplash(false), 3000);
+                setTimeout(() => setShowSplash(false), 2500);
               }}
               onEnded={() => {
                 setTimeout(() => {
                   setShowSplash(false);
-                }, 1500); // 1.5-second pause on final frame
+                }, 1000);
               }}
               className="w-full h-full object-cover"
             />
