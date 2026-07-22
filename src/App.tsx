@@ -256,6 +256,16 @@ function AppContent() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
+    
+    // Save submission to localStorage so it can be tracked in the admin dashboard
+    const saved = localStorage.getItem("chalapathi_enquiries");
+    const list = saved ? JSON.parse(saved) : [];
+    list.push({
+      id: "ENQ-" + Date.now(),
+      ...formData,
+      date: new Date().toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" })
+    });
+    localStorage.setItem("chalapathi_enquiries", JSON.stringify(list));
   };
 
   return (

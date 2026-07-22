@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -113,7 +113,7 @@ function AnimatedCounter({ value, duration = 2500 }: { value: string; duration?:
 }
 
 export default function Home() {
-  const { programs, successStories, placementsContent, news, events } = useData();
+  const { programs, successStories, placementsContent, news, events, heroSlides } = useData();
   const navigate = useNavigate();
   const [directionsFrom, setDirectionsFrom] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -175,21 +175,28 @@ export default function Home() {
   const [activeNewsSlide, setActiveNewsSlide] = useState(0);
   const [showCopiedTooltip, setShowCopiedTooltip] = useState(false);
 
+  const featuredSlides = useMemo(() => {
+    const featured = news?.filter(item => item.featured) || [];
+    return featured.length > 0 ? featured : news?.slice(0, 4) || [];
+  }, [news]);
+
   // Auto-slide effect for the Featured News image carousel
   useEffect(() => {
+    if (featuredSlides.length <= 1) return;
     const timer = setInterval(() => {
-      setActiveNewsSlide((prev) => (prev + 1) % FEATURED_IMAGES.length);
+      setActiveNewsSlide((prev) => (prev + 1) % featuredSlides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [featuredSlides]);
 
   const handleShareFeaturedNews = (e: React.MouseEvent, slug: string) => {
     e.stopPropagation();
+    const activeSlide = featuredSlides[activeNewsSlide];
     const url = `${window.location.origin}/news/${slug}`;
     if (navigator.share) {
       navigator.share({
-        title: news.find(item => item.id === 1)?.title || "News @ City Chalapathi",
-        text: news.find(item => item.id === 1)?.excerpt || "",
+        title: activeSlide?.title || "News @ City Chalapathi",
+        text: activeSlide?.excerpt || "",
         url: url
       }).catch((err) => console.log("Error sharing:", err));
     } else {
@@ -276,18 +283,20 @@ export default function Home() {
     document.title = "Chalapathi University | Best University in Andhra Pradesh";
   }, []);
 
+  const slidesCount = heroSlides && heroSlides.length > 0 ? heroSlides.length : 1;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
-          setCurrentSlide((slide) => (slide + 1) % slides.length);
+          setCurrentSlide((slide) => (slide + 1) % slidesCount);
           return 0;
         }
         return prev + 2;
       });
     }, 100);
     return () => clearInterval(interval);
-  }, [slides.length]);
+  }, [slidesCount]);
 
   const handleDotClick = (index: number) => {
     setCurrentSlide(index);
@@ -304,11 +313,11 @@ export default function Home() {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
     if (distance > 50) {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1) % slidesCount);
       setProgress(0);
     }
     if (distance < -50) {
-      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+      setCurrentSlide((prev) => (prev - 1 + slidesCount) % slidesCount);
       setProgress(0);
     }
     setTouchStart(null);
@@ -368,14 +377,54 @@ export default function Home() {
           }
         `}} />
 
-        {/* Clean full banner image aligned top so the entire logo is visible */}
-        <div
-          className="absolute inset-0 bg-cover bg-top"
-          style={{
-            backgroundImage: "url('/Chalapathimain.png')",
-            backgroundPosition: "center top"
-          }}
-        />
+        {/* Dynamic slides carousel */}
+        {heroSlides && heroSlides.length > 0 && heroSlides.map((slide, index) => {
+          const isActive = currentSlide === index;
+          return (
+            <div
+              key={slide.id}
+              className={`absolute inset-0 bg-cover bg-top transition-opacity duration-1000 ${
+                isActive ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
+              style={{
+                backgroundImage: `url('${slide.image}')`,
+                backgroundPosition: "center top"
+              }}
+            >
+              {/* Optional text overlay if title/subtitle are provided */}
+              {(slide.title || slide.subtitle) && (
+                <div className="absolute inset-0 bg-black/35 flex flex-col items-center justify-center text-center p-5 z-20">
+                  {slide.title && (
+                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-2 animate-[slideEntrance_0.8s_ease-out]">
+                      {slide.title}
+                    </h1>
+                  )}
+                  {slide.subtitle && (
+                    <p className="text-gray-100 text-sm md:text-lg lg:text-xl font-bold uppercase tracking-widest animate-[slideEntrance_1s_ease-out]">
+                      {slide.subtitle}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* Slider Indicator Dots (only show if slides > 1) */}
+        {heroSlides && heroSlides.length > 1 && (
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-30">
+            {heroSlides.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => handleDotClick(idx)}
+                className={`h-2.5 rounded-full transition-all duration-300 border-none outline-none cursor-pointer ${
+                  currentSlide === idx ? "bg-[#D4AF37] w-6" : "bg-white/50 w-2.5 hover:bg-white"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ═══ ADMISSION ALERT TICKER ═══ */}
@@ -468,7 +517,7 @@ export default function Home() {
         >
           {[
             {
-              title: "Education Curriculum",
+              title: "Industry integrated curriculum",
               desc: "Curriculum designed with practical learning and industry collaboration to ensure graduates are career-ready.",
               icon: Trophy,
               color: "#123A7A"
@@ -712,11 +761,13 @@ export default function Home() {
               
               {/* Left half: Image slider carousel */}
               <div className="w-full md:w-1/2 relative bg-slate-900 group min-h-[300px] md:min-h-auto flex items-stretch">
-                <img 
-                  src={FEATURED_IMAGES[activeNewsSlide]} 
-                  alt={news.find(item => item.id === 1)?.title || "Featured News"} 
-                  className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
-                />
+                {featuredSlides[activeNewsSlide] && (
+                  <img 
+                    src={featuredSlides[activeNewsSlide].image || "/prog_computer.png"} 
+                    alt={featuredSlides[activeNewsSlide].title || "Featured News"} 
+                    className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/10 pointer-events-none" />
                 
                 {/* Featured Badge */}
@@ -725,103 +776,113 @@ export default function Home() {
                 </span>
 
                 {/* Slider arrows */}
-                <button 
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveNewsSlide((prev) => (prev - 1 + FEATURED_IMAGES.length) % FEATURED_IMAGES.length);
-                  }}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 cursor-pointer border-none outline-none"
-                >
-                  <ChevronLeft size={16} />
-                </button>
-                <button 
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveNewsSlide((prev) => (prev + 1) % FEATURED_IMAGES.length);
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 cursor-pointer border-none outline-none"
-                >
-                  <ChevronRight size={16} />
-                </button>
+                {featuredSlides.length > 1 && (
+                  <>
+                    <button 
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveNewsSlide((prev) => (prev - 1 + featuredSlides.length) % featuredSlides.length);
+                      }}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 cursor-pointer border-none outline-none"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveNewsSlide((prev) => (prev + 1) % featuredSlides.length);
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 cursor-pointer border-none outline-none"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </>
+                )}
               </div>
 
               {/* Right half: Text Content */}
               <div className="w-full md:w-1/2 p-8 flex flex-col justify-between text-left">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37]">
-                      {news.find(item => item.id === 1)?.category || "Innovation"}
-                    </span>
-                    <span className="text-gray-300">•</span>
-                    <span className="text-[10px] text-gray-400 font-semibold font-[var(--font-inter)]">
-                      {news.find(item => item.id === 1)?.date}
-                    </span>
+                {featuredSlides[activeNewsSlide] && (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37]">
+                        {featuredSlides[activeNewsSlide].category || "Innovation"}
+                      </span>
+                      <span className="text-gray-300">•</span>
+                      <span className="text-[10px] text-gray-400 font-semibold font-[var(--font-inter)]">
+                        {featuredSlides[activeNewsSlide].date}
+                      </span>
+                    </div>
+
+                    <h2 className="text-xl md:text-[22px] font-extrabold text-[#072A6C] leading-snug line-clamp-3">
+                      {featuredSlides[activeNewsSlide].title}
+                    </h2>
+
+                    <p className="text-[12px] text-gray-500 font-light leading-relaxed font-[var(--font-inter)] line-clamp-4">
+                      {featuredSlides[activeNewsSlide].excerpt}
+                    </p>
                   </div>
-
-                  <h2 className="text-xl md:text-[22px] font-extrabold text-[#072A6C] leading-snug line-clamp-3">
-                    {news.find(item => item.id === 1)?.title}
-                  </h2>
-
-                  <p className="text-[12px] text-gray-500 font-light leading-relaxed font-[var(--font-inter)] line-clamp-4">
-                    {news.find(item => item.id === 1)?.excerpt}
-                  </p>
-                </div>
+                )}
 
                 {/* Actions & Indicator Dots */}
                 <div className="pt-6 space-y-4">
-                  <div className="flex items-center gap-3 relative">
-                    <button 
-                      type="button"
-                      onClick={() => navigate(`/news/${news.find(item => item.id === 1)?.slug}`)}
-                      className="h-10 px-6 bg-[#072A6C] hover:bg-[#D4AF37] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm border-none outline-none"
-                    >
-                      <span>Read Full Story</span>
-                      <ArrowRight size={12} />
-                    </button>
-                    
-                    <div className="relative">
+                  {featuredSlides[activeNewsSlide] && (
+                    <div className="flex items-center gap-3 relative">
                       <button 
                         type="button"
-                        onClick={(e) => handleShareFeaturedNews(e, news.find(item => item.id === 1)?.slug || "")}
-                        className="w-10 h-10 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 flex items-center justify-center transition-colors cursor-pointer outline-none"
+                        onClick={() => navigate(`/news/${featuredSlides[activeNewsSlide].slug}`)}
+                        className="h-10 px-6 bg-[#072A6C] hover:bg-[#D4AF37] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm border-none outline-none"
                       >
-                        <Share2 size={14} />
+                        <span>Read Full Story</span>
+                        <ArrowRight size={12} />
                       </button>
+                      
+                      <div className="relative">
+                        <button 
+                          type="button"
+                          onClick={(e) => handleShareFeaturedNews(e, featuredSlides[activeNewsSlide].slug || "")}
+                          className="w-10 h-10 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-150 text-gray-600 flex items-center justify-center transition-colors cursor-pointer outline-none"
+                        >
+                          <Share2 size={14} />
+                        </button>
 
-                      {/* Tooltip confirmation */}
-                      <AnimatePresence>
-                        {showCopiedTooltip && (
-                          <motion.div 
-                            initial={{ opacity: 0, y: 5 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 5 }}
-                            className="absolute bottom-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#072A6C] text-white text-[10px] font-bold rounded-lg shadow-md whitespace-nowrap z-20 pointer-events-none"
-                          >
-                            Link Copied!
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                        {/* Tooltip confirmation */}
+                        <AnimatePresence>
+                          {showCopiedTooltip && (
+                            <motion.div 
+                              initial={{ opacity: 0, y: 5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: 5 }}
+                              className="absolute bottom-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#072A6C] text-white text-[10px] font-bold rounded-lg shadow-md whitespace-nowrap z-20 pointer-events-none"
+                            >
+                              Link Copied!
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Slider Indicator Dots */}
-                  <div className="flex items-center gap-1.5">
-                    {FEATURED_IMAGES.map((_, idx) => (
-                      <button 
-                        key={idx}
-                        type="button"
-                        onClick={() => setActiveNewsSlide(idx)}
-                        className={`h-2.5 rounded-full transition-all duration-300 border-none outline-none cursor-pointer ${
-                          activeNewsSlide === idx ? "bg-[#D4AF37] w-6" : "bg-gray-300 w-2.5"
-                        }`}
-                      />
-                    ))}
-                  </div>
+                  {featuredSlides.length > 1 && (
+                    <div className="flex items-center gap-1.5">
+                      {featuredSlides.map((_, idx) => (
+                        <button 
+                          key={idx}
+                          type="button"
+                          onClick={() => setActiveNewsSlide(idx)}
+                          className={`h-2.5 rounded-full transition-all duration-300 border-none outline-none cursor-pointer ${
+                            activeNewsSlide === idx ? "bg-[#D4AF37] w-6" : "bg-gray-300 w-2.5"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-
               </div>
+
             </div>
 
             {/* CENTER COLUMN: Latest News (25% / lg:col-span-3) */}

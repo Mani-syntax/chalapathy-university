@@ -3,6 +3,14 @@ import { PROGRAMS_DATA, ProgramDetail } from "../data/programsData";
 
 export type { ProgramDetail };
 
+// Hero Slide interface
+export interface HeroSlide {
+  id: number;
+  image: string;
+  title?: string;
+  subtitle?: string;
+}
+
 // Announcements interface
 export interface Announcement {
   title: string;
@@ -24,6 +32,7 @@ export interface NewsArticle {
   image: string;
   slug: string;
   sourceUrl?: string;
+  featured?: boolean;
 }
 
 // Event interface
@@ -164,6 +173,7 @@ interface DataContextType {
   staffData: Record<string, DirectoryData>;
   placementsContent: PlacementsContent;
   successStories: SuccessStory[];
+  heroSlides: HeroSlide[];
   
   // Update functions
   updateAnnouncements: (list: Announcement[]) => void;
@@ -177,6 +187,7 @@ interface DataContextType {
   updateStaffData: (data: Record<string, DirectoryData>) => void;
   updatePlacementsContent: (data: PlacementsContent) => void;
   updateSuccessStories: (list: SuccessStory[]) => void;
+  updateHeroSlides: (list: HeroSlide[]) => void;
   showAnnouncementsDrawer: boolean;
   setShowAnnouncementsDrawer: (show: boolean) => void;
 }
@@ -192,6 +203,10 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   { title: "Mega Campus Placement Drive 2026", desc: "Registrations now open for eligible pre-final year candidates for upcoming on-campus MNC recruitment drives.", date: "22 Apr 2026", iconName: "BookOpen" }
 ];
 
+const INITIAL_HERO_SLIDES: HeroSlide[] = [
+  { id: 1, image: "/Chalapathimain.png", title: "", subtitle: "" }
+];
+
 const INITIAL_NEWS: NewsArticle[] = [
   {
     id: 1,
@@ -204,7 +219,8 @@ const INITIAL_NEWS: NewsArticle[] = [
     bodyText: "Today marks a historic milestone for Chalapathi University as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects.",
     image: "/prog_computer.png",
     slug: "ai-research-lab",
-    sourceUrl: "https://www.thehindu.com/sci-tech/technology/internet/artificial-intelligence-research-lab-inaugurated/article671829.ece"
+    sourceUrl: "https://www.thehindu.com/sci-tech/technology/internet/artificial-intelligence-research-lab-inaugurated/article671829.ece",
+    featured: true
   },
   {
     id: 2,
@@ -217,7 +233,8 @@ const INITIAL_NEWS: NewsArticle[] = [
     bodyText: "Our student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication.",
     image: "/prog_engineering.png",
     slug: "smart-hackathon",
-    sourceUrl: "https://timesofindia.indiatimes.com/education/engineering-students-win-national-smart-hackathon-2025/articleshow/1089271.cms"
+    sourceUrl: "https://timesofindia.indiatimes.com/education/engineering-students-win-national-smart-hackathon-2025/articleshow/1089271.cms",
+    featured: true
   },
   {
     id: 3,
@@ -846,6 +863,22 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return parsed;
   });
 
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => {
+    const local = localStorage.getItem("chalapathi_hero_slides");
+    if (!local) return INITIAL_HERO_SLIDES;
+    try {
+      const parsed = JSON.parse(local);
+      return parsed.map((s: HeroSlide) => {
+        if (s.title === "Chalapathi University" && s.subtitle === "WELCOMES YOU") {
+          return { ...s, title: "", subtitle: "" };
+        }
+        return s;
+      });
+    } catch {
+      return INITIAL_HERO_SLIDES;
+    }
+  });
+
   const updateAnnouncements = (list: Announcement[]) => {
     setAnnouncements(list);
     localStorage.setItem("chalapathi_announcements", JSON.stringify(list));
@@ -901,6 +934,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem("chalapathi_success_stories", JSON.stringify(list));
   };
 
+  const updateHeroSlides = (list: HeroSlide[]) => {
+    setHeroSlides(list);
+    localStorage.setItem("chalapathi_hero_slides", JSON.stringify(list));
+  };
+
   return (
     <DataContext.Provider value={{
       announcements,
@@ -914,6 +952,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       staffData,
       placementsContent,
       successStories,
+      heroSlides,
       updateAnnouncements,
       updatePrograms,
       updateNews,
@@ -925,6 +964,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updateStaffData,
       updatePlacementsContent,
       updateSuccessStories,
+      updateHeroSlides,
       showAnnouncementsDrawer,
       setShowAnnouncementsDrawer
     }}>

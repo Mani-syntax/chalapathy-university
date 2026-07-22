@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useData, Announcement, ProgramDetail, NewsArticle, EventItem, AboutUsContent, MonthCalendarData, PlacementsContent, PlacedStudent, Recruiter, SuccessStory } from "../context/DataContext";
+import { certifications } from "../data/certifications";
 import { 
   Lock, LayoutDashboard, Megaphone, BookOpen, Calendar, FileText, 
-  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase, Globe,
+  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase, Globe, Newspaper, Download,
   User, Eye, EyeOff, ArrowRight, ShieldCheck, Shield, BarChart3, Menu, ChevronDown, ChevronRight,
   Bell, TrendingUp, UserPlus, CheckSquare, FileSpreadsheet, Building, CreditCard, MessageSquare,
   Library, BarChart2, CheckCircle2, Clock, Search, Filter, Image, Sparkles, Layers, RefreshCw, GraduationCap
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Award } from "lucide-react";
 
 export default function AdminPortal() {
   const {
@@ -32,8 +34,29 @@ export default function AdminPortal() {
     updatePlacementsContent,
     placementsContent,
     successStories,
-    updateSuccessStories
+    updateSuccessStories,
+    heroSlides,
+    updateHeroSlides
   } = useData();
+
+  // Load actual enquiries count from localStorage
+  const enquiriesCount = React.useMemo(() => {
+    const saved = localStorage.getItem("chalapathi_enquiries");
+    if (!saved) {
+      const initial = [
+        { id: "ENQ-1", name: "Rahul Verma", mobile: "9876543210", email: "rahul@gmail.com", city: "Guntur", state: "Andhra Pradesh", qualification: "Class 12 / Intermediate", yearOfPassing: "2025", program: "B.Tech - Computer Science and Engineering", date: "20 May 2025" },
+        { id: "ENQ-2", name: "Priya Sen", mobile: "8765432109", email: "priya@gmail.com", city: "Vijayawada", state: "Andhra Pradesh", qualification: "Class 12 / Intermediate", yearOfPassing: "2025", program: "B.Tech - CSE (Data Science)", date: "19 May 2025" },
+        { id: "ENQ-3", name: "Kiran Dev", mobile: "7654321098", email: "kiran@gmail.com", city: "Hyderabad", state: "Telangana", qualification: "Class 12 / Intermediate", yearOfPassing: "2025", program: "B.Tech - CSE (Artificial Intelligence)", date: "18 May 2025" }
+      ];
+      localStorage.setItem("chalapathi_enquiries", JSON.stringify(initial));
+      return initial.length;
+    }
+    try {
+      return JSON.parse(saved).length;
+    } catch (e) {
+      return 0;
+    }
+  }, []);
 
   // Authentication states
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,7 +71,7 @@ export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState<
     "dashboard" | "homepage-sections" | "announcements" | "about" | "academics" | 
     "calendar" | "news-events" | "directories" | "placements" | "campus-life" | 
-    "users" | "admissions" | "examinations" | "finance" | "communication" | "library" | "reports" | "settings"
+    "users" | "admissions" | "examinations" | "finance" | "communication" | "library" | "reports" | "settings" | "events" | "hero"
   >("dashboard");
   const [newsEventsSection, setNewsEventsSection] = useState<"news" | "events" | "video">("news");
   
@@ -177,6 +200,8 @@ export default function AdminPortal() {
   const [calMonthIdx, setCalMonthIdx] = useState(0);
   const [calDay, setCalDay] = useState(1);
   const [calEventText, setCalEventText] = useState("");
+  const [csvFileName, setCsvFileName] = useState("");
+  const [parsedEvents, setParsedEvents] = useState<{ month: string; day: number; eventText: string }[]>([]);
 
   // Form states - News & Events
   const [newNewsTitle, setNewNewsTitle] = useState("");
@@ -186,6 +211,9 @@ export default function AdminPortal() {
   const [newNewsLoc, setNewNewsLoc] = useState("");
   const [newNewsTime, setNewNewsTime] = useState("");
   const [newNewsSourceUrl, setNewNewsSourceUrl] = useState("");
+  const [newNewsDate, setNewNewsDate] = useState("");
+  const [newNewsImage, setNewNewsImage] = useState("");
+  const [newNewsFeatured, setNewNewsFeatured] = useState(false);
   
   const [newEventTitle, setNewEventTitle] = useState("");
   const [newEventCategory, setNewEventCategory] = useState("Workshop");
@@ -193,6 +221,11 @@ export default function AdminPortal() {
   const [newEventTime, setNewEventTime] = useState("09:30 AM");
   const [newEventLoc, setNewEventLoc] = useState("");
   const [newEventBody, setNewEventBody] = useState("");
+
+  // Form states - Hero Slides
+  const [newSlideImage, setNewSlideImage] = useState("");
+  const [newSlideTitle, setNewSlideTitle] = useState("");
+  const [newSlideSubtitle, setNewSlideSubtitle] = useState("");
   // Form states - Directories
   const [selectedDir, setSelectedDir] = useState<"faculty" | "board" | "staff">("faculty");
   const [selectedDirDept, setSelectedDirDept] = useState("Computer Science & Engineering");
@@ -432,6 +465,105 @@ export default function AdminPortal() {
     showNotification();
   };
 
+  // CSV Row Parsing Helper
+  const parseCSVRow = (text: string) => {
+    const result = [];
+    let inQuotes = false;
+    let currentField = '';
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(currentField);
+        currentField = '';
+      } else {
+        currentField += char;
+      }
+    }
+    result.push(currentField);
+    return result;
+  };
+
+  // Parse CSV file content
+  const handleCSVUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setCsvFileName(file.name);
+    
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const text = evt.target?.result as string;
+      const lines = text.split(/\r?\n/);
+      if (lines.length === 0) return;
+      
+      const cleanLines = lines.map(line => line.trim()).filter(line => line.length > 0);
+      if (cleanLines.length < 2) return;
+      
+      // Parse headers
+      const headers = cleanLines[0].split(',').map(h => h.trim().replace(/^["']|["']$/g, '').toLowerCase());
+      
+      let monthIdx = headers.findIndex(h => h.includes('month'));
+      let dayIdx = headers.findIndex(h => h.includes('day') || h.includes('date'));
+      let eventIdx = headers.findIndex(h => h.includes('event') || h.includes('milestone') || h.includes('desc') || h.includes('title'));
+      
+      if (monthIdx === -1) monthIdx = 0;
+      if (dayIdx === -1) dayIdx = 1;
+      if (eventIdx === -1) eventIdx = 2;
+      
+      const results: { month: string; day: number; eventText: string }[] = [];
+      
+      for (let i = 1; i < cleanLines.length; i++) {
+        const row = parseCSVRow(cleanLines[i]);
+        if (row.length <= Math.max(monthIdx, dayIdx, eventIdx)) continue;
+        
+        const month = row[monthIdx]?.trim().replace(/^["']|["']$/g, '');
+        const dayVal = parseInt(row[dayIdx]?.trim().replace(/^["']|["']$/g, '') || '');
+        const eventText = row[eventIdx]?.trim().replace(/^["']|["']$/g, '');
+        
+        if (month && !isNaN(dayVal) && dayVal >= 1 && dayVal <= 31 && eventText) {
+          results.push({
+            month,
+            day: dayVal,
+            eventText
+          });
+        }
+      }
+      setParsedEvents(results);
+    };
+    reader.readAsText(file);
+  };
+
+  // Import parsed events to calendarData
+  const handleImportCalendarCSV = (overwrite: boolean) => {
+    if (parsedEvents.length === 0) return;
+    
+    let updated = [...calendarData];
+    if (overwrite) {
+      // Clear all existing events first
+      updated = updated.map(m => ({ ...m, events: {} }));
+    }
+    
+    parsedEvents.forEach(evt => {
+      // Find matching month
+      const monthIdx = updated.findIndex(m => m.name.toLowerCase() === evt.month.toLowerCase());
+      if (monthIdx !== -1) {
+        updated[monthIdx] = {
+          ...updated[monthIdx],
+          events: {
+            ...updated[monthIdx].events,
+            [evt.day]: evt.eventText
+          }
+        };
+      }
+    });
+    
+    updateCalendarData(updated);
+    setParsedEvents([]);
+    setCsvFileName("");
+    showNotification();
+  };
+
   // Add News Article
   const handleAddNews = (e: React.FormEvent) => {
     e.preventDefault();
@@ -445,15 +577,16 @@ export default function AdminPortal() {
     const newArt: NewsArticle = {
       id: nextId,
       title: newNewsTitle,
-      date: new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }),
+      date: newNewsDate || new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }),
       time: newNewsTime || "11:00 AM",
       location: newNewsLoc || "Main Campus Complex",
       category: newNewsCategory,
       excerpt: newNewsExcerpt || newNewsBody.substring(0, 120) + "...",
       bodyText: newNewsBody,
-      image: "/prog_computer.png",
+      image: newNewsImage || "/prog_computer.png",
       slug: slug,
-      sourceUrl: newNewsSourceUrl || undefined
+      sourceUrl: newNewsSourceUrl || undefined,
+      featured: newNewsFeatured
     };
     updateNews([newArt, ...news]);
     setNewNewsTitle("");
@@ -462,6 +595,9 @@ export default function AdminPortal() {
     setNewNewsLoc("");
     setNewNewsTime("");
     setNewNewsSourceUrl("");
+    setNewNewsDate("");
+    setNewNewsImage("");
+    setNewNewsFeatured(false);
     showNotification();
   };
 
@@ -501,6 +637,31 @@ export default function AdminPortal() {
   const handleDeleteEvent = (id: number) => {
     const updated = events.filter(ev => ev.id !== id);
     updateEvents(updated);
+    showNotification();
+  };
+
+  // Add Hero Slide
+  const handleAddHeroSlide = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newSlideImage) return;
+    const nextId = heroSlides.length > 0 ? Math.max(...heroSlides.map(s => s.id)) + 1 : 1;
+    const newSlide = {
+      id: nextId,
+      image: newSlideImage,
+      title: newSlideTitle || undefined,
+      subtitle: newSlideSubtitle || undefined
+    };
+    updateHeroSlides([...heroSlides, newSlide]);
+    setNewSlideImage("");
+    setNewSlideTitle("");
+    setNewSlideSubtitle("");
+    showNotification();
+  };
+
+  // Delete Hero Slide
+  const handleDeleteHeroSlide = (id: number) => {
+    const updated = heroSlides.filter(s => s.id !== id);
+    updateHeroSlides(updated);
     showNotification();
   };
 
@@ -853,64 +1014,10 @@ export default function AdminPortal() {
             <Menu size={18} />
           </button>
         </div>
-
-        {/* Center Top Nav Menu Dropdowns */}
-        <nav className="hidden xl:flex items-center gap-1">
-          {[
-            { id: "dashboard", label: "Dashboard" },
-            { id: "academics", label: "Academics" },
-            { id: "admissions", label: "Admissions" },
-            { id: "examinations", label: "Examinations" },
-            { id: "placements", label: "Placements" },
-            { id: "campus-life", label: "Campus Life" },
-            { id: "finance", label: "Finance" },
-            { id: "reports", label: "Reports" }
-          ].map(menu => {
-            const isActive = activeTab === menu.id;
-            return (
-              <button
-                key={menu.id}
-                onClick={() => setActiveTab(menu.id as any)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 cursor-pointer outline-none ${
-                  isActive 
-                    ? "text-[#D71920] font-extrabold bg-red-50/50" 
-                    : "text-gray-700 hover:text-[#071A3A] hover:bg-slate-50"
-                }`}
-              >
-                <span>{menu.label}</span>
-                {menu.id !== "dashboard" && <ChevronDown size={13} className="text-gray-400" />}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Right Quick Action & User Profile */}
+        {/* Right User Profile */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Quick Action Button */}
-          <div className="relative">
-            <button 
-              onClick={() => setActiveTab("announcements")}
-              className="h-9 px-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>+ Quick Action</span>
-              <ChevronDown size={13} />
-            </button>
-          </div>
-
-          {/* Notification Bell */}
-          <button 
-            onClick={() => setActiveTab("announcements")}
-            className="relative p-2 text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors cursor-pointer outline-none"
-            title="Notifications"
-          >
-            <Bell size={18} />
-            <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">
-              6
-            </span>
-          </button>
-
           {/* User Profile Avatar */}
-          <div className="flex items-center gap-2.5 pl-1.5 border-l border-gray-200">
+          <div className="flex items-center gap-2.5 pl-1.5">
             <img 
               src="/chairman_portrait.png" 
               alt="Admin Profile" 
@@ -940,19 +1047,13 @@ export default function AdminPortal() {
               <nav className="p-3 space-y-1">
                 {[
                   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-                  { id: "directories", label: "Users & Faculty", icon: Users },
                   { id: "academics", label: "Academic Programs", icon: BookOpen },
-                  { id: "admissions", label: "Admissions", icon: UserPlus },
-                  { id: "examinations", label: "Examinations", icon: CheckSquare },
-                  { id: "placements", label: "Placements", icon: Briefcase },
-                  { id: "campus-life", label: "Campus Life", icon: Building },
-                  { id: "finance", label: "Finance", icon: CreditCard },
-                  { id: "communication", label: "Communication", icon: MessageSquare },
-                  { id: "news-events", label: "Events & News", icon: Calendar },
-                  { id: "library", label: "Library", icon: Library },
-                  { id: "reports", label: "Reports", icon: BarChart2 },
-                  { id: "homepage-sections", label: "Homepage Control", icon: Layers },
-                  { id: "settings", label: "Settings", icon: Settings }
+                  { id: "announcements", label: "Announcements", icon: Megaphone },
+                  { id: "directories", label: "Management", icon: Users },
+                  { id: "news-events", label: "News", icon: Newspaper },
+                  { id: "events", label: "Events", icon: Calendar },
+                  { id: "hero", label: "Hero Slides", icon: Image },
+                  { id: "calendar", label: "Academic Calendar", icon: FileSpreadsheet }
                 ].map(item => {
                   const Icon = item.icon;
                   const isActive = activeTab === item.id;
@@ -1115,9 +1216,8 @@ export default function AdminPortal() {
             </div>
           )}
 
-          {/* 🌟 Tab 1: Dashboard Overview matching reference image */}
           {activeTab === "dashboard" && (
-              <div className="space-y-6 animate-fade-in">
+              <div className="space-y-8 animate-fade-in">
                 
                 {/* 1. Greeting & Date Bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1126,330 +1226,74 @@ export default function AdminPortal() {
                       Welcome back, Admin!
                     </h1>
                     <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
-                      Here's what's happening at Chalapathi University today.
+                      Overview of live activity across Chalapathi University database.
                     </p>
                   </div>
-                  <div className="bg-white border border-gray-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-3 shadow-2xs shrink-0">
-                    <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                      <Calendar size={16} />
-                    </div>
-                    <div className="flex flex-col text-left">
-                      <span className="text-xs font-extrabold text-gray-900 leading-none">20 May 2025</span>
-                      <span className="text-[10px] text-gray-400 font-medium mt-1">Tuesday</span>
-                    </div>
-                  </div>
                 </div>
 
-                {/* 2. Row of 5 Key Stat Metric Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                {/* 2. Row of 4 Real-time Stat Metric Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   
-                  {/* Card 1: Total Students */}
-                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                  {/* Card 1: Enquiry Submissions */}
+                  <div className="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-2xs space-y-4 hover:shadow-md transition-all duration-300">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-gray-500">Total Students</span>
-                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                        <GraduationCap size={18} />
+                      <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider">Admission Enquiries</span>
+                      <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <UserPlus size={20} />
                       </div>
                     </div>
-                    <div className="text-2xl font-black text-gray-900">15,642</div>
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                      <TrendingUp size={13} />
-                      <span>12.5% from last month</span>
+                    <div>
+                      <div className="text-3xl font-black text-gray-900">{enquiriesCount}</div>
+                      <p className="text-[11px] text-gray-400 font-medium mt-1">Form submissions from admission popup</p>
                     </div>
                   </div>
 
-                  {/* Card 2: New Admissions */}
-                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                  {/* Card 2: Certifications */}
+                  <div className="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-2xs space-y-4 hover:shadow-md transition-all duration-300">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-gray-500">New Admissions</span>
-                      <div className="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
-                        <UserPlus size={18} />
+                      <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider">Global Certifications</span>
+                      <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <Award size={20} />
                       </div>
                     </div>
-                    <div className="text-2xl font-black text-gray-900">1,248</div>
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                      <TrendingUp size={13} />
-                      <span>8.3% from last month</span>
+                    <div>
+                      <div className="text-3xl font-black text-gray-900">{certifications.length}</div>
+                      <p className="text-[11px] text-gray-400 font-medium mt-1">Academics-integrated global certifications</p>
                     </div>
                   </div>
 
-                  {/* Card 3: Faculty Members */}
-                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                  {/* Card 3: News */}
+                  <div className="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-2xs space-y-4 hover:shadow-md transition-all duration-300">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-gray-500">Faculty Members</span>
-                      <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                        <Users size={18} />
+                      <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider">News Articles</span>
+                      <div className="w-10 h-10 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center">
+                        <Megaphone size={20} />
                       </div>
                     </div>
-                    <div className="text-2xl font-black text-gray-900">1,032</div>
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                      <TrendingUp size={13} />
-                      <span>4.7% from last month</span>
+                    <div>
+                      <div className="text-3xl font-black text-gray-900">{news.length}</div>
+                      <p className="text-[11px] text-gray-400 font-medium mt-1">Published updates & press releases</p>
                     </div>
                   </div>
 
-                  {/* Card 4: Active Courses */}
-                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                  {/* Card 4: Events */}
+                  <div className="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-2xs space-y-4 hover:shadow-md transition-all duration-300">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-gray-500">Active Courses</span>
-                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                        <BookOpen size={18} />
+                      <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider">Campus Events</span>
+                      <div className="w-10 h-10 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                        <Calendar size={20} />
                       </div>
                     </div>
-                    <div className="text-2xl font-black text-gray-900">286</div>
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                      <TrendingUp size={13} />
-                      <span>2.1% from last month</span>
-                    </div>
-                  </div>
-
-                  {/* Card 5: Placements (This Year) */}
-                  <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-gray-500">Placements (This Year)</span>
-                      <div className="w-9 h-9 rounded-xl bg-[#071A3A]/10 text-[#071A3A] flex items-center justify-center">
-                        <Briefcase size={18} />
-                      </div>
-                    </div>
-                    <div className="text-2xl font-black text-gray-900">98.6%</div>
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                      <TrendingUp size={13} />
-                      <span>3.2% from last year</span>
+                    <div>
+                      <div className="text-3xl font-black text-gray-900">{events.length}</div>
+                      <p className="text-[11px] text-gray-400 font-medium mt-1">Scheduled academic & sports events</p>
                     </div>
                   </div>
 
                 </div>
 
-                {/* 3. Middle Charts & Quick Actions Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                  
-                  {/* Admissions Overview Donut Chart Card */}
-                  <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-sm font-extrabold text-gray-900">Admissions Overview</h3>
-                      <select className="h-8 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-700 bg-gray-50 outline-none cursor-pointer">
-                        <option>2025-26</option>
-                        <option>2024-25</option>
-                      </select>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-2">
-                      {/* SVG Donut Graphic */}
-                      <div className="relative w-44 h-44 shrink-0 flex items-center justify-center">
-                        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                          <path className="text-gray-100" strokeWidth="4.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                          {/* UG (47.4%) - Blue */}
-                          <path className="text-blue-600" strokeDasharray="47.4, 100" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                          {/* PG (31.3%) - Orange */}
-                          <path className="text-orange-500" strokeDasharray="31.3, 100" strokeDashoffset="-47.4" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                          {/* PhD (12.4%) - Yellow */}
-                          <path className="text-amber-400" strokeDasharray="12.4, 100" strokeDashoffset="-78.7" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                          {/* Diploma (8.9%) - Purple */}
-                          <path className="text-purple-500" strokeDasharray="8.9, 100" strokeDashoffset="-91.1" strokeWidth="4.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        </svg>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                          <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total</span>
-                          <span className="text-lg font-black text-gray-900">6,842</span>
-                        </div>
-                      </div>
-
-                      {/* Donut Legend List */}
-                      <div className="space-y-2.5 w-full text-xs font-semibold">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-                            <span className="text-gray-700">Undergraduate</span>
-                          </div>
-                          <span className="font-extrabold text-gray-900">3,245 <span className="text-[10px] text-gray-400 font-normal">(47.4%)</span></span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
-                            <span className="text-gray-700">Postgraduate</span>
-                          </div>
-                          <span className="font-extrabold text-gray-900">2,142 <span className="text-[10px] text-gray-400 font-normal">(31.3%)</span></span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                            <span className="text-gray-700">Ph.D.</span>
-                          </div>
-                          <span className="font-extrabold text-gray-900">845 <span className="text-[10px] text-gray-400 font-normal">(12.4%)</span></span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                            <span className="text-gray-700">Diploma</span>
-                          </div>
-                          <span className="font-extrabold text-gray-900">610 <span className="text-[10px] text-gray-400 font-normal">(8.9%)</span></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Student Enrollments Line Graph Card */}
-                  <div className="lg:col-span-4 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-sm font-extrabold text-gray-900">Student Enrollments</h3>
-                      <select className="h-8 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-700 bg-gray-50 outline-none cursor-pointer">
-                        <option>This Year</option>
-                        <option>Last Year</option>
-                      </select>
-                    </div>
-
-                    <div className="relative h-44 w-full flex items-end pt-4 pb-2">
-                      <svg className="w-full h-full overflow-visible" viewBox="0 0 300 120" preserveAspectRatio="none">
-                        <defs>
-                          <linearGradient id="enrollGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
-                            <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.0" />
-                          </linearGradient>
-                        </defs>
-                        <path fill="url(#enrollGrad)" d="M 0,90 Q 50,70 100,50 T 200,40 T 300,10 L 300,120 L 0,120 Z" />
-                        <path fill="none" stroke="#3B82F6" strokeWidth="3" d="M 0,90 Q 50,70 100,50 T 200,40 T 300,10" />
-                        <circle cx="300" cy="10" r="4" fill="#3B82F6" stroke="#FFFFFF" strokeWidth="2" />
-                      </svg>
-                    </div>
-
-                    <div className="grid grid-cols-6 gap-1 text-[9px] text-gray-400 font-bold text-center border-t border-gray-100 pt-2">
-                      <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span>
-                    </div>
-                  </div>
-
-                  {/* Quick Actions Card */}
-                  <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between">
-                    <h3 className="text-sm font-extrabold text-gray-900 mb-3">Quick Actions</h3>
-                    <div className="space-y-1.5 flex-1">
-                      {[
-                        { label: "Add New User", tab: "directories", icon: UserPlus },
-                        { label: "Create Announcement", tab: "announcements", icon: Megaphone },
-                        { label: "Manage Admissions", tab: "admissions", icon: FileText },
-                        { label: "Academic Calendar", tab: "calendar", icon: Calendar },
-                        { label: "Generate Reports", tab: "reports", icon: BarChart2 },
-                        { label: "System Settings", tab: "settings", icon: Settings }
-                      ].map((action, idx) => {
-                        const ActionIcon = action.icon;
-                        return (
-                          <button
-                            key={idx}
-                            onClick={() => setActiveTab(action.tab as any)}
-                            className="w-full py-2 px-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-gray-700 hover:text-blue-600 transition-colors flex items-center justify-between text-left cursor-pointer outline-none"
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <ActionIcon size={14} className="text-gray-400" />
-                              <span>{action.label}</span>
-                            </div>
-                            <ChevronRight size={14} className="text-gray-400" />
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* 4. Bottom Data Cards Row: Recent Admissions, Announcements, & System Status */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                  
-                  {/* Table: Recent Admissions */}
-                  <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-extrabold text-gray-900">Recent Admissions</h3>
-                      <button onClick={() => setActiveTab("admissions")} className="text-xs font-bold text-blue-600 hover:underline cursor-pointer">
-                        View All
-                      </button>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs font-medium">
-                        <thead>
-                          <tr className="border-b border-gray-100 text-[10px] text-gray-400 uppercase tracking-wider">
-                            <th className="pb-2">Name</th>
-                            <th className="pb-2">Program</th>
-                            <th className="pb-2">Department</th>
-                            <th className="pb-2">Status</th>
-                            <th className="pb-2">Date</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100">
-                          {[
-                            { name: "Rohit Sharma", prog: "B.Tech", dept: "Computer Science", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "20 May 2025" },
-                            { name: "Ananya Reddy", prog: "BBA", dept: "Management", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "19 May 2025" },
-                            { name: "Vishal Patil", prog: "M.Tech", dept: "AI & ML", status: "Pending", statusBg: "bg-amber-50 text-amber-700", date: "19 May 2025" },
-                            { name: "Sneha Iyer", prog: "B.Sc", dept: "Data Science", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "18 May 2025" },
-                            { name: "Karthik Babu", prog: "MBA", dept: "Management", status: "Confirmed", statusBg: "bg-emerald-50 text-emerald-700", date: "18 May 2025" }
-                          ].map((row, idx) => (
-                            <tr key={idx} className="hover:bg-slate-50/50">
-                              <td className="py-2.5 font-bold text-gray-900">{row.name}</td>
-                              <td className="py-2.5 text-gray-600">{row.prog}</td>
-                              <td className="py-2.5 text-gray-600">{row.dept}</td>
-                              <td className="py-2.5">
-                                <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${row.statusBg}`}>
-                                  {row.status}
-                                </span>
-                              </td>
-                              <td className="py-2.5 text-gray-400 text-[11px]">{row.date}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Announcements Feed Card */}
-                  <div className="lg:col-span-4 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-extrabold text-gray-900">Announcements</h3>
-                      <button onClick={() => setActiveTab("announcements")} className="text-xs font-bold text-blue-600 hover:underline cursor-pointer">
-                        View All
-                      </button>
-                    </div>
-
-                    <div className="space-y-3">
-                      {announcements.slice(0, 3).map((item, idx) => (
-                        <div key={idx} className="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs font-extrabold text-[#071A3A] line-clamp-1">{item.title}</span>
-                            <span className="text-[10px] text-gray-400 shrink-0 ml-2">{item.date}</span>
-                          </div>
-                          <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed">{item.desc}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* System Status Card */}
-                  <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs flex flex-col justify-between space-y-4">
-                    <h3 className="text-sm font-extrabold text-gray-900">System Status</h3>
-                    <div className="space-y-3 text-xs font-semibold">
-                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
-                        <span className="text-gray-600">Server Status</span>
-                        <span className="text-emerald-600 font-bold flex items-center gap-1">Online <CheckCircle2 size={13} /></span>
-                      </div>
-                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
-                        <span className="text-gray-600">Database</span>
-                        <span className="text-emerald-600 font-bold flex items-center gap-1">Online <CheckCircle2 size={13} /></span>
-                      </div>
-                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
-                        <span className="text-gray-600">Backup Status</span>
-                        <span className="text-emerald-600 font-bold flex items-center gap-1">Successful <CheckCircle2 size={13} /></span>
-                      </div>
-                      <div className="flex items-center justify-between py-1 border-b border-gray-100">
-                        <span className="text-gray-600">Email Service</span>
-                        <span className="text-emerald-600 font-bold flex items-center gap-1">Online <CheckCircle2 size={13} /></span>
-                      </div>
-                    </div>
-                    <button 
-                      onClick={() => showNotification()}
-                      className="w-full h-9 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs rounded-xl transition-colors cursor-pointer"
-                    >
-                      View System Logs
-                    </button>
-                  </div>
-
-                </div>
               </div>
-            )}
+          )}
 
           {/* 🌟 Tab 2: Announcements */}
           {activeTab === "announcements" && (
@@ -1844,76 +1688,185 @@ export default function AdminPortal() {
           {/* 🌟 Tab 5: Academic Calendar */}
           {activeTab === "calendar" && (
             <div className="space-y-8">
-              <form onSubmit={handleSaveCalendar} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end bg-gray-50 border border-gray-100 p-5 rounded-2xl">
-                <div className="space-y-1">
-                  <label className="text-[10px] font-bold uppercase text-gray-500">Month</label>
-                  <select
-                    value={calMonthIdx}
-                    onChange={(e) => setCalMonthIdx(parseInt(e.target.value))}
-                    className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
-                  >
-                    {calendarData.map((m, idx) => (
-                      <option key={idx} value={idx}>{m.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[10px] font-bold uppercase text-gray-500">Day (1-31)</label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={31}
-                    value={calDay}
-                    onChange={(e) => setCalDay(parseInt(e.target.value))}
-                    className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
-                  />
-                </div>
-                <div className="space-y-1 md:col-span-2">
-                  <label className="text-[10px] font-bold uppercase text-gray-500">Milestone / Event Text</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. First Mid-Term Examinations"
-                    value={calEventText}
-                    onChange={(e) => setCalEventText(e.target.value)}
-                    className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
-                  />
-                </div>
-                <div className="md:col-span-4 flex justify-end">
-                  <button
-                    type="submit"
-                    className="h-10 px-8 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
-                  >
-                    Set Calendar Milestone
-                  </button>
-                </div>
-              </form>
+              <div>
+                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">Academic Calendar Portal</h1>
+                <p className="text-xs text-gray-500 font-light mt-0.5">Add individual milestones manually or upload an Excel CSV sheet to batch map milestones to the calendar.</p>
+              </div>
 
-              <div className="space-y-4">
-                <h3 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider mb-2">Active Milestones</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {calendarData.map((month, mIdx) => (
-                    <div key={mIdx} className="bg-gray-50/50 border border-gray-100 rounded-2xl p-4 space-y-2">
-                      <span className="text-[10px] font-black uppercase text-[#D4AF37] tracking-wider">{month.name} milestones</span>
-                      {Object.keys(month.events).length === 0 ? (
-                        <p className="text-[11px] text-gray-400 italic">No milestones set</p>
-                      ) : (
-                        <div className="divide-y divide-gray-100">
-                          {Object.entries(month.events).map(([day, text]) => (
-                            <div key={day} className="py-2 flex justify-between items-center text-xs">
-                              <span className="font-bold text-gray-700">Day {day}: <span className="font-light text-gray-500">{text}</span></span>
-                              <button
-                                onClick={() => handleDeleteCalendarEvent(mIdx, parseInt(day))}
-                                className="text-rose-500 hover:text-rose-700 cursor-pointer"
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          ))}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                {/* LEFT COLUMN: Uploader & Form (5 cols) */}
+                <div className="lg:col-span-5 space-y-6">
+                  
+                  {/* CSV / Excel Sheet Import Card */}
+                  <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                    <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2 flex items-center gap-1.5">
+                      <FileSpreadsheet size={16} className="text-emerald-600" />
+                      Excel CSV Import
+                    </span>
+                    
+                    <div className="space-y-2">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-emerald-500 rounded-2xl p-6 text-center cursor-pointer transition-colors relative">
+                        <input 
+                          type="file" 
+                          accept=".csv"
+                          onChange={handleCSVUpload}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        />
+                        <UploadCloud className="mx-auto text-gray-400 mb-2.5" size={32} />
+                        <span className="block text-xs font-bold text-gray-700">
+                          {csvFileName || "Upload Academic Calendar CSV"}
+                        </span>
+                        <span className="block text-[10px] text-gray-400 font-light mt-1">
+                          Accepts .csv files exported from Excel
+                        </span>
+                      </div>
+                      
+                      {/* Helpful Sample Guide */}
+                      <div className="bg-slate-50 border border-slate-100 p-3.5 rounded-xl space-y-2">
+                        <span className="text-[10px] font-bold text-slate-600 uppercase block">Expected CSV Format:</span>
+                        <code className="block text-[9px] text-slate-500 bg-white border border-slate-100 p-2 rounded-md font-mono select-all text-left">
+                          Month,Day,Milestone<br />
+                          July,15,Commencement of Classwork<br />
+                          September,5,First Mid-Term Examinations<br />
+                          December,15,End Semester Theory Exams
+                        </code>
+                        <span className="text-[9px] text-slate-400 font-medium block">Create in Excel with "Month", "Day", "Milestone" headers and save as CSV.</span>
+                        <div className="pt-1 flex justify-end">
+                          <a
+                            href="data:text/csv;charset=utf-8,Month,Day,Milestone%0AJuly,15,Commencement of Classwork%0ASeptember,5,First Mid-Term Examinations%0ADecember,15,End Semester Theory Exams"
+                            download="academic_calendar_sample.csv"
+                            className="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-600 hover:text-emerald-700 hover:underline cursor-pointer transition-colors"
+                          >
+                            <Download size={12} />
+                            Download Sample Excel CSV
+                          </a>
                         </div>
-                      )}
+                      </div>
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Manual Milestone Creator */}
+                  <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                    <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">
+                      Add Single Milestone
+                    </span>
+                    <form onSubmit={handleSaveCalendar} className="space-y-4">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-gray-500">Month</label>
+                        <select
+                          value={calMonthIdx}
+                          onChange={(e) => setCalMonthIdx(parseInt(e.target.value))}
+                          className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                        >
+                          {calendarData.map((m, idx) => (
+                            <option key={idx} value={idx}>{m.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-gray-500">Day (1-31)</label>
+                        <input
+                          type="number"
+                          min={1}
+                          max={31}
+                          value={calDay}
+                          onChange={(e) => setCalDay(parseInt(e.target.value))}
+                          className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-bold"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-gray-500">Milestone / Event Text</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. First Mid-Term Examinations"
+                          value={calEventText}
+                          onChange={(e) => setCalEventText(e.target.value)}
+                          className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className="w-full h-10 bg-[#072A6C] hover:bg-[#051c4a] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer transition-colors"
+                      >
+                        Set Calendar Milestone
+                      </button>
+                    </form>
+                  </div>
+                </div>
+
+                {/* RIGHT COLUMN: Preview & Active Milestones (7 cols) */}
+                <div className="lg:col-span-7 space-y-6">
+                  
+                  {/* CSV Import Preview */}
+                  {parsedEvents.length > 0 && (
+                    <div className="bg-white p-6 rounded-2xl border border-emerald-100 shadow-sm space-y-4 text-left animate-fade-in">
+                      <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block">
+                          Parsed Milestones ({parsedEvents.length})
+                        </span>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleImportCalendarCSV(false)}
+                            className="h-8 px-3.5 bg-slate-100 hover:bg-slate-200 text-[#072A6C] text-[10px] font-bold rounded-lg cursor-pointer transition-all border-none outline-none"
+                          >
+                            Merge Events
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleImportCalendarCSV(true)}
+                            className="h-8 px-3.5 bg-[#072A6C] hover:bg-[#051c4a] text-white text-[10px] font-bold rounded-lg cursor-pointer transition-all border-none outline-none"
+                          >
+                            Overwrite All & Import
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div className="max-h-[220px] overflow-y-auto pr-1 border border-slate-50 rounded-xl divide-y divide-gray-100">
+                        {parsedEvents.map((evt, idx) => (
+                          <div key={idx} className="py-2.5 px-3 flex justify-between items-center text-xs bg-slate-50/30">
+                            <span className="font-extrabold text-[#072A6C]">{evt.month} {evt.day}</span>
+                            <span className="text-gray-500 text-right max-w-[70%] font-light">{evt.eventText}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Active Milestones Grid */}
+                  <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 text-left">
+                    <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">
+                      Active Calendar Milestones
+                    </span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {calendarData.map((month, mIdx) => (
+                        <div key={mIdx} className="bg-gray-50/50 border border-gray-100 rounded-2xl p-4 space-y-2 text-left">
+                          <span className="text-[10px] font-black uppercase text-[#D4AF37] tracking-wider">{month.name} milestones</span>
+                          {Object.keys(month.events).length === 0 ? (
+                            <p className="text-[11px] text-gray-400 italic">No milestones set</p>
+                          ) : (
+                            <div className="divide-y divide-gray-100">
+                              {Object.entries(month.events).map(([day, text]) => (
+                                <div key={day} className="py-2 flex justify-between items-center text-xs">
+                                  <span className="font-bold text-gray-700">Day {day}: <span className="font-light text-gray-500">{text}</span></span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDeleteCalendarEvent(mIdx, parseInt(day))}
+                                    className="text-rose-500 hover:text-rose-700 cursor-pointer font-bold border-none bg-none outline-none"
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -1922,36 +1875,12 @@ export default function AdminPortal() {
           {activeTab === "news-events" && (
             <div className="space-y-8">
               <div>
-                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">News, Events & Video Editor</h1>
-                <p className="text-xs text-gray-500 font-light mt-0.5">Manage articles, campus video overlays, and upcoming events displayed on the homepage.</p>
+                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">News Portal</h1>
+                <p className="text-xs text-gray-500 font-light mt-0.5">Manage articles and featured news slides displayed on the homepage.</p>
               </div>
 
-              {/* Sub-section toggles */}
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { id: "news", label: "News Articles" },
-                  { id: "events", label: "Upcoming Events" },
-                  { id: "video", label: "Campus Video" }
-                ].map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => setNewsEventsSection(s.id as any)}
-                    className={`h-9 rounded-xl border text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                      newsEventsSection === s.id
-                        ? "bg-[#072A6C] border-[#072A6C] text-white shadow-sm"
-                        : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Section A: News Articles */}
-              {newsEventsSection === "news" && (
-                <div className="space-y-6">
-                  <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Post New News Article</h3>
+              <div className="space-y-6">
+                <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Post New News Article</h3>
                 <form onSubmit={handleAddNews} className="space-y-4 bg-gray-50/60 border border-gray-100 p-5 rounded-2xl">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1 md:col-span-2">
@@ -2017,6 +1946,74 @@ export default function AdminPortal() {
                       />
                     </div>
                   </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">News Date (Optional)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 21 Jul 2026"
+                        value={newNewsDate}
+                        onChange={(e) => setNewNewsDate(e.target.value)}
+                        className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
+                      />
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <label className="text-[10px] font-bold uppercase text-gray-500 block mb-1">Featured Slide Toggle</label>
+                      <div className="flex items-center gap-2.5 h-10 px-3.5 bg-white border border-gray-200 rounded-xl">
+                        <input
+                          type="checkbox"
+                          id="new-news-featured-toggle"
+                          checked={newNewsFeatured}
+                          onChange={(e) => setNewNewsFeatured(e.target.checked)}
+                          className="w-4 h-4 rounded text-[#072A6C] focus:ring-[#072A6C] cursor-pointer"
+                        />
+                        <label htmlFor="new-news-featured-toggle" className="text-xs font-bold text-[#072A6C] cursor-pointer select-none">
+                          Featured News (Show in Featured Carousel)
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <label className="text-[10px] font-bold uppercase text-gray-500 block">News Cover Image</label>
+                    <div className="flex items-center gap-4">
+                      {newNewsImage && (
+                        <img 
+                          src={newNewsImage} 
+                          alt="Cover Preview" 
+                          className="w-16 h-12 rounded-lg object-cover border border-gray-300 bg-white"
+                        />
+                      )}
+                      <div className="flex-grow space-y-2">
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          id="news-image-upload"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onload = (uploadEvent) => {
+                                const base64 = uploadEvent.target?.result as string;
+                                setNewNewsImage(base64);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                        <label 
+                          htmlFor="news-image-upload"
+                          className="inline-flex items-center justify-center px-4 py-2 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 cursor-pointer shadow-2xs transition-all"
+                        >
+                          <UploadCloud size={14} className="mr-1.5 text-gray-400" />
+                          Choose Cover Image File
+                        </label>
+                        {newNewsImage && <span className="text-[10px] text-emerald-600 font-bold ml-3">Image loaded!</span>}
+                      </div>
+                    </div>
+                  </div>
                   <div className="flex justify-end">
                     <button
                       type="submit"
@@ -2048,12 +2045,18 @@ export default function AdminPortal() {
                   </div>
                 </div>
               </div>
-              )}
+            </div>
+          )}
 
-              {/* Section B: Events */}
-              {newsEventsSection === "events" && (
-                <div className="space-y-6">
-                  <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Create New Event</h3>
+          {activeTab === "events" && (
+            <div className="space-y-8">
+              <div>
+                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">Events Portal</h1>
+                <p className="text-xs text-gray-500 font-light mt-0.5">Manage and post upcoming campus events displayed on the homepage.</p>
+              </div>
+
+              <div className="space-y-6">
+                <h3 className="text-sm font-extrabold text-[#072A6C] uppercase tracking-wider pb-1 border-b border-gray-100">Create New Event</h3>
                 <form onSubmit={handleAddEvent} className="space-y-4 bg-gray-50/60 border border-gray-100 p-5 rounded-2xl">
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="space-y-1 md:col-span-2">
@@ -2097,7 +2100,7 @@ export default function AdminPortal() {
                       <label className="text-[10px] font-bold uppercase text-gray-500">Venue</label>
                       <input
                         type="text"
-                        placeholder="e.g., Aeronautics Hangar"
+                        placeholder="e.g., MBA Seminar Hall"
                         value={newEventLoc}
                         onChange={(e) => setNewEventLoc(e.target.value)}
                         className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
@@ -2127,7 +2130,7 @@ export default function AdminPortal() {
                   <div className="flex justify-end">
                     <button
                       type="submit"
-                      className="h-10 px-8 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
+                      className="h-10 px-8 bg-[#072A6C] hover:bg-[#051c4a] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
                     >
                       Publish Event
                     </button>
@@ -2155,74 +2158,135 @@ export default function AdminPortal() {
                   </div>
                 </div>
               </div>
-              )}
+            </div>
+          )}
 
-              {/* Section C: Campus Video Settings */}
-              {newsEventsSection === "video" && (
-                <div className="space-y-6 text-left">
+          {activeTab === "hero" && (
+            <div className="space-y-8">
+              <div>
+                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">Hero Slides Portal</h1>
+                <p className="text-xs text-gray-500 font-light mt-0.5">Manage slides and banners displayed in the top hero section of the homepage.</p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                {/* Form to add slide */}
+                <div className="lg:col-span-5 space-y-6">
                   <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
-                    <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">Campus Video Player Settings</span>
+                    <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">Add New Slide</span>
                     
-                    <div className="space-y-4">
+                    <form onSubmit={handleAddHeroSlide} className="space-y-4">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase text-gray-500">Video File URL / Path</label>
-                        <input 
-                          type="text" 
-                          value={campusVideoUrl} 
-                          onChange={(e) => setCampusVideoUrl(e.target.value)} 
-                          className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
-                          placeholder="/chalapathi_logo_intro.mp4"
+                        <label className="text-[10px] font-bold uppercase text-gray-500">Slide Title (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Chalapathi University"
+                          value={newSlideTitle}
+                          onChange={(e) => setNewSlideTitle(e.target.value)}
+                          className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
                         />
-                        <p className="text-[10px] text-gray-400 font-light">Provide the URL or relative path to the MP4 campus tour video. Default is `/chalapathi_logo_intro.mp4`.</p>
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-gray-500">Slide Subtitle (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. WELCOMES YOU"
+                          value={newSlideSubtitle}
+                          onChange={(e) => setNewSlideSubtitle(e.target.value)}
+                          className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
+                        />
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase text-gray-500">Overlay Card Header Text</label>
-                          <input 
-                            type="text" 
-                            value={campusVideoText} 
-                            onChange={(e) => setCampusVideoText(e.target.value)} 
-                            className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
-                            placeholder="Explore Chalapathi Campus"
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase text-gray-500">Overlay Card Subtext</label>
-                          <input 
-                            type="text" 
-                            value={campusVideoSubtext} 
-                            onChange={(e) => setCampusVideoSubtext(e.target.value)} 
-                            className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
-                            placeholder="Experience innovation, research, smart classrooms and vibrant student life."
-                          />
+                      <div className="space-y-2 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                        <label className="text-[10px] font-bold uppercase text-gray-500 block">Slide Image File</label>
+                        <div className="flex flex-col gap-3">
+                          {newSlideImage && (
+                            <img 
+                              src={newSlideImage} 
+                              alt="Slide Preview" 
+                              className="w-full h-32 rounded-lg object-cover border border-gray-300 bg-white"
+                            />
+                          )}
+                          <div className="flex items-center gap-3">
+                            <input 
+                              type="file" 
+                              accept="image/*"
+                              id="slide-image-upload"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onload = (uploadEvent) => {
+                                    const base64 = uploadEvent.target?.result as string;
+                                    setNewSlideImage(base64);
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                            <label 
+                              htmlFor="slide-image-upload"
+                              className="inline-flex items-center justify-center px-4 py-2 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 cursor-pointer shadow-2xs transition-all"
+                            >
+                              <UploadCloud size={14} className="mr-1.5 text-gray-400" />
+                              Choose Image File
+                            </label>
+                            {newSlideImage && <span className="text-[10px] text-emerald-600 font-bold">Loaded!</span>}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <button 
-                      type="button" 
-                      onClick={() => {
-                        localStorage.setItem("chalapathi_campus_video", campusVideoUrl);
-                        localStorage.setItem("chalapathi_campus_video_text", campusVideoText);
-                        localStorage.setItem("chalapathi_campus_video_subtext", campusVideoSubtext);
-                        showNotification();
-                      }}
-                      className="w-full h-11 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow transition-colors cursor-pointer mt-4"
-                    >
-                      Save Video Settings
-                    </button>
+                      <button
+                        type="submit"
+                        className="w-full h-10 bg-[#072A6C] hover:bg-[#051c4a] text-white font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer transition-colors"
+                      >
+                        Add Slide
+                      </button>
+                    </form>
                   </div>
                 </div>
-              )}
+
+                {/* Slides list */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
+                    <span className="text-xs font-black uppercase text-[#072A6C] tracking-wider block border-b border-gray-100 pb-2">Active Hero Slides ({heroSlides.length})</span>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-1">
+                      {heroSlides.map((slide) => (
+                        <div key={slide.id} className="border border-gray-100 rounded-xl overflow-hidden shadow-2xs bg-white relative group text-left">
+                          <img 
+                            src={slide.image} 
+                            alt={slide.title || "Slide"} 
+                            className="w-full h-32 object-cover"
+                          />
+                          <div className="p-3 text-left">
+                            <h4 className="font-bold text-xs text-[#072A6C] line-clamp-1">{slide.title || "Untitled Slide"}</h4>
+                            <p className="text-[10px] text-gray-400 font-medium line-clamp-1">{slide.subtitle || "No Subtitle"}</p>
+                          </div>
+                          
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteHeroSlide(slide.id)}
+                            className="absolute top-2 right-2 p-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow-sm cursor-pointer transition-all border-none outline-none"
+                            title="Delete Slide"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
           {activeTab === "directories" && (
             <div className="space-y-6">
               <div>
-                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">Directories & Faculty Hub</h1>
-                <p className="text-xs text-gray-500 font-light mt-0.5">Manage teaching faculty, university board deans, and administrative office staff.</p>
+                <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">Management Portal</h1>
+                <p className="text-xs text-gray-500 font-light mt-0.5">Manage board members and teaching faculty profiles.</p>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -2231,12 +2295,11 @@ export default function AdminPortal() {
                   {/* Category selectors */}
                   <div className="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-4">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">Select Directory Category</label>
-                      <div className="grid grid-cols-3 gap-2">
+                      <label className="text-[10px] font-bold uppercase text-gray-500">Select Category</label>
+                      <div className="grid grid-cols-2 gap-2">
                         {[
-                          { id: "faculty", label: "Teaching Faculty" },
-                          { id: "board", label: "Board & Deans" },
-                          { id: "staff", label: "Admin Staff" }
+                          { id: "board", label: "Board Members" },
+                          { id: "faculty", label: "Faculty" }
                         ].map((d) => (
                           <button
                             key={d.id}
@@ -2267,9 +2330,7 @@ export default function AdminPortal() {
                         {Object.keys(
                           selectedDir === "faculty"
                             ? facultyData
-                            : selectedDir === "board"
-                            ? boardData
-                            : staffData
+                            : boardData
                         ).map((key) => (
                           <option key={key} value={key}>
                             {key}
@@ -2296,7 +2357,7 @@ export default function AdminPortal() {
                     <div className="space-y-2">
                       <span className="text-[9px] font-bold uppercase tracking-wider text-rose-500 block">Department Head / Lead</span>
                       {(() => {
-                        const target = selectedDir === "faculty" ? facultyData : selectedDir === "board" ? boardData : staffData;
+                        const target = selectedDir === "faculty" ? facultyData : boardData;
                         const deptInfo = target[selectedDirDept] || { hod: null, others: [] };
                         const hod = deptInfo.hod;
                         if (!hod || !hod.name) return <p className="text-xs text-gray-400 font-light italic">No head assigned</p>;
@@ -2323,7 +2384,7 @@ export default function AdminPortal() {
                       <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400 block">Other Members / Faculty</span>
                       <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
                         {(() => {
-                          const target = selectedDir === "faculty" ? facultyData : selectedDir === "board" ? boardData : staffData;
+                          const target = selectedDir === "faculty" ? facultyData : boardData;
                           const deptInfo = target[selectedDirDept] || { hod: null, others: [] };
                           const others = deptInfo.others || [];
                           if (others.length === 0) return <p className="text-xs text-gray-400 font-light italic">No other members listed</p>;
@@ -2439,15 +2500,52 @@ export default function AdminPortal() {
                           />
                         </div>
 
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase text-gray-500">Avatar Initials</label>
-                          <input
-                            type="text"
-                            required
-                            value={memberForm.avatar}
-                            onChange={(e) => setMemberForm({ ...memberForm, avatar: e.target.value })}
-                            className="w-full h-10 px-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-medium"
-                          />
+                        <div className="space-y-2 col-span-1 sm:col-span-2 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                          <label className="text-[10px] font-bold uppercase text-gray-500 block">Faculty/Member Photo</label>
+                          <div className="flex items-center gap-4">
+                            {memberForm.avatar && (
+                              <img 
+                                src={memberForm.avatar.startsWith("data:") || memberForm.avatar.startsWith("http") ? memberForm.avatar : `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(memberForm.avatar)}&background=072A6C&color=fff&size=100`} 
+                                alt="Preview" 
+                                className="w-12 h-12 rounded-lg object-cover border border-gray-300 bg-white"
+                              />
+                            )}
+                            <div className="flex-grow space-y-2">
+                              <input 
+                                type="file" 
+                                accept="image/*"
+                                id="faculty-photo-upload"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = (uploadEvent) => {
+                                      const base64 = uploadEvent.target?.result as string;
+                                      setMemberForm({ ...memberForm, avatar: base64 });
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                              <label 
+                                htmlFor="faculty-photo-upload"
+                                className="inline-flex items-center justify-center px-4 py-2 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 cursor-pointer shadow-2xs transition-all"
+                              >
+                                <UploadCloud size={14} className="mr-1.5 text-gray-400" />
+                                Choose Photo File
+                              </label>
+                              <p className="text-[10px] text-gray-400 font-light">Or enter initials / URL below:</p>
+                              <input
+                                type="text"
+                                required
+                                value={memberForm.avatar}
+                                onChange={(e) => setMemberForm({ ...memberForm, avatar: e.target.value })}
+                                className="w-full h-9 px-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#072A6C] text-[11px] font-medium bg-white"
+                                placeholder="Initials (e.g. YVA) or Image URL"
+                              />
+                            </div>
+                          </div>
                         </div>
 
                         <div className="space-y-1">

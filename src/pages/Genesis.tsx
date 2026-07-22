@@ -166,16 +166,36 @@ export default function Genesis() {
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: 0.8 + (i * 0.3), type: "spring" }}
-                className="absolute bottom-[100%] mb-[-15px] md:mb-[-30px] w-[130%] sm:w-[150%] md:w-[170%] max-w-[280px] md:max-w-[340px] z-30 drop-shadow-2xl pointer-events-none"
+                className={
+                  step.active 
+                    ? "absolute bottom-[100%] mb-[-14px] md:mb-[-24px] w-[120%] sm:w-[130%] md:w-[145%] max-w-[270px] md:max-w-[310px] lg:max-w-[340px] z-40 drop-shadow-2xl pointer-events-none"
+                    : i === 2 || i === 3
+                    ? "absolute bottom-[100%] mb-[-12px] md:mb-[-20px] w-[105%] md:w-[115%] max-w-[200px] md:max-w-[230px] lg:max-w-[250px] z-30 drop-shadow-xl pointer-events-none"
+                    : "absolute bottom-[100%] mb-[-10px] md:mb-[-18px] w-[95%] md:w-[100%] max-w-[170px] md:max-w-[190px] lg:max-w-[205px] z-30 drop-shadow-lg pointer-events-none"
+                }
               >
-                <img 
-                  src={`/${step.img}`} 
-                  alt={step.alt}
-                  className="w-full h-auto object-contain transform origin-bottom hover:scale-105 transition-transform duration-500 mix-blend-multiply"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300/e0f2fe/123A7A.png?text=" + step.img;
-                  }}
-                />
+                <div className={
+                  step.active 
+                    ? "rounded-2xl overflow-hidden shadow-2xl border-2 border-sky-400/90 bg-white ring-4 ring-sky-400/20"
+                    : i === 2 || i === 3
+                    ? "rounded-xl overflow-hidden shadow-lg border border-white/90 bg-white/95"
+                    : "rounded-xl overflow-hidden shadow-md border border-white/80 bg-white/90"
+                }>
+                  <img 
+                    src={`/${step.img}`} 
+                    alt={step.alt}
+                    className={
+                      step.active 
+                        ? "w-full h-[145px] md:h-[185px] object-cover transform origin-bottom hover:scale-105 transition-transform duration-500"
+                        : i === 2 || i === 3
+                        ? "w-full h-[115px] md:h-[140px] object-cover transform origin-bottom hover:scale-105 transition-transform duration-500"
+                        : "w-full h-[95px] md:h-[115px] object-cover transform origin-bottom hover:scale-105 transition-transform duration-500"
+                    }
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300/e0f2fe/123A7A.png?text=" + step.img;
+                    }}
+                  />
+                </div>
               </motion.div>
 
 

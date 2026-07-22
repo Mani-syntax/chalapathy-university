@@ -594,16 +594,21 @@ const getPageContent = (path: string, programs: any[]) => {
                       <div key={dept} className="space-y-2">
                         <h4 className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">{dept}</h4>
                         <div className="flex flex-col gap-1.5 pl-2">
-                          {courses.map((course) => (
-                            <Link
-                              key={course.label}
-                              to={course.to}
-                              className="text-xs font-medium text-gray-600 hover:text-[#D4AF37] transition-colors leading-relaxed flex items-center gap-1.5 group"
-                            >
-                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#D4AF37] transition-colors" />
-                              {course.label}
-                            </Link>
-                          ))}
+                          {courses.map((course) => {
+                            const slug = course.to.split("/").pop();
+                            const matched = programs.find(p => p.slug === slug);
+                            const displayLabel = matched ? matched.title : course.label;
+                            return (
+                              <Link
+                                key={course.label}
+                                to={course.to}
+                                className="text-xs font-medium text-gray-600 hover:text-[#D4AF37] transition-colors leading-relaxed flex items-center gap-1.5 group"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#D4AF37] transition-colors" />
+                                {displayLabel}
+                              </Link>
+                            );
+                          })}
                         </div>
                       </div>
                     ))}
@@ -3044,6 +3049,9 @@ interface FacultyMember {
 }
 
 const getAvatarUrl = (initials: string): string => {
+  if (initials && (initials.startsWith("data:") || initials.startsWith("http") || initials.startsWith("/"))) {
+    return initials;
+  }
   const avatarMap: Record<string, string> = {
     "YVA": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face",
     "YSK": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
@@ -3745,6 +3753,15 @@ function LeadershipView() {
         </div>
       </section>
 
+      {/* SECTION 2.5 – GOVERNING BOARD MEMBERS */}
+      <section className="py-16 max-w-[1440px] mx-auto px-5">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-black text-[#072A6C] tracking-tight uppercase">GOVERNING BOARD MEMBERS</h2>
+          <div className="h-1 w-16 bg-[#D4AF37] mx-auto mt-3 rounded-full" />
+        </div>
+        <BoardDirectory />
+      </section>
+
       {/* SECTION 3 – CORE VALUES (4 Glass Cards) */}
       <section className="py-16 bg-gray-50/50 border-y border-gray-100 rounded-[40px] px-5">
         <div className="max-w-[1440px] mx-auto">
@@ -3765,17 +3782,7 @@ function LeadershipView() {
         </div>
       </section>
 
-      {/* SECTION 4 – INSPIRING QUOTE */}
-      <section className="py-24 bg-gradient-to-tr from-[#072A6C] to-[#020B18] text-white text-center px-5 rounded-[40px] my-16 shadow-lg relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
-        <div className="max-w-[800px] mx-auto space-y-6 relative z-10">
-          <h3 className="text-2xl md:text-4xl font-serif italic text-blue-200">
-            "The goal of true education is to convert mirrors into windows, fostering independent minds that create rather than conform."
-          </h3>
-          <div className="w-16 h-1 bg-[#D4AF37] mx-auto rounded-full" />
-          <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-bold">{leadership.chairmanName}</span>
-        </div>
-      </section>
+
 
     </div>
   );

@@ -106,7 +106,7 @@ const CATEGORY_INFO: Record<string, { desc: string; linkText: string; to: string
 };
 
 export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {}) {
-  const { announcements, showAnnouncementsDrawer, setShowAnnouncementsDrawer } = useData();
+  const { announcements, showAnnouncementsDrawer, setShowAnnouncementsDrawer, programs } = useData();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -116,8 +116,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
   const [mobileProgrammesOpen, setMobileProgrammesOpen] = useState(false);
-  const [managementOpen, setManagementOpen] = useState(false);
-  const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
+  const [facultyOpen, setFacultyOpen] = useState(false);
+  const [mobileFacultyOpen, setMobileFacultyOpen] = useState(false);
   const [campusLifeOpen, setCampusLifeOpen] = useState(false);
   const [mobileCampusLifeOpen, setMobileCampusLifeOpen] = useState(false);
   const [newsEventsOpen, setNewsEventsOpen] = useState(false);
@@ -242,7 +242,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   useEffect(() => {
     setMobileOpen(false);
     setMobileAcademicsOpen(false);
-    setMobileManagementOpen(false);
+    setMobileFacultyOpen(false);
     setMobileProgrammesOpen(false);
     setMobileAboutOpen(false);
     setMobileCampusLifeOpen(false);
@@ -257,7 +257,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   ];
 
   const navLinks = [
-    "About Us", "Academics", "Admissions", "Research", "Management",
+    "About Us", "Academics", "Admissions", "Research", "Faculty",
     "Campus Life", "Placements", "News & Events", "Contact Us",
   ];
 
@@ -266,7 +266,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     "Academics": "/academics",
     "Admissions": "/admissions",
     "Research": "/research",
-    "Management": "/management",
+    "Faculty": "/management/faculty/computing",
     "Campus Life": "/campus-life",
     "Placements": "/placements",
     "Contact Us": "/contact",
@@ -288,17 +288,10 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     { label: "Teaching & Evaluation", to: "/academics/teaching" }
   ];
 
-  const managementItems = [
-    { label: "Board Members", to: "/management/board-members" },
-    { 
-      label: "Faculty", 
-      to: "#",
-      submenu: [
-        { label: "School of Computing Sciences", to: "/management/faculty/computing" },
-        { label: "School of Engineering", to: "/management/faculty/engineering" },
-        { label: "School of Business & Management", to: "/management/faculty/business" }
-      ]
-    }
+  const facultyItems = [
+    { label: "School of Computing Sciences", to: "/management/faculty/computing" },
+    { label: "School of Engineering", to: "/management/faculty/engineering" },
+    { label: "School of Business & Management", to: "/management/faculty/business" }
   ];
 
   const campusLifeItems = [
@@ -458,17 +451,22 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                   <div key={dept} className="space-y-2">
                                     <h5 className="text-[12px] font-bold text-[#072A6C] tracking-wide">{dept}</h5>
                                     <div className="flex flex-col gap-1.5">
-                                      {courses.map((course) => (
-                                        <Link
-                                          key={course.label}
-                                          to={course.to}
-                                          className="text-[12px] font-medium text-gray-500 hover:text-[#D4AF37] transition-colors leading-snug flex items-center gap-1.5 py-0.5 group"
-                                          onClick={() => setAcademicsOpen(false)}
-                                        >
-                                          <span className="w-1 h-1 rounded-full bg-gray-400 group-hover:bg-[#D4AF37] transition-colors shrink-0" />
-                                          {course.label}
-                                        </Link>
-                                      ))}
+                                      {courses.map((course) => {
+                                        const slug = course.to.split("/").pop();
+                                        const matched = programs?.find(p => p.slug === slug);
+                                        const displayLabel = matched ? matched.title : course.label;
+                                        return (
+                                          <Link
+                                            key={course.label}
+                                            to={course.to}
+                                            className="text-[12px] font-medium text-gray-500 hover:text-[#D4AF37] transition-colors leading-snug flex items-center gap-1.5 py-0.5 group"
+                                            onClick={() => setAcademicsOpen(false)}
+                                          >
+                                            <span className="w-1 h-1 rounded-full bg-gray-400 group-hover:bg-[#D4AF37] transition-colors shrink-0" />
+                                            {displayLabel}
+                                          </Link>
+                                        );
+                                      })}
                                     </div>
                                   </div>
                                 ))}
@@ -503,56 +501,32 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 );
               }
 
-              if (name === "Management") {
+              if (name === "Faculty") {
                 return (
                   <div
                     key={name}
                     className="relative"
-                    onMouseEnter={() => setManagementOpen(true)}
-                    onMouseLeave={() => setManagementOpen(false)}
+                    onMouseEnter={() => setFacultyOpen(true)}
+                    onMouseLeave={() => setFacultyOpen(false)}
                   >
                     <button
                       type="button"
                       className="px-1.5 min-[1280px]:px-2 min-[1440px]:px-2.5 py-2 text-[12.5px] min-[1280px]:text-[13.5px] min-[1440px]:text-[14.5px] font-[600] text-[#072A6C] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-0.5 cursor-pointer outline-none"
                     >
-                      {name} <ChevronDown size={13} className={`transition-transform duration-200 ${managementOpen ? "rotate-180" : ""}`} />
+                      {name} <ChevronDown size={13} className={`transition-transform duration-200 ${facultyOpen ? "rotate-180" : ""}`} />
                     </button>
-                    {managementOpen && (
-                      <div className="absolute top-full left-0 mt-0 w-[180px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
-                        {managementItems.map((item) => {
-                          if (item.submenu) {
-                            return (
-                              <div key={item.label} className="relative group/sub">
-                                <div className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all cursor-default flex justify-between items-center">
-                                  {item.label}
-                                  <ChevronRight size={13} className="text-gray-400 group-hover/sub:text-[#D4AF37]" />
-                                </div>
-                                <div className="absolute left-full top-0 hidden group-hover/sub:flex flex-col w-[240px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 animate-fade-in -ml-1">
-                                  {item.submenu.map(subItem => (
-                                    <Link
-                                      key={subItem.label}
-                                      to={subItem.to}
-                                      className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all block"
-                                      onClick={() => setManagementOpen(false)}
-                                    >
-                                      {subItem.label}
-                                    </Link>
-                                  ))}
-                                </div>
-                              </div>
-                            );
-                          }
-                          return (
-                            <Link
-                              key={item.label}
-                              to={item.to}
-                              className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all block"
-                              onClick={() => setManagementOpen(false)}
-                            >
-                              {item.label}
-                            </Link>
-                          );
-                        })}
+                    {facultyOpen && (
+                      <div className="absolute top-full left-0 mt-0 w-[260px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
+                        {facultyItems.map((item) => (
+                          <Link
+                            key={item.label}
+                            to={item.to}
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all block text-left"
+                            onClick={() => setFacultyOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -843,19 +817,24 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                           <div key={dept} className="flex flex-col gap-1">
                                             <span className="text-[10px] font-bold text-gray-500">{dept}</span>
                                             <div className="flex flex-col gap-1 pl-1">
-                                              {courses.map((course) => (
-                                                <Link
-                                                  key={course.label}
-                                                  to={course.to}
-                                                  className="text-[11px] font-medium text-gray-600 hover:text-[#D4AF37] py-0.5 transition-colors"
-                                                  onClick={() => {
-                                                    setMobileOpen(false);
-                                                    setMobileAcademicsOpen(false);
-                                                  }}
-                                                >
-                                                  • {course.label}
-                                                </Link>
-                                              ))}
+                                              {courses.map((course) => {
+                                                 const slug = course.to.split("/").pop();
+                                                 const matched = programs?.find(p => p.slug === slug);
+                                                 const displayLabel = matched ? matched.title : course.label;
+                                                 return (
+                                                   <Link
+                                                     key={course.label}
+                                                     to={course.to}
+                                                     className="text-[11px] font-medium text-gray-600 hover:text-[#D4AF37] py-0.5 transition-colors"
+                                                     onClick={() => {
+                                                       setMobileOpen(false);
+                                                       setMobileAcademicsOpen(false);
+                                                     }}
+                                                   >
+                                                     • {displayLabel}
+                                                   </Link>
+                                                 );
+                                              })}
                                             </div>
                                           </div>
                                         ))}
@@ -884,20 +863,20 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
               );
             }
 
-            if (name === "Management") {
+            if (name === "Faculty") {
               return (
                 <div key={name} className="flex flex-col border-b border-gray-100 py-3">
                   <button
                     type="button"
-                    onClick={() => setMobileManagementOpen(!mobileManagementOpen)}
+                    onClick={() => setMobileFacultyOpen(!mobileFacultyOpen)}
                     className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
                   >
                     <span>{name}</span>
-                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileManagementOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileFacultyOpen ? "rotate-180" : ""}`} />
                   </button>
-                  {mobileManagementOpen && (
+                  {mobileFacultyOpen && (
                     <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50">
-                      {managementItems.map((item) => (
+                      {facultyItems.map((item) => (
                         <Link
                           key={item.label}
                           to={item.to}
