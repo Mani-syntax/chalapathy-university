@@ -8,6 +8,7 @@ import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landma
 import { ACADEMIC_PROGRAMS_STRUCTURE } from "../components/layout/Header";
 import { useData } from "../context/DataContext";
 import GlobalCertifications from "../components/sections/GlobalCertifications";
+import { AdmissionsPortalView } from "../components/admissions/AdmissionsPortalView";
 
 
 const getProgramTimeline = (title: string) => {
@@ -817,70 +818,7 @@ const getPageContent = (path: string, programs: any[]) => {
       title: "Admissions Portal",
       category: "Admissions",
       desc: "Enrollment processes, eligibility guidelines, fee charts, and student aids.",
-      body: (
-        <div className="space-y-12 mt-4 font-[var(--font-poppins)]">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Link to="/admissions/apply" className="bg-[#072A6C] text-white p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
-              <h4 className="font-bold text-sm">Start Application</h4>
-              <span className="text-xs text-blue-200 flex items-center gap-1">Online Application Form <ArrowRight size={12} /></span>
-            </Link>
-            <Link to="/admissions/fees" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
-              <h4 className="font-bold text-[#072A6C] text-sm">Fee Structure</h4>
-              <span className="text-xs text-[#D4AF37] flex items-center gap-1">View Stream Details <ArrowRight size={12} /></span>
-            </Link>
-            <Link to="/admissions/scholarships" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
-              <h4 className="font-bold text-[#072A6C] text-sm">Scholarships</h4>
-              <span className="text-xs text-[#D4AF37] flex items-center gap-1">Apply for Waivers <ArrowRight size={12} /></span>
-            </Link>
-          </div>
-
-          {/* Steps to Follow timeline */}
-          <div className="pt-8 border-t border-gray-100 space-y-8 text-center">
-            <div className="inline-flex flex-col items-center">
-              <span className="px-5 py-2 bg-[#072A6C] text-[#D4AF37] text-xs font-extrabold tracking-[2px] rounded-full uppercase shadow-sm border border-[#D4AF37]/20">
-                Steps To Follow
-              </span>
-              <h3 className="text-xl md:text-2xl font-[900] text-[#072A6C] mt-4">
-                Admissions Process 2026
-              </h3>
-              <div className="w-16 h-1 bg-[#D4AF37] mt-3 rounded" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 items-stretch relative">
-              {[
-                { id: 1, label: "Register Yourself", desc: "Create your admission account.", icon: UserPlus },
-                { id: 2, label: "Verify Email / Mobile", desc: "Confirm your contact details.", icon: ShieldCheck },
-                { id: 3, label: "Fill Online Application", desc: "Enter academic and personal information.", icon: FileText },
-                { id: 4, label: "Upload Required Documents", desc: "Upload certificates and supporting documents.", icon: UploadCloud },
-                { id: 5, label: "Pay Application Fee", desc: "Complete the payment and submit the application.", icon: CreditCard }
-              ].map((step) => {
-                const StepIcon = step.icon;
-                return (
-                  <div key={step.id} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between text-center min-h-[220px] relative group h-full">
-                    <div className="w-12 h-12 rounded-full bg-[#072A6C]/5 flex items-center justify-center text-[#D4AF37] mb-4 group-hover:bg-[#D4AF37] group-hover:text-white transition-colors duration-300">
-                      <StepIcon size={20} />
-                    </div>
-                    <div className="space-y-2 flex-grow flex flex-col justify-center">
-                      <h4 className="text-sm font-[800] text-[#072A6C] tracking-tight">{step.label}</h4>
-                      <p className="text-[11px] text-gray-500 font-light leading-relaxed">{step.desc}</p>
-                    </div>
-                    <span className="absolute top-4 right-4 text-[10px] font-extrabold text-gray-300">0{step.id}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="pt-4">
-              <Link
-                to="/admissions/apply"
-                className="h-11 px-8 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer uppercase tracking-wider"
-              >
-                Apply Now <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      )
+      body: <AdmissionsPortalView />
     };
   }
 
