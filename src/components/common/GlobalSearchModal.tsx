@@ -674,17 +674,13 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
             placeholder="Type any program, department, facility, admissions, fees..."
             className="w-full bg-transparent text-[#072A6C] placeholder-gray-400 font-semibold text-sm md:text-base outline-none border-none"
           />
-          {query ? (
+          {query && (
             <button
               onClick={() => setQuery("")}
               className="p-1 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-600 transition-colors mr-2 border-none outline-none cursor-pointer"
             >
               <X size={16} />
             </button>
-          ) : (
-            <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold text-gray-400 bg-gray-200/60 px-2 py-1 rounded-md mr-2">
-              <kbd>ESC</kbd> to close
-            </div>
           )}
           <button
             onClick={onClose}
@@ -741,7 +737,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
               </button>
             </div>
           ) : (
-            <div>
+            <div className="space-y-1">
               <div className="flex items-center justify-between px-2 py-1 mb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
                 <span>Suggestions ({results.length})</span>
                 <span className="text-[10px] text-gray-400">Press Enter to select</span>
@@ -779,7 +775,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
                           </span>
                         </div>
                         {item.description && (
-                          <p className={`text-[11px] truncate mt-0.5 ${
+                          <p className={`text-[11px] truncate mt-[0.5px] ${
                             isSelected ? "text-gray-200 font-light" : "text-gray-500 font-normal"
                           }`}>
                             {item.description}
@@ -793,16 +789,6 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
               })}
             </div>
           )}
-        </div>
-
-        {/* Footer info bar */}
-        <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-400 font-semibold">
-          <div className="flex items-center gap-3">
-            <span>Navigation Shortcuts:</span>
-            <span className="flex items-center gap-1 font-mono text-[10px]"><kbd className="bg-white border px-1 rounded">↑</kbd> <kbd className="bg-white border px-1 rounded">↓</kbd> to move</span>
-            <span className="flex items-center gap-1 font-mono text-[10px]"><kbd className="bg-white border px-1 rounded">↵</kbd> to open</span>
-          </div>
-          <span className="hidden sm:inline text-[#072A6C] font-bold">Chalapathy University</span>
         </div>
       </div>
     </div>
