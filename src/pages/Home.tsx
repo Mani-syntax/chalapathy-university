@@ -139,9 +139,10 @@ export default function Home() {
   const [activeBridgeSlide, setActiveBridgeSlide] = useState(0);
   const [activeFeaturedStudent, setActiveFeaturedStudent] = useState(0);
 
-  // Video playback states (Chairman video only)
+  // Video playback states
   const [isEventsDrawerOpen, setIsEventsDrawerOpen] = useState(false);
   const [showChairmanVideo, setShowChairmanVideo] = useState(false);
+  const [showHeroIntroModal, setShowHeroIntroModal] = useState(false);
   const drawerScrollRef = useRef<HTMLDivElement>(null);
 
   // Lock body scroll, handle escape key, and scroll to top when Events Drawer opens
@@ -210,6 +211,7 @@ export default function Home() {
   // Campus Life States
   const [activeCampusVideoIdx, setActiveCampusVideoIdx] = useState(0);
   const [isCampusTourMuted, setIsCampusTourMuted] = useState(true);
+  const campusVideoRef = useRef<HTMLVideoElement>(null);
 
   // Load campus videos list
   const getCampusVideos = () => {
@@ -1083,19 +1085,34 @@ export default function Home() {
             <div className="lg:col-span-5 flex flex-col justify-between bg-[#072A6C] text-white rounded-[32px] overflow-hidden shadow-2xl relative min-h-[480px]">
               
               {/* HTML5 Video Player */}
-              <div className="relative w-full h-[300px] bg-black">
+              <div 
+                className="relative w-full h-[300px] bg-[#072A6C] cursor-pointer group"
+                onClick={() => {
+                  if (campusVideoRef.current) {
+                    if (campusVideoRef.current.paused) {
+                      campusVideoRef.current.play().catch((e) => console.log("Video play error:", e));
+                    } else {
+                      campusVideoRef.current.pause();
+                    }
+                  }
+                }}
+              >
                 <video
+                  ref={campusVideoRef}
                   src={campusVideos[activeCampusVideoIdx]?.url}
+                  poster="/Chalapathimain.png"
                   className="w-full h-full object-cover"
                   autoPlay
                   muted={isCampusTourMuted}
                   loop
                   playsInline
                   key={activeCampusVideoIdx}
+                  onCanPlay={(e) => (e.target as HTMLVideoElement).play().catch(() => {})}
+                  onLoadedData={(e) => (e.target as HTMLVideoElement).play().catch(() => {})}
                 />
                 
                 {/* Watch Campus Tour top-left badge */}
-                <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-white/10">
+                <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-white/10 z-10">
                   <Play size={10} fill="currentColor" className="text-[#D4AF37]" />
                   <span className="text-[9px] font-black uppercase tracking-wider">Watch Campus Tour</span>
                 </div>
@@ -1103,8 +1120,11 @@ export default function Home() {
                 {/* Mute/Unmute top-right control */}
                 <button
                   type="button"
-                  onClick={() => setIsCampusTourMuted(!isCampusTourMuted)}
-                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/60 cursor-pointer outline-none"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsCampusTourMuted(!isCampusTourMuted);
+                  }}
+                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/60 cursor-pointer outline-none z-10"
                 >
                   <span className="text-[10px] font-bold">
                     {isCampusTourMuted ? "🔇" : "🔊"}
@@ -1112,9 +1132,9 @@ export default function Home() {
                 </button>
 
                 {/* Center overlay play button */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-12 h-12 rounded-full bg-[#072A6C]/80 backdrop-blur-md flex items-center justify-center text-white border border-white/20 shadow-md">
-                    <Play size={16} fill="currentColor" className="ml-0.5 text-[#D4AF37]" />
+                <div className="absolute inset-0 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 rounded-full bg-[#072A6C]/90 backdrop-blur-md flex items-center justify-center text-white border border-[#D4AF37]/50 shadow-xl">
+                    <Play size={20} fill="currentColor" className="ml-0.5 text-[#D4AF37]" />
                   </div>
                 </div>
               </div>
