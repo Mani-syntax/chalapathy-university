@@ -20,7 +20,8 @@ import {
   FileCheck,
   Zap,
   Clock,
-  ChevronRight
+  ChevronRight,
+  ChevronDown
 } from "lucide-react";
 
 export const AdmissionsPortalView: React.FC = () => {
@@ -437,107 +438,188 @@ export const AdmissionsPortalView: React.FC = () => {
 
                     {/* Mockup Step 1: Account Registration */}
                     {activeStep === 0 && (
-                      <div className="space-y-3">
-                        <div className="p-3 rounded-2xl bg-blue-50/70 border border-blue-100 space-y-2">
-                          <div className="flex items-center justify-between text-[10px] font-bold text-[#072A6C]">
-                            <span>Account Registration</span>
-                            <span className="text-[#10B981]">Step 1/5</span>
+                      <div className="space-y-2 text-left">
+                        {/* Stepper Dots */}
+                        <div className="flex items-center justify-between text-[7.5px] font-bold text-gray-400 pb-1 border-b border-gray-100">
+                          <span className="text-[#D4AF37] font-black underline">1 REGISTER</span>
+                          <span>2 VERIFY</span>
+                          <span>3 FORM</span>
+                          <span>4 DOCS</span>
+                          <span>5 PAY</span>
+                        </div>
+
+                        <div>
+                          <h4 className="text-[11px] font-black text-[#072A6C] uppercase tracking-tight">REGISTER YOURSELF</h4>
+                          <p className="text-[8px] text-gray-400">Create your account to start the digital admission journey.</p>
+                        </div>
+
+                        <div className="space-y-1.5 text-[9px]">
+                          <div>
+                            <label className="font-bold text-gray-700 block text-[8px]">Full Name *</label>
+                            <div className="p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-400 font-normal text-[9px]">
+                              Enter full name
+                            </div>
                           </div>
-                          <div className="h-2 w-full bg-blue-200/60 rounded-full overflow-hidden">
-                            <div className="h-full w-1/5 bg-[#10B981] rounded-full" />
+                          <div>
+                            <label className="font-bold text-gray-700 block text-[8px]">Email Address *</label>
+                            <div className="p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-400 font-normal text-[9px]">
+                              name@domain.com
+                            </div>
+                          </div>
+                          <div>
+                            <label className="font-bold text-gray-700 block text-[8px]">Mobile Number *</label>
+                            <div className="p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-400 font-normal text-[9px]">
+                              10-digit phone number
+                            </div>
+                          </div>
+                          <div>
+                            <label className="font-bold text-gray-700 block text-[8px]">State *</label>
+                            <div className="p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-800 font-bold text-[9px] flex justify-between items-center">
+                              <span>Andhra Pradesh</span>
+                              <ChevronDown size={10} className="text-gray-400" />
+                            </div>
                           </div>
                         </div>
 
-                        <div className="space-y-2">
-                          <div className="p-2.5 rounded-xl border border-gray-200 bg-gray-50 flex items-center gap-2 text-xs font-semibold text-gray-700">
-                            <UserPlus size={14} className="text-gray-400" />
-                            <span>Full Name: Student Candidate</span>
+                        <div className="pt-1">
+                          <div className="w-full py-2 bg-[#D4AF37] text-white text-[8px] font-extrabold rounded-lg shadow-sm uppercase tracking-wider text-center">
+                            REGISTER & SEND VERIFICATION CODE
                           </div>
-                          <div className="p-2.5 rounded-xl border border-gray-200 bg-gray-50 flex items-center gap-2 text-xs font-semibold text-gray-700">
-                            <Smartphone size={14} className="text-gray-400" />
-                            <span>Mobile: +91 98492XXXXX</span>
-                          </div>
-                        </div>
-
-                        <div className="p-3 bg-[#10B981] text-white text-center rounded-xl text-xs font-bold shadow-md">
-                          Account Created ✓
                         </div>
                       </div>
                     )}
 
                     {/* Mockup Step 2: Verify Contact OTP */}
                     {activeStep === 1 && (
-                      <div className="space-y-3 text-center">
-                        <div className="w-12 h-12 rounded-full bg-emerald-100 text-[#10B981] flex items-center justify-center mx-auto shadow-inner">
-                          <ShieldCheck size={24} />
+                      <div className="space-y-2.5 text-left">
+                        <div className="flex items-center justify-between text-[7.5px] font-bold text-gray-400 pb-1 border-b border-gray-100">
+                          <span className="text-[#10B981]">1 REGISTER ✓</span>
+                          <span className="text-[#D4AF37] font-black underline">2 VERIFY</span>
+                          <span>3 FORM</span>
+                          <span>4 DOCS</span>
+                          <span>5 PAY</span>
                         </div>
-                        <h4 className="text-xs font-bold text-[#072A6C]">Enter 6-Digit OTP</h4>
-                        <div className="flex justify-center gap-1.5">
-                          {["9", "8", "4", "2", "0", "1"].map((num, idx) => (
-                            <div key={idx} className="w-7 h-9 rounded-lg bg-slate-100 border border-emerald-400 text-xs font-extrabold flex items-center justify-center text-[#072A6C] shadow-xs">
-                              {num}
-                            </div>
-                          ))}
+
+                        <div>
+                          <h4 className="text-[11px] font-black text-[#072A6C] uppercase tracking-tight">VERIFY YOUR CONTACT</h4>
+                          <p className="text-[8px] text-gray-400">Enter the 6-digit OTP sent to your registered mobile & email.</p>
                         </div>
-                        <div className="p-2 rounded-xl bg-emerald-50 text-[#10B981] text-[10px] font-bold border border-emerald-200">
-                          Mobile & Email Verified Successfully ✓
+
+                        <div className="p-2.5 rounded-xl bg-gray-50 border border-gray-200 text-center space-y-2">
+                          <span className="text-[8px] font-bold text-gray-500 uppercase">Verification Code</span>
+                          <div className="flex justify-center gap-1">
+                            {["9", "8", "4", "2", "0", "1"].map((num, idx) => (
+                              <div key={idx} className="w-6 h-8 rounded-lg bg-white border border-[#D4AF37] text-xs font-extrabold flex items-center justify-center text-[#072A6C] shadow-xs">
+                                {num}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="w-full py-2 bg-[#072A6C] text-white text-[8px] font-extrabold rounded-lg shadow-sm uppercase tracking-wider text-center flex items-center justify-center gap-1">
+                          <span>CONFIRM & PROCEED</span>
+                          <CheckCircle2 size={10} className="text-[#10B981]" />
                         </div>
                       </div>
                     )}
 
                     {/* Mockup Step 3: Application Form Progress */}
                     {activeStep === 2 && (
-                      <div className="space-y-2.5">
-                        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                          <div className="flex items-center justify-between text-[10px] font-bold text-[#072A6C]">
-                            <span>Selected Program</span>
-                            <span className="text-[#10B981] font-black">B.Tech CSE</span>
+                      <div className="space-y-2 text-left">
+                        <div className="flex items-center justify-between text-[7.5px] font-bold text-gray-400 pb-1 border-b border-gray-100">
+                          <span className="text-[#10B981]">1 ✓</span>
+                          <span className="text-[#10B981]">2 ✓</span>
+                          <span className="text-[#D4AF37] font-black underline">3 FORM</span>
+                          <span>4 DOCS</span>
+                          <span>5 PAY</span>
+                        </div>
+
+                        <div>
+                          <h4 className="text-[11px] font-black text-[#072A6C] uppercase tracking-tight">ACADEMIC DETAILS</h4>
+                          <p className="text-[8px] text-gray-400">Select preferred program stream & enter 10+2 marks.</p>
+                        </div>
+
+                        <div className="space-y-1.5 text-[9px]">
+                          <div>
+                            <label className="font-bold text-gray-700 block text-[8px]">Preferred Course *</label>
+                            <div className="p-1.5 rounded-lg border border-[#072A6C] bg-blue-50/50 text-[#072A6C] font-bold text-[9px]">
+                              B.Tech Computer Science & Eng.
+                            </div>
                           </div>
-                          <p className="text-[10px] text-gray-500">Qualifying Exam: 10+2 MPC (92%)</p>
+                          <div>
+                            <label className="font-bold text-gray-700 block text-[8px]">10+2 Percentage / CGPA *</label>
+                            <div className="p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-800 font-bold text-[9px]">
+                              92.4% (MPC Stream)
+                            </div>
+                          </div>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-blue-50 text-[#072A6C] text-[10px] font-bold flex items-center justify-between">
-                          <span>Form Auto-Saved Draft</span>
-                          <span className="text-xs">75% Complete</span>
-                        </div>
-                        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-full w-3/4 bg-[#072A6C] rounded-full" />
+
+                        <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-between text-[8px] font-bold text-[#10B981]">
+                          <span>Form Auto-Saved</span>
+                          <span>75% Completed</span>
                         </div>
                       </div>
                     )}
 
                     {/* Mockup Step 4: Document Vault Upload */}
                     {activeStep === 3 && (
-                      <div className="space-y-2">
-                        <div className="p-3 border-2 border-dashed border-emerald-300 bg-emerald-50/50 rounded-2xl text-center space-y-1">
-                          <UploadCloud size={22} className="text-[#10B981] mx-auto" />
-                          <p className="text-[10px] font-bold text-[#072A6C]">Encrypted Vault</p>
+                      <div className="space-y-2 text-left">
+                        <div className="flex items-center justify-between text-[7.5px] font-bold text-gray-400 pb-1 border-b border-gray-100">
+                          <span className="text-[#10B981]">1 ✓</span>
+                          <span className="text-[#10B981]">2 ✓</span>
+                          <span className="text-[#10B981]">3 ✓</span>
+                          <span className="text-[#D4AF37] font-black underline">4 DOCS</span>
+                          <span>5 PAY</span>
                         </div>
+
+                        <div>
+                          <h4 className="text-[11px] font-black text-[#072A6C] uppercase tracking-tight">UPLOAD DOCUMENTS</h4>
+                          <p className="text-[8px] text-gray-400">Attach scanned 10th/12th marksheets & photo ID.</p>
+                        </div>
+
                         <div className="space-y-1.5">
-                          <div className="p-2 rounded-xl bg-slate-50 border border-gray-200 flex items-center justify-between text-[10px] font-bold text-gray-700">
+                          <div className="p-1.5 rounded-lg bg-slate-50 border border-gray-200 flex items-center justify-between text-[8.5px] font-bold text-gray-700">
                             <span>12th_Marksheet.pdf</span>
-                            <CheckCircle2 size={13} className="text-[#10B981]" />
+                            <span className="text-[#10B981] font-black text-[8px]">Uploaded ✓</span>
                           </div>
-                          <div className="p-2 rounded-xl bg-slate-50 border border-gray-200 flex items-center justify-between text-[10px] font-bold text-gray-700">
+                          <div className="p-1.5 rounded-lg bg-slate-50 border border-gray-200 flex items-center justify-between text-[8.5px] font-bold text-gray-700">
+                            <span>Aadhaar_Card.pdf</span>
+                            <span className="text-[#10B981] font-black text-[8px]">Uploaded ✓</span>
+                          </div>
+                          <div className="p-1.5 rounded-lg bg-slate-50 border border-gray-200 flex items-center justify-between text-[8.5px] font-bold text-gray-700">
                             <span>Passport_Photo.jpg</span>
-                            <CheckCircle2 size={13} className="text-[#10B981]" />
+                            <span className="text-[#10B981] font-black text-[8px]">Uploaded ✓</span>
                           </div>
+                        </div>
+
+                        <div className="w-full py-1.5 bg-[#072A6C] text-white text-[8px] font-extrabold rounded-lg shadow-sm uppercase tracking-wider text-center">
+                          SAVE & CONTINUE TO PAYMENT
                         </div>
                       </div>
                     )}
 
                     {/* Mockup Step 5: Submission & ETA Card */}
                     {activeStep === 4 && (
-                      <div className="space-y-3 text-center">
-                        <div className="w-12 h-12 rounded-full bg-[#10B981] text-white flex items-center justify-center mx-auto shadow-lg shadow-[#10B981]/30">
-                          <Check size={24} strokeWidth={3} />
+                      <div className="space-y-2 text-left">
+                        <div className="flex items-center justify-between text-[7.5px] font-bold text-[#10B981] pb-1 border-b border-gray-100">
+                          <span>1 ✓</span>
+                          <span>2 ✓</span>
+                          <span>3 ✓</span>
+                          <span>4 ✓</span>
+                          <span className="text-[#D4AF37] font-black underline">5 SUBMITTED</span>
                         </div>
-                        <div>
-                          <h4 className="text-xs font-black text-[#072A6C]">Application Submitted</h4>
-                          <p className="text-[10px] text-gray-500 font-medium">Tracking ID: CU-2026-94820</p>
+
+                        <div className="text-center pt-1 space-y-1">
+                          <div className="w-8 h-8 rounded-full bg-[#10B981] text-white flex items-center justify-center mx-auto shadow-md">
+                            <Check size={18} strokeWidth={3} />
+                          </div>
+                          <h4 className="text-[11px] font-black text-[#072A6C]">APPLICATION SUBMITTED</h4>
+                          <p className="text-[8.5px] text-gray-500 font-semibold">Tracking ID: CU-2026-94820</p>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#072A6C] to-[#0A3A93] text-white text-[10px] font-bold shadow-md flex items-center justify-between">
-                          <span>Status: Under Review</span>
-                          <span className="text-[#D4AF37]">ETA 24 Hours</span>
+
+                        <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#072A6C] to-[#0A3A93] text-white text-[8.5px] font-bold shadow-md flex items-center justify-between">
+                          <span>Fee Paid: ₹1,000</span>
+                          <span className="text-[#D4AF37]">Seat Reserved</span>
                         </div>
                       </div>
                     )}
