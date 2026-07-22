@@ -161,6 +161,8 @@ function AppContent() {
       }, 10000);
 
       if (videoRef.current) {
+        videoRef.current.muted = true;
+        videoRef.current.defaultMuted = true;
         videoRef.current.play().catch((err) => {
           console.log("Autoplay blocked or video error, fallback active:", err);
         });
@@ -282,7 +284,14 @@ function AppContent() {
             exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
           >
             <video
-              ref={videoRef}
+              ref={(el) => {
+                if (el) {
+                  el.muted = true;
+                  el.defaultMuted = true;
+                  // @ts-ignore
+                  videoRef.current = el;
+                }
+              }}
               src="/chalapathi_logo_intro.mp4"
               autoPlay
               muted
@@ -292,10 +301,17 @@ function AppContent() {
               onPlaying={() => setIsVideoPlaying(true)}
               onCanPlay={(e) => {
                 const vid = e.target as HTMLVideoElement;
+                vid.muted = true;
                 vid.play().catch((err) => console.log("Autoplay retry caught:", err));
+              }}
+              onLoadedMetadata={(e) => {
+                const vid = e.target as HTMLVideoElement;
+                vid.muted = true;
+                vid.play().catch((err) => console.log("Autoplay onLoadedMetadata caught:", err));
               }}
               onLoadedData={(e) => {
                 const vid = e.target as HTMLVideoElement;
+                vid.muted = true;
                 vid.play().catch((err) => console.log("Autoplay onLoadedData caught:", err));
               }}
               onError={(e) => {
