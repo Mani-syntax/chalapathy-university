@@ -2952,9 +2952,9 @@ export default function DynamicPage() {
                   <h3 className="font-extrabold text-sm text-[#072A6C] uppercase tracking-wider">Admission Helpdesk</h3>
                   <p className="text-xs text-gray-500 leading-relaxed font-light">Have questions about registration, courses, or hostels? Reach our advisors directly.</p>
                 </div>
-                <a href="tel:8886630355" className="h-11 px-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors shrink-0 outline-none border-none cursor-pointer">
+                <Link to="/contact" className="h-11 px-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors shrink-0 outline-none border-none cursor-pointer">
                   <Phone size={14} /> Call Counselor
-                </a>
+                </Link>
               </div>
             </motion.div>
           )}
