@@ -698,14 +698,7 @@ export default function Genesis() {
               Chalapathi University is envisioned as a multidisciplinary institution where <span className="text-white font-[700]">innovation meets purpose</span>, research fuels progress, and every learner is empowered to become a leader capable of creating meaningful impact across the world.
             </p>
             
-            <motion.a 
-              href="/academics"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-3 bg-white text-[#123A7A] px-10 py-5 rounded-full font-[800] text-[16px] shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] transition-all uppercase tracking-widest"
-            >
-              Discover Academics <ArrowRight size={20} />
-            </motion.a>
+
           </motion.div>
         </div>
       </section>
