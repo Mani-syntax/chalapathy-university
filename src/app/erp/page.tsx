@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -88,7 +88,7 @@ export default function ErpSimulator() {
 
             <form onSubmit={handleLogin} className="p-6 space-y-5">
               {errorMessage && (
-                <div className="bg-red-50 border border-red-100 rounded-xl p-3 text-xs text-red-700 font-semibold text-center">
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-[#072A6C] font-semibold text-center">
                   {errorMessage}
                 </div>
               )}
@@ -294,7 +294,7 @@ export default function ErpSimulator() {
                                 type="button"
                                 onClick={() => setFacultyAttendanceList(p => p.map(s => s.id === stu.id ? { ...s, status: "Absent" } : s))}
                                 className={`px-2.5 py-1 rounded text-[9px] font-bold transition-all ${
-                                  stu.status === "Absent" ? "bg-red-500 text-white" : "bg-white text-zinc-500 border border-zinc-200"
+                                  stu.status === "Absent" ? "bg-amber-500 text-white" : "bg-white text-zinc-500 border border-zinc-200"
                                 }`}
                               >
                                 Absent
