@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
@@ -12,15 +12,15 @@ export default function ContactCard() {
       </h4>
       <div className="space-y-3 text-[13px] text-[#444]">
         <div className="flex items-start gap-2.5">
-          <MapPin size={16} className="text-[#D91E18] shrink-0 mt-0.5" />
+          <MapPin size={16} className="text-[#D4AF37] shrink-0 mt-0.5" />
           <span>{CONTACT.address}</span>
         </div>
         <div className="flex items-center gap-2.5">
-          <Phone size={16} className="text-[#D91E18] shrink-0" />
+          <Phone size={16} className="text-[#D4AF37] shrink-0" />
           <span>{CONTACT.phone}</span>
         </div>
         <div className="flex items-center gap-2.5">
-          <Mail size={16} className="text-[#D91E18] shrink-0" />
+          <Mail size={16} className="text-[#D4AF37] shrink-0" />
           <span>{CONTACT.email}</span>
         </div>
       </div>

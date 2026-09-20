@@ -1,11 +1,11 @@
-// ═══════════════════════════════════════════════
+﻿// ═══════════════════════════════════════════════
 // App-wide Constants — Chalapathi University
 // ═══════════════════════════════════════════════
 
 // ── Brand Colors ────────────────────────────────
 export const COLORS = {
   navy: "#081A36",
-  red: "#D91E18",
+  red: "#D4AF37",
   redHover: "#b71612",
   white: "#FFFFFF",
   lightGray: "#F7F7F7",

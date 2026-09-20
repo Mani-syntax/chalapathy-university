@@ -1,0 +1,9 @@
+# Vercel upload ignore
+node_modules
+.next
+dist
+build
+.vercel
+dev.db
+*.zip
+*.tar.gz
